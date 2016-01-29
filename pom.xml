@@ -16,7 +16,7 @@
 		<jackson.version>2.3.2</jackson.version>
 		<spring.security.version>3.2.3.RELEASE</spring.security.version>
 		<google.calendar.version>1.18.0-rc</google.calendar.version>
-		<workspace>C:\Users\chito_000\Work Space 2</workspace>
+		<workspace>..</workspace>
 		<project>AlumniTracker</project>
 	</properties>
 

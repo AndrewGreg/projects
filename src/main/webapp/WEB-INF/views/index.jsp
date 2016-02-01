@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+<jsp:include page="header.jsp" />
 <script
 src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script
@@ -18,9 +18,6 @@ href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 
 <style>
 
-footer{
-	background-color: black;
-}
 
 </style>
 
@@ -28,7 +25,8 @@ footer{
 <body>
 <!-- Navigation -->
 	<jsp:include page="navBar.jsp"/>
-	
+	<br>
+	<br>
 	
 	
 	

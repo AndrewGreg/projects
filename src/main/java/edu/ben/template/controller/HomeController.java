@@ -5,18 +5,44 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HomeController {
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(Model model) {
 		return "index";
 	}
 
-	@RequestMapping(value = "/about", method = RequestMethod.GET)
-	public String about(Model model) {
-		return "about";
+	
+
+	/**
+	 * Accesses the user profile page. Dynamically grabs information depending
+	 * who is logged in such as student, alumni, and faculty.
+	 * 
+	 * @param model
+	 *            is being passed in.
+	 * @return the profile page that belongs to the user.
+	 */
+	@RequestMapping(value = "/userProfile", method = RequestMethod.GET)
+//	public String userProfile(Model model, @RequestParam("name") String name, @RequestParam("bio") String biography,
+//			@RequestParam("occupation") String occupation, @RequestParam("graduation") String graduation,
+//			@RequestParam("workInterest") String workInterest, @RequestParam("experience") String experience) {
+	public String userProfile(Model model){
+
+		// try {
+		//
+		// ArrayList<User> user = new ArrayList<User>();
+		// users = getJdbcTypeDao().findAll();
+		//
+		// model.addAttribute("users", users);
+		//
+		// } catch (Exception e) {
+		// }
+		//
+
+		return "userProfile";
 	}
 
 	@PreAuthorize("isAuthenticated()")

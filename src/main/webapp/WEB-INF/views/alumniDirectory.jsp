@@ -12,9 +12,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<jsp:include page="navBar.jsp" />
+<jsp:include page="header.jsp" />
 </head>
 <body background=" ">
+<jsp:include page="navBar.jsp" />
+
 	<!-- Navigation Bar -->
 	<div align="center">
 		<br> <br> <br> <br>

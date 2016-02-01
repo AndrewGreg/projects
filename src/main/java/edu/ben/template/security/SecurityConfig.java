@@ -15,10 +15,11 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import edu.ben.template.dao.DaoConfig;
+//import edu.ben.template.dao.DaoConfig;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true) 
 @Import({ DaoConfig.class })
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 

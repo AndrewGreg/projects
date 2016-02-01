@@ -125,8 +125,8 @@ footer{
 
 
 
-<!-- Next Sprint???? -->
-        <!-- Portfolio Section -->
+<!-- <!-- Next Sprint????
+        Portfolio Section
         <div class="row">
             <div class="col-lg-12">
                 <h2 class="page-header">Recent Events</h2>
@@ -162,7 +162,8 @@ footer{
                 </a>
             </div>
         </div>
-        <!-- /.row -->
+        /.row -->
+        
 </div>
 	<!-- Footer -->
 	<jsp:include page="footer.jsp"/>

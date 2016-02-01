@@ -19,7 +19,7 @@ public class LoginController {
 		_log.debug("Entering login");
 		model.addAttribute("credentials", new LoginCredentials());
 		model.addAttribute("user", new User());
-		return "login";
+		return "index";
 	}
 
 	/**

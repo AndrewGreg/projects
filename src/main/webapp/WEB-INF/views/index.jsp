@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<title>Welcome</title>
 <jsp:include page="header.jsp" />
 </head>
 <body>
@@ -152,8 +153,7 @@
 	<!-- Footer -->
 	<jsp:include page="footer.jsp" />
 	<!--/#footer-->
-
-
+	
 	<!-- Script to Activate the Carousel -->
 	<script>
 		$('.carousel').carousel({
@@ -161,4 +161,5 @@
 		//changes the speed
 		})
 	</script>
+</body>
 </html>

@@ -22,7 +22,9 @@ public class HomeController {
 
 	
 	@RequestMapping(value = "/alumniDirectory", method = RequestMethod.GET)
-	public String directory(Model model) {
+//	public String directory(Model model,  @RequestParam("first") String firstName,  @RequestParam("last") String lastName, 
+//			@RequestParam("year") String yearGraduated, @RequestParam("degree") String degree) {
+		public String directory(Model model) {
 		return "alumniDirectory";
 	}
 	

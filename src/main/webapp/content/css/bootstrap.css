@@ -6241,13 +6241,17 @@ button.close {
   border-right-width: 0;
   border-left-color: #fff;
 }
+
+
 .carousel {
   position: relative;
+  
 }
 .carousel-inner {
   position: relative;
   width: 100%;
   overflow: hidden;
+  max-height: 200%;
 }
 .carousel-inner > .item {
   position: relative;
@@ -6260,6 +6264,7 @@ button.close {
 .carousel-inner > .item > a > img {
   line-height: 1;
 }
+
 @media all and (transform-3d), (-webkit-transform-3d) {
   .carousel-inner > .item {
     -webkit-transition: -webkit-transform .6s ease-in-out;
@@ -6295,6 +6300,7 @@ button.close {
 .carousel-inner > .next,
 .carousel-inner > .prev {
   display: block;
+  
 }
 .carousel-inner > .active {
   left: 0;

@@ -10,14 +10,13 @@
 <body>
 	<jsp:include page="navBar.jsp" />
 	<br>
-	<br>
 
 	<!-- Start of Profile -->
 	<div class="container">
 		<div class="row">
 			<div class="col-md-5  toppad  pull-right col-md-offset-3 ">
 				<A href="edit.jsp">Edit Profile</A> <A href="logout.jsp">Logout</A>
-				<br>
+
 				<!-- 	<p class=" text-info">May 05,2014,03:00 pm</p> -->
 			</div>
 			<div
@@ -128,15 +127,9 @@
 				</div>
 			</div>
 		</div>
-
-		<jsp:include page="footer.jsp" />
 	</div>
 
-
-
-
-
-
+<jsp:include page="footer.jsp" />
 
 </body>
 </html>

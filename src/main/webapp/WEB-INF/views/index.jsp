@@ -9,14 +9,13 @@
 <body>
 	<!-- Navigation -->
 	<jsp:include page="navBar.jsp" />
-	<br>
-	<br>
+
 
 	<!-- Header Carousel -->
-	<header id="myCarousel" class="carousel slide">
+	<header id="myCarousel" class="carousel slide" style="width: 100%; height:75%;">
 		<!-- Indicators -->
 		<ol class="carousel-indicators">
-			<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+			<li data-target="#myCarousel" data-slide-to="0" class="active" ></li>
 			<li data-target="#myCarousel" data-slide-to="1"></li>
 			<li data-target="#myCarousel" data-slide-to="2"></li>
 		</ol>

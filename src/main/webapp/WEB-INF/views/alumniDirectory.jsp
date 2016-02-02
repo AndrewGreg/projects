@@ -25,10 +25,10 @@
 				<thead>
 					<tr>
 
-						<th><font color="White">First</font></th>
-						<th><font color="white">Last</font></th>
-						<th><font color="white">Year Graduated</font></th>
-						<th><font color="white">Degree</font></th>
+						<th><font color="Red">First</font></th>
+						<th><font color="Red">Last</font></th>
+						<th><font color="Red">Year Graduated</font></th>
+						<th><font color="Red">Degree</font></th>
 						
 
 					</tr>
@@ -43,10 +43,10 @@
 					%>
 
 					<tr>
-						<td><font color="White"><%=(alumni.get(i).getFirst())%></font></td>
-						<td><font color="White"><%=(alumni.get(i).getLast())%></font></td>
-						<td><font color="White"><%=(alumni.get(i).getYearGraduated())%></font></td>
-						<td><font color="White"><%=(alumni.get(i).getDegree())%></font></td>
+						<td><font color="Black"><%=(alumni.get(i).getFirst())%></font></td>
+						<td><font color="Black"><%=(alumni.get(i).getLast())%></font></td>
+						<td><font color="Black"><%=(alumni.get(i).getYearGraduated())%></font></td>
+						<td><font color="Black"><%=(alumni.get(i).getDegree())%></font></td>
 					</tr>
 
 					<%

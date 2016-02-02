@@ -10,11 +10,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class HomeController {
 
+	/**
+	 * Access to the Homepage.
+	 * @param model is being passed in
+	 * @return the index page.
+	 */
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(Model model) {
 		return "index";
 	}
 
+	
+	@RequestMapping(value = "/alumniDirectory", method = RequestMethod.GET)
+	public String directory(Model model) {
+		return "alumniDirectory";
+	}
 	
 
 	/**

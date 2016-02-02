@@ -22,7 +22,7 @@
 			<div
 				class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
 
-
+					<!-- Profile Picture -->
 				<div class="panel panel-info">
 					<div class="panel-heading">
 						<h3 class="panel-title">Access name from database</h3>
@@ -30,15 +30,17 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-md-3 col-lg-3 " align="center">
-								<!-- Grab picture from databse. -->
-								<img alt="User Pic" src="content/img/BenedictineLogo.gif"
-									class="img-circle img-responsive" height=300px width=300px>
+								<!-- Grab picture from database. -->
+								<img alt="User Pic" src="content/img/GolfPic.jpg" class="img-circle img-responsive" height=1000px width=1000px>
+								
 							</div>
-							<br>
+							
+							
 
 
 							<!-- Start of information -->
 							<div class=" col-md-9 col-lg-9 ">
+				
 								<table class="table table-user-information">
 									<tbody>
 										<tr>
@@ -47,8 +49,9 @@
 											<td><a href="edit.html"
 												data-original-title="Edit this user" data-toggle="tooltip"
 												type="button" class="btn btn-sm btn-warning"><i
-													class="glyphicon glyphicon-edit"></i></a> <a
-												data-original-title="Remove this user" data-toggle="tooltip"
+													class="glyphicon glyphicon-edit"></i></a>
+													<br>
+													 <a data-original-title="Remove this user" data-toggle="tooltip"
 												type="button" class="btn btn-sm btn-danger"><i
 													class="glyphicon glyphicon-remove"></i></a></td>
 										</tr>
@@ -58,8 +61,9 @@
 											<td><a href="edit.html"
 												data-original-title="Edit this user" data-toggle="tooltip"
 												type="button" class="btn btn-sm btn-warning"><i
-													class="glyphicon glyphicon-edit"></i></a> <a
-												data-original-title="Remove this user" data-toggle="tooltip"
+													class="glyphicon glyphicon-edit"></i></a>
+													<br>
+													 <a data-original-title="Remove this user" data-toggle="tooltip"
 												type="button" class="btn btn-sm btn-danger"><i
 													class="glyphicon glyphicon-remove"></i></a></td>
 										</tr>
@@ -69,8 +73,9 @@
 											<td><a href="edit.html"
 												data-original-title="Edit this user" data-toggle="tooltip"
 												type="button" class="btn btn-sm btn-warning"><i
-													class="glyphicon glyphicon-edit"></i></a> <a
-												data-original-title="Remove this user" data-toggle="tooltip"
+													class="glyphicon glyphicon-edit"></i></a>
+													<br>
+													 <a data-original-title="Remove this user" data-toggle="tooltip"
 												type="button" class="btn btn-sm btn-danger"><i
 													class="glyphicon glyphicon-remove"></i></a></td>
 										</tr>
@@ -82,8 +87,9 @@
 											<td><a href="edit.html"
 												data-original-title="Edit this user" data-toggle="tooltip"
 												type="button" class="btn btn-sm btn-warning"><i
-													class="glyphicon glyphicon-edit"></i></a> <a
-												data-original-title="Remove this user" data-toggle="tooltip"
+													class="glyphicon glyphicon-edit"></i></a>
+													<br>
+													 <a data-original-title="Remove this user" data-toggle="tooltip"
 												type="button" class="btn btn-sm btn-danger"><i
 													class="glyphicon glyphicon-remove"></i></a></td>
 										</tr>
@@ -93,8 +99,9 @@
 											<td><a href="edit.html"
 												data-original-title="Edit this user" data-toggle="tooltip"
 												type="button" class="btn btn-sm btn-warning"><i
-													class="glyphicon glyphicon-edit"></i></a> <a
-												data-original-title="Remove this user" data-toggle="tooltip"
+													class="glyphicon glyphicon-edit"></i></a>
+													
+													 <a data-original-title="Remove this user" data-toggle="tooltip"
 												type="button" class="btn btn-sm btn-danger"><i
 													class="glyphicon glyphicon-remove"></i></a></td>
 										</tr>

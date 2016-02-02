@@ -75,7 +75,7 @@
 					</div>
 					<div class="panel-body">
 						<p>This Link Doesn't Work Yet</p>
-						<a href="events.jsp" class="btn btn-default">Find More!</a>
+						<a href="events.jsp" class="btn btn-default">Find More!</a><!-- Bring to a Calendar with events. -->
 					</div>
 				</div>
 			</div>
@@ -156,7 +156,7 @@
 	<!-- Script to Activate the Carousel -->
 	<script>
 		$('.carousel').carousel({
-			interval : 5000
+			interval : 3000
 		//changes the speed
 		})
 	</script>

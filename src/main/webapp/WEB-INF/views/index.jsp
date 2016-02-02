@@ -161,4 +161,5 @@
 		//changes the speed
 		})
 	</script>
+</body>	
 </html>

@@ -1,13 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	
+<%@ page import="javax.servlet.http.HttpSession"%>
+<%@ page import="edu.ben.template.model.User" %>  
+<%@ page import="java.util.ArrayList" %>   
+<%@ page import="edu.ben.template.dao.UserDao" %>
+<%@ page isELIgnored="false" %>
 	
-<%-- <%
+ <%
 		
-	ArrayList<Alumni> alumni = new ArrayList<Alumni>(); 
-	alumni = (ArrayList<Alumni>) request.getAttribute("alumni");
+	ArrayList<User> alumni = new ArrayList<User>(); 
+	alumni = (ArrayList<User>) request.getAttribute("alumni");
 	
-%>  --%>
+%>  
  
 <!DOCTYPE html>
 <html>
@@ -28,14 +33,14 @@
 						<th><font color="Red">First</font></th>
 						<th><font color="Red">Last</font></th>
 						<th><font color="Red">Year Graduated</font></th>
-						<th><font color="Red">Degree</font></th>
+						<!-- <th><font color="Red">Degree</font></th> -->
 						
 
 					</tr>
 
 				</thead>
 				<tbody>
-					<%-- <%
+					 <%
 						int i = 0;
 					%>
 					<%
@@ -43,10 +48,11 @@
 					%>
 
 					<tr>
-						<td><font color="Black"><%=(alumni.get(i).getFirst())%></font></td>
-						<td><font color="Black"><%=(alumni.get(i).getLast())%></font></td>
-						<td><font color="Black"><%=(alumni.get(i).getYearGraduated())%></font></td>
-						<td><font color="Black"><%=(alumni.get(i).getDegree())%></font></td>
+						<td><font color="Black"><%=(alumni.get(i).getRole())%></font></td>
+						<td><font color="Black"><%=(alumni.get(i).getFirstName())%></font></td>
+						<td><font color="Black"><%=(alumni.get(i).getLastName())%></font></td>
+						<td><font color="Black"><%=(alumni.get(i).getGraduationYear())%></font></td>
+						<%-- <td><font color="Black"><%=(alumni.get(i).)%></font></td> --%>
 					</tr>
 
 					<%
@@ -54,7 +60,7 @@
 					%>
 					<%
 						}
-					%> --%>
+					%> 
 
 
 				</tbody>

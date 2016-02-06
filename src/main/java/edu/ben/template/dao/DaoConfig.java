@@ -36,8 +36,8 @@ public class DaoConfig {
 		// org.apache.tomcat.jdbc.pool.DataSource();
 		// dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		// dataSource.setUrl("jdbc:mysql://localhost:3306/dbname");
-		dataSource.setUsername("username");
-		dataSource.setPassword("password");
+		dataSource.setUsername("root");
+		dataSource.setPassword("root");
 		dataSource.setValidationQuery("select user_id from user limit 1");
 		// dataSource.setValidationInterval(30000);
 		// dataSource.setLogValidationErrors(true);
@@ -66,7 +66,32 @@ public class DaoConfig {
 		// return it
 		return dao;
 	}
+	
+	@Bean
+	public EventDao eventDao() throws IOException {
+		// create the dao
+		EventDao dao = new EventDao();
+		// set the specifics
+		// dao.setCache(cacheFactory());
+		dao.setDataSource(dataSource());
+		dao.setTransactionManager(transactionManager());
+		// return it
+		return dao;
+	}
 
+	@Bean
+	public JobPostingDao jobPostingDao() throws IOException {
+		// create the dao
+		JobPostingDao dao = new JobPostingDao();
+		// set the specifics
+		// dao.setCache(cacheFactory());
+		dao.setDataSource(dataSource());
+		dao.setTransactionManager(transactionManager());
+		// return it
+		return dao;
+	}
+
+	
 	@Bean
 	public ObjectMapper objectMapper() {
 		// create new object mapper

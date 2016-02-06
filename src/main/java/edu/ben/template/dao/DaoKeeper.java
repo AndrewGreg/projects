@@ -15,6 +15,10 @@ public class DaoKeeper {
 	private ObjectMapper objectMapper;
 	@Autowired
 	private UserDao userDao;
+	@Autowired
+	private EventDao eventDao;
+	@Autowired
+	private JobPostingDao jobPostingDao;
 
 	public ObjectMapper getObjectMapper() {
 		return objectMapper;
@@ -27,5 +31,23 @@ public class DaoKeeper {
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
 	}
+
+	public EventDao getEventDao() {
+		return eventDao;
+	}
+
+	public void setEventDao(EventDao eventDao) {
+		this.eventDao = eventDao;
+	}
+
+	public JobPostingDao getJobPostingDao() {
+		return jobPostingDao;
+	}
+
+	public void setJobPostingDao(JobPostingDao jobPostingDao) {
+		this.jobPostingDao = jobPostingDao;
+	}
+	
+	
 
 }

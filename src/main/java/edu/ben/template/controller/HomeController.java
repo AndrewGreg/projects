@@ -19,6 +19,16 @@ public class HomeController {
 	public String index(Model model) {
 		return "index";
 	}
+	
+	/**
+	 * Access to the registration page.
+	 * @param model is being passed in
+	 * @return the registration page.
+	 */
+	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	public String registration(Model model) {
+		return "register";
+	}
 
 	
 	@RequestMapping(value = "/alumniDirectory", method = RequestMethod.GET)

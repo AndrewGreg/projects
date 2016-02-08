@@ -18,12 +18,20 @@
 </head>
 <body>
 	<jsp:include page="navBar.jsp" />
-
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col col-xs-12">
+				<div class="page-header">
+					<h2 style="padding-left: 100px;">Register</h2>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-4 col-xs-offset-4">
 				<form action="/register" method="POST" name="register">
-					<legend>Register</legend>
+					
 
 					<%
 						String firstName = (request.getParameter("firstName") == null) ? ""

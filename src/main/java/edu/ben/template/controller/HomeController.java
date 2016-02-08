@@ -30,6 +30,19 @@ public class HomeController {
 		return "register";
 	}
 
+	/**
+	 * Access to the job postings page.
+	 * @param model is being passed in
+	 * @return the job postings page.
+	 */
+	@RequestMapping(value = "/jobPostings", method = RequestMethod.GET)
+	public String jobPostings(Model model) {
+		
+		//TODO Remove the permit all access from the security config
+		//TODO Remove the static well example on the jsp
+		
+		return "jobPostings";
+	}
 	
 	@RequestMapping(value = "/alumniDirectory", method = RequestMethod.GET)
 //	public String directory(Model model,  @RequestParam("first") String firstName,  @RequestParam("last") String lastName, 

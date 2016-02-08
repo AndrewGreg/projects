@@ -5,7 +5,7 @@
 <%@ page import="java.util.ArrayList"%>
 <%
 	ArrayList<JobPosting> jobPostings;
-	if (request.getAttribute("events") != null) {
+	if (request.getAttribute("jobPostings") != null) {
 		jobPostings = (ArrayList<JobPosting>) request.getAttribute("jobPostings");
 	} else {
 		jobPostings = new ArrayList<JobPosting>();

@@ -8,14 +8,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import edu.ben.template.dao.UserDao;
+import edu.ben.template.model.JobPosting;
 import edu.ben.template.model.User;
 
 @Controller
 public class HomeController {
 
 	UserDao uDao = new UserDao();
+	JobPosting jDao = new JobPosting();
 
 	/**
 	 * Access to the Homepage.
@@ -42,6 +45,26 @@ public class HomeController {
 	}
 
 	/**
+	 * Form processing for the registration page.
+	 * 
+	 * @param registration
+	 *            information passed in
+	 * @return to be determined.
+	 */
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public String registrationPost(Model model, @RequestParam("firstName") String firstName,
+			@RequestParam("lastName") String lastName, @RequestParam("benEmail") String benEmail,
+			@RequestParam("personalEmail") String personalEmail, @RequestParam("gradYear") String gradYear,
+			@RequestParam("occupation") String occupation, @RequestParam("title") String title,
+			@RequestParam("suffix") String suffix, @RequestParam("password") String password,
+			@RequestParam("passConfirm") String passConfirm) {
+
+		// TODO Process the form information and create a user
+
+		return "register";
+	}
+
+	/**
 	 * Access to the job postings page.
 	 * 
 	 * @param model
@@ -54,10 +77,15 @@ public class HomeController {
 		// TODO Remove the permit all access from the security config
 		// TODO Remove the static well example on the jsp
 
+		ArrayList<JobPosting> jobPostings = new ArrayList<JobPosting>();
+		JobPosting test = new JobPosting("Test", "Test posting for the controller", "SomeCompany");
+		jobPostings.add(test);
+
+		model.addAttribute("jobPostings", jobPostings);
+
 		return "jobPostings";
 	}
-	
-	
+
 	/**
 	 * Access to the Faculty Profile page.
 	 * 
@@ -67,10 +95,7 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/facultyProfile", method = RequestMethod.GET)
 	public String faculty(Model model) {
-		
-		
-		
-		
+
 		return "/facultyProfile";
 	}
 
@@ -86,15 +111,19 @@ public class HomeController {
 
 		try {
 
-			ArrayList<User> types = new ArrayList<User>();
-			types = uDao.findAll();
+			ArrayList<User> alumni = new ArrayList<User>();
+			alumni = uDao.findAll();
 
-			model.addAttribute("types", types);
+			model.addAttribute("alumni", alumni);
 
 		} catch (Exception e) {
 
 		}
 		return "/alumniDirectory";
+
+		// NullPointerException on job posting dao
+		// JobPostingDao dao = new JobPostingDao();
+		// ArrayList<JobPosting> jobPostings = dao.findAll();
 
 	}
 
@@ -107,11 +136,21 @@ public class HomeController {
 	 * @return the profile page that belongs to the user.
 	 */
 	@RequestMapping(value = "/userProfile{userId}", method = RequestMethod.GET)
-	public String userProfile(Model model,@PathVariable("userId") Integer userId) {
+	public String userProfile(Model model, @PathVariable("userId") Integer userId) {
 		ArrayList<User> user = new ArrayList<User>();
-	
 
 		model.addAttribute("user", user);
+
+		// try {
+		//
+		// ArrayList<User> user = new ArrayList<User>();
+		// users = getJdbcTypeDao().findAll();
+		//
+		// model.addAttribute("users", users);
+		//
+		// } catch (Exception e) {
+		// }
+		//
 
 		return "userProfile";
 	}

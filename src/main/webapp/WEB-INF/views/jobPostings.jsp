@@ -51,25 +51,38 @@
 
 		<%
 			for (int i = 0; i < jobPostings.size(); i++) {
+
+				String name = jobPostings.get(i).getName() != null ? jobPostings.get(i).getName() : "";
+				String company = jobPostings.get(i).getCompany() != null ? jobPostings.get(i).getCompany() : "";
+				String description = jobPostings.get(i).getDescription() != null ? jobPostings.get(i).getDescription()
+						: "";
+				String poster = (jobPostings.get(i).getPoster() != null
+						&& jobPostings.get(i).getPoster().getFirstName() != null
+						&& jobPostings.get(i).getPoster().getLastName() != null)
+								? jobPostings.get(i).getPoster().getFirstName() + " "
+										+ jobPostings.get(i).getPoster().getLastName()
+								: "";
+				String contact = jobPostings.get(i).getPoster() != null
+						&& jobPostings.get(i).getPoster().getEmail() != null ? jobPostings.get(i).getPoster().getEmail()
+								: "";
 		%>
 
 		<div class="well well-lg">
 			<div class="row">
-				<h4><%=jobPostings.get(i).getName()%></h4>
+				<h4><%=name%></h4>
 				<h5>
 					At:
-					<%=jobPostings.get(i).getCompany()%></h5>
+					<%=company%></h5>
 			</div>
 			<div class="row">
 				<h5>
 					Posted by:
-					<%=jobPostings.get(i).getPoster().getFirstName()%>
-					<%=jobPostings.get(i).getPoster().getLastName()%>
+					<%=poster%>
 				</h5>
-				<h5><%=jobPostings.get(i).getPoster().getEmail()%></h5>
+				<h5><%=contact%></h5>
 			</div>
 
-			<p><%=jobPostings.get(i).getDescription()%></p>
+			<p><%=description%></p>
 		</div>
 		<br>
 

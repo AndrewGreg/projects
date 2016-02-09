@@ -44,9 +44,9 @@ public class UserDao extends BaseDao<User> {
 
 	public void addUser(User user) {
 
-		String sql = "INSERT INTO user (username, password, salt, first_name, last_name, email, personal_email, role, title, suffix, graduation_year, occupation) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO user (password, salt, first_name, last_name, email, personal_email, role, title, suffix, graduation_year, occupation) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-		jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getSalt(), user.getFirstName(),
+		jdbcTemplate.update(sql, user.getPassword(), user.getSalt(), user.getFirstName(),
 				user.getLastName(), user.getEmail(), user.getPersonalEmail(), user.getRole(), user.getTitle(),
 				user.getSuffix(), user.getGraduationYear(), user.getOccupation());
 		return;

@@ -16,11 +16,9 @@ import edu.ben.template.model.User;
 import edu.ben.template.dao.JobPostingDao;
 
 @Controller
-public class HomeController {
+public class HomeController extends BaseController{
 
 	
-	UserDao uDao = new UserDao();
-	JobPostingDao jDao = new JobPostingDao();
 
 	/**
 	 * Access to the Homepage.
@@ -92,7 +90,7 @@ public class HomeController {
 		try {
 
 			ArrayList<JobPosting> job = new ArrayList<JobPosting>();
-			job = jDao.findAll();
+			job = getJobPostingDao().findAll();
 
 			model.addAttribute("job", job);
 
@@ -129,7 +127,7 @@ public class HomeController {
 		try {
 
 			ArrayList<User> alumni = new ArrayList<User>();
-			alumni = uDao.findAll();
+			alumni = getUserDao().findAll();
 
 			model.addAttribute("alumni", alumni);
 

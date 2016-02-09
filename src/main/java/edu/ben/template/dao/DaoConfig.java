@@ -30,7 +30,7 @@ public class DaoConfig {
 		// dataSource.setUrl("jdbc:google:mysql://database");
 		// } else {
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource.setUrl("jdbc:mysql://localhost:3306/swt");
+		dataSource.setUrl("jdbc:mysql://localhost:3306/alumnitracker");
 		// }
 		// org.apache.tomcat.jdbc.pool.DataSource dataSource = new
 		// org.apache.tomcat.jdbc.pool.DataSource();

@@ -73,6 +73,8 @@ public class EventDao extends BaseDao<Event> {
 		return (ArrayList<Event>) events;
 	}
 	
+	//TODO ADD EVENT
+	
 	@Override
 	public RowMapper<Event> getRowMapper() {
 		return new RowMapper<Event>() {
@@ -84,11 +86,12 @@ public class EventDao extends BaseDao<Event> {
 				event.setDate(rs.getDate("date"));
 				event.setDescription(rs.getString("description"));
 				//TODO get Event Poster through sql on "user" table
-				// return the object
+				// return the object // userdao sql?
 				return event;
 			}
 		};
 	}
+	
 
 	@Override
 	public PreparedStatementCreator getSavePreparedStatementCreator(final Event event) {

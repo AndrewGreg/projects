@@ -24,10 +24,9 @@
 	<!-- Start of Profile -->
 	<div class="container">
 		<div class="row">
-			<div class="col-md-5  toppad  pull-right col-md-offset-3 ">
-				<A href="edit.jsp">Edit Profile</A> <A href="logout.jsp">Logout</A>
+			<div class="col-md-5  toppad  pull-right col-md-offset-2 ">
 
-				<!-- 	<p class=" text-info">May 05,2014,03:00 pm</p> -->
+				<p class=" text-info"><%=new java.util.Date()  %></p>
 			</div>
 			<div
 				class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
@@ -112,13 +111,13 @@
 											<td><a href="edit.html"
 												data-original-title="Edit this user" data-toggle="tooltip"
 												type="button" class="btn btn-sm btn-warning"><i
-													class="glyphicon glyphicon-edit"></i></a> <a
+													class="glyphicon glyphicon-edit"></i></a> <br> <a
 												data-original-title="Remove this user" data-toggle="tooltip"
 												type="button" class="btn btn-sm btn-danger"><i
 													class="glyphicon glyphicon-remove"></i></a></td>
 										</tr>
 										<tr>
-											<td>Email</td>
+											<td>Email:</td>
 											<td><a href="mailfrom:info@support.com"><%user.getEmail(); %></a></td>
 											<td><a href="mailfrom:info@support.com"><%user.getPersonalEmail(); %></a></td>
 									</tbody>

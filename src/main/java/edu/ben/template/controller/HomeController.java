@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import edu.ben.template.dao.UserDao;
 import edu.ben.template.model.JobPosting;
 import edu.ben.template.model.User;
+import edu.ben.template.dao.JobPostingDao;
 
 @Controller
 public class HomeController {
 
+	
 	UserDao uDao = new UserDao();
-	JobPosting jDao = new JobPosting();
+	JobPostingDao jDao = new JobPostingDao();
 
 	/**
 	 * Access to the Homepage.
@@ -77,11 +79,26 @@ public class HomeController {
 		// TODO Remove the permit all access from the security config
 		// TODO Remove the static well example on the jsp
 
-		ArrayList<JobPosting> jobPostings = new ArrayList<JobPosting>();
-		JobPosting test = new JobPosting("Test", "Test posting for the controller", "SomeCompany");
-		jobPostings.add(test);
+//		ArrayList<JobPosting> jobPostings = new ArrayList<JobPosting>();
+//		JobPosting test = new JobPosting("Test", "Test posting for the controller", "SomeCompany");
+//		jobPostings.add(test);
+//
+//		model.addAttribute("jobPostings", jobPostings);
 
-		model.addAttribute("jobPostings", jobPostings);
+		// NullPointerException on job posting dao
+		// JobPostingDao dao = new JobPostingDao();
+		// ArrayList<JobPosting> jobPostings = dao.findAll();
+
+		try {
+
+			ArrayList<JobPosting> job = new ArrayList<JobPosting>();
+			job = jDao.findAll();
+
+			model.addAttribute("job", job);
+
+		} catch (Exception e) {
+
+		}
 
 		return "jobPostings";
 	}
@@ -120,10 +137,6 @@ public class HomeController {
 
 		}
 		return "/alumniDirectory";
-
-		// NullPointerException on job posting dao
-		// JobPostingDao dao = new JobPostingDao();
-		// ArrayList<JobPosting> jobPostings = dao.findAll();
 
 	}
 

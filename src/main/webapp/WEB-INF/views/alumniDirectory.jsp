@@ -51,7 +51,7 @@
 						<td><font color="Black"><%=(alumni.get(i).getFirstName())%></font></td>
 						<td><font color="Black"><%=(alumni.get(i).getLastName())%></font></td>
 						<td><font color="Black"><%=(alumni.get(i).getGraduationYear())%></font></td>
-						<%-- <td><font color="Black"><%=(alumni.get(i).)%></font></td> --%>
+						 <%-- <td><font color="Black"><%=(alumni.get(i))%></font></td>  --%>
 					</tr>
 
 					<%

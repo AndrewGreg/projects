@@ -16,10 +16,11 @@ public class LoginController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model) {
-		_log.debug("Entering login");
-		model.addAttribute("credentials", new LoginCredentials());
-		model.addAttribute("user", new User());
-		return "index";
+//		_log.debug("Entering login");
+//		model.addAttribute("credentials", new LoginCredentials());
+//		model.addAttribute("user", new User());
+//		return "index";
+		return "login";
 	}
 
 	/**

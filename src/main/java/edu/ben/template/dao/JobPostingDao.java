@@ -47,29 +47,47 @@ public class JobPostingDao extends BaseDao<JobPosting> {
 			events = jdbcTemplate.query(sql, getRowMapper());
 			return (ArrayList<JobPosting>) events;
 		} catch (EmptyResultDataAccessException e) {
-			/*  Probably want to log this */
+			/* Probably want to log this */
 			return null;
 		}
 	}
 
 	public ArrayList<JobPosting> findByPoster(User user) {
 
-		// TODO
-		
-		List<JobPosting> events = new ArrayList<JobPosting>();
+		List<JobPosting> jobs = new ArrayList<JobPosting>();
 		String sql = "SELECT * from job WHERE user_id = ?";
 
 		try {
-			events = jdbcTemplate.query(sql, getRowMapper());
-			return (ArrayList<JobPosting>) events;
+			jobs = jdbcTemplate.query(sql, new Object[] { user.getId() }, getRowMapper());// TEST
+																							// THIS
+			return (ArrayList<JobPosting>) jobs;
 		} catch (EmptyResultDataAccessException e) {
-			/*  Probably want to log this */
+			/* Probably want to log this */
 			return null;
 		}
 	}
 
-	//TODO ADD POSTING
-	
+	public void addJobPosting(JobPosting job) {
+
+		String sql = "INSERT INTO job (name, description, company, user_id) VALUES (?, ?, ?, ?)";
+
+		jdbcTemplate.update(sql, job.getName(), job.getDescription(), job.getCompany(), job.getPoster().getId());
+		return;
+	}
+
+	public void updateJobPosting(JobPosting job) {
+
+		String sql = "UPDATE job SET name = ?, description = ?, company = ?, user_id = ? WHERE job.id = ?";
+		try {
+			jdbcTemplate.update(sql, job.getName(), job.getDescription(), job.getCompany(), job.getPoster().getId(),
+					job.getId());
+		} catch (Exception e) {
+			/* Probably want to log this */
+		}
+		return;
+
+	}
+
 	@Override
 	public RowMapper<JobPosting> getRowMapper() {
 		return new RowMapper<JobPosting>() {
@@ -80,7 +98,8 @@ public class JobPostingDao extends BaseDao<JobPosting> {
 				jobPosting.setName(rs.getString("name"));
 				jobPosting.setDescription(rs.getString("description"));
 				jobPosting.setCompany(rs.getString("company"));
-				// TODO get Job Poster through sql on "user" table // through userDao sql?
+				// TODO get Job Poster through sql on "user" table // through
+				// userDao sql?
 				// return the object
 				return jobPosting;
 			}

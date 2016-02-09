@@ -52,7 +52,7 @@ public class UserDao extends BaseDao<User> {
 		return;
 	}
 
-	public ArrayList<User> findAll() {
+	public  ArrayList<User> findAll() {
 
 		List<User> users = new ArrayList<User>();
 		String sql = "SELECT * from user";
@@ -94,7 +94,7 @@ public class UserDao extends BaseDao<User> {
 
 	public void updateUser(User user) {
 		
-		String sql = "UPDATE user SET bnumber = ?, first_name = ?, last_name = ?, email = ?, personal_email = ?, password = ?, salt = ?, role = ?, graduation_year = ?, occupation = ?, title = ?, suffix = ? WHERE user.user_id = ?";
+		String sql = "UPDATE user SET bnumber = ?, first_name = ?, last_name = ?, email = ?, personal_email = ?, password = ?, salt = ?, role = ?, graduation_year = ?, occupation = ?, title = ?, suffix = ? WHERE user.id = ?";
 		try {
 			jdbcTemplate.update(sql, user.getbNumber(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPersonalEmail(),
 					user.getPassword(), user.getSalt(), user.getRole(), user.getGraduationYear(), user.getOccupation(), user.getTitle(), user.getSuffix(), user.getId());

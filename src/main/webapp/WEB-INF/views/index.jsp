@@ -75,7 +75,7 @@
 					</div>
 					<div class="panel-body">
 						<p>This Link Doesn't Work Yet</p>
-						<a href="events.jsp" class="btn btn-default">Find More!</a><!-- Bring to a Calendar with events. -->
+						<a href="/events" class="btn btn-default">Find More!</a><!-- Bring to a Calendar with events. -->
 					</div>
 				</div>
 			</div>
@@ -88,7 +88,7 @@
 					</div>
 					<div class="panel-body">
 						<p>This Link Doesn't Work Yet</p>
-						<a href="jobPostings.jsp" class="btn btn-default">Find
+						<a href="/jobPostings" class="btn btn-default">Find
 							Positions!</a>
 					</div>
 				</div>
@@ -102,7 +102,7 @@
 					</div>
 					<div class="panel-body">
 						<p>This Link Doesn't Work Yet</p>
-						<a href="register.jsp" class="btn btn-default">Sign Up!</a>
+						<a href="/register" class="btn btn-default">Sign Up!</a>
 					</div>
 				</div>
 			</div>

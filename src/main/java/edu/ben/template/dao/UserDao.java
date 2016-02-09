@@ -52,7 +52,7 @@ public class UserDao extends BaseDao<User> {
 		return;
 	}
 
-	public ArrayList<User> findAll() {
+	public  ArrayList<User> findAll() {
 
 		List<User> users = new ArrayList<User>();
 		String sql = "SELECT * from user";

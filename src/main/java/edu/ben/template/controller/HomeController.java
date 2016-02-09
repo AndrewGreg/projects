@@ -1,28 +1,39 @@
 package edu.ben.template.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+
+import edu.ben.template.dao.UserDao;
+import edu.ben.template.model.User;
 
 @Controller
 public class HomeController {
 
+	UserDao uDao = new UserDao();
+
 	/**
 	 * Access to the Homepage.
-	 * @param model is being passed in
+	 * 
+	 * @param model
+	 *            is being passed in
 	 * @return the index page.
 	 */
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(Model model) {
 		return "index";
 	}
-	
+
 	/**
 	 * Access to the registration page.
-	 * @param model is being passed in
+	 * 
+	 * @param model
+	 *            is being passed in
 	 * @return the registration page.
 	 */
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -32,25 +43,60 @@ public class HomeController {
 
 	/**
 	 * Access to the job postings page.
-	 * @param model is being passed in
+	 * 
+	 * @param model
+	 *            is being passed in
 	 * @return the job postings page.
 	 */
 	@RequestMapping(value = "/jobPostings", method = RequestMethod.GET)
 	public String jobPostings(Model model) {
-		
-		//TODO Remove the permit all access from the security config
-		//TODO Remove the static well example on the jsp
-		
+
+		// TODO Remove the permit all access from the security config
+		// TODO Remove the static well example on the jsp
+
 		return "jobPostings";
 	}
 	
-	@RequestMapping(value = "/alumniDirectory", method = RequestMethod.GET)
-//	public String directory(Model model,  @RequestParam("first") String firstName,  @RequestParam("last") String lastName, 
-//			@RequestParam("year") String yearGraduated, @RequestParam("degree") String degree) {
-		public String directory(Model model) {
-		return "alumniDirectory";
-	}
 	
+	/**
+	 * Access to the Faculty Profile page.
+	 * 
+	 * @param model
+	 *            is being passed in
+	 * @return the faculty page.
+	 */
+	@RequestMapping(value = "/facultyProfile", method = RequestMethod.GET)
+	public String faculty(Model model) {
+		
+		
+		
+		
+		return "/facultyProfile";
+	}
+
+	/**
+	 * Displays all the alumni users in the system.
+	 * 
+	 * @param model
+	 *            being passed in.
+	 * @return the alumni Directory page.
+	 */
+	@RequestMapping(value = "/alumniDirectory", method = RequestMethod.GET)
+	public String directory(Model model) {
+
+		try {
+
+			ArrayList<User> types = new ArrayList<User>();
+			types = uDao.findAll();
+
+			model.addAttribute("types", types);
+
+		} catch (Exception e) {
+
+		}
+		return "/alumniDirectory";
+
+	}
 
 	/**
 	 * Accesses the user profile page. Dynamically grabs information depending
@@ -60,22 +106,12 @@ public class HomeController {
 	 *            is being passed in.
 	 * @return the profile page that belongs to the user.
 	 */
-	@RequestMapping(value = "/userProfile", method = RequestMethod.GET)
-//	public String userProfile(Model model, @RequestParam("name") String name, @RequestParam("bio") String biography,
-//			@RequestParam("occupation") String occupation, @RequestParam("graduation") String graduation,
-//			@RequestParam("workInterest") String workInterest, @RequestParam("experience") String experience) {
-	public String userProfile(Model model){
+	@RequestMapping(value = "/userProfile{userId}", method = RequestMethod.GET)
+	public String userProfile(Model model,@PathVariable("userId") Integer userId) {
+		ArrayList<User> user = new ArrayList<User>();
+	
 
-		// try {
-		//
-		// ArrayList<User> user = new ArrayList<User>();
-		// users = getJdbcTypeDao().findAll();
-		//
-		// model.addAttribute("users", users);
-		//
-		// } catch (Exception e) {
-		// }
-		//
+		model.addAttribute("user", user);
 
 		return "userProfile";
 	}

@@ -6,7 +6,7 @@
 
 		<div class="navbar-header">
 			<a href="/index"><img src="content/img/BenedictineLogo.gif"
-				height=100% width=100%></a>
+				height=90% width=100%></a>
 
 			<button type="button" class="navbar-toggle" data-toggle="collapse"
 				data-target="#bs-example-navbar-collapse-1">
@@ -23,7 +23,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="/index">Home</a></li>
 				<li><a href="/alumniDirectory">Alumni Directory</a></li>
-				<li><a href="/index">Empty tab</a></li>
+				<li><a href="/jobPostings">Job Postings</a></li>
 				<li><a href="/index">Empty Tab</a></li>
 
 				<!-- When the user is logged in the session go here. -->
@@ -31,7 +31,17 @@
 					data-toggle="dropdown">Profile <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li><a href="/userProfile">Home</a></li>
-						<li><a href="#">Settings</a></li>
+						<li><a href="#">View your Job Postings</a></li>
+						<li><a href="#">Logout</a></li>
+					</ul></li>
+					
+					
+					<!-- When the user is logged in the session go here. -->
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown">Profile <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="/facultyProfile">Home</a></li>
+						<li><a href="#">View your Job Postings</a></li>
 						<li><a href="#">Logout</a></li>
 					</ul></li>
 			</ul>

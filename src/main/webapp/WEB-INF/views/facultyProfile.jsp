@@ -77,7 +77,7 @@
 									<tbody>
 										<tr>
 											<td>Amount of Students Registered:</td>
-											<td><%=facul.size() %></td>
+											<td></td>
 											<td><a href="edit.html"
 												data-original-title="Edit this user" data-toggle="tooltip"
 												type="button" class="btn btn-sm btn-warning"><i
@@ -88,7 +88,7 @@
 										</tr>
 										<tr>
 											<td>Amount of Alumni Registered:</td>
-											<td><%=user.size() %></td>
+											<td></td>
 											<td><a href="edit.html"
 												data-original-title="Edit this user" data-toggle="tooltip"
 												type="button" class="btn btn-sm btn-warning"><i

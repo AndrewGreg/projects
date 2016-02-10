@@ -44,12 +44,11 @@ public class UserDao extends BaseDao<User> {
 
 	public void addUser(User user) {
 
-		String sql = "INSERT INTO user (password, salt, first_name, last_name, email, personal_email, role, title, suffix, graduation_year, occupation) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO user (id, bnumber, email, personal_email, password, salt, first_name, last_name,  role, graduation_year, occupation, title, suffix) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-		jdbcTemplate.update(sql, user.getPassword(), user.getSalt(), user.getFirstName(),
-				user.getLastName(), user.getEmail(), user.getPersonalEmail(), user.getRole(), user.getTitle(),
-				user.getSuffix(), user.getGraduationYear(), user.getOccupation());
-		return;
+		jdbcTemplate.update(sql,user.getId(), user.getbNumber(), user.getEmail(),user.getPersonalEmail(),user.getPassword(), user.getSalt(), user.getFirstName(),
+				user.getLastName(), user.getRole(),user.getGraduationYear(), user.getOccupation(), user.getTitle(),user.getSuffix());
+	
 	}
 
 	public  ArrayList<User> findAll() {

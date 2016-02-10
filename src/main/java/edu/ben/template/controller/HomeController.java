@@ -110,8 +110,8 @@ public class HomeController extends BaseController{
 			register.setPassword(password);
 			
 			//TODO Make sure database works
-			//UserDao dao = new UserDao();
-			//dao.addUser(register);
+			UserDao dao = new UserDao();
+			dao.addUser(register);
 
 			return "index";
 

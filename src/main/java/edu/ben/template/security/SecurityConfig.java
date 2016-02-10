@@ -56,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				antMatchers("/facultyProfile").permitAll().antMatchers("/alumniDirectory").permitAll().
 				antMatchers("/userProfile").permitAll()
 				/* TODO Add any additional authorities here... */
-				.antMatchers("/**").hasAnyAuthority("ROLE_USER") 
+				.antMatchers("/**").permitAll()
 				.and()
 					.logout()
 						.deleteCookies("JSESSIONID")
@@ -68,8 +68,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.successHandler(new SimpleUrlAuthenticationSuccessHandler("/"))
 					.loginPage("/login").permitAll()
 					.loginProcessingUrl("/login")
-					.usernameParameter("j_username")
-					.passwordParameter("j_password")
+					.usernameParameter("email")
+					.passwordParameter("password")
 					.failureUrl("/loginFailure")
 					.permitAll()
 				.and()

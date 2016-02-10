@@ -24,18 +24,21 @@
 <body>
 	<jsp:include page="navBar.jsp" />
 
-	<!-- Navigation Bar -->
 	<div align="center">
 		<br> <br> <br> <br>
 		<h3>
 			<table border=1>
+				<col width="300">
+ 				<col width="300">
+ 				<col width="300">
+ 				<col width="300">
 				<thead>
 					<tr>
 
 						<th><font color="Red">First</font></th>
 						<th><font color="Red">Last</font></th>
 						<th><font color="Red">Year Graduated</font></th>
-						<!-- <th><font color="Red">Degree</font></th> -->
+						<th><font color="Red">Degree</font></th>
 
 					</tr>
 
@@ -45,7 +48,7 @@
 
 					<tr>
 						<%-- <td><font color="Black"><%=(alumni.get(i).getRole())%></font></td> --%>
-						<td><font color="Black">My name should be here!</font></td>
+						<td><font color="Black"><%=(alumni.get(i).getFirstName())%></font></td>
 						<td><font color="Black"><%=(alumni.get(i).getLastName())%></font></td>
 						<td><font color="Black"><%=(alumni.get(i).getGraduationYear())%></font></td>
 						<td><font color="Black"></font></td>

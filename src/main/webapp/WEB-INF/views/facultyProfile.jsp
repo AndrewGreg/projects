@@ -9,6 +9,21 @@
 
 
 <jsp:useBean id="user" class="edu.ben.template.model.User" scope="session" />
+
+
+
+<%
+	User faculty = new User();
+	UserDao person = new UserDao();
+ 
+
+	ArrayList<User> user1;
+	if (request.getAttribute("user") != null) {
+		user1 = (ArrayList<User>) request.getAttribute("user");
+	} else {
+		user1 = new ArrayList<User>();
+	} 
+%>
  		
 	
 <!DOCTYPE html>
@@ -35,7 +50,7 @@
 				<!-- Profile Picture -->
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						<h3 class="panel-title"><%user.getFirstName(); %>&nbsp;<%user.getLastName(); %></h3>
+						<h3 class="panel-title"><%faculty.getFirstName(); %>&nbsp;<%faculty.getLastName(); %></h3>
 					</div>
 					<div class="panel-body">
 						<div class="row">
@@ -62,7 +77,7 @@
 									<tbody>
 										<tr>
 											<td>Amount of Students Registered:</td>
-											<td><% %></td>
+											<td><%=facul.size() %></td>
 											<td><a href="edit.html"
 												data-original-title="Edit this user" data-toggle="tooltip"
 												type="button" class="btn btn-sm btn-warning"><i
@@ -72,8 +87,8 @@
 													class="glyphicon glyphicon-remove"></i></a></td>
 										</tr>
 										<tr>
-											<td>Amount of Students Registered:</td>
-											<td><%user.getGraduationYear(); %></td>
+											<td>Amount of Alumni Registered:</td>
+											<td><%=user.size() %></td>
 											<td><a href="edit.html"
 												data-original-title="Edit this user" data-toggle="tooltip"
 												type="button" class="btn btn-sm btn-warning"><i
@@ -119,8 +134,8 @@
 										</tr>
 										<tr>
 											<td>Email</td>
-											<td><a href="mailfrom:info@support.com"><%user.getEmail(); %></a></td>
-											<td><a href="mailfrom:info@support.com"><%user.getPersonalEmail(); %></a></td>
+											<td><a href="mailfrom:info@support.com"><%faculty.getEmail(); %></a></td>
+											<td><a href="mailfrom:info@support.com"><%faculty.getPersonalEmail(); %></a></td>
 									</tbody>
 								</table>
 

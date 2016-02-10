@@ -24,7 +24,7 @@ public class UserDao extends BaseDao<User> {
 
 	public User getObjectById(int objectId, boolean complete) {
 		if (objectId == 0) {
-			/*  Probably want to log this */
+			/* Probably want to log this */
 			return null;
 		}
 		User object = null;
@@ -35,7 +35,7 @@ public class UserDao extends BaseDao<User> {
 				String sql = "SELECT * FROM user WHERE id = ?";
 				object = this.jdbcTemplate.queryForObject(sql, new Object[] { objectId }, getRowMapper());
 			} catch (EmptyResultDataAccessException e) {
-				/*  Probably want to log this */
+				/* Probably want to log this */
 				return null;
 			}
 		}
@@ -45,13 +45,15 @@ public class UserDao extends BaseDao<User> {
 	public void addUser(User user) {
 
 		String sql = "INSERT INTO user (id, bnumber, email, personal_email, password, salt, first_name, last_name,  role, graduation_year, occupation, title, suffix) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		jdbcTemplate.update(sql,
+				new Object[] { user.getId(), user.getbNumber(), user.getEmail(), user.getPersonalEmail(),
+						user.getPassword(), user.getSalt(), user.getFirstName(), user.getLastName(), user.getRole(),
+						user.getGraduationYear(), user.getOccupation(), user.getTitle(), user.getSuffix() });
 
-		jdbcTemplate.update(sql,user.getId(), user.getbNumber(), user.getEmail(),user.getPersonalEmail(),user.getPassword(), user.getSalt(), user.getFirstName(),
-				user.getLastName(), user.getRole(),user.getGraduationYear(), user.getOccupation(), user.getTitle(),user.getSuffix());
-	
 	}
 
-	public  ArrayList<User> findAll() {
+	public ArrayList<User> findAll() {
 
 		List<User> users = new ArrayList<User>();
 		String sql = "SELECT * from user";
@@ -60,7 +62,7 @@ public class UserDao extends BaseDao<User> {
 			users = jdbcTemplate.query(sql, getRowMapper());
 			return (ArrayList<User>) users;
 		} catch (EmptyResultDataAccessException e) {
-			/*  Probably want to log this */
+			/* Probably want to log this */
 			return null;
 		}
 	}
@@ -69,7 +71,7 @@ public class UserDao extends BaseDao<User> {
 
 		User u = null;
 		try {
-			
+
 			String sql = "SELECT user.id as id, user.bnumber, user.email, user.personal_email, user.password, user.salt, user.first_name, user.last_name, user.role, user.graduation_year, user.title, user.suffix FROM user WHERE user.email = ? GROUP BY id";
 			u = jdbcTemplate.queryForObject(sql, new Object[] { email }, getRowMapper());
 		} catch (EmptyResultDataAccessException e) {
@@ -78,7 +80,7 @@ public class UserDao extends BaseDao<User> {
 		return u;
 
 	}
-	
+
 	public User findByPersonalEmail(String email) {
 
 		User u = null;
@@ -93,16 +95,20 @@ public class UserDao extends BaseDao<User> {
 	}
 
 	public void updateUser(User user) {
-		
+
 		String sql = "UPDATE user SET bnumber = ?, first_name = ?, last_name = ?, email = ?, personal_email = ?, password = ?, salt = ?, role = ?, graduation_year = ?, occupation = ?, title = ?, suffix = ? WHERE user.id = ?";
 		try {
-			jdbcTemplate.update(sql, user.getbNumber(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPersonalEmail(),
-					user.getPassword(), user.getSalt(), user.getRole(), user.getGraduationYear(), user.getOccupation(), user.getTitle(), user.getSuffix(), user.getId());
+			jdbcTemplate.update(sql,
+					new Object[] { user.getbNumber(), user.getFirstName(), user.getLastName(), user.getEmail(),
+							user.getPersonalEmail(), user.getPassword(), user.getSalt(), user.getRole(),
+							user.getGraduationYear(), user.getOccupation(), user.getTitle(), user.getSuffix(),
+							user.getId() });
+
 		} catch (Exception e) {
-			/*  Probably want to log this */
+			/* Probably want to log this */
 		}
 		return;
-		
+
 	}
 
 	// Prof. Pollack's template code
@@ -175,4 +181,5 @@ public class UserDao extends BaseDao<User> {
 			}
 		};
 	}
+
 }

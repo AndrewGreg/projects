@@ -18,9 +18,7 @@ import edu.ben.template.model.JobPosting;
 import edu.ben.template.model.User;
 
 @Controller
-public class HomeController extends BaseController{
-
-	
+public class HomeController extends BaseController {
 
 	/**
 	 * Access to the Homepage.
@@ -71,7 +69,8 @@ public class HomeController extends BaseController{
 		if ((firstName != null && firstName.matches(".{2,}")) && (lastName != null && lastName.matches(".{2,}"))
 				&& (benEmail != null && benEmail.matches("[a-zA-Z](?:[a-zA-Z_0-9])+@ben.edu"))
 				&& ((validatePerEmail
-						&& personalEmail.matches("[a-zA-Z](?:[a-zA-Z_0-9])+@[a-zA-Z_0-9]+[.][a-zA-Z_0-9]{2,4}")) || !validatePerEmail)
+						&& personalEmail.matches("[a-zA-Z](?:[a-zA-Z_0-9])+@[a-zA-Z_0-9]+[.][a-zA-Z_0-9]{2,4}"))
+						|| !validatePerEmail)
 				&& (graduationYear != -1) && (role != -1) && ((password != null && password.matches(".{2,}")
 						&& passConfirm != null && passConfirm.matches(".{2,}")) && password.equals(passConfirm))) {
 
@@ -80,6 +79,7 @@ public class HomeController extends BaseController{
 			register.setEmail(benEmail);
 			register.setFirstName(firstName);
 			register.setLastName(lastName);
+			
 
 			if (graduationYear != 0) {
 				register.setGraduationYear(graduationYear);
@@ -105,13 +105,13 @@ public class HomeController extends BaseController{
 			} else {
 				register.setSuffix(suffix);
 			}
-			
-			//TODO Hash the password before saving to the user
+
+			// TODO Hash the password before saving to the user
 			register.setPassword(password);
+
+			// TODO Make sure database works
 			
-			//TODO Make sure database works
-			UserDao dao = new UserDao();
-			dao.addUser(register);
+			getUserDao().addUser(register);
 
 			return "index";
 
@@ -130,8 +130,8 @@ public class HomeController extends BaseController{
 				errors.put("benEmail", "Error in the input for your Benedictine email.");
 			}
 
-			
-			if (validatePerEmail && !personalEmail.matches("[a-zA-Z](?:[a-zA-Z_0-9])+@[a-zA-Z_0-9]+[.][a-zA-Z_0-9]{2,4}")) {
+			if (validatePerEmail
+					&& !personalEmail.matches("[a-zA-Z](?:[a-zA-Z_0-9])+@[a-zA-Z_0-9]+[.][a-zA-Z_0-9]{2,4}")) {
 				errors.put("personalEmail", "Error in the input for your personal email.");
 			}
 
@@ -152,11 +152,11 @@ public class HomeController extends BaseController{
 			}
 
 			model.addAttribute("errors", errors);
-			
+
 			return "register";
 		}
 	}
-		
+
 	/**
 	 * Access to the job postings page.
 	 * 
@@ -215,18 +215,30 @@ public class HomeController extends BaseController{
 	 * @return the alumni Directory page.
 	 */
 	@RequestMapping(value = "/alumniDirectory", method = RequestMethod.GET)
-	public String directory(Model model) {
+	public String directory(@RequestParam(required = false) Integer page, Model model) {
 
 		try {
 
 			ArrayList<User> alumni = new ArrayList<User>();
 			alumni = getUserDao().findAll();
+			System.out.println(alumni.size());
 			
-			model.addAttribute("alumni", alumni);
+			if (page == null) {
+				page = 0;
+			}
+			ArrayList<User> users = new ArrayList<User>();
+			for (int i = page * 15; i < 15; i++) {
+				if (i < alumni.size()) {
+					users.add(alumni.get(i));
+				}
+			}
+
+			model.addAttribute("alumni", users);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 		return "alumniDirectory";
 
 	}

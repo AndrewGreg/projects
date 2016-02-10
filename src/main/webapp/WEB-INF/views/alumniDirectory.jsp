@@ -8,6 +8,8 @@
 <%@ page isELIgnored="false"%>
 
 <%
+	
+
 	ArrayList<User> alumni;
 	if (request.getAttribute("alumni") != null) {
 		alumni = (ArrayList<User>) request.getAttribute("alumni");
@@ -43,11 +45,11 @@
 					</tr>
 
 				</thead>
+				<%//if (person.getRole() == 2) {%>
 				<tbody>
 					<% for (int i = 0; i < alumni.size(); i++) { %>
-
+					
 					<tr>
-						<%-- <td><font color="Black"><%=(alumni.get(i).getRole())%></font></td> --%>
 						<td><font color="Black"><%=(alumni.get(i).getFirstName())%></font></td>
 						<td><font color="Black"><%=(alumni.get(i).getLastName())%></font></td>
 						<td><font color="Black"><%=(alumni.get(i).getGraduationYear())%></font></td>
@@ -56,6 +58,7 @@
 
 					<%
 						}
+					//}
 					%>
 
 

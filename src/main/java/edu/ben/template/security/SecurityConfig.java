@@ -52,27 +52,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				/* TODO Add any additional open links here */
 				.antMatchers("/").permitAll().antMatchers("/about").permitAll()
 				.antMatchers("/login").permitAll().antMatchers("/register").permitAll()
-				.antMatchers("/jobPostings").permitAll();
+				.antMatchers("/jobPostings").permitAll().antMatchers("/index").permitAll().
+				antMatchers("/facultyProfile").permitAll().antMatchers("/alumniDirectory").permitAll().
+				antMatchers("/userProfile").permitAll()
 				/* TODO Add any additional authorities here... */
-//				.antMatchers("/**").hasAnyAuthority("ROLE_USER") 
-//				.and()
-//					.logout()
-//						.deleteCookies("JSESSIONID")
-//						.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
-//						.logoutSuccessUrl("/")
-//					.permitAll()
-//				.and()
-//					.formLogin()
-//					.successHandler(new SimpleUrlAuthenticationSuccessHandler("/"))
-//					.loginPage("/login").permitAll()
-//					.loginProcessingUrl("/login")
-//					.usernameParameter("j_username")
-//					.passwordParameter("j_password")
-//					.failureUrl("/loginFailure")
-//					.permitAll()
-//				.and()
-//					.rememberMe()
-//					.key("eidkaieh")
-//					.userDetailsService(userDetailsService());
+				.antMatchers("/**").hasAnyAuthority("ROLE_USER") 
+				.and()
+					.logout()
+						.deleteCookies("JSESSIONID")
+						.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+						.logoutSuccessUrl("/")
+					.permitAll()
+				.and()
+					.formLogin()
+					.successHandler(new SimpleUrlAuthenticationSuccessHandler("/"))
+					.loginPage("/login").permitAll()
+					.loginProcessingUrl("/login")
+					.usernameParameter("j_username")
+					.passwordParameter("j_password")
+					.failureUrl("/loginFailure")
+					.permitAll()
+				.and()
+					.rememberMe()
+					.key("eidkaieh")
+					.userDetailsService(userDetailsService());
 	}
 }

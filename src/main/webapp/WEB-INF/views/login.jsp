@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-    
+	pageEncoding="ISO-8859-1"%>
+
 <%@ page import="javax.servlet.http.HttpSession"%>
 
 <%
@@ -13,29 +13,50 @@
 <title>Login</title>
 
 <!-- Bootstrap Core CSS -->
-<link href="content/css/bootstrap.min.css"
-	rel="stylesheet">
+<link href="content/css/bootstrap.min.css" rel="stylesheet">
 <!-- Custom CSS -->
-<link href="content/css/login.css"
-	rel="stylesheet">
+<link href="content/css/login.css" rel="stylesheet">
 </head>
 <body>
 
-<jsp:include page="navBar.jsp" />
+	<jsp:include page="navBar.jsp" />
 
-<div class = "container">
-	<div class="wrapper">
-		<form action="login" method="post" name="Login_Form" class="form-signin">       
-		    <h3 class="form-signin-heading">Login</h3>
-			  <hr class="colorgraph"><br>
-			  
-			  <input type="text" class="form-control" name="email" placeholder="Email" required="" autofocus="" />
-			  <input type="password" class="form-control" name="password" placeholder="Password" required=""/>     		  
-			 
-			  <button class="btn btn-lg btn-primary btn-block"  name="Submit" value="Login" type="Submit">Login</button>  			
-		</form>			
+	<div class="container">
+
+
+		<div class="wrapper">
+
+			<div class="row" style="margin-top: 150px">
+				<div
+					class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+					<%
+						if (request.getAttribute("invalid") != null) {
+					%>
+					<div class="alert alert-danger">
+						<strong>Incorrect login!</strong> Please try again.
+					</div>
+					<%
+						request.setAttribute("invalid", null);
+						}
+
+					%>
+
+					<form action="login" method="post" name="LoginForm"
+						class="form-signin">
+						<h3 class="form-signin-heading">Login</h3>
+						<hr class="colorgraph">
+						<br> <input type="text" class="form-control" name="email"
+							placeholder="Email" required="" autofocus="" /> <input
+							type="password" class="form-control" name="password"
+							placeholder="Password" required="" />
+
+						<button class="btn btn-lg btn-primary btn-block" name="Submit"
+							value="Login" type="Submit">Login</button>
+					</form>
+				</div>
+			</div>
+		</div>
 	</div>
-</div>
 
 </body>
 </html>

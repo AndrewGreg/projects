@@ -13,7 +13,7 @@
 		alumni = (ArrayList<User>) request.getAttribute("alumni");
 	} else {
 		alumni = new ArrayList<User>();
-	}
+	} 
 %>
 
 <!DOCTYPE html>
@@ -21,7 +21,7 @@
 <head>
 <jsp:include page="header.jsp" />
 </head>
-<body background=" ">
+<body>
 	<jsp:include page="navBar.jsp" />
 
 	<!-- Navigation Bar -->
@@ -37,21 +37,18 @@
 						<th><font color="Red">Year Graduated</font></th>
 						<!-- <th><font color="Red">Degree</font></th> -->
 
-
 					</tr>
 
 				</thead>
 				<tbody>
-					<%
-						for (int i = 0; i < alumni.size(); i++) {
-					%>
+					<% for (int i = 0; i < alumni.size(); i++) { %>
 
 					<tr>
-						<td><font color="Black"><%=(alumni.get(i).getRole())%></font></td>
-						<td><font color="Black"><%=(alumni.get(i).getFirstName())%></font></td>
+						<%-- <td><font color="Black"><%=(alumni.get(i).getRole())%></font></td> --%>
+						<td><font color="Black">My name should be here!</font></td>
 						<td><font color="Black"><%=(alumni.get(i).getLastName())%></font></td>
 						<td><font color="Black"><%=(alumni.get(i).getGraduationYear())%></font></td>
-						<%-- <td><font color="Black"><%=(alumni.get(i).)%></font></td> --%>
+						<td><font color="Black"></font></td>
 					</tr>
 
 					<%

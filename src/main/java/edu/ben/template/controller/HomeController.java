@@ -6,17 +6,21 @@ import java.util.HashMap;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import edu.ben.template.dao.JobPostingDao;
+
 import edu.ben.template.dao.UserDao;
 import edu.ben.template.model.JobPosting;
 import edu.ben.template.model.User;
 
 @Controller
-public class HomeController {
+public class HomeController extends BaseController{
+
+	
 
 	/**
 	 * Access to the Homepage.
@@ -152,7 +156,7 @@ public class HomeController {
 			return "register";
 		}
 	}
-
+		
 	/**
 	 * Access to the job postings page.
 	 * 
@@ -166,26 +170,65 @@ public class HomeController {
 		// TODO Remove the permit all access from the security config
 		// TODO Remove the static well example on the jsp
 
-		// NullPointerException on job posting dao
-		// JobPostingDao dao = new JobPostingDao();
-		// ArrayList<JobPosting> jobPostings = dao.findAll();
-
 		ArrayList<JobPosting> jobPostings = new ArrayList<JobPosting>();
 		JobPosting test = new JobPosting("Test", "Test posting for the controller", "SomeCompany");
 		jobPostings.add(test);
 
 		model.addAttribute("jobPostings", jobPostings);
 
+		// NullPointerException on job posting dao
+		// JobPostingDao dao = new JobPostingDao();
+		// ArrayList<JobPosting> jobPostings = dao.findAll();
+
+		try {
+
+			ArrayList<JobPosting> job = new ArrayList<JobPosting>();
+			job = getJobPostingDao().findAll();
+
+			model.addAttribute("job", job);
+
+		} catch (Exception e) {
+
+		}
+
 		return "jobPostings";
 	}
 
+	/**
+	 * Access to the Faculty Profile page.
+	 * 
+	 * @param model
+	 *            is being passed in
+	 * @return the faculty page.
+	 */
+	@RequestMapping(value = "/facultyProfile", method = RequestMethod.GET)
+	public String faculty(Model model) {
+
+		return "facultyProfile";
+	}
+
+	/**
+	 * Displays all the alumni users in the system.
+	 * 
+	 * @param model
+	 *            being passed in.
+	 * @return the alumni Directory page.
+	 */
 	@RequestMapping(value = "/alumniDirectory", method = RequestMethod.GET)
-	// public String directory(Model model, @RequestParam("first") String
-	// firstName, @RequestParam("last") String lastName,
-	// @RequestParam("year") String yearGraduated, @RequestParam("degree")
-	// String degree) {
 	public String directory(Model model) {
+
+		try {
+
+			ArrayList<User> alumni = new ArrayList<User>();
+			alumni = getUserDao().findAll();
+			
+			model.addAttribute("alumni", alumni);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return "alumniDirectory";
+
 	}
 
 	/**
@@ -196,14 +239,11 @@ public class HomeController {
 	 *            is being passed in.
 	 * @return the profile page that belongs to the user.
 	 */
-	@RequestMapping(value = "/userProfile", method = RequestMethod.GET)
-	// public String userProfile(Model model, @RequestParam("name") String name,
-	// @RequestParam("bio") String biography,
-	// @RequestParam("occupation") String occupation,
-	// @RequestParam("graduation") String graduation,
-	// @RequestParam("workInterest") String workInterest,
-	// @RequestParam("experience") String experience) {
-	public String userProfile(Model model) {
+	@RequestMapping(value = "/userProfile{userId}", method = RequestMethod.GET)
+	public String userProfile(Model model, @PathVariable("userId") Integer userId) {
+		ArrayList<User> user = new ArrayList<User>();
+
+		model.addAttribute("user", user);
 
 		// try {
 		//

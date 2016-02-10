@@ -70,12 +70,12 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h4>
-							<i class="fa fa-fw fa-check"></i> Events
+							<i class="fa fa-fw fa-check"></i> Login
 						</h4>
 					</div>
 					<div class="panel-body">
 						<p>This Link Doesn't Work Yet</p>
-						<a href="/events" class="btn btn-default">Find More!</a><!-- Bring to a Calendar with events. -->
+						<a href="/login" class="btn btn-default">Click Here!</a><!-- Bring to a Calendar with events. -->
 					</div>
 				</div>
 			</div>

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import edu.ben.template.dao.UserDao;
 import edu.ben.template.model.JobPosting;
 import edu.ben.template.model.User;
-import edu.ben.template.dao.JobPostingDao;
 
 @Controller
 public class HomeController extends BaseController{
@@ -111,7 +110,7 @@ public class HomeController extends BaseController{
 	@RequestMapping(value = "/facultyProfile", method = RequestMethod.GET)
 	public String faculty(Model model) {
 
-		return "/facultyProfile";
+		return "facultyProfile";
 	}
 
 	/**
@@ -128,13 +127,13 @@ public class HomeController extends BaseController{
 
 			ArrayList<User> alumni = new ArrayList<User>();
 			alumni = getUserDao().findAll();
-
+			
 			model.addAttribute("alumni", alumni);
 
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
-		return "/alumniDirectory";
+		return "alumniDirectory";
 
 	}
 

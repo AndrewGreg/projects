@@ -1,6 +1,7 @@
 package edu.ben.template.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -10,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import edu.ben.template.dao.JobPostingDao;
+import edu.ben.template.dao.UserDao;
 import edu.ben.template.model.JobPosting;
+import edu.ben.template.model.User;
 
 @Controller
 public class HomeController {
@@ -50,13 +53,104 @@ public class HomeController {
 	public String registrationPost(Model model, @RequestParam("firstName") String firstName,
 			@RequestParam("lastName") String lastName, @RequestParam("benEmail") String benEmail,
 			@RequestParam("personalEmail") String personalEmail, @RequestParam("gradYear") String gradYear,
-			@RequestParam("occupation") String occupation, @RequestParam("title") String title,
-			@RequestParam("suffix") String suffix, @RequestParam("password") String password,
-			@RequestParam("passConfirm") String passConfirm) {
-		
-		//TODO Process the form information and create a user
+			@RequestParam("standing") String standing, @RequestParam("occupation") String occupation,
+			@RequestParam("title") String title, @RequestParam("suffix") String suffix,
+			@RequestParam("password") String password, @RequestParam("passConfirm") String passConfirm) {
 
-		return "register";
+		boolean validatePerEmail = personalEmail != null && !personalEmail.equals("") ? true : false;
+
+		int graduationYear = gradYear != null && !gradYear.equals("") && gradYear.matches("[0-9]{4}")
+				? Integer.parseInt(gradYear) : (gradYear == null || gradYear.equals("") ? 1 : -1);
+		int role = standing.equals("1") || standing.equals("2") || standing.equals("3") ? Integer.parseInt(standing)
+				: -1;
+
+		if ((firstName != null && firstName.matches(".{2,}")) && (lastName != null && lastName.matches(".{2,}"))
+				&& (benEmail != null && benEmail.matches("[a-zA-Z](?:[a-zA-Z_0-9])+@ben.edu"))
+				&& ((validatePerEmail
+						&& personalEmail.matches("[a-zA-Z](?:[a-zA-Z_0-9])+@[a-zA-Z_0-9]+[.][a-zA-Z_0-9]{2,4}")) || !validatePerEmail)
+				&& (graduationYear != -1) && (role != -1) && ((password != null && password.matches(".{2,}")
+						&& passConfirm != null && passConfirm.matches(".{2,}")) && password.equals(passConfirm))) {
+
+			User register = new User();
+
+			register.setEmail(benEmail);
+			register.setFirstName(firstName);
+			register.setLastName(lastName);
+
+			if (graduationYear != 0) {
+				register.setGraduationYear(graduationYear);
+			}
+
+			if (occupation == null || occupation.equals("")) {
+				register.setOccupation(null);
+			} else {
+				register.setOccupation(occupation);
+			}
+
+			register.setRole(role);
+			register.setPersonalEmail(personalEmail);
+
+			if (title == null || title.equals("")) {
+				register.setTitle(null);
+			} else {
+				register.setTitle(title);
+			}
+
+			if (suffix == null || suffix.equals("")) {
+				register.setSuffix(null);
+			} else {
+				register.setSuffix(suffix);
+			}
+			
+			//TODO Hash the password before saving to the user
+			register.setPassword(password);
+			
+			//TODO Make sure database works
+			//UserDao dao = new UserDao();
+			//dao.addUser(register);
+
+			return "index";
+
+		} else {
+			HashMap<String, String> errors = new HashMap<String, String>();
+
+			if (firstName == null || !firstName.matches(".{2,}")) {
+				errors.put("firstName", "Error in the input for first name.");
+			}
+
+			if (lastName == null || !lastName.matches(".{2,}")) {
+				errors.put("lastName", "Error in the input for last name.");
+			}
+
+			if (benEmail == null || !benEmail.matches("[a-zA-Z](?:[a-zA-Z_0-9])+@ben.edu")) {
+				errors.put("benEmail", "Error in the input for your Benedictine email.");
+			}
+
+			
+			if (validatePerEmail && !personalEmail.matches("[a-zA-Z](?:[a-zA-Z_0-9])+@[a-zA-Z_0-9]+[.][a-zA-Z_0-9]{2,4}")) {
+				errors.put("personalEmail", "Error in the input for your personal email.");
+			}
+
+			if (graduationYear == -1) {
+				errors.put("gradYear", "Error in the input for the graduation year.");
+			}
+
+			if (role == -1) {
+				errors.put("standing", "You must choose a valid standing.");
+			}
+
+			// TODO Add validation for title and suffix
+			// find the regex to invalidate two special characters together
+
+			if ((password == null || !password.matches(".{2,}") || passConfirm == null || !passConfirm.matches(".{2,}"))
+					|| !password.equals(passConfirm)) {
+				errors.put("passwords", "Passwords either do not match or are too short.");
+			}
+
+			model.addAttribute("errors", errors);
+			
+			return "register";
+		}
 	}
 
 	/**

@@ -31,7 +31,7 @@
 		<div class="row">
 			<div class="col-xs-4 col-xs-offset-4">
 				<form action="/register" method="POST" name="register">
-					
+
 
 					<%
 						String firstName = (request.getParameter("firstName") == null) ? ""
@@ -46,15 +46,13 @@
 								: (String) request.getParameter("gradYear");
 						String occupation = (request.getParameter("occupation") == null) ? ""
 								: (String) request.getParameter("occupation");
-						String title = (request.getParameter("title") == null) ? ""
-								: (String) request.getParameter("title");
-						String suffix = (request.getParameter("suffix") == null) ? ""
-								: (String) request.getParameter("suffix");
+						String title = (request.getParameter("title") == null) ? "" : (String) request.getParameter("title");
+						String suffix = (request.getParameter("suffix") == null) ? "" : (String) request.getParameter("suffix");
 					%>
 
 					<div class="form-group">
 						<input type="text" class="form-control" name="firstName"
-							placeholder="First Name *" value="<%=firstName%>" required><br>
+							placeholder="First Name *" value="<%=firstName%>" required>
 
 						<%
 							if (errors.get("firstName") != null) {
@@ -65,9 +63,9 @@
 						<%
 							}
 						%>
-
+						<br>
 						<input type="text" class="form-control" name="lastName"
-							placeholder="Last Name *" value="<%=lastName%>" required><br>
+							placeholder="Last Name *" value="<%=lastName%>" required>
 
 						<%
 							if (errors.get("lastName") != null) {
@@ -78,9 +76,9 @@
 						<%
 							}
 						%>
-
+						<br>
 						<input type="text" class="form-control" name="benEmail"
-							placeholder="Benedictine E-mail *" value="<%=benEmail%>" required><br>
+							placeholder="Benedictine E-mail *" value="<%=benEmail%>" required>
 
 						<%
 							if (errors.get("benEmail") != null) {
@@ -91,9 +89,9 @@
 						<%
 							}
 						%>
-
+						<br>
 						<input type="text" class="form-control" name="personalEmail"
-							placeholder="Personal E-mail" value="<%=personalEmail%>"><br>
+							placeholder="Personal E-mail" value="<%=personalEmail%>">
 
 						<%
 							if (errors.get("personalEmail") != null) {
@@ -104,9 +102,21 @@
 						<%
 							}
 						%>
-
-						<input type="number" class="form-control" name="gradYear"
-							placeholder="Graduation Year" value="<%=gradYear%>" min="1887"><br>
+						<br>
+						<select name="gradYear" class="form-control" required>
+							<option value="">Graduation Year (This option if none)</option>
+						
+						<%
+						
+						for(int year = 1900; year < 2100; year++) {
+						
+						%>
+							<option value="<%=year %>"><%=year %></option>
+						<%
+							}
+						%>
+						
+						</select>
 
 						<%
 							if (errors.get("gradYear") != null) {
@@ -117,9 +127,26 @@
 						<%
 							}
 						%>
-						
+						<br>
+						<select name="standing" class="form-control" required>
+							<option value="">Standing</option>
+							<option value="1">Student</option>
+							<option value="2">Graduate</option>
+							<option value="3">Faculty</option>
+						</select>
+
+						<%
+							if (errors.get("standing") != null) {
+						%>
+
+						<h6 style="color: red"><%=errors.get("standing")%></h6>
+
+						<%
+							}
+						%>
+						<br>
 						<input type="text" class="form-control" name="occupation"
-							placeholder="Occupation" value="<%=occupation%>"><br>
+							placeholder="Occupation" value="<%=occupation%>">
 
 						<%
 							if (errors.get("occupation") != null) {
@@ -130,9 +157,9 @@
 						<%
 							}
 						%>
-						
+						<br>
 						<input type="text" class="form-control" name="title"
-							placeholder="Title" value="<%=title%>"><br>
+							placeholder="Title" value="<%=title%>">
 
 						<%
 							if (errors.get("title") != null) {
@@ -143,9 +170,9 @@
 						<%
 							}
 						%>
-						
+						<br>
 						<input type="text" class="form-control" name="suffix"
-							placeholder="Suffix" value="<%=suffix%>"><br>
+							placeholder="Suffix" value="<%=suffix%>">
 
 						<%
 							if (errors.get("suffix") != null) {
@@ -156,7 +183,7 @@
 						<%
 							}
 						%>
-
+						<br>
 						<input type="password" class="form-control" name="password"
 							placeholder="Password *" required><br> <input
 							type="password" class="form-control" name="passConfirm"
@@ -173,7 +200,9 @@
 						%>
 
 					</div>
-					<div><p>* denotes required field.</p></div>
+					<div>
+						<p>* denotes required field.</p>
+					</div>
 					<button type="reset" class="btn btn-danger">Clear</button>
 					<button type="submit" class="btn btn-primary">Register</button>
 				</form>

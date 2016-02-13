@@ -32,23 +32,6 @@
 
 	<div class="container">
 
-		<div class="well well-lg">
-			<div class="row">
-				<h4>Position</h4>
-				<h5>At: Company</h5>
-			</div>
-			<div class="row">
-				<h5>Posted by: Someone</h5>
-				<h5>someone@ben.edu</h5>
-			</div>
-
-			<p>Description Lorem ipsum dolor sit amet, consectetur adipiscing
-				elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-				aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-				laboris nisi ut aliquip ex ea commodo consequat.</p>
-		</div>
-		<br>
-
 		<%
 			for (int i = 0; i < jobPostings.size(); i++) {
 

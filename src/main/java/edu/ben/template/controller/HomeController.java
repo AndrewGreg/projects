@@ -109,8 +109,6 @@ public class HomeController extends BaseController {
 			// TODO Hash the password before saving to the user
 			register.setPassword(password);
 
-			// TODO Make sure database works
-			
 			getUserDao().addUser(register);
 
 			return "index";
@@ -168,27 +166,15 @@ public class HomeController extends BaseController {
 	public String jobPostings(Model model) {
 
 		// TODO Remove the permit all access from the security config
-		// TODO Remove the static well example on the jsp
-
-		ArrayList<JobPosting> jobPostings = new ArrayList<JobPosting>();
-		JobPosting test = new JobPosting("Test", "Test posting for the controller", "SomeCompany");
-		jobPostings.add(test);
-
-		model.addAttribute("jobPostings", jobPostings);
-
-		// NullPointerException on job posting dao
-		// JobPostingDao dao = new JobPostingDao();
-		// ArrayList<JobPosting> jobPostings = dao.findAll();
 
 		try {
 
-			ArrayList<JobPosting> job = new ArrayList<JobPosting>();
-			job = getJobPostingDao().findAll();
+			ArrayList<JobPosting> job = getJobPostingDao().findAll();
 
-			model.addAttribute("job", job);
+			model.addAttribute("jobPostings", job);
 
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 
 		return "jobPostings";

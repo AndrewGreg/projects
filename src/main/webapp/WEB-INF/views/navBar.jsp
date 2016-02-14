@@ -30,7 +30,7 @@
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">Profile <b class="caret"></b></a>
 					<ul class="dropdown-menu">
-						<li><a href="/userProfile">Home</a></li>
+						<li><a href="/userProfile">My Profile</a></li>
 						<li><a href="#">View your Job Postings</a></li>
 						<li><a href="#">Logout</a></li>
 					</ul></li>
@@ -40,7 +40,7 @@
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">Profile <b class="caret"></b></a>
 					<ul class="dropdown-menu">
-						<li><a href="/facultyProfile">Home</a></li>
+						<li><a href="/facultyProfile">My Profile</a></li>
 						<li><a href="#">View your Job Postings</a></li>
 						<li><a href="#">Logout</a></li>
 					</ul></li>

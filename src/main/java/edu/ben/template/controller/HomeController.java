@@ -2,6 +2,7 @@ package edu.ben.template.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.sql.Date;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -79,7 +80,6 @@ public class HomeController extends BaseController {
 			register.setEmail(benEmail);
 			register.setFirstName(firstName);
 			register.setLastName(lastName);
-			
 
 			if (graduationYear != 0) {
 				register.setGraduationYear(graduationYear);
@@ -208,7 +208,7 @@ public class HomeController extends BaseController {
 			ArrayList<User> alumni = new ArrayList<User>();
 			alumni = getUserDao().findAll();
 			System.out.println(alumni.size());
-			
+
 			if (page == null) {
 				page = 0;
 			}
@@ -255,6 +255,77 @@ public class HomeController extends BaseController {
 		//
 
 		return "userProfile";
+	}
+
+	/**
+	 * Access to the job posting creation page.
+	 * 
+	 * @param model
+	 *            is being passed in
+	 * @return the job posting creation page.
+	 */
+	@RequestMapping(value = "/createJobPosting", method = RequestMethod.GET)
+	public String createJobPosting(Model model) {
+		return "createJobPosting";
+	}
+
+	/**
+	 * Form processing of the job posting creation page.
+	 * 
+	 * @param model
+	 *            model and the form information is passed in
+	 * @return index page.
+	 */
+	@RequestMapping(value = "/createJobPosting", method = RequestMethod.POST)
+	public String createJobPostingPost(Model model, @RequestParam("name") String name,
+			@RequestParam("company") String company, @RequestParam("description") String description) {
+
+		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
+				&& description.matches(".{2,}")) {
+
+			// TODO Find out how to get the logged in user to add to the
+			// jobPosting object
+			JobPosting job = new JobPosting(name, description, company);
+
+			try {
+				getJobPostingDao().addJobPosting(job);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return "index";
+
+		} else {
+
+			HashMap<String, String> errors = new HashMap<String, String>();
+
+			if (name == null || !name.matches(".{2,}")) {
+				errors.put("name", "Error in the input for the job name.");
+			}
+
+			if (company == null || !company.matches(".{2,}")) {
+				errors.put("company", "Error in the input for the job's company.");
+			}
+
+			if (description == null || !description.matches(".{2,}")) {
+				errors.put("description", "Error in the input for the job description.");
+			}
+
+			model.addAttribute("errors", errors);
+
+			return "createJobPosting";
+		}
+	}
+
+	/**
+	 * Access to the event creation page.
+	 * 
+	 * @param model
+	 *            is being passed in
+	 * @return the event creation page.
+	 */
+	@RequestMapping(value = "/createEvent", method = RequestMethod.GET)
+	public String createEvent(Model model) {
+		return "createEvent";
 	}
 
 	@PreAuthorize("isAuthenticated()")

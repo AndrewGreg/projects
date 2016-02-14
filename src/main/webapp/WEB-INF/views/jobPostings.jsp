@@ -31,7 +31,7 @@
 	</div>
 
 	<div class="container">
-
+ 
 		<%
 			for (int i = 0; i < jobPostings.size(); i++) {
 

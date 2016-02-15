@@ -89,7 +89,7 @@
 					</div>
 					<button type="reset" class="btn btn-danger">Clear</button>
 					<button type="submit" class="btn btn-primary">Create
-						posting</button>
+						event</button>
 				</form>
 			</div>
 		</div>

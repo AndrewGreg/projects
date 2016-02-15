@@ -132,7 +132,7 @@
 						%>
 						<br>
 						<select name="standing" class="form-control" required>
-							<option value="">Standing</option>
+							<option value="">Standing *</option>
 							<option value="1">Student</option>
 							<option value="2">Graduate</option>
 							<option value="3">Faculty</option>

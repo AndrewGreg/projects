@@ -57,9 +57,21 @@
 									}
 								%>
 							</div>
-							<div class="col-lg-2">
+							<div class="col-lg-6">
 								<div class="form-group">
-									<input class="datepicker" placeholder="Event date *" name="date">
+									<input class="datepicker" placeholder="Event date *"
+										name="date">
+
+									<%
+										if (errors.get("date") != null) {
+									%>
+
+									<h6 style="color: red"><%=errors.get("date")%></h6>
+
+									<%
+										}
+									%>
+
 								</div>
 
 								<script>
@@ -81,15 +93,14 @@
 
 						<%
 							}
-						%><br>
+						%>
 					</div>
 
 					<div>
 						<p>* denotes required field.</p>
 					</div>
 					<button type="reset" class="btn btn-danger">Clear</button>
-					<button type="submit" class="btn btn-primary">Create
-						event</button>
+					<button type="submit" class="btn btn-primary">Create event</button>
 				</form>
 			</div>
 		</div>

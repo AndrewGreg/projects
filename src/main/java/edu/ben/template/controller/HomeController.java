@@ -351,18 +351,18 @@ public class HomeController extends BaseController {
 					Integer.parseInt(datePart[1]));
 			Date currentDate = new Date(System.currentTimeMillis());
 
-			if (eventDate.compareTo(currentDate) < 1) {
+			if (eventDate.compareTo(currentDate) < 0) {
 
 				HashMap<String, String> errors = new HashMap<String, String>();
 
-				errors.put("date", "Error. The event's date must not be before the current date.");
+				errors.put("date", "Error. The event's date must be after the current date.");
 
 				model.addAttribute("errors", errors);
 
 				return "createEvent";
 			}
 
-			// TODO Add the event creator
+			// TODO Add the event creator (User)
 			Event event = new Event(name, eventDate, description);
 
 			getEventDao().addEvent(event);

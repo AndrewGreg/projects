@@ -8,7 +8,7 @@
 	} else {
 		errors = new HashMap<String, String>();
 	}
-	
+
 	int studentCounter = 0;
 	int alumniCounter = 0;
 %>
@@ -54,7 +54,20 @@
 					%>
 
 					<div class="form-group">
-						<input type="text" class="form-control" name="firstName"
+
+						<input type="text" class="form-control" name="title"
+							placeholder="Title" value="<%=title%>">
+
+						<%
+							if (errors.get("title") != null) {
+						%>
+
+						<h6 style="color: red"><%=errors.get("title")%></h6>
+
+						<%
+							}
+						%>
+						<br> <input type="text" class="form-control" name="firstName"
 							placeholder="First Name *" value="<%=firstName%>" required>
 
 						<%
@@ -66,8 +79,7 @@
 						<%
 							}
 						%>
-						<br>
-						<input type="text" class="form-control" name="lastName"
+						<br> <input type="text" class="form-control" name="lastName"
 							placeholder="Last Name *" value="<%=lastName%>" required>
 
 						<%
@@ -79,8 +91,19 @@
 						<%
 							}
 						%>
-						<br>
-						<input type="text" class="form-control" name="benEmail"
+						<br> <input type="text" class="form-control" name="suffix"
+							placeholder="Suffix" value="<%=suffix%>">
+
+						<%
+							if (errors.get("suffix") != null) {
+						%>
+
+						<h6 style="color: red"><%=errors.get("suffix")%></h6>
+
+						<%
+							}
+						%>
+						<br> <input type="text" class="form-control" name="benEmail"
 							placeholder="Benedictine E-mail *" value="<%=benEmail%>" required>
 
 						<%
@@ -92,9 +115,9 @@
 						<%
 							}
 						%>
-						<br>
-						<input type="text" class="form-control" name="personalEmail"
-							placeholder="Personal E-mail" value="<%=personalEmail%>">
+						<br> <input type="text" class="form-control"
+							name="personalEmail" placeholder="Personal E-mail"
+							value="<%=personalEmail%>">
 
 						<%
 							if (errors.get("personalEmail") != null) {
@@ -105,20 +128,17 @@
 						<%
 							}
 						%>
-						<br>
-						<select name="gradYear" class="form-control" required>
+						<br> <select name="gradYear" class="form-control" required>
 							<option value="">Graduation Year (This option if none)</option>
-						
-						<%
-						
-						for(int year = 1900; year < 2100; year++) {
-						
-						%>
-							<option value="<%=year %>"><%=year %></option>
-						<%
-							}
-						%>
-						
+
+							<%
+								for (int year = 2050; year > 1949; year--) {
+							%>
+							<option value="<%=year%>"><%=year%></option>
+							<%
+								}
+							%>
+
 						</select>
 
 						<%
@@ -130,8 +150,7 @@
 						<%
 							}
 						%>
-						<br>
-						<select name="standing" class="form-control" required>
+						<br> <select name="standing" class="form-control" required>
 							<option value="">Standing *</option>
 							<option value="1">Student</option>
 							<option value="2">Graduate</option>
@@ -147,9 +166,9 @@
 						<%
 							}
 						%>
-						<br>
-						<input type="text" class="form-control" name="occupation"
-							placeholder="Occupation" value="<%=occupation%>">
+						<br> <input type="text" class="form-control"
+							name="occupation" placeholder="Occupation"
+							value="<%=occupation%>">
 
 						<%
 							if (errors.get("occupation") != null) {
@@ -160,36 +179,9 @@
 						<%
 							}
 						%>
-						<br>
-						<input type="text" class="form-control" name="title"
-							placeholder="Title" value="<%=title%>">
-
-						<%
-							if (errors.get("title") != null) {
-						%>
-
-						<h6 style="color: red"><%=errors.get("title")%></h6>
-
-						<%
-							}
-						%>
-						<br>
-						<input type="text" class="form-control" name="suffix"
-							placeholder="Suffix" value="<%=suffix%>">
-
-						<%
-							if (errors.get("suffix") != null) {
-						%>
-
-						<h6 style="color: red"><%=errors.get("suffix")%></h6>
-
-						<%
-							}
-						%>
-						<br>
-						<input type="password" class="form-control" name="password"
-							placeholder="Password *" required><br> <input
-							type="password" class="form-control" name="passConfirm"
+						<br> <input type="password" class="form-control"
+							name="password" placeholder="Password *" required><br>
+						<input type="password" class="form-control" name="passConfirm"
 							placeholder="Confirm Password *" required>
 
 						<%

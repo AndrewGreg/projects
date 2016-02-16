@@ -346,7 +346,8 @@ public class HomeController extends BaseController {
 
 			String[] datePart = dateStr.split("/");
 
-			//TODO Add 1900 as a year offset constant for the deprecated date constructor
+			// TODO Add 1900 as a year offset constant for the deprecated date
+			// constructor
 			Date eventDate = new Date(Integer.parseInt(datePart[2]) - 1900, Integer.parseInt(datePart[0]) - 1,
 					Integer.parseInt(datePart[1]));
 			Date currentDate = new Date(System.currentTimeMillis());
@@ -365,7 +366,11 @@ public class HomeController extends BaseController {
 			// TODO Add the event creator (User)
 			Event event = new Event(name, eventDate, description);
 
-			getEventDao().addEvent(event);
+			try {
+				getEventDao().addEvent(event);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
 			return "index";
 

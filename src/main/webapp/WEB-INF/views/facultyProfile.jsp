@@ -32,6 +32,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Profile</title>
 <jsp:include page="header.jsp" />
+<link href="content/css/fileUpload.css" rel="stylesheet">
 </head>
 <body>
 	<jsp:include page="navBar.jsp" />
@@ -111,8 +112,17 @@
 									</tbody>
 								</table>
 
-								<a href="#" style="background-color:black" class="btn btn-primary">Settings</a> <a href="#"
-									style="background-color:black" class="btn btn-primary">Create Job Posting</a>
+								<a href="#" style="background-color:black" class="btn btn-primary">Settings</a> 
+								<a href="#" style="background-color:black" class="btn btn-primary">Create Job Posting</a>
+								<a href="/createEvent" style="background-color:black" class="btn btn-primary">Create Event</a>
+								<br>
+								<br>
+								
+								<button style="background-color:black" class="btn btn-primary fileUpload">  
+									<span>Upload Profile Picture</span>
+									<input type="file" class="upload">
+								</button>
+								
 							</div>
 						</div>
 					</div>

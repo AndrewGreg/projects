@@ -23,6 +23,7 @@ p {
 </style>
 
 <jsp:include page="header.jsp" />
+<link href="content/css/fileUpload.css" rel="stylesheet">
 </head>
 <body>
 	<jsp:include page="navBar.jsp" />
@@ -104,6 +105,18 @@ p {
 
 								<a href="#" style="background-color:black" class="btn btn-primary">Settings</a> 
 								<a href="#" style="background-color:black" class="btn btn-primary">Another button</a>
+								<br>
+								<br>
+								<button style="background-color:black" class="btn btn-primary fileUpload">  
+									<span>Upload Profile Picture</span>
+									<input type="file" class="upload">
+								</button>
+								<br>
+								<button style="background-color:black" class="btn btn-primary fileUpload">  
+									<span>Upload Resume</span>
+									<input type="file" class="upload">
+								</button>
+								
 							</div>
 						</div>
 					</div>

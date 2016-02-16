@@ -1,9 +1,8 @@
 package edu.ben.template.controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.sql.Date;
-import java.text.DateFormat;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -13,9 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import edu.ben.template.dao.JobPostingDao;
-
-import edu.ben.template.dao.UserDao;
 import edu.ben.template.model.Event;
 import edu.ben.template.model.JobPosting;
 import edu.ben.template.model.User;

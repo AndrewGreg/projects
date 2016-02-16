@@ -204,7 +204,6 @@ public class HomeController extends BaseController {
 	public String directory(@RequestParam(required = false) Integer page, Model model) {
 
 		try {
-
 			ArrayList<User> alumni = new ArrayList<User>();
 			alumni = getUserDao().findAll();
 			System.out.println(alumni.size());
@@ -212,6 +211,7 @@ public class HomeController extends BaseController {
 			if (page == null) {
 				page = 0;
 			}
+			
 			ArrayList<User> users = new ArrayList<User>();
 			for (int i = page * 15; i < 15; i++) {
 				if (i < alumni.size()) {

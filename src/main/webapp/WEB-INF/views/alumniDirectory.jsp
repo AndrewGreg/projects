@@ -45,10 +45,10 @@
 					</tr>
 
 				</thead>
-				<%//if (person.getRole() == 2) {%>
+				
 				<tbody>
 					<% for (int i = 0; i < alumni.size(); i++) { %>
-					
+						<%if (alumni.get(i).getRole() == 2) {%>
 					<tr>
 						<td><font color="Black"><%=(alumni.get(i).getFirstName())%></font></td>
 						<td><font color="Black"><%=(alumni.get(i).getLastName())%></font></td>
@@ -58,7 +58,7 @@
 
 					<%
 						}
-					//}
+					}
 					%>
 
 

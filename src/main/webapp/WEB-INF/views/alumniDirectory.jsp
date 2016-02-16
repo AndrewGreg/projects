@@ -49,6 +49,7 @@
 				<tbody>
 					<% for (int i = 0; i < alumni.size(); i++) { %>
 						<%if (alumni.get(i).getRole() == 2) {%>
+							
 					<tr>
 						<td><font color="Black"><%=(alumni.get(i).getFirstName())%></font></td>
 						<td><font color="Black"><%=(alumni.get(i).getLastName())%></font></td>
@@ -64,6 +65,15 @@
 
 				</tbody>
 			</table>
+				<ul class="pagination">
+			
+   					 <li><a href="/alumniDirectory?page=0">1</a></li>
+    				 <li><a href="/alumniDirectory?page=1">2</a></li>
+     				 <li><a href="/alumniDirectory?page=2">3</a></li>
+    				 <li><a href="/alumniDirectory?page=3">4</a></li>
+    				 <li><a href="/alumniDirectory?page=4">5</a></li>
+    				 
+  				</ul>
 		</h3>
 	</div>
 

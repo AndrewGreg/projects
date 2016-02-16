@@ -26,7 +26,7 @@ public class User implements UserDetails, CredentialsContainer {
 	@Pattern(regexp = ".+@.+\\.[a-z]+", message = "Invalid email")
 	@Size(min = 7, max = 45, message = "Must be between 7-45 characters")
 	private String email;
-	
+
 	@Pattern(regexp = ".+@.+\\.[a-z]+", message = "Invalid email")
 	@Size(min = 7, max = 45, message = "Must be between 7-45 characters")
 	private String personalEmail;
@@ -42,7 +42,8 @@ public class User implements UserDetails, CredentialsContainer {
 	private String occupation;
 	private String title;
 	private String suffix;
-	//TODO add ArrayList<String> Major(s), ArrayList<String> Minor(s), ArrayList<String> Concentration(s)
+	// TODO add ArrayList<String> Major(s), ArrayList<String> Minor(s),
+	// ArrayList<String> Concentration(s)
 
 	/* Spring security fields */
 	private String password;
@@ -91,9 +92,9 @@ public class User implements UserDetails, CredentialsContainer {
 		this.credentialsNonExpired = true;
 		this.accountNonLocked = true;
 	}
-	
-	public User(String email, String firstName, String lastName, int role, int bNumber, int graduationYear, String occupation, String title, String suffix,
-			String password) {
+
+	public User(String email, String firstName, String lastName, int role, int bNumber, int graduationYear,
+			String occupation, String title, String suffix, String password) {
 		super();
 		this.email = email;
 		this.firstName = firstName;
@@ -105,9 +106,8 @@ public class User implements UserDetails, CredentialsContainer {
 		this.title = title;
 		this.suffix = suffix;
 		this.password = password;
-		//TODO create salt
+		// TODO create salt
 	}
-
 
 	public Long getId() {
 		return id;
@@ -197,7 +197,7 @@ public class User implements UserDetails, CredentialsContainer {
 	public void setGraduationYear(int graduationYear) {
 		this.graduationYear = graduationYear;
 	}
-	
+
 	public String getOccupation() {
 		return occupation;
 	}
@@ -319,5 +319,6 @@ public class User implements UserDetails, CredentialsContainer {
 
 	public void setLastLogin(DateTime lastLogin) {
 		this.lastLogin = lastLogin;
+
 	}
 }

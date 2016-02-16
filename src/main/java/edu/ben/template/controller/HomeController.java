@@ -2,6 +2,7 @@ package edu.ben.template.controller;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -205,14 +206,16 @@ public class HomeController extends BaseController {
 
 			ArrayList<User> alumni = new ArrayList<User>();
 			alumni = getUserDao().findAll();
-			System.out.println(alumni.size());
 
 			if (page == null) {
 				page = 0;
 			}
+			
 			ArrayList<User> users = new ArrayList<User>();
-			for (int i = page * 15; i < 15; i++) {
+			for (int i = page * 15; i < page * 15 + 15; i++) {
+				
 				if (i < alumni.size()) {
+					
 					users.add(alumni.get(i));
 				}
 			}

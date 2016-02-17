@@ -18,6 +18,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
 
+
+
 public class User implements UserDetails, CredentialsContainer {
 
 	/* serializable */

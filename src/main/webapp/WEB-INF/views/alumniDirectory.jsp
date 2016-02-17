@@ -22,14 +22,34 @@
 <html>
 <head>
 <jsp:include page="header.jsp" />
+<style>
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+    background-color: red;
+    color: white;
+}
+</style>
+</head>
 </head>
 <body>
 	<jsp:include page="navBar.jsp" />
 
-	<div align="center">
-		<br> <br> <br> <br>
+	<div class = "container">
+		<br> <br> 
 		<h3>
-			<table border=1>
+		<div class = "well">
+			<table class ="table">
 				<col width="300">
  				<col width="300">
  				<col width="300">
@@ -37,10 +57,10 @@
 				<thead>
 					<tr>
 
-						<th><font color="Red">First</font></th>
-						<th><font color="Red">Last</font></th>
-						<th><font color="Red">Year Graduated</font></th>
-						<th><font color="Red">Degree</font></th>
+						<th><font color="White">First</font></th>
+						<th><font color="White">Last</font></th>
+						<th><font color="White">Year Graduated</font></th>
+						<th><font color="White">Degree</font></th>
 
 					</tr>
 
@@ -65,20 +85,19 @@
 
 				</tbody>
 			</table>
+		
+			</div>
+			<div class ="row">
+			<div class = "col-md-4" style = "width: 1215px; padding-left: 550px;">
 				<ul class="pagination">
 			<%int i = 0; %>
 			<%while(i < alumni.size() /15 + 1) {%>
-				
    					 <li><a href="/alumniDirectory?page=<%=i%>"><%=++i%></a></li>
-    				<!--  <li><a href="/alumniDirectory?page=1">2</a></li>
-     				 <li><a href="/alumniDirectory?page=2">3</a></li>
-    				 <li><a href="/alumniDirectory?page=3">4</a></li>
-    				 <li><a href="/alumniDirectory?page=4">5</a></li> -->
-    				 
-  
     		<%} %>
    
   				</ul>
+  				</div>
+  				</div>
 		</h3>
 	</div>
 

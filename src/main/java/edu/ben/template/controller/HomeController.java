@@ -3,7 +3,9 @@ package edu.ben.template.controller;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -206,19 +208,22 @@ public class HomeController extends BaseController {
 
 			ArrayList<User> alumni = new ArrayList<User>();
 			alumni = getUserDao().findAll();
+			sortUsers(alumni);
 
 			if (page == null) {
 				page = 0;
 			}
-			
+
 			ArrayList<User> users = new ArrayList<User>();
 			for (int i = page * 15; i < page * 15 + 15; i++) {
-				
+
 				if (i < alumni.size()) {
 					
 					users.add(alumni.get(i));
 				}
+
 			}
+		
 
 			model.addAttribute("alumni", users);
 
@@ -227,8 +232,29 @@ public class HomeController extends BaseController {
 		}
 
 		return "alumniDirectory";
-
+	
 	}
+
+
+	
+	
+
+	
+	public void sortUsers(ArrayList<User> user){
+
+		Collections.sort(user, new Comparator<User>() {
+			  @Override
+			  public int compare(User o1, User o2) {
+			    return o1.getFirstName().compareTo(o2.getFirstName());
+				}
+			});
+   }
+	
+		   
+				
+
+	            
+	
 
 	/**
 	 * Accesses the user profile page. Dynamically grabs information depending

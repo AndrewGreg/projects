@@ -101,7 +101,7 @@
 						</h4>
 					</div>
 					<div class="panel-body">
-						<p>This Link Doesn't Work Yet</p>
+						<p>Be Apart Of A Stronger Group!</p>
 						<a href="/register" class="btn btn-default">Sign Up!</a>
 					</div>
 				</div>

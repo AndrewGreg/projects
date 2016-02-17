@@ -27,12 +27,27 @@ public class User implements UserDetails, CredentialsContainer {
 	@Size(min = 7, max = 45, message = "Must be between 7-45 characters")
 	private String email;
 
+	@Pattern(regexp = ".+@.+\\.[a-z]+", message = "Invalid email")
+	@Size(min = 7, max = 45, message = "Must be between 7-45 characters")
+	private String personalEmail;
+
+
 	public static final Long NULL = 0L;
 	// this needs to be 0 for mysql to be cool
 	private Long id = User.NULL;
 	private String firstName;
 	private String lastName;
+
 	private int securityLevel;
+
+	private int role;
+	private int bNumber;
+	private int graduationYear;
+	private String occupation;
+	private String title;
+	private String suffix;
+	// TODO add ArrayList<String> Major(s), ArrayList<String> Minor(s),
+	// ArrayList<String> Concentration(s)
 
 	/* Spring security fields */
 	private String password;
@@ -44,6 +59,7 @@ public class User implements UserDetails, CredentialsContainer {
 	private boolean enabled;
 	/* Whether they are a super user */
 	private boolean isSuper;
+	private String salt;
 
 	/**
 	 * Construct the <code>User</code> with the details required by
@@ -79,6 +95,24 @@ public class User implements UserDetails, CredentialsContainer {
 		this.accountNonExpired = true;
 		this.credentialsNonExpired = true;
 		this.accountNonLocked = true;
+	}
+
+<<<<<<< HEAD
+=======
+	public User(String email, String firstName, String lastName, int role, int bNumber, int graduationYear,
+			String occupation, String title, String suffix, String password) {
+		super();
+		this.email = email;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.role = role;
+		this.bNumber = bNumber;
+		this.graduationYear = graduationYear;
+		this.occupation = occupation;
+		this.title = title;
+		this.suffix = suffix;
+		this.password = password;
+		// TODO create salt
 	}
 
 	public Long getId() {
@@ -144,6 +178,62 @@ public class User implements UserDetails, CredentialsContainer {
 
 	public String getEmail() {
 		return email;
+	}
+
+	public String getPersonalEmail() {
+		return personalEmail;
+	}
+
+	public void setPersonalEmail(String personalEmail) {
+		this.personalEmail = personalEmail;
+	}
+
+	public int getbNumber() {
+		return bNumber;
+	}
+
+	public void setbNumber(int bNumber) {
+		this.bNumber = bNumber;
+	}
+
+	public int getGraduationYear() {
+		return graduationYear;
+	}
+
+	public void setGraduationYear(int graduationYear) {
+		this.graduationYear = graduationYear;
+	}
+
+	public String getOccupation() {
+		return occupation;
+	}
+
+	public void setOccupation(String occupation) {
+		this.occupation = occupation;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getSuffix() {
+		return suffix;
+	}
+
+	public void setSuffix(String suffix) {
+		this.suffix = suffix;
+	}
+
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
 	}
 
 	public String getFirstName() {
@@ -235,5 +325,6 @@ public class User implements UserDetails, CredentialsContainer {
 
 	public void setLastLogin(DateTime lastLogin) {
 		this.lastLogin = lastLogin;
+
 	}
 }

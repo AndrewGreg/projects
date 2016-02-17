@@ -1,65 +1,60 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
-<%@ page import="javax.servlet.http.HttpSession"%>
-<%@ page import="edu.ben.template.model.User"%>
-<%@ page import="java.util.ArrayList"%>
-<%@ page import="edu.ben.template.dao.UserDao"%>
-<%@ page isELIgnored="false"%>
-
-<%
 	
-
-	ArrayList<User> alumni;
-	if (request.getAttribute("alumni") != null) {
-		alumni = (ArrayList<User>) request.getAttribute("alumni");
-	} else {
-		alumni = new ArrayList<User>();
-	} 
-%>
-
+	
+<%-- <%
+		
+	ArrayList<Alumni> alumni = new ArrayList<Alumni>(); 
+	alumni = (ArrayList<Alumni>) request.getAttribute("alumni");
+	
+%>  --%>
+ 
 <!DOCTYPE html>
 <html>
 <head>
 <jsp:include page="header.jsp" />
 </head>
-<body>
-	<jsp:include page="navBar.jsp" />
+<body background=" ">
+<jsp:include page="navBar.jsp" />
 
+	<!-- Navigation Bar -->
 	<div align="center">
 		<br> <br> <br> <br>
 		<h3>
 			<table border=1>
-				<col width="300">
- 				<col width="300">
- 				<col width="300">
- 				<col width="300">
 				<thead>
 					<tr>
 
-						<th><font color="Red">First</font></th>
-						<th><font color="Red">Last</font></th>
-						<th><font color="Red">Year Graduated</font></th>
-						<th><font color="Red">Degree</font></th>
+						<th><font color="White">First</font></th>
+						<th><font color="white">Last</font></th>
+						<th><font color="white">Year Graduated</font></th>
+						<th><font color="white">Degree</font></th>
+						
 
 					</tr>
 
 				</thead>
-				
 				<tbody>
-					<% for (int i = 0; i < alumni.size(); i++) { %>
-						<%if (alumni.get(i).getRole() == 2) {%>
+					<%-- <%
+						int i = 0;
+					%>
+					<%
+						while (i < alumni.size()) {
+					%>
+
 					<tr>
-						<td><font color="Black"><%=(alumni.get(i).getFirstName())%></font></td>
-						<td><font color="Black"><%=(alumni.get(i).getLastName())%></font></td>
-						<td><font color="Black"><%=(alumni.get(i).getGraduationYear())%></font></td>
-						<td><font color="Black"></font></td>
+						<td><font color="White"><%=(alumni.get(i).getFirst())%></font></td>
+						<td><font color="White"><%=(alumni.get(i).getLast())%></font></td>
+						<td><font color="White"><%=(alumni.get(i).getYearGraduated())%></font></td>
+						<td><font color="White"><%=(alumni.get(i).getDegree())%></font></td>
 					</tr>
 
 					<%
-						}
-					}
+						i++;
 					%>
+					<%
+						}
+					%> --%>
 
 
 				</tbody>

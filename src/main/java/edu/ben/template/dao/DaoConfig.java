@@ -30,15 +30,15 @@ public class DaoConfig {
 		// dataSource.setUrl("jdbc:google:mysql://database");
 		// } else {
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource.setUrl("jdbc:mysql://localhost:3306/alumnitracker");
+		dataSource.setUrl("jdbc:mysql://localhost:3306/swt");
 		// }
 		// org.apache.tomcat.jdbc.pool.DataSource dataSource = new
 		// org.apache.tomcat.jdbc.pool.DataSource();
 		// dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		// dataSource.setUrl("jdbc:mysql://localhost:3306/dbname");
-		dataSource.setUsername("root");
-		dataSource.setPassword("");
-		dataSource.setValidationQuery("select id from user limit 1");
+		dataSource.setUsername("username");
+		dataSource.setPassword("password");
+		dataSource.setValidationQuery("select user_id from user limit 1");
 		// dataSource.setValidationInterval(30000);
 		// dataSource.setLogValidationErrors(true);
 		dataSource.setTestOnBorrow(true);
@@ -66,32 +66,7 @@ public class DaoConfig {
 		// return it
 		return dao;
 	}
-	
-	@Bean
-	public EventDao eventDao() throws IOException {
-		// create the dao
-		EventDao dao = new EventDao();
-		// set the specifics
-		// dao.setCache(cacheFactory());
-		dao.setDataSource(dataSource());
-		dao.setTransactionManager(transactionManager());
-		// return it
-		return dao;
-	}
 
-	@Bean
-	public JobPostingDao jobPostingDao() throws IOException {
-		// create the dao
-		JobPostingDao dao = new JobPostingDao();
-		// set the specifics
-		// dao.setCache(cacheFactory());
-		dao.setDataSource(dataSource());
-		dao.setTransactionManager(transactionManager());
-		// return it
-		return dao;
-	}
-
-	
 	@Bean
 	public ObjectMapper objectMapper() {
 		// create new object mapper

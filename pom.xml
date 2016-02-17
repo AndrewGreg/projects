@@ -22,12 +22,6 @@
 
 
 	<dependencies>
-	
-    <dependency>
-        <groupId>org.springframework.data</groupId>
-        <artifactId>spring-data-jpa</artifactId>
-        <version>1.9.2.RELEASE</version>
-    </dependency>
 		<dependency>
 			<groupId>com.google.appengine</groupId>
 			<artifactId>appengine-api-1.0-sdk</artifactId>
@@ -347,16 +341,11 @@
 		</pluginRepository>
 	</pluginRepositories>
 	<build>
-		<sourceDirectory>${workspace}\${project}\src\main\java
-		</sourceDirectory>
-		<scriptSourceDirectory>${workspace}\${project}\src\main\scripts
-		</scriptSourceDirectory>
-		<testSourceDirectory>${workspace}\${project}\src\test\java
-		</testSourceDirectory>
-		<outputDirectory>${workspace}\${project}\target\classes
-		</outputDirectory>
-		<testOutputDirectory>${workspace}\${project}\target\test-classes
-		</testOutputDirectory>
+		<sourceDirectory>${workspace}\${project}\src\main\java</sourceDirectory>
+		<scriptSourceDirectory>${workspace}\${project}\src\main\scripts</scriptSourceDirectory>
+		<testSourceDirectory>${workspace}\${project}\src\test\java</testSourceDirectory>
+		<outputDirectory>${workspace}\${project}\target\classes</outputDirectory>
+		<testOutputDirectory>${workspace}\${project}\target\test-classes</testOutputDirectory>
 		<resources>
 			<resource>
 				<directory>${workspace}\${project}\src\main\resources</directory>
@@ -401,8 +390,7 @@
 							<goal>war</goal>
 						</goals>
 						<configuration>
-							<warSourceExcludes>content/components/**,content/build/**,content/css/**,content/i/**,content/font/**,content/dev/**
-							</warSourceExcludes>
+							<warSourceExcludes>content/components/**,content/build/**,content/css/**,content/i/**,content/font/**,content/dev/**</warSourceExcludes>
 							<webResources>
 								<resource>
 									<directory>src/main/webapp</directory>
@@ -412,8 +400,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<warSourceExcludes>content/components/**,content/build/**,content/css/**,content/i/**,content/font/**,content/dev/**
-					</warSourceExcludes>
+					<warSourceExcludes>content/components/**,content/build/**,content/css/**,content/i/**,content/font/**,content/dev/**</warSourceExcludes>
 					<webResources>
 						<resource>
 							<directory>src/main/webapp</directory>
@@ -541,8 +528,7 @@
 							<goal>site</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${workspace}\${project}\target\site
-							</outputDirectory>
+							<outputDirectory>${workspace}\${project}\target\site</outputDirectory>
 							<reportPlugins>
 								<reportPlugin>
 									<groupId>org.apache.maven.plugins</groupId>
@@ -558,8 +544,7 @@
 							<goal>deploy</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${workspace}\${project}\target\site
-							</outputDirectory>
+							<outputDirectory>${workspace}\${project}\target\site</outputDirectory>
 							<reportPlugins>
 								<reportPlugin>
 									<groupId>org.apache.maven.plugins</groupId>
@@ -570,8 +555,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<outputDirectory>${workspace}\${project}\target\site
-					</outputDirectory>
+					<outputDirectory>${workspace}\${project}\target\site</outputDirectory>
 					<reportPlugins>
 						<reportPlugin>
 							<groupId>org.apache.maven.plugins</groupId>

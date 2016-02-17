@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -18,13 +16,13 @@ public class UserDao extends BaseDao<User> {
 	public UserDao() {
 	}
 
-	public User getObjectById(int objectId) {
+	public User getObjectById(long objectId) {
 		return this.getObjectById(objectId, false);
 	}
 
-	public User getObjectById(int objectId, boolean complete) {
+	public User getObjectById(long objectId, boolean complete) {
 		if (objectId == 0) {
-			/* Probably want to log this */
+			/* TODO Probably want to log this */
 			return null;
 		}
 		User object = null;
@@ -32,110 +30,39 @@ public class UserDao extends BaseDao<User> {
 		if (object == null) {
 			try {
 				// look up the object
-				String sql = "SELECT * FROM user WHERE id = ?";
+				String sql = "SELECT * FROM user WHERE user_id = ?";
 				object = this.jdbcTemplate.queryForObject(sql, new Object[] { objectId }, getRowMapper());
 			} catch (EmptyResultDataAccessException e) {
-				/* Probably want to log this */
+				/* TODO Probably want to log this */
 				return null;
 			}
 		}
 		return object;
 	}
 
-	public void addUser(User user) {
-
-		String sql = "INSERT INTO user (id, bnumber, email, personal_email, password, salt, first_name, last_name,  role, graduation_year, occupation, title, suffix) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		
-		jdbcTemplate.update(sql,
-				new Object[] { user.getId(), user.getbNumber(), user.getEmail(), user.getPersonalEmail(),
-						user.getPassword(), user.getSalt(), user.getFirstName(), user.getLastName(), user.getRole(),
-						user.getGraduationYear(), user.getOccupation(), user.getTitle(), user.getSuffix() });
-
-	}
-
-	public ArrayList<User> findAll() {
-
-		List<User> users = new ArrayList<User>();
-		String sql = "SELECT * from user";
+	public User getUserByEmail(String email, boolean active) {
+		User user = null;
 
 		try {
-			users = jdbcTemplate.query(sql, getRowMapper());
-			return (ArrayList<User>) users;
-		} catch (EmptyResultDataAccessException e) {
-			/* Probably want to log this */
-			return null;
-		}
-	}
-
-	public User findByEmail(String email) {
-
-		User u = null;
-		try {
-
-			String sql = "SELECT user.id as id, user.bnumber, user.email, user.personal_email, user.password, user.salt, user.first_name, user.last_name, user.role, user.graduation_year, user.title, user.suffix FROM user WHERE user.email = ? GROUP BY id";
-			u = jdbcTemplate.queryForObject(sql, new Object[] { email }, getRowMapper());
+			// look up the object
+			String sql = "select * from user where email = ? and user.is_active = ?";
+			user = this.jdbcTemplate.queryForObject(sql, new Object[] { email, active }, getRowMapper());
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}
-		return u;
-
+		return user;
 	}
 
-	public User findByPersonalEmail(String email) {
-
-		User u = null;
-		try {
-			String sql = "SELECT user.id as id, user.bnumber, user.email, user.personal_email, user.password, user.salt, user.first_name, user.last_name, user.role, user.graduation_year, user.title, user.suffix FROM user WHERE user.personal_email = ? GROUP BY id";
-			u = jdbcTemplate.queryForObject(sql, new Object[] { email }, getRowMapper());
-		} catch (EmptyResultDataAccessException e) {
-			return null;
-		}
-		return u;
-
+	/**
+	 * FOR LOGIN
+	 * 
+	 * @param email
+	 * @return User from database that matches the email provided
+	 * @throws SQLException
+	 */
+	public User getUserByEmail(String email) {
+		return getUserByEmail(email, true);
 	}
-
-	public void updateUser(User user) {
-
-		String sql = "UPDATE user SET bnumber = ?, first_name = ?, last_name = ?, email = ?, personal_email = ?, password = ?, salt = ?, role = ?, graduation_year = ?, occupation = ?, title = ?, suffix = ? WHERE user.id = ?";
-		try {
-			jdbcTemplate.update(sql,
-					new Object[] { user.getbNumber(), user.getFirstName(), user.getLastName(), user.getEmail(),
-							user.getPersonalEmail(), user.getPassword(), user.getSalt(), user.getRole(),
-							user.getGraduationYear(), user.getOccupation(), user.getTitle(), user.getSuffix(),
-							user.getId() });
-
-		} catch (Exception e) {
-			/* Probably want to log this */
-		}
-		return;
-
-	}
-
-	// Prof. Pollack's template code
-	// /**
-	// * FOR LOGIN
-	// *
-	// * @param email
-	// * @return User from database that matches the email provided
-	// * @throws SQLException
-	// */
-	// public User getUserByEmail(String email) {
-	// return getUserByEmail(email, true);
-	// }
-
-	// public User getUserByEmail(String email, boolean active) {
-	// User user = null;
-	//
-	// try {
-	// // look up the object
-	// String sql = "select * from user where email = ? and user.is_active = ?";
-	// user = this.jdbcTemplate.queryForObject(sql, new Object[] { email, active
-	// }, getRowMapper());
-	// } catch (EmptyResultDataAccessException e) {
-	// return null;
-	// }
-	// return user;
-	// }
 
 	@Override
 	public RowMapper<User> getRowMapper() {
@@ -143,23 +70,8 @@ public class UserDao extends BaseDao<User> {
 			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 				// map result set to object
 				User user = new User();
-				user.setId(rs.getLong("id"));
+				user.setId(rs.getLong("user_id"));
 				user.setFirstName(rs.getString("first_name"));
-				user.setLastName(rs.getString("last_name"));
-				user.setEmail(rs.getString("email"));
-				user.setPersonalEmail(rs.getString("personal_email"));
-				user.setPassword(rs.getString("password"));
-				user.setGraduationYear(rs.getInt("graduation_year"));
-				user.setSalt(rs.getString("salt"));
-				user.setOccupation(rs.getString("occupation"));
-				user.setTitle(rs.getString("title"));
-				user.setSuffix(rs.getString("suffix"));
-				user.setbNumber(rs.getInt("bnumber"));
-				user.setRole(rs.getInt("role"));
-				// TODO add ArrayList<String> Major(s), ArrayList<String>
-				// Minor(s), ArrayList<String> Concentration(s) using dao calls
-				// to tables "major" and "user_major"
-
 				// return the object
 				return user;
 			}
@@ -172,14 +84,13 @@ public class UserDao extends BaseDao<User> {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
 				PreparedStatement ps = connection.prepareStatement(
-						"insert into user (id, email, password) values (?,?,?) "
+						"insert into user (user_id, email, password) values (?,?,?) "
 								+ "on duplicate key update email = values(email), password = values(password)",
-						new String[] { "id" });
+						new String[] { "user_id" });
 				ps.setLong(1, user.getId());
 				ps.setString(2, user.getEmail());
 				return ps;
 			}
 		};
 	}
-
 }

@@ -61,7 +61,6 @@ public abstract class BaseController extends DaoKeeper {
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 	public String handleGeneralException(Exception e, HttpServletResponse response) {
 		/* TODO THIS SHOULD BE LOGGED SOMEWHERE */
-		e.printStackTrace();
 		return "errors/error500";
 	}
 
@@ -76,7 +75,6 @@ public abstract class BaseController extends DaoKeeper {
 	@ExceptionHandler(BindException.class)
 	public String handleBindException(BindException e, HttpServletResponse response) {
 		/* TODO THIS SHOULD BE LOGGED SOMEWHERE */
-		e.printStackTrace();
 		return "errors/error500";
 	}
 

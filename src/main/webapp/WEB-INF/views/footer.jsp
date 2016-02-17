@@ -1,4 +1,10 @@
-<footer class="footer" style="background-color: black;">
+<style>
+footer {
+	background-color: black;
+}
+</style>
+<footer id="footer">
+
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-6">

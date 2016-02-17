@@ -9,13 +9,14 @@
 <body>
 	<!-- Navigation -->
 	<jsp:include page="navBar.jsp" />
-
+	<br>
+	<br>
 
 	<!-- Header Carousel -->
-	<header id="myCarousel" class="carousel slide" style="width: 100%; height:75%;">
+	<header id="myCarousel" class="carousel slide">
 		<!-- Indicators -->
 		<ol class="carousel-indicators">
-			<li data-target="#myCarousel" data-slide-to="0" class="active" ></li>
+			<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
 			<li data-target="#myCarousel" data-slide-to="1"></li>
 			<li data-target="#myCarousel" data-slide-to="2"></li>
 		</ol>
@@ -70,12 +71,12 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h4>
-							<i class="fa fa-fw fa-check"></i> Login
+							<i class="fa fa-fw fa-check"></i> Events
 						</h4>
 					</div>
 					<div class="panel-body">
 						<p>This Link Doesn't Work Yet</p>
-						<a href="/login" class="btn btn-default">Click Here!</a><!-- Bring to a Calendar with events. -->
+						<a href="events.jsp" class="btn btn-default">Find More!</a>
 					</div>
 				</div>
 			</div>
@@ -88,7 +89,7 @@
 					</div>
 					<div class="panel-body">
 						<p>This Link Doesn't Work Yet</p>
-						<a href="/jobPostings" class="btn btn-default">Find
+						<a href="jobPostings.jsp" class="btn btn-default">Find
 							Positions!</a>
 					</div>
 				</div>
@@ -102,7 +103,7 @@
 					</div>
 					<div class="panel-body">
 						<p>This Link Doesn't Work Yet</p>
-						<a href="/register" class="btn btn-default">Sign Up!</a>
+						<a href="register.jsp" class="btn btn-default">Sign Up!</a>
 					</div>
 				</div>
 			</div>
@@ -156,9 +157,9 @@
 	<!-- Script to Activate the Carousel -->
 	<script>
 		$('.carousel').carousel({
-			interval : 3000
+			interval : 5000
 		//changes the speed
 		})
 	</script>
-</body>	
+</body>
 </html>

@@ -66,13 +66,18 @@
 				</tbody>
 			</table>
 				<ul class="pagination">
-			
-   					 <li><a href="/alumniDirectory?page=0">1</a></li>
-    				 <li><a href="/alumniDirectory?page=1">2</a></li>
+			<%int i = 0; %>
+			<%while(i < alumni.size() /15 + 1) {%>
+				
+   					 <li><a href="/alumniDirectory?page=<%=i%>"><%=++i%></a></li>
+    				<!--  <li><a href="/alumniDirectory?page=1">2</a></li>
      				 <li><a href="/alumniDirectory?page=2">3</a></li>
     				 <li><a href="/alumniDirectory?page=3">4</a></li>
-    				 <li><a href="/alumniDirectory?page=4">5</a></li>
+    				 <li><a href="/alumniDirectory?page=4">5</a></li> -->
     				 
+  
+    		<%} %>
+   
   				</ul>
 		</h3>
 	</div>

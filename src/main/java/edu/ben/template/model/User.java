@@ -1,6 +1,7 @@
 package edu.ben.template.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -44,8 +45,13 @@ public class User implements UserDetails, CredentialsContainer {
 	private String occupation;
 	private String title;
 	private String suffix;
-	// TODO add ArrayList<String> Major(s), ArrayList<String> Minor(s),
-	// ArrayList<String> Concentration(s)
+	private String bio;
+	private String experience;
+	//TODO add ArrayList<String> Major(s), ArrayList<String> Minor(s), ArrayList<String> Concentration(s)
+	private ArrayList<Major> major;
+	private ArrayList<Major> minor;
+	private ArrayList<Major> concentration;
+	private ArrayList<Interest> interest;
 
 	/* Spring security fields */
 	private String password;
@@ -93,6 +99,10 @@ public class User implements UserDetails, CredentialsContainer {
 		this.accountNonExpired = true;
 		this.credentialsNonExpired = true;
 		this.accountNonLocked = true;
+		this.concentration = new ArrayList<Major>();
+		this.minor = new ArrayList<Major>();
+		this.major = new ArrayList<Major>();
+		this.interest = new ArrayList<Interest>();
 	}
 
 	public User(String email, String firstName, String lastName, int role, int bNumber, int graduationYear,
@@ -108,6 +118,10 @@ public class User implements UserDetails, CredentialsContainer {
 		this.title = title;
 		this.suffix = suffix;
 		this.password = password;
+		this.concentration = new ArrayList<Major>();
+		this.minor = new ArrayList<Major>();
+		this.major = new ArrayList<Major>();
+		this.interest = new ArrayList<Interest>();
 		// TODO create salt
 	}
 
@@ -323,4 +337,54 @@ public class User implements UserDetails, CredentialsContainer {
 		this.lastLogin = lastLogin;
 
 	}
+
+	public String getBio() {
+		return bio;
+	}
+
+	public void setBio(String bio) {
+		this.bio = bio;
+	}
+
+	public String getExperience() {
+		return experience;
+	}
+
+	public void setExperience(String experience) {
+		this.experience = experience;
+	}
+
+	public ArrayList<Major> getMajor() {
+		return major;
+	}
+
+	public void setMajor(ArrayList<Major> major) {
+		this.major = major;
+	}
+
+	public ArrayList<Major> getMinor() {
+		return minor;
+	}
+
+	public void setMinor(ArrayList<Major> minor) {
+		this.minor = minor;
+	}
+
+	public ArrayList<Major> getConcentration() {
+		return concentration;
+	}
+
+	public void setConcentration(ArrayList<Major> concentration) {
+		this.concentration = concentration;
+	}
+
+	public ArrayList<Interest> getInterest() {
+		return interest;
+	}
+
+	public void setInterest(ArrayList<Interest> interest) {
+		this.interest = interest;
+	}
+	
 }
+

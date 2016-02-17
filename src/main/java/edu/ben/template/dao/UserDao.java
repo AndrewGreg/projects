@@ -15,7 +15,13 @@ import edu.ben.template.model.User;
 
 public class UserDao extends BaseDao<User> {
 
+	private MajorDao majorDao;
+	private InterestDao interestDao;
+	
 	public UserDao() {
+		this.majorDao = new MajorDao();
+		this.interestDao = new InterestDao();
+		
 	}
 
 	public User getObjectById(int objectId) {
@@ -44,12 +50,13 @@ public class UserDao extends BaseDao<User> {
 
 	public void addUser(User user) {
 
-		String sql = "INSERT INTO user (id, bnumber, email, personal_email, password, salt, first_name, last_name,  role, graduation_year, occupation, title, suffix) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		
+		String sql = "INSERT INTO user (id, bnumber, email, personal_email, password, salt, first_name, last_name,  role, graduation_year, occupation, title, suffix, bio, experience) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
 		jdbcTemplate.update(sql,
 				new Object[] { user.getId(), user.getbNumber(), user.getEmail(), user.getPersonalEmail(),
 						user.getPassword(), user.getSalt(), user.getFirstName(), user.getLastName(), user.getRole(),
-						user.getGraduationYear(), user.getOccupation(), user.getTitle(), user.getSuffix() });
+						user.getGraduationYear(), user.getOccupation(), user.getTitle(), user.getSuffix(),
+						user.getBio(), user.getExperience() });
 
 	}
 
@@ -72,7 +79,7 @@ public class UserDao extends BaseDao<User> {
 		User u = null;
 		try {
 
-			String sql = "SELECT user.id as id, user.bnumber, user.email, user.personal_email, user.password, user.salt, user.first_name, user.last_name, user.role, user.graduation_year, user.title, user.suffix FROM user WHERE user.email = ? GROUP BY id";
+			String sql = "SELECT user.id as id, user.bnumber, user.email, user.personal_email, user.password, user.salt, user.first_name, user.last_name, user.role, user.graduation_year, user.title, user.suffix, user.bio, user.experience FROM user WHERE user.email = ? GROUP BY id";
 			u = jdbcTemplate.queryForObject(sql, new Object[] { email }, getRowMapper());
 		} catch (EmptyResultDataAccessException e) {
 			return null;
@@ -85,7 +92,7 @@ public class UserDao extends BaseDao<User> {
 
 		User u = null;
 		try {
-			String sql = "SELECT user.id as id, user.bnumber, user.email, user.personal_email, user.password, user.salt, user.first_name, user.last_name, user.role, user.graduation_year, user.title, user.suffix FROM user WHERE user.personal_email = ? GROUP BY id";
+			String sql = "SELECT user.id as id, user.bnumber, user.email, user.personal_email, user.password, user.salt, user.first_name, user.last_name, user.role, user.graduation_year, user.title, user.suffix, user.bio, user.experience FROM user WHERE user.personal_email = ? GROUP BY id";
 			u = jdbcTemplate.queryForObject(sql, new Object[] { email }, getRowMapper());
 		} catch (EmptyResultDataAccessException e) {
 			return null;
@@ -156,9 +163,14 @@ public class UserDao extends BaseDao<User> {
 				user.setSuffix(rs.getString("suffix"));
 				user.setbNumber(rs.getInt("bnumber"));
 				user.setRole(rs.getInt("role"));
-				// TODO add ArrayList<String> Major(s), ArrayList<String>
-				// Minor(s), ArrayList<String> Concentration(s) using dao calls
-				// to tables "major" and "user_major"
+				user.setBio(rs.getString("bio"));
+				user.setExperience(rs.getString("experience"));
+				
+//				TODO See Pollack about structure change (INEFFICIENT)
+				user.setConcentration(majorDao.findConcentrationByUser(user));
+				user.setMinor(majorDao.findMinorByUser(user));
+				user.setMajor(majorDao.findMajorByUser(user));
+				user.setInterest(interestDao.findAllByUser(user));
 
 				// return the object
 				return user;

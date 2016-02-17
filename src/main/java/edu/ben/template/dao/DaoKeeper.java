@@ -19,6 +19,11 @@ public class DaoKeeper {
 	private EventDao eventDao;
 	@Autowired
 	private JobPostingDao jobPostingDao;
+	@Autowired
+	private MajorDao majorDao;
+	@Autowired
+	private InterestDao interestDao;
+	
 
 	public ObjectMapper getObjectMapper() {
 		return objectMapper;
@@ -47,7 +52,21 @@ public class DaoKeeper {
 	public void setJobPostingDao(JobPostingDao jobPostingDao) {
 		this.jobPostingDao = jobPostingDao;
 	}
-	
-	
+
+	public MajorDao getMajorDao() {
+		return majorDao;
+	}
+
+	public void setMajorDao(MajorDao majorDao) {
+		this.majorDao = majorDao;
+	}
+
+	public InterestDao getInterestDao() {
+		return interestDao;
+	}
+
+	public void setInterestDao(InterestDao interestDao) {
+		this.interestDao = interestDao;
+	}
 
 }

@@ -37,7 +37,7 @@ public class DaoConfig {
 		// dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		// dataSource.setUrl("jdbc:mysql://localhost:3306/dbname");
 		dataSource.setUsername("root");
-		dataSource.setPassword("");
+		dataSource.setPassword("root");
 		dataSource.setValidationQuery("select id from user limit 1");
 		// dataSource.setValidationInterval(30000);
 		// dataSource.setLogValidationErrors(true);
@@ -90,7 +90,30 @@ public class DaoConfig {
 		// return it
 		return dao;
 	}
+	
+	@Bean
+	public MajorDao majorDao() throws IOException {
+		// create the dao
+		MajorDao dao = new MajorDao();
+		// set the specifics
+		// dao.setCache(cacheFactory());
+		dao.setDataSource(dataSource());
+		dao.setTransactionManager(transactionManager());
+		// return it
+		return dao;
+	}
 
+	@Bean
+	public InterestDao interestDao() throws IOException {
+		// create the dao
+		InterestDao dao = new InterestDao();
+		// set the specifics
+		// dao.setCache(cacheFactory());
+		dao.setDataSource(dataSource());
+		dao.setTransactionManager(transactionManager());
+		// return it
+		return dao;
+	}
 	
 	@Bean
 	public ObjectMapper objectMapper() {

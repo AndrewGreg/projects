@@ -31,6 +31,14 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`user` (
   `occupation` VARCHAR(45) NULL,
   `title` VARCHAR(5) NULL,
   `suffix` VARCHAR(45) NULL,
+  `bio` VARCHAR(1000) NULL,
+  `experience` VARCHAR(1000) NULL,
+  `hidden` TINYINT(1) NOT NULL DEFAULT 1,
+  `active` TINYINT(1) NOT NULL DEFAULT 1,
+  `created` DATETIME(6) NULL,
+  `last_active` DATETIME(6) NULL,
+  `last_modified` DATETIME(6) NULL,
+  `social_media` VARCHAR(100) NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `personal_email_UNIQUE` (`personal_email` ASC),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC))
@@ -46,6 +54,7 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`job` (
   `description` VARCHAR(1000) NULL,
   `company` VARCHAR(100) NULL,
   `user_id` INT NOT NULL,
+  `hidden` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   INDEX `fk_job_user_idx` (`user_id` ASC),
   CONSTRAINT `fk_job_user`
@@ -65,6 +74,7 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`event` (
   `date` DATE NULL,
   `description` VARCHAR(1000) NULL,
   `user_id` INT NOT NULL,
+  `hidden` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   INDEX `fk_event_user1_idx` (`user_id` ASC),
   CONSTRAINT `fk_event_user1`
@@ -81,6 +91,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `alumnitracker`.`interest` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
+  `hidden` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -160,10 +171,17 @@ ENGINE = InnoDB;
 -- Table `alumnitracker`.`major`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `alumnitracker`.`major` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `concentration` TINYINT(1) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`))
+  `major_id` INT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_major_major1_idx` (`major_id` ASC),
+  CONSTRAINT `fk_major_major1`
+    FOREIGN KEY (`major_id`)
+    REFERENCES `alumnitracker`.`major` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 

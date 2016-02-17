@@ -131,25 +131,30 @@ public class MajorDao extends BaseDao<Major> {
 
 	public ArrayList<Major> findConcentrationByUser(User u) {
 
-		List<Major> concentrations = new ArrayList<Major>();
+		ArrayList<Major> concentrations = new ArrayList<Major>();
 		String sql = "SELECT m.id, m.name, m.concentration FROM user_major um JOIN user u ON u.id = um.user_id JOIN major m ON m.id = um.major_id WHERE u.id = ? AND m.concentration = 1;";
+		
+		System.out.println(u.getId());
+		
 		try {
-			concentrations = jdbcTemplate.query(sql, new Object[] { u.getId() }, getRowMapper());
+			concentrations = (ArrayList<Major>) jdbcTemplate.query(sql, new Object[] { u.getId() }, getRowMapper());
+			
 			return (ArrayList<Major>) concentrations;
 		} catch (EmptyResultDataAccessException e) {
 			/* Probably want to log this */
+			
 			return null;
 		}
 	}
 
 	// Find Parent Majors of Concentrations
 	public ArrayList<Major> findMajorByConcentration(Major m) {
-
+		
 		if (m.isConcentration()) {
 
 			List<Major> majors = new ArrayList<Major>();
 			String sql = "SELECT m.id, m.name FROM major c, major m WHERE c.concentration = 1 AND c.major_id = m.id AND c.id = ?;";
-
+			
 			try {
 				majors = jdbcTemplate.query(sql, new Object[] { m.getId() }, getRowMapper());
 				return (ArrayList<Major>) majors;

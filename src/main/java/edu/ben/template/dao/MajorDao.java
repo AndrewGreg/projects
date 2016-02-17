@@ -19,8 +19,8 @@ public class MajorDao extends BaseDao<Major> {
 	// add a user's major
 	// add a user's minor
 	// add a user's concentration
-	
-	public MajorDao(){
+
+	public MajorDao() {
 		super();
 	}
 
@@ -136,18 +136,19 @@ public class MajorDao extends BaseDao<Major> {
 	public ArrayList<Major> findConcentrationByUser(User u) {
 
 		List<Major> concentrations = new ArrayList<Major>();
-		
+
 		String sql = "SELECT m.id, m.name, m.concentration FROM user_major um JOIN user u ON u.id = um.user_id JOIN major m ON m.id = um.major_id WHERE u.id = ? AND m.concentration = 1;";
 		System.out.println(u.getId());
-		
+
 		try {
-			
+
 			System.out.println(u.getId());
 			concentrations = jdbcTemplate.query(sql, new Object[] { u.getId() }, getRowMapper());
-			
+
 			return (ArrayList<Major>) concentrations;
 		} catch (EmptyResultDataAccessException e) {
 			/* Probably want to log this */
+
 			return null;
 		}
 	}
@@ -158,7 +159,8 @@ public class MajorDao extends BaseDao<Major> {
 		if (m.isConcentration()) {
 
 			List<Major> majors = new ArrayList<Major>();
-			String sql = "SELECT m.id, m.name, m.concentration FROM major c, major m WHERE c.concentration = 1 AND c.major_id = m.id AND c.id = ?;";
+
+			String sql = "SELECT m.id, m.name FROM major c, major m WHERE c.concentration = 1 AND c.major_id = m.id AND c.id = ?;";
 
 			try {
 				majors = jdbcTemplate.query(sql, new Object[] { m.getId() }, getRowMapper());
@@ -178,7 +180,6 @@ public class MajorDao extends BaseDao<Major> {
 		jdbcTemplate.update(sql, major.getName(), major.isConcentration());
 		return;
 	}
-	
 
 	public void addConcentration(Major major) {
 
@@ -187,7 +188,7 @@ public class MajorDao extends BaseDao<Major> {
 		jdbcTemplate.update(sql, major.getName(), major.isConcentration());
 		return;
 	}
-	
+
 	public void addMajorToUser(Major major, User u) {
 
 		String sql = "INSERT INTO user_major (user_id,major_id,minor) VALUES (?,?,0);";
@@ -195,7 +196,7 @@ public class MajorDao extends BaseDao<Major> {
 		jdbcTemplate.update(sql, u.getId(), major.getId());
 		return;
 	}
-	
+
 	public void addMinorToUser(Major major, User u) {
 
 		String sql = "INSERT INTO user_major (user_id,major_id,minor) VALUES (?,?,1);";
@@ -203,7 +204,7 @@ public class MajorDao extends BaseDao<Major> {
 		jdbcTemplate.update(sql, major.getName(), major.isConcentration());
 		return;
 	}
-	
+
 	public void addConcentrationToUser(Major major, User u) {
 
 		String sql = "INSERT INTO user_major (user_id,major_id,minor) VALUES (?,?,0);";

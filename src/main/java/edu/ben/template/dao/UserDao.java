@@ -168,6 +168,8 @@ public class UserDao extends BaseDao<User> {
 				user.setExperience(rs.getString("experience"));
 				
 //				TODO See Pollack about structure change (INEFFICIENT)
+
+
 //				user.setConcentration(majorDao.findConcentrationByUser(user));
 //				user.setMinor(majorDao.findMinorByUser(user));
 //				user.setMajor(majorDao.findMajorByUser(user));

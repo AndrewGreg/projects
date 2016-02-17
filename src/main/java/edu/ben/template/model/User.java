@@ -97,8 +97,6 @@ public class User implements UserDetails, CredentialsContainer {
 		this.accountNonLocked = true;
 	}
 
-<<<<<<< HEAD
-=======
 	public User(String email, String firstName, String lastName, int role, int bNumber, int graduationYear,
 			String occupation, String title, String suffix, String password) {
 		super();

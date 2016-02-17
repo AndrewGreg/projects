@@ -18,6 +18,10 @@ import edu.ben.template.model.User;
 
 public class JobPostingDao extends BaseDao<JobPosting> {
 
+	public JobPostingDao(){
+		super();
+	}
+	
 	public JobPosting getObjectById(int objectId, boolean complete) {
 		if (objectId == 0) {
 			/* Probably want to log this */

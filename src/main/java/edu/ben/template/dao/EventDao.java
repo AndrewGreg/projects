@@ -18,6 +18,10 @@ import edu.ben.template.model.User;
 
 public class EventDao extends BaseDao<Event> {
 
+	public EventDao(){
+		
+	}
+	
 	public Event getObjectById(int objectId, boolean complete) {
 		if (objectId == 0) {
 			/* Probably want to log this */

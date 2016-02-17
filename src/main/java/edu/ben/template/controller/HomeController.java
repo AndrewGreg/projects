@@ -208,6 +208,9 @@ public class HomeController extends BaseController {
 
 			ArrayList<User> alumni = new ArrayList<User>();
 			alumni = getUserDao().findAll();
+			for(User u : alumni) {
+				u.setMajor(getMajorDao().findMajorByUser(u));
+			}
 			sortUsers(alumni);
 
 			if (page == null) {

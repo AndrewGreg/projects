@@ -21,6 +21,10 @@ public class InterestDao extends BaseDao<Interest> {
 
 	// Add interests from ArrayList<Interest>?
 
+	public InterestDao(){
+		super();
+	}
+	
 	public Interest getObjectById(int objectId) {
 		return this.getObjectById(objectId, false);
 	}

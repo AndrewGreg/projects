@@ -156,6 +156,49 @@ public class HomeController extends BaseController {
 		}
 	}
 
+	@RequestMapping(value = "/editAccount", method = RequestMethod.GET)
+	public String editAccount(Model model/*, @RequestParam("firstName") String firstName,
+			@RequestParam("lastName") String lastName, @RequestParam("benEmail") String benEmail,
+			@RequestParam("personalEmail") String personalEmail, @RequestParam("gradYear") String gradYear,
+			@RequestParam("standing") String standing, @RequestParam("occupation") String occupation,
+			@RequestParam("title") String title, @RequestParam("suffix") String suffix,
+			@RequestParam("password") String password, @RequestParam("passConfirm") String passConfirm*/) {
+				
+		
+//		GET USER FROM SESSION
+		
+//		DUMMY User for now
+		
+		User u = getUserDao().getObjectById(1);
+		
+		System.out.println(u.getFirstName() + " " + u.getLastName());
+		
+		
+		
+
+		
+
+//		CHECK Profile Role
+		
+		
+//		For dropdown of major -> for loop to mark if selected
+		
+//		JSP has a password and confirm password
+		
+//		Confirm EDIT
+//			return to user profile
+		
+//		Can't confirm EDIT
+//			return to user profile but incomplete
+		
+		
+		
+		
+		
+		return "userProfile{userId}";//TODO CHECK THIS URL
+	
+	}
+	
 	/**
 	 * Access to the job postings page.
 	 * 
@@ -208,34 +251,37 @@ public class HomeController extends BaseController {
 
 			ArrayList<User> alumni = new ArrayList<User>();
 			alumni = getUserDao().findAll();
-			for(User u : alumni) {
-				u.setMajor(getMajorDao().findMajorByUser(u));
-				u.setConcentration(getMajorDao().findConcentrationByUser(u));
-				u.setMinor(getMajorDao().findMinorByUser(u));
+			
+
+			for(User users : alumni) {
+				users.setMajor(getMajorDao().findMajorByUser(users));
+				users.setConcentration(getMajorDao().findConcentrationByUser(users));
+				users.setMinor(getMajorDao().findMinorByUser(users));
 			}
 			
 			for (User u: alumni){
-				System.out.println("Student: " + u.getFirstName()+ " " + u.getLastName()+ " Major: " + u.getMajor().get(0).getName());
-				System.out.println("Year: " + u.getGraduationYear()+ " " + u.getLastName()+ " Major: " + u.getMinor().get(0).getName());
+				System.out.println("Student: " + u.getFirstName() + " " + u.getLastName()+ " Major: " + u.getMajor().get(0).getName());
 			}
+
 			sortUsers(alumni);
 
-			if (page == null) {
-				page = 0;
-			}
-
-			ArrayList<User> users = new ArrayList<User>();
-			for (int i = page * 15; i < page * 15 + 15; i++) {
-
-				if (i < alumni.size()) {
-					
-					users.add(alumni.get(i));
-				}
-
-			}
+//			if (page == null) {
+//				page = 0;
+//			}
+//
+//			ArrayList<User> users = new ArrayList<User>();
+//			for (int i = page * 15; i < page * 15 + 15; i++) {
+//
+//				if (i < alumni.size()) {
+//					
+//					users.add(alumni.get(i));
+//				}
+//
+//			}
 		
 
-			model.addAttribute("alumni", users);
+//			model.addAttribute("alumni", users);
+			model.addAttribute("alumni", alumni);
 
 		} catch (Exception e) {
 			e.printStackTrace();

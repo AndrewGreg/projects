@@ -37,7 +37,7 @@ public class DaoConfig {
 		// dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		// dataSource.setUrl("jdbc:mysql://localhost:3306/dbname");
 		dataSource.setUsername("root");
-		dataSource.setPassword("");
+		dataSource.setPassword("root");
 		dataSource.setValidationQuery("select id from user limit 1");
 		// dataSource.setValidationInterval(30000);
 		// dataSource.setLogValidationErrors(true);

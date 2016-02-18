@@ -68,6 +68,13 @@ public class UserDao extends BaseDao<User> {
 
 		try {
 			users = jdbcTemplate.query(sql, getRowMapper());
+			
+//			for (User u: users){
+//				u.setConcentration(majorDao.findConcentrationByUser(u));
+//				u.setMajor(majorDao.findMajorByUser(u));
+//				u.setMinor(majorDao.findMinorByUser(u));
+//			}
+			
 			return (ArrayList<User>) users;
 		} catch (EmptyResultDataAccessException e) {
 			/* Probably want to log this */

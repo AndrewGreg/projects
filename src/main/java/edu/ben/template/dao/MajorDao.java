@@ -94,7 +94,7 @@ public class MajorDao extends BaseDao<Major> {
 	public ArrayList<Major> findConcentrationByMajor(Major m) {
 
 		List<Major> majors = new ArrayList<Major>();
-		String sql = "SELECT c.id, c.name, c.major_id FROM major c, major m WHERE c.concentration = 1 AND c.major_id = m.id AND m.id = ?;";
+		String sql = "SELECT c.id, c.name, c.major_id, c.concentration FROM major c, major m WHERE c.concentration = 1 AND c.major_id = m.id AND m.id = ?;";
 
 		try {
 			majors = jdbcTemplate.query(sql, new Object[] { m.getId() }, getRowMapper());
@@ -108,7 +108,7 @@ public class MajorDao extends BaseDao<Major> {
 	public ArrayList<Major> findMajorByUser(User u) {
 
 		List<Major> majors = new ArrayList<Major>();
-		String sql = "SELECT m.id, m.name FROM user_major um JOIN user u on u.id = um.user_id JOIN major m ON m.id = um.major_id WHERE u.id = ? AND m.concentration = 0 AND um.minor = 0;";
+		String sql = "SELECT m.id, m.name, m.concentration FROM user_major um JOIN user u on u.id = um.user_id JOIN major m ON m.id = um.major_id WHERE u.id = ? AND m.concentration = 0 AND um.minor = 0;";
 
 		try {
 			majors = jdbcTemplate.query(sql, new Object[] { u.getId() }, getRowMapper());
@@ -122,7 +122,7 @@ public class MajorDao extends BaseDao<Major> {
 	public ArrayList<Major> findMinorByUser(User u) {
 
 		List<Major> minors = new ArrayList<Major>();
-		String sql = "SELECT m.id, m.name FROM user_major um JOIN user u on u.id = um.user_id JOIN major m ON m.id = um.major_id WHERE u.id = ? AND m.concentration = 0 AND um.minor = 1;";
+		String sql = "SELECT m.id, m.name, m.concentration FROM user_major um JOIN user u on u.id = um.user_id JOIN major m ON m.id = um.major_id WHERE u.id = ? AND m.concentration = 0 AND um.minor = 1;";
 
 		try {
 			minors = jdbcTemplate.query(sql, new Object[] { u.getId() }, getRowMapper());
@@ -138,11 +138,9 @@ public class MajorDao extends BaseDao<Major> {
 		List<Major> concentrations = new ArrayList<Major>();
 
 		String sql = "SELECT m.id, m.name, m.concentration FROM user_major um JOIN user u ON u.id = um.user_id JOIN major m ON m.id = um.major_id WHERE u.id = ? AND m.concentration = 1;";
-		System.out.println(u.getId());
 
 		try {
 
-			System.out.println(u.getId());
 			concentrations = jdbcTemplate.query(sql, new Object[] { u.getId() }, getRowMapper());
 
 			return (ArrayList<Major>) concentrations;
@@ -160,7 +158,7 @@ public class MajorDao extends BaseDao<Major> {
 
 			List<Major> majors = new ArrayList<Major>();
 
-			String sql = "SELECT m.id, m.name FROM major c, major m WHERE c.concentration = 1 AND c.major_id = m.id AND c.id = ?;";
+			String sql = "SELECT m.id, m.name, m.concentration FROM major c, major m WHERE c.concentration = 1 AND c.major_id = m.id AND c.id = ?;";
 
 			try {
 				majors = jdbcTemplate.query(sql, new Object[] { m.getId() }, getRowMapper());

@@ -210,6 +210,12 @@ public class HomeController extends BaseController {
 			alumni = getUserDao().findAll();
 			for(User u : alumni) {
 				u.setMajor(getMajorDao().findMajorByUser(u));
+				u.setConcentration(getMajorDao().findConcentrationByUser(u));
+				u.setMinor(getMajorDao().findMinorByUser(u));
+			}
+			
+			for (User u: alumni){
+				System.out.println("Student: " + u.getFirstName()+ " " + u.getLastName()+ " Major: " + u.getMajor().get(0).getName());
 			}
 			sortUsers(alumni);
 

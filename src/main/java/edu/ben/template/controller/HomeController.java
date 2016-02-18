@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
+import javax.swing.plaf.synth.SynthSeparatorUI;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -156,6 +157,49 @@ public class HomeController extends BaseController {
 		}
 	}
 
+	@RequestMapping(value = "/editAccount", method = RequestMethod.GET)
+	public String editAccount(Model model/*, @RequestParam("firstName") String firstName,
+			@RequestParam("lastName") String lastName, @RequestParam("benEmail") String benEmail,
+			@RequestParam("personalEmail") String personalEmail, @RequestParam("gradYear") String gradYear,
+			@RequestParam("standing") String standing, @RequestParam("occupation") String occupation,
+			@RequestParam("title") String title, @RequestParam("suffix") String suffix,
+			@RequestParam("password") String password, @RequestParam("passConfirm") String passConfirm*/) {
+				
+		
+//		GET USER FROM SESSION
+		
+//		DUMMY User for now
+		
+		User u = getUserDao().getObjectById(1);
+		
+		System.out.println(u.getFirstName() + " " + u.getLastName());
+		
+		
+		
+
+		
+
+//		CHECK Profile Role
+		
+		
+//		For dropdown of major -> for loop to mark if selected
+		
+//		JSP has a password and confirm password
+		
+//		Confirm EDIT
+//			return to user profile
+		
+//		Can't confirm EDIT
+//			return to user profile but incomplete
+		
+		
+		
+		
+		
+		return "userProfile{userId}";//TODO CHECK THIS URL
+	
+	}
+	
 	/**
 	 * Access to the job postings page.
 	 * 
@@ -208,63 +252,52 @@ public class HomeController extends BaseController {
 
 			ArrayList<User> alumni = new ArrayList<User>();
 			alumni = getUserDao().findAll();
-			
-//			for(User users : alumni) {
-//				users.setMajor(getMajorDao().findMajorByUser(users));
-//				users.setConcentration(getMajorDao().findConcentrationByUser(users));
-//				users.setMinor(getMajorDao().findMinorByUser(users));
-//			}
-			
-//			for (User u: alumni){
-//				System.out.println("Student: " + u.getFirstName() + " " + u.getLastName()+ " Major: " + u.getMajor().get(0).getName());
-//			}
-			sortUsers(alumni);
 
+			//System.out.println(alumni.get(0).toString());
+			for (User users : alumni) {
+				users.setMajor(getMajorDao().findMajorByUser(users));
+				users.setConcentration(getMajorDao().findConcentrationByUser(users));
+				users.setMinor(getMajorDao().findMinorByUser(users));
+				
+			}
+
+			sortUsers(alumni);
 			if (page == null) {
 				page = 0;
 			}
-
 			ArrayList<User> users = new ArrayList<User>();
 			for (int i = page * 15; i < page * 15 + 15; i++) {
 
 				if (i < alumni.size()) {
-					
+
 					users.add(alumni.get(i));
 				}
-
 			}
-		
-
 			model.addAttribute("alumni", users);
+
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return "alumniDirectory";
-	
+
 	}
 
-
-	
-	
-
-	
-	public void sortUsers(ArrayList<User> user){
+	/**
+	 * Sort Method to compare the first name of every user.
+	 * 
+	 * @param user
+	 *            is being passed in.
+	 */
+	public void sortUsers(ArrayList<User> user) {
 
 		Collections.sort(user, new Comparator<User>() {
-			  @Override
-			  public int compare(User o1, User o2) {
-			    return o1.getFirstName().compareTo(o2.getFirstName());
-				}
-			});
-   }
-	
-		   
-				
-
-	            
-	
+			@Override
+			public int compare(User o1, User o2) {
+				return o1.getFirstName().compareTo(o2.getFirstName());
+			}
+		});
+	}
 
 	/**
 	 * Accesses the user profile page. Dynamically grabs information depending

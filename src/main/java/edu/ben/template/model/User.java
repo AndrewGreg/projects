@@ -385,6 +385,17 @@ public class User implements UserDetails, CredentialsContainer {
 	public void setInterest(ArrayList<Interest> interest) {
 		this.interest = interest;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "User [email=" + email + ", personalEmail=" + personalEmail + ", id=" + id + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", role=" + role + ", bNumber=" + bNumber + ", graduationYear="
+				+ graduationYear + ", occupation=" + occupation + ", title=" + title + ", suffix=" + suffix + ", bio="
+				+ bio + ", experience=" + experience + ", major=" + major + ", minor=" + minor + ", concentration="
+				+ concentration + ", interest=" + interest + ", password=" + password + ", salt=" + salt
+				+ ", lastLogin=" + lastLogin + ", authorities=" + authorities + ", accountNonExpired="
+				+ accountNonExpired + ", accountNonLocked=" + accountNonLocked + ", credentialsNonExpired="
+				+ credentialsNonExpired + ", enabled=" + enabled + ", isSuper=" + isSuper + "]";
+	}
 }
 

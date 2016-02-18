@@ -87,10 +87,13 @@ public class UserDao extends BaseDao<User> {
 		User u = null;
 		try {
 
-			String sql = "SELECT user.id as id, user.bnumber, user.email, user.personal_email, user.password, user.salt, user.first_name, user.last_name, user.role, user.graduation_year, user.title, user.suffix, user.bio, user.experience FROM user WHERE user.email = ? GROUP BY id";
+			String sql = "SELECT user.id as id, user.bnumber, user.email, user.personal_email, user.password, user.salt, user.first_name, user.last_name, user.role, user.graduation_year, user.occupation, user.title, user.suffix, user.bio, user.experience FROM user WHERE user.email = ? GROUP BY id";
 			u = jdbcTemplate.queryForObject(sql, new Object[] { email }, getRowMapper());
+			
 		} catch (EmptyResultDataAccessException e) {
 			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return u;
 

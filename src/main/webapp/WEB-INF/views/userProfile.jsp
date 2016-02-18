@@ -16,6 +16,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Profile</title>
 <jsp:include page="header.jsp" />
+<link href="content/css/fileUpload.css" rel="stylesheet">
 </head>
 <body>
 	<jsp:include page="navBar.jsp" />
@@ -123,8 +124,27 @@
 									</tbody>
 								</table>
 
-								<a href="#" class="btn btn-primary">Settings</a> <a href="#"
-									class="btn btn-primary">Another button</a>
+								<a href="#" class="btn btn-primary">Settings</a> 
+								<a href="#" class="btn btn-primary">Another button</a>
+								<br>
+								<br>
+								<form action="fileUpload" method="post">	
+									<div class="fileUpload btn btn-primary">
+    									<span>Upload Profile Picture</span>
+    									<input type="file" class="upload" />
+									</div>
+									<button class="btn btn-primary" name="Submit" 
+										value="Submit" type="Submit">Submit</button>
+									<br>
+								</form>
+								<form action="fileUpload" method="post">
+									<div class="fileUpload btn btn-primary">
+    									<span>Upload Resume</span>
+    									<input type="file" class="upload" />		
+									</div>
+									<button class="btn btn-primary" name="Submit" 
+										value="Submit" type="Submit">Submit</button>
+								</form>
 							</div>
 						</div>
 					</div>

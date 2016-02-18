@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -35,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth
 		.userDetailsService(userDetailsService())
-		.passwordEncoder(new CustomPasswordEncoder(256));		
+		.passwordEncoder(new StandardPasswordEncoder());		
 	}
 
 	@Bean
@@ -65,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.permitAll()
 				.and()
 					.formLogin()
-					.successHandler(new SimpleUrlAuthenticationSuccessHandler("/"))
+					.successHandler(new SimpleUrlAuthenticationSuccessHandler("/index"))
 					.loginPage("/login").permitAll()
 					.loginProcessingUrl("/login")
 					.usernameParameter("email")

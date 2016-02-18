@@ -17,33 +17,30 @@ import edu.ben.template.dao.UserDao;
 @Controller
 public class LoginController extends BaseController {
 	final Logger _log = LoggerFactory.getLogger(LoginController.class);
-
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(Model model, @RequestParam(value = "email", required = true) String email,
-			@RequestParam(value = "password", required = true) String password) {
-		
-		User u = new User();
-		if(getUserDao().findByEmail(email) != null){
-			u = getUserDao().findByEmail(email);
-			
-			if(!password.equals(u.getPassword())){
-				model.addAttribute("invalid", "invalid");
-				return "login";
-			}
-			
-		} else {
-			model.addAttribute("invalid", "invalid");
-			return "login";
-		}
-		
-		_log.debug("Entering login");
-		model.addAttribute("invalid", null);
-		model.addAttribute("user", u);
-		return "index";
-	}
+//
+//	@RequestMapping(value = "/login", method = RequestMethod.POST)
+//	public String login(Model model ) {
+//		
+////		User u = new User();
+////		if(getUserDao().findByEmail(email) != null){
+////			u = getUserDao().findByEmail(email);
+////			
+////			if(!password.equals(u.getPassword())){
+////				model.addAttribute("invalid", "invalid");
+////				return "login";
+////			}
+////			
+////		} else {
+////			model.addAttribute("invalid", "invalid");
+////			return "login";
+////		}
+//		
+//		return "index";
+//		
+//	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(Model model) {
+	public String showlogin(Model model) {
 		
 		_log.debug("Entering login");
 		model.addAttribute("credentials", new LoginCredentials());

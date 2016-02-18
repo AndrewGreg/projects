@@ -65,7 +65,7 @@ th {
 					</tr>
 
 				</thead>
-				
+			
 				<tbody>
 					<% for (int i = 0; i < alumni.size(); i++) { %>
 						<%if (alumni.get(i).getRole() == 2) {%>
@@ -76,8 +76,9 @@ th {
 						<td><font color="Black"><%=(alumni.get(i).getGraduationYear())%></font></td>
 					  <%if(alumni.get(i).getMajor().get(0).getName() != null){ %> 
 						<td><font color="Black"><%=(alumni.get(i).getMajor().get(0).getName())%></font></td>
-						<%} %> 
-						
+					<%} else{%>
+						<td><font color="Black">None</font></td>
+						<%} %>
 					</tr> 
 
 					<%

@@ -157,6 +157,49 @@ public class HomeController extends BaseController {
 		}
 	}
 
+	@RequestMapping(value = "/editAccount", method = RequestMethod.GET)
+	public String editAccount(Model model/*, @RequestParam("firstName") String firstName,
+			@RequestParam("lastName") String lastName, @RequestParam("benEmail") String benEmail,
+			@RequestParam("personalEmail") String personalEmail, @RequestParam("gradYear") String gradYear,
+			@RequestParam("standing") String standing, @RequestParam("occupation") String occupation,
+			@RequestParam("title") String title, @RequestParam("suffix") String suffix,
+			@RequestParam("password") String password, @RequestParam("passConfirm") String passConfirm*/) {
+				
+		
+//		GET USER FROM SESSION
+		
+//		DUMMY User for now
+		
+		User u = getUserDao().getObjectById(1);
+		
+		System.out.println(u.getFirstName() + " " + u.getLastName());
+		
+		
+		
+
+		
+
+//		CHECK Profile Role
+		
+		
+//		For dropdown of major -> for loop to mark if selected
+		
+//		JSP has a password and confirm password
+		
+//		Confirm EDIT
+//			return to user profile
+		
+//		Can't confirm EDIT
+//			return to user profile but incomplete
+		
+		
+		
+		
+		
+		return "userProfile{userId}";//TODO CHECK THIS URL
+	
+	}
+	
 	/**
 	 * Access to the job postings page.
 	 * 
@@ -218,12 +261,6 @@ public class HomeController extends BaseController {
 				
 			}
 
-			for (User u : alumni) {
-				System.out.println("Student: " + u.getFirstName() + " " + u.getLastName() + " Major: "
-						+ u.getMajor().get(0).getName());
-				
-			}
-			
 			sortUsers(alumni);
 			if (page == null) {
 				page = 0;
@@ -237,6 +274,7 @@ public class HomeController extends BaseController {
 				}
 			}
 			model.addAttribute("alumni", users);
+
 
 		} catch (Exception e) {
 			e.printStackTrace();

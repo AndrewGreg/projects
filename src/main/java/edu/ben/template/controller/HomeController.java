@@ -283,19 +283,41 @@ public class HomeController extends BaseController {
 //			model.addAttribute("alumni", users);
 			model.addAttribute("alumni", alumni);
 
+//			for(User users : alumni) {
+//				users.setMajor(getMajorDao().findMajorByUser(users));
+//				users.setConcentration(getMajorDao().findConcentrationByUser(users));
+//				users.setMinor(getMajorDao().findMinorByUser(users));
+//			}
+			
+//			for (User u: alumni){
+//				System.out.println("Student: " + u.getFirstName() + " " + u.getLastName()+ " Major: " + u.getMajor().get(0).getName());
+//			}
+			sortUsers(alumni);
+			if (page == null) {
+				page = 0;
+			}
+			ArrayList<User> users = new ArrayList<User>();
+			for (int i = page * 15; i < page * 15 + 15; i++) {
+
+				if (i < alumni.size()) {
+					
+					users.add(alumni.get(i));
+				}
+			}
+			model.addAttribute("alumni", users);
+
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return "alumniDirectory";
 	
 	}
-
-
 	
-	
-
-	
+	/**
+	 * Sort Method to compare the first name of every user.
+	 * @param user is being passed in.
+	 */
 	public void sortUsers(ArrayList<User> user){
 
 		Collections.sort(user, new Comparator<User>() {
@@ -305,12 +327,6 @@ public class HomeController extends BaseController {
 				}
 			});
    }
-	
-		   
-				
-
-	            
-	
 
 	/**
 	 * Accesses the user profile page. Dynamically grabs information depending

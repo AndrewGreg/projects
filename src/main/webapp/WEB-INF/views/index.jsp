@@ -24,7 +24,7 @@
 		<div class="carousel-inner">
 			<div class="item active">
 				<div class="fill"
-					style="background-image: url('content/img/SchoolPic.jpg');"></div>
+					style="background-image: url('content/img/School1.jpg');"></div>
 				<div class="carousel-caption">
 					<h2>Organized to provide you with the latest updates about
 						alumni programs.</h2>
@@ -32,16 +32,30 @@
 			</div>
 			<div class="item">
 				<div class="fill"
-					style="background-image: url('content/img/SchoolPic2.jpg');"></div>
+					style="background-image: url('content/img/School2.jpg');"></div>
 				<div class="carousel-caption">
 					<h2>Check out the upcoming events.</h2>
 				</div>
 			</div>
 			<div class="item">
 				<div class="fill"
-					style="background-image: url('content/img/SchoolPic3.jpg');"></div>
+					style="background-image: url('content/img/School3.jpg');"></div>
 				<div class="carousel-caption">
 					<h2>Alumni networking opportunities are here!</h2>
+				</div>
+			</div>
+			<div class="item">
+				<div class="fill"
+					style="background-image: url('content/img/School4.jpg');"></div>
+				<div class="carousel-caption">
+					<h2></h2>
+				</div>
+			</div>
+			<div class="item">
+				<div class="fill"
+					style="background-image: url('content/img/School5.jpg');"></div>
+				<div class="carousel-caption">
+					<h2></h2>
 				</div>
 			</div>
 		</div>
@@ -53,9 +67,6 @@
 			data-slide="next"> <span class="icon-next"></span>
 		</a>
 	</header>
-
-
-
 
 
 	<!-- Page Content -->
@@ -87,7 +98,7 @@
 						</h4>
 					</div>
 					<div class="panel-body">
-						<p>This Link Doesn't Work Yet</p>
+						<p>Look for Opportunities here</p>
 						<a href="/jobPostings" class="btn btn-default">Find
 							Positions!</a>
 					</div>

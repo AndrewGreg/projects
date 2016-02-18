@@ -208,15 +208,16 @@ public class HomeController extends BaseController {
 
 			ArrayList<User> alumni = new ArrayList<User>();
 			alumni = getUserDao().findAll();
-			for(User u : alumni) {
-				u.setMajor(getMajorDao().findMajorByUser(u));
-				u.setConcentration(getMajorDao().findConcentrationByUser(u));
-				u.setMinor(getMajorDao().findMinorByUser(u));
-			}
 			
-			for (User u: alumni){
-				System.out.println("Student: " + u.getFirstName()+ " " + u.getLastName()+ " Major: " + u.getMajor().get(0).getName());
-			}
+//			for(User users : alumni) {
+//				users.setMajor(getMajorDao().findMajorByUser(users));
+//				users.setConcentration(getMajorDao().findConcentrationByUser(users));
+//				users.setMinor(getMajorDao().findMinorByUser(users));
+//			}
+			
+//			for (User u: alumni){
+//				System.out.println("Student: " + u.getFirstName() + " " + u.getLastName()+ " Major: " + u.getMajor().get(0).getName());
+//			}
 			sortUsers(alumni);
 
 			if (page == null) {

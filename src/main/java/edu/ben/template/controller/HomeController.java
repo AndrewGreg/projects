@@ -216,6 +216,7 @@ public class HomeController extends BaseController {
 			
 			for (User u: alumni){
 				System.out.println("Student: " + u.getFirstName()+ " " + u.getLastName()+ " Major: " + u.getMajor().get(0).getName());
+				System.out.println("Year: " + u.getGraduationYear()+ " " + u.getLastName()+ " Major: " + u.getMinor().get(0).getName());
 			}
 			sortUsers(alumni);
 

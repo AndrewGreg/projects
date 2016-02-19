@@ -8,18 +8,16 @@
 <%@ page isELIgnored="false"%>
 
 <%
+	
 
-		
 	ArrayList<User> alumni;
-if (request.getAttribute("alumni")!= null){
-	alumni = (ArrayList<User>) request.getAttribute("alumni");
-}else {
-	alumni = new ArrayList<User>();
-}
-	
-	
+	if (request.getAttribute("alumni") != null) {
+		alumni = (ArrayList<User>) request.getAttribute("alumni");
+	} else {
+		alumni = new ArrayList<User>();
+	} 
 %>
- 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,8 +42,8 @@ th {
 </style>
 </head>
 </head>
-<body background=" ">
-<jsp:include page="navBar.jsp" />
+<body>
+	<jsp:include page="navBar.jsp" />
 
 	<div class = "container">
 		<br> <br> 
@@ -56,13 +54,6 @@ th {
  				<col width="300">
  				<col width="300">
  				<col width="300">
-
-	<!-- Navigation Bar -->
-	<div align="center">
-		<br> <br> <br> <br>
-		<h3>
-			<table border=1>
-
 				<thead>
 					<tr>
 
@@ -70,7 +61,6 @@ th {
 						<th><font color="White">Last</font></th>
 						<th><font color="White">Year Graduated</font></th>
 						<th><font color="White">Degree</font></th>
-
 
 					</tr>
 
@@ -90,11 +80,11 @@ th {
 						<td><font color="Black">None</font></td>
 						<%} %>
 					</tr> 
+
 					<%
 						}
 					}
 					%>
-					
 
 
 				</tbody>

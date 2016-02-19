@@ -99,14 +99,10 @@
 						</h4>
 					</div>
 					<div class="panel-body">
-<<<<<<< HEAD
+
 						<p>Look for Opportunities here</p>
-						<a href="/jobPostings" class="btn btn-default">Find
-=======
-						<p>This Link Doesn't Work Yet</p>
-						<a href="jobPostings.jsp" class="btn btn-default">Find
->>>>>>> cbaaa38b3144dae3eaff9426623fe06f463b1aeb
-							Positions!</a>
+						<a href="/jobPostings" class="btn btn-default">Find</a>
+
 					</div>
 				</div>
 			</div>
@@ -118,13 +114,9 @@
 						</h4>
 					</div>
 					<div class="panel-body">
-<<<<<<< HEAD
 						<p>Be Apart Of A Stronger Group!</p>
 						<a href="/register" class="btn btn-default">Sign Up!</a>
-=======
-						<p>This Link Doesn't Work Yet</p>
-						<a href="register.jsp" class="btn btn-default">Sign Up!</a>
->>>>>>> cbaaa38b3144dae3eaff9426623fe06f463b1aeb
+
 					</div>
 				</div>
 			</div>

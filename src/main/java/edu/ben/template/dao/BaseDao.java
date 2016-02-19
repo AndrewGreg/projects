@@ -2,7 +2,6 @@ package edu.ben.template.dao;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -20,8 +19,6 @@ public abstract class BaseDao<T> {
 	protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	// transaction manager
 	private PlatformTransactionManager transactionManager;
-
-	
 
 	public void setDataSource(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);

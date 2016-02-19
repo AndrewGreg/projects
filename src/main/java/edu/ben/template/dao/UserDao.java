@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -25,13 +24,13 @@ public class UserDao extends BaseDao<User> {
 		
 	}
 
-	public User getObjectById(int objectId) {
+	public User getObjectById(long objectId) {
 		return this.getObjectById(objectId, false);
 	}
 
-	public User getObjectById(int objectId, boolean complete) {
+	public User getObjectById(long objectId, boolean complete) {
 		if (objectId == 0) {
-			/* Probably want to log this */
+			/* TODO Probably want to log this */
 			return null;
 		}
 		User object = null;
@@ -39,10 +38,10 @@ public class UserDao extends BaseDao<User> {
 		if (object == null) {
 			try {
 				// look up the object
-				String sql = "SELECT * FROM user WHERE id = ?";
+				String sql = "SELECT * FROM user WHERE user_id = ?";
 				object = this.jdbcTemplate.queryForObject(sql, new Object[] { objectId }, getRowMapper());
 			} catch (EmptyResultDataAccessException e) {
-				/* Probably want to log this */
+				/* TODO Probably want to log this */
 				return null;
 			}
 		}
@@ -63,24 +62,24 @@ public class UserDao extends BaseDao<User> {
 
 	public ArrayList<User> findAll() {
 
-		List<User> users = new ArrayList<User>();
+		ArrayList<User> users = new ArrayList<User>();
 		String sql = "SELECT * from user";
 
 		try {
-			users = jdbcTemplate.query(sql, getRowMapper());
+			users = (ArrayList<User>) jdbcTemplate.query(sql, getRowMapper());
 			
 //			for (User u: users){
 //				u.setConcentration(majorDao.findConcentrationByUser(u));
 //				u.setMajor(majorDao.findMajorByUser(u));
 //				u.setMinor(majorDao.findMinorByUser(u));
 //			}
-			
-			return (ArrayList<User>) users;
-		} catch (EmptyResultDataAccessException e) {
-			/* Probably want to log this */
-			return null;
+		}catch (Exception e){
+			e.printStackTrace();
 		}
+			return (ArrayList<User>) users;
 	}
+
+
 
 	public User findByEmail(String email) {
 
@@ -155,13 +154,25 @@ public class UserDao extends BaseDao<User> {
 	// return user;
 	// }
 
+
+//	/**
+//	 * FOR LOGIN
+//	 * 
+//	 * @param email
+//	 * @return User from database that matches the email provided
+//	 * @throws SQLException
+//	 */
+//	public User getUserByEmail(String email) {
+//		return getUserByEmail(email, true);
+//	}
+
 	@Override
 	public RowMapper<User> getRowMapper() {
 		return new RowMapper<User>() {
 			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 				// map result set to object
 				User user = new User();
-				user.setId(rs.getLong("id"));
+				user.setId(rs.getLong("user_id"));
 				user.setFirstName(rs.getString("first_name"));
 				user.setLastName(rs.getString("last_name"));
 				user.setEmail(rs.getString("email"));
@@ -185,6 +196,7 @@ public class UserDao extends BaseDao<User> {
 //				user.setMajor(majorDao.findMajorByUser(user));
 //				user.setInterest(interestDao.findAllByUser(user));
 
+
 				// return the object
 				return user;
 			}
@@ -197,14 +209,13 @@ public class UserDao extends BaseDao<User> {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
 				PreparedStatement ps = connection.prepareStatement(
-						"insert into user (id, email, password) values (?,?,?) "
+						"insert into user (user_id, email, password) values (?,?,?) "
 								+ "on duplicate key update email = values(email), password = values(password)",
-						new String[] { "id" });
+						new String[] { "user_id" });
 				ps.setLong(1, user.getId());
 				ps.setString(2, user.getEmail());
 				return ps;
 			}
 		};
 	}
-
 }

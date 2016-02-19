@@ -3,7 +3,13 @@
 .fileUpload {
     position: relative;
     overflow: hidden;
+<<<<<<< HEAD
 }
+=======
+   
+}
+
+>>>>>>> cbaaa38b3144dae3eaff9426623fe06f463b1aeb
 .fileUpload input.upload {
     position: absolute;
     top: 0;

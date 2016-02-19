@@ -25,7 +25,7 @@ public class User implements UserDetails, CredentialsContainer {
 
 	/* serializable */
 	private static final long serialVersionUID = 463391226679612733L;
-	@NotNull(message = "Benedictine email address is required")
+	@NotNull(message = "Email address is required")
 	@Pattern(regexp = ".+@.+\\.[a-z]+", message = "Invalid email")
 	@Size(min = 7, max = 45, message = "Must be between 7-45 characters")
 	private String email;
@@ -34,11 +34,15 @@ public class User implements UserDetails, CredentialsContainer {
 	@Size(min = 7, max = 45, message = "Must be between 7-45 characters")
 	private String personalEmail;
 
+
 	public static final Long NULL = 0L;
 	// this needs to be 0 for mysql to be cool
 	private Long id = User.NULL;
 	private String firstName;
 	private String lastName;
+
+	private int securityLevel;
+
 	private int role;
 	private int bNumber;
 	private int graduationYear;
@@ -55,7 +59,6 @@ public class User implements UserDetails, CredentialsContainer {
 
 	/* Spring security fields */
 	private String password;
-	private String salt;
 	private DateTime lastLogin;
 	private Set<GrantedAuthority> authorities;
 	private boolean accountNonExpired;
@@ -64,6 +67,7 @@ public class User implements UserDetails, CredentialsContainer {
 	private boolean enabled;
 	/* Whether they are a super user */
 	private boolean isSuper;
+	private String salt;
 
 	/**
 	 * Construct the <code>User</code> with the details required by
@@ -185,6 +189,14 @@ public class User implements UserDetails, CredentialsContainer {
 	}
 
 	/* TODO might want to override HashCode... */
+	
+	public int getRole() {
+		return role;
+	}
+	
+	public void setRole(int role) {
+		 this.role = role;
+	}
 
 	public String getEmail() {
 		return email;
@@ -258,8 +270,8 @@ public class User implements UserDetails, CredentialsContainer {
 		return password;
 	}
 
-	public int getRole() {
-		return role;
+	public int getSecurityLevel() {
+		return securityLevel;
 	}
 
 	public void setEmail(String email) {
@@ -286,8 +298,8 @@ public class User implements UserDetails, CredentialsContainer {
 		this.password = password;
 	}
 
-	public void setRole(int role) {
-		this.role = role;
+	public void setSecurityLevel(int securityLevel) {
+		this.securityLevel = securityLevel;
 	}
 
 	@Override

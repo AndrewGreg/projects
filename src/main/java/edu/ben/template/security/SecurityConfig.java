@@ -52,10 +52,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.authorizeRequests()
 				/* TODO Add any additional open links here */
 				.antMatchers("/").permitAll().antMatchers("/about").permitAll()
-				.antMatchers("/login").permitAll().antMatchers("/register").permitAll()
-				.antMatchers("/jobPostings").permitAll().antMatchers("/index").permitAll().
-				antMatchers("/facultyProfile").permitAll().antMatchers("/alumniDirectory").permitAll().
-				antMatchers("/userProfile").permitAll().antMatchers("/createJobPosting").permitAll().antMatchers("/createEvent").permitAll()
+				.antMatchers("/login").permitAll().antMatchers("/index").permitAll().
+				antMatchers("/facultyProfile").permitAll().antMatchers("/userProfile").permitAll().antMatchers("/jobPostings").permitAll().antMatchers("/alumniDirectory").permitAll().
+				antMatchers("/createJobPosting").permitAll().antMatchers("/createEvent").permitAll()
 				/* TODO Add any additional authorities here... */
 				.antMatchers("/**").permitAll()
 				.and()
@@ -77,5 +76,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.rememberMe()
 					.key("eidkaieh")
 					.userDetailsService(userDetailsService());
+
 	}
 }

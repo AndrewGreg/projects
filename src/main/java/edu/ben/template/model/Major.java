@@ -40,4 +40,8 @@ public class Major {
 		this.parent = parent;
 	}
 	
+	@Override
+	public String toString() {
+		return "Major [id=" + id + ", name=" + name + ", concentration=" + concentration + ", parent=" + parent + "]";
+	}
 }

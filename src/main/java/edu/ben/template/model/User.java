@@ -19,8 +19,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
 
-
-
 public class User implements UserDetails, CredentialsContainer {
 
 	/* serializable */
@@ -33,7 +31,6 @@ public class User implements UserDetails, CredentialsContainer {
 	@Pattern(regexp = ".+@.+\\.[a-z]+", message = "Invalid email")
 	@Size(min = 7, max = 45, message = "Must be between 7-45 characters")
 	private String personalEmail;
-
 
 	public static final Long NULL = 0L;
 	// this needs to be 0 for mysql to be cool
@@ -51,7 +48,8 @@ public class User implements UserDetails, CredentialsContainer {
 	private String suffix;
 	private String bio;
 	private String experience;
-	//TODO add ArrayList<String> Major(s), ArrayList<String> Minor(s), ArrayList<String> Concentration(s)
+	// TODO add ArrayList<String> Major(s), ArrayList<String> Minor(s),
+	// ArrayList<String> Concentration(s)
 	private ArrayList<Major> major;
 	private ArrayList<Major> minor;
 	private ArrayList<Major> concentration;
@@ -189,13 +187,13 @@ public class User implements UserDetails, CredentialsContainer {
 	}
 
 	/* TODO might want to override HashCode... */
-	
+
 	public int getRole() {
 		return role;
 	}
-	
+
 	public void setRole(int role) {
-		 this.role = role;
+		this.role = role;
 	}
 
 	public String getEmail() {
@@ -370,8 +368,69 @@ public class User implements UserDetails, CredentialsContainer {
 		return major;
 	}
 
+	public Major getMajorAtIndex(int i) {
+
+		if (i < this.major.size()) {
+			return this.major.get(i);
+		}
+
+		return null;
+
+	}
+
 	public void setMajor(ArrayList<Major> major) {
 		this.major = major;
+	}
+
+	public void addMajor(Major major) {
+
+		for (int i = 0; i < this.major.size(); i++) {
+
+			Major m = this.major.get(i);
+			if (m.equals(major)) {
+				return;
+			}
+		}
+		this.major.add(major);
+	}
+	
+	public void clearMajors(){
+		this.major.clear();
+	}
+
+	public void changeMajor(int i, Major n) {
+
+		if (i < this.major.size() && !this.major.get(i).equals(n)) {
+			this.major.remove(i);
+		}
+		if (n != null) {
+			addMajor(n);
+		}
+	}	
+
+	public void changeMajor(Major n, Major o) {
+
+		for (int i = 0; i < this.major.size(); i++) {
+			Major m = getMajorAtIndex(i);
+			if (m.equals(o)) {
+				changeMajor(i, n);
+			}
+
+		}
+
+		addMajor(n);
+	}
+
+	public void deleteMajor(Major o) {
+
+		for (int i = 0; i < this.major.size(); i++) {
+			Major m = getMajorAtIndex(i);
+			if (m.equals(o)) {
+				this.major.remove(i);
+				this.major.add(o);
+			}
+
+		}
 	}
 
 	public ArrayList<Major> getMinor() {
@@ -410,4 +469,3 @@ public class User implements UserDetails, CredentialsContainer {
 				+ credentialsNonExpired + ", enabled=" + enabled + ", isSuper=" + isSuper + "]";
 	}
 }
-

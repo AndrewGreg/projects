@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
-import javax.swing.plaf.synth.SynthSeparatorUI; 
+import javax.swing.plaf.synth.SynthSeparatorUI;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -15,18 +15,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 import edu.ben.template.model.Event;
 import edu.ben.template.model.JobPosting;
+import edu.ben.template.model.Major;
 import edu.ben.template.model.User;
+import edu.ben.template.model.Validator;
 
 @Controller
-public class HomeController extends BaseController{
+public class HomeController extends BaseController {
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(Model model) {
 		return "index";
 	}
+
 	/**
 	 * Access to the registration page.
 	 * 
@@ -36,6 +38,7 @@ public class HomeController extends BaseController{
 	 */
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String registration(Model model) {
+
 		return "register";
 	}
 
@@ -149,49 +152,141 @@ public class HomeController extends BaseController{
 		}
 	}
 
-	@RequestMapping(value = "/editAccount", method = RequestMethod.GET)
-	public String editAccount(Model model/*, @RequestParam("firstName") String firstName,
-			@RequestParam("lastName") String lastName, @RequestParam("benEmail") String benEmail,
-			@RequestParam("personalEmail") String personalEmail, @RequestParam("gradYear") String gradYear,
-			@RequestParam("standing") String standing, @RequestParam("occupation") String occupation,
-			@RequestParam("title") String title, @RequestParam("suffix") String suffix,
-			@RequestParam("password") String password, @RequestParam("passConfirm") String passConfirm*/) {
-				
-		
-//		GET USER FROM SESSION
-		
-//		DUMMY User for now
-		
-		User u = getUserDao().getObjectById(1);
-		
-		System.out.println(u.getFirstName() + " " + u.getLastName());
-		
-		
-		
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public String editPost(Model model) {
 
-		
+		// GET USER FROM SESSION
 
-//		CHECK Profile Role
-		
-		
-//		For dropdown of major -> for loop to mark if selected
-		
-//		JSP has a password and confirm password
-		
-//		Confirm EDIT
-//			return to user profile
-		
-//		Can't confirm EDIT
-//			return to user profile but incomplete
-		
-		
-		
-		
-		
-		return "userProfile{userId}";//TODO CHECK THIS URL
-	
+		// DUMMY User
+
+		User u = getUserDao().getObjectById(DUMMY_ID);
+
+		u.setMajor(getMajorDao().findMajorByUser(u));
+		u.setConcentration(getMajorDao().findConcentrationByUser(u));
+		u.setMinor(getMajorDao().findMinorByUser(u));
+
+		ArrayList<Major> m = getMajorDao().findAllMajors();
+
+		model.addAttribute("user", u);
+		model.addAttribute("majors", m);
+
+		HashMap<String, String> e = new HashMap<String, String>();
+		model.addAttribute("errors", e);
+
+		return "edit";
+
 	}
-	
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	public String edit(Model model, @RequestParam("title") String title, @RequestParam("fName") String firstName,
+			@RequestParam("lName") String lastName, @RequestParam("suffix") String suffix,
+			@RequestParam("personalEmail") String personalEmail, @RequestParam("graduationYear") String graduationYear,
+			@RequestParam("major") String major, @RequestParam("doubleMajor") String doubleMajor,
+			@RequestParam("thirdMajor") String thirdMajor, @RequestParam("occupation") String occupation,
+			@RequestParam("bio") String biography, @RequestParam("experience") String experience,
+			@RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword) {
+
+		if (validateEdit(password, confirmPassword, firstName, lastName, personalEmail, graduationYear)) {
+
+			// TODO GET USER FROM SESSION
+			//
+			// DUMMY User
+			//
+			User u = getUserDao().getObjectById(DUMMY_ID);
+
+			u.setMajor(getMajorDao().findMajorByUser(u));
+			u.setConcentration(getMajorDao().findConcentrationByUser(u));
+			u.setMinor(getMajorDao().findMinorByUser(u));
+
+			if (Validator.isNull(title))
+				title = null;
+			if (Validator.isNull(suffix))
+				suffix = null;
+			if (Validator.isNull(personalEmail))
+				personalEmail = null;
+			if (Validator.isNull(occupation))
+				occupation = null;
+			if (Validator.isNull(biography))
+				biography = null;
+			if (Validator.isNull(experience))
+				experience = null;
+
+			if (!Validator.validateSelect(graduationYear)) {
+				u.setGraduationYear(0);
+			} else {
+				u.setGraduationYear(Integer.parseInt(graduationYear));
+			}
+
+			u.setTitle(title);
+			u.setFirstName(firstName);
+			u.setLastName(lastName);
+			u.setSuffix(suffix);
+			u.setPersonalEmail(personalEmail);
+			u.setOccupation(occupation);
+			u.setBio(biography);
+			u.setExperience(experience);
+
+			Major m = getMajorDao().findByName(major);
+			Major m2 = getMajorDao().findByName(doubleMajor);
+			Major m3 = getMajorDao().findByName(thirdMajor);
+
+			u.clearMajors();
+			if (m != null) {
+				u.addMajor(m);
+			}
+			if (m2 != null) {
+				u.addMajor(m2);
+			}
+			if (m2 != null) {
+				u.addMajor(m3);
+			}
+
+			// TODO Hash the password before saving to the user
+			u.setPassword(password);
+
+			try {
+				getUserDao().updateUser(u);
+				getMajorDao().updateMajorByUser(u);
+			} catch (Exception e) {
+				/* Probably should log this */
+				System.out.println("Oops");
+
+			}
+
+			return "userProfile";
+		}
+
+		HashMap<String, String> e = new HashMap<String, String>();// TODO
+
+		ArrayList<Major> m = getMajorDao().findAllMajors();
+
+		// TODO GET USER FROM SESSION
+		//
+		// DUMMY User
+		//
+		User u = getUserDao().getObjectById(DUMMY_ID);
+
+		u.setMajor(getMajorDao().findMajorByUser(u));
+		u.setConcentration(getMajorDao().findConcentrationByUser(u));
+		u.setMinor(getMajorDao().findMinorByUser(u));
+
+		if (!Validator.validatePassword(password) || !Validator.validatePasswordsMatch(password, confirmPassword))
+			e.put("password", "Invalid Password");
+		if (!Validator.validateName(firstName))
+			e.put("fName", "Invalid First Name Entry");
+		if (!Validator.validateName(lastName))
+			e.put("fName", "Invalid Last Name Entry");
+		if (!Validator.validateEmail(personalEmail, false))
+			e.put("fName", "Invalid Email Entry");
+
+		model.addAttribute("user", u);
+		model.addAttribute("majors", m);
+		model.addAttribute("errors", e);
+
+		return "edit";
+
+	}
+
 	/**
 	 * Access to the job postings page.
 	 * 
@@ -245,12 +340,11 @@ public class HomeController extends BaseController{
 			ArrayList<User> alumni = new ArrayList<User>();
 			alumni = getUserDao().findAll();
 
-			//System.out.println(alumni.get(0).toString());
+			// System.out.println(alumni.get(0).toString());
 			for (User users : alumni) {
 				users.setMajor(getMajorDao().findMajorByUser(users));
 				users.setConcentration(getMajorDao().findConcentrationByUser(users));
 				users.setMinor(getMajorDao().findMinorByUser(users));
-				
 			}
 
 			sortUsers(alumni);
@@ -266,7 +360,6 @@ public class HomeController extends BaseController{
 				}
 			}
 			model.addAttribute("alumni", users);
-
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -300,10 +393,13 @@ public class HomeController extends BaseController{
 	 * @return the profile page that belongs to the user.
 	 */
 	@RequestMapping(value = "/userProfile", method = RequestMethod.GET)
-//	public String userProfile(Model model, @RequestParam("name") String name, @RequestParam("bio") String biography,
-//			@RequestParam("occupation") String occupation, @RequestParam("graduation") String graduation,
-//			@RequestParam("workInterest") String workInterest, @RequestParam("experience") String experience) {
-	public String userProfile(Model model){
+	// public String userProfile(Model model, @RequestParam("name") String name,
+	// @RequestParam("bio") String biography,
+	// @RequestParam("occupation") String occupation,
+	// @RequestParam("graduation") String graduation,
+	// @RequestParam("workInterest") String workInterest,
+	// @RequestParam("experience") String experience) {
+	public String userProfile(Model model) {
 
 		// try {
 		//
@@ -330,4 +426,16 @@ public class HomeController extends BaseController{
 	public String userHome(Model model) {
 		return "index";
 	}
+
+	private boolean validateEdit(String password, String confirmPassword, String firstName, String lastName,
+			String personalEmail, String graduationYear) {
+
+		return (Validator.validatePasswordsMatch(password, confirmPassword) && Validator.validatePassword(password)
+				&& Validator.validateName(firstName) && Validator.validateName(lastName)
+				&& Validator.validateGraduationYear(graduationYear, false)
+				&& Validator.validateEmail(personalEmail, false));
+	}
+
+	// For user testing purposes (taken out with sessions)
+	final static int DUMMY_ID = 1;
 }

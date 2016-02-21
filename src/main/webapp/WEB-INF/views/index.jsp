@@ -9,14 +9,13 @@
 <body>
 	<!-- Navigation -->
 	<jsp:include page="navBar.jsp" />
-	<br>
-	<br>
+
 
 	<!-- Header Carousel -->
-	<header id="myCarousel" class="carousel slide">
+	<header id="myCarousel" class="carousel slide" style="width: 100%; height:75%;">
 		<!-- Indicators -->
 		<ol class="carousel-indicators">
-			<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+			<li data-target="#myCarousel" data-slide-to="0" class="active" ></li>
 			<li data-target="#myCarousel" data-slide-to="1"></li>
 			<li data-target="#myCarousel" data-slide-to="2"></li>
 		</ol>
@@ -70,6 +69,9 @@
 	</header>
 
 
+
+
+
 	<!-- Page Content -->
 	<div class="container">
 
@@ -82,12 +84,12 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h4>
-							<i class="fa fa-fw fa-check"></i> Events
+							<i class="fa fa-fw fa-check"></i> Login
 						</h4>
 					</div>
 					<div class="panel-body">
-						<p>This Link Doesn't Work Yet</p>
-						<a href="events.jsp" class="btn btn-default">Find More!</a>
+						<p></p>
+						<a href="/login" class="btn btn-default">Click Here!</a><!-- Bring to a Calendar with events. -->
 					</div>
 				</div>
 			</div>
@@ -99,10 +101,9 @@
 						</h4>
 					</div>
 					<div class="panel-body">
-
-						<p>Look for Opportunities here</p>
-						<a href="/jobPostings" class="btn btn-default">Find</a>
-
+						<p>Search for a Job</p>
+						<a href="/jobPostings" class="btn btn-default">Find
+							Positions!</a>
 					</div>
 				</div>
 			</div>
@@ -116,7 +117,6 @@
 					<div class="panel-body">
 						<p>Be Apart Of A Stronger Group!</p>
 						<a href="/register" class="btn btn-default">Sign Up!</a>
-
 					</div>
 				</div>
 			</div>
@@ -170,9 +170,9 @@
 	<!-- Script to Activate the Carousel -->
 	<script>
 		$('.carousel').carousel({
-			interval : 5000
+			interval : 3000
 		//changes the speed
 		})
 	</script>
-</body>
+</body>	
 </html>

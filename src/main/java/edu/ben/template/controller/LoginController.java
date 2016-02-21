@@ -40,13 +40,13 @@ public class LoginController {
 
 	
 	
-//	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-//	public String logout(Model model) throws SQLException {
-//
-//		model.addAttribute("logout", "logout");
-//		model.addAttribute("user", null);
-//		return "index";
-//	}
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(Model model) throws SQLException {
+
+		model.addAttribute("logout", "logout");
+		model.addAttribute("user", null);
+		return "index";
+	}
 	
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
 	public String edit(Model model) throws SQLException {

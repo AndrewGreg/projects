@@ -17,12 +17,12 @@ public class UserDao extends BaseDao<User> {
 
 	private MajorDao majorDao;
 	private InterestDao interestDao;
-	
+
 	public UserDao() {
 		super();
 		this.majorDao = new MajorDao();
 		this.interestDao = new InterestDao();
-		
+
 	}
 
 	public User getObjectById(long userId) {
@@ -68,16 +68,70 @@ public class UserDao extends BaseDao<User> {
 
 		try {
 			users = jdbcTemplate.query(sql, getRowMapper());
-			
-//			for (User u: users){
-//				u.setConcentration(majorDao.findConcentrationByUser(u));
-//				u.setMajor(majorDao.findMajorByUser(u));
-//				u.setMinor(majorDao.findMinorByUser(u));
-//			}
-			
+
 			return (ArrayList<User>) users;
 		} catch (EmptyResultDataAccessException e) {
 			/* Probably want to log this */
+			return null;
+		}
+	}
+
+	/**
+	 * Method to find all the students in the database.
+	 * 
+	 * @return the amount of students registered.
+	 */
+	public ArrayList<User> findAllStudents() {
+
+		List<User> users = new ArrayList<User>();
+		String sql = "SELECT * from alumnitracker.user WHERE role = '1'";
+
+		try {
+			users = jdbcTemplate.query(sql, getRowMapper());
+
+			return (ArrayList<User>) users;
+		} catch (EmptyResultDataAccessException e) {
+			System.out.println("There are not any students in the system.");
+			return null;
+		}
+	}
+
+	/**
+	 * Method to find all the alumni in the database.
+	 * 
+	 * @return the amount of alumni registered.
+	 */
+	public ArrayList<User> findAllAlumni() {
+
+		List<User> users = new ArrayList<User>();
+		String sql = "SELECT * from alumnitracker.user WHERE role = '2'";
+
+		try {
+			users = jdbcTemplate.query(sql, getRowMapper());
+
+			return (ArrayList<User>) users;
+		} catch (EmptyResultDataAccessException e) {
+			System.out.println("There are not any alumni in the system.");
+			return null;
+		}
+	}
+
+	/**
+	 * Method to find all the faculty in the database.
+	 * 
+	 * @return the amount of faculty registered.
+	 */
+	public ArrayList<User> findAllFaculty() {
+
+		List<User> users = new ArrayList<User>();
+		String sql = "SELECT * from alumnitracker.user WHERE role = '3'";
+
+		try {
+			users = jdbcTemplate.query(sql, getRowMapper());
+
+			return (ArrayList<User>) users;
+		} catch (EmptyResultDataAccessException e) {
+			System.out.println("There are not any faculty in the system.");
 			return null;
 		}
 	}
@@ -173,14 +227,13 @@ public class UserDao extends BaseDao<User> {
 				user.setRole(rs.getInt("role"));
 				user.setBio(rs.getString("bio"));
 				user.setExperience(rs.getString("experience"));
-				
-//				TODO See Pollack about structure change (INEFFICIENT)
 
+				// TODO See Pollack about structure change (INEFFICIENT)
 
-//				user.setConcentration(majorDao.findConcentrationByUser(user));
-//				user.setMinor(majorDao.findMinorByUser(user));
-//				user.setMajor(majorDao.findMajorByUser(user));
-//				user.setInterest(interestDao.findAllByUser(user));
+				// user.setConcentration(majorDao.findConcentrationByUser(user));
+				// user.setMinor(majorDao.findMinorByUser(user));
+				// user.setMajor(majorDao.findMajorByUser(user));
+				// user.setInterest(interestDao.findAllByUser(user));
 
 				// return the object
 				return user;

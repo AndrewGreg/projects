@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
-import javax.swing.plaf.synth.SynthSeparatorUI; 
+import javax.swing.plaf.synth.SynthSeparatorUI;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -15,18 +15,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 import edu.ben.template.model.Event;
 import edu.ben.template.model.JobPosting;
 import edu.ben.template.model.User;
 
 @Controller
-public class HomeController extends BaseController{
+public class HomeController extends BaseController {
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(Model model) {
 		return "index";
 	}
+
 	/**
 	 * Access to the registration page.
 	 * 
@@ -150,48 +150,53 @@ public class HomeController extends BaseController{
 	}
 
 	@RequestMapping(value = "/editAccount", method = RequestMethod.GET)
-	public String editAccount(Model model/*, @RequestParam("firstName") String firstName,
-			@RequestParam("lastName") String lastName, @RequestParam("benEmail") String benEmail,
-			@RequestParam("personalEmail") String personalEmail, @RequestParam("gradYear") String gradYear,
-			@RequestParam("standing") String standing, @RequestParam("occupation") String occupation,
-			@RequestParam("title") String title, @RequestParam("suffix") String suffix,
-			@RequestParam("password") String password, @RequestParam("passConfirm") String passConfirm*/) {
-				
-		
-//		GET USER FROM SESSION
-		
-//		DUMMY User for now
-		
+	public String editAccount(
+			Model model/*
+						 * , @RequestParam("firstName") String firstName,
+						 * 
+						 * @RequestParam("lastName") String
+						 * lastName, @RequestParam("benEmail") String benEmail,
+						 * 
+						 * @RequestParam("personalEmail") String
+						 * personalEmail, @RequestParam("gradYear") String
+						 * gradYear,
+						 * 
+						 * @RequestParam("standing") String
+						 * standing, @RequestParam("occupation") String
+						 * occupation,
+						 * 
+						 * @RequestParam("title") String
+						 * title, @RequestParam("suffix") String suffix,
+						 * 
+						 * @RequestParam("password") String
+						 * password, @RequestParam("passConfirm") String
+						 * passConfirm
+						 */) {
+
+		// GET USER FROM SESSION
+
+		// DUMMY User for now
+
 		User u = getUserDao().getObjectById(1);
-		
+
 		System.out.println(u.getFirstName() + " " + u.getLastName());
-		
-		
-		
 
-		
+		// CHECK Profile Role
 
-//		CHECK Profile Role
-		
-		
-//		For dropdown of major -> for loop to mark if selected
-		
-//		JSP has a password and confirm password
-		
-//		Confirm EDIT
-//			return to user profile
-		
-//		Can't confirm EDIT
-//			return to user profile but incomplete
-		
-		
-		
-		
-		
-		return "userProfile{userId}";//TODO CHECK THIS URL
-	
+		// For dropdown of major -> for loop to mark if selected
+
+		// JSP has a password and confirm password
+
+		// Confirm EDIT
+		// return to user profile
+
+		// Can't confirm EDIT
+		// return to user profile but incomplete
+
+		return "userProfile{userId}";// TODO CHECK THIS URL
+
 	}
-	
+
 	/**
 	 * Access to the job postings page.
 	 * 
@@ -227,6 +232,28 @@ public class HomeController extends BaseController{
 	@RequestMapping(value = "/facultyProfile", method = RequestMethod.GET)
 	public String faculty(Model model) {
 
+		// Return all Students
+		try {
+			ArrayList<User> student = new ArrayList<User>();
+			student = getUserDao().findAllStudents();
+
+			model.addAttribute("student", student);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// Return all Alumni
+		try {
+			ArrayList<User> alumni = new ArrayList<User>();
+			alumni = getUserDao().findAllAlumni();
+
+			model.addAttribute("alumni", alumni);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return "facultyProfile";
 	}
 
@@ -245,12 +272,11 @@ public class HomeController extends BaseController{
 			ArrayList<User> alumni = new ArrayList<User>();
 			alumni = getUserDao().findAll();
 
-			//System.out.println(alumni.get(0).toString());
 			for (User users : alumni) {
 				users.setMajor(getMajorDao().findMajorByUser(users));
 				users.setConcentration(getMajorDao().findConcentrationByUser(users));
 				users.setMinor(getMajorDao().findMinorByUser(users));
-				
+
 			}
 
 			sortUsers(alumni);
@@ -266,7 +292,6 @@ public class HomeController extends BaseController{
 				}
 			}
 			model.addAttribute("alumni", users);
-
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -300,10 +325,13 @@ public class HomeController extends BaseController{
 	 * @return the profile page that belongs to the user.
 	 */
 	@RequestMapping(value = "/userProfile", method = RequestMethod.GET)
-//	public String userProfile(Model model, @RequestParam("name") String name, @RequestParam("bio") String biography,
-//			@RequestParam("occupation") String occupation, @RequestParam("graduation") String graduation,
-//			@RequestParam("workInterest") String workInterest, @RequestParam("experience") String experience) {
-	public String userProfile(Model model){
+	// public String userProfile(Model model, @RequestParam("name") String name,
+	// @RequestParam("bio") String biography,
+	// @RequestParam("occupation") String occupation,
+	// @RequestParam("graduation") String graduation,
+	// @RequestParam("workInterest") String workInterest,
+	// @RequestParam("experience") String experience) {
+	public String userProfile(Model model) {
 
 		// try {
 		//

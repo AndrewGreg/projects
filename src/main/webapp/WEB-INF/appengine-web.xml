@@ -13,6 +13,15 @@
 		<property name="java.util.logging.config.file" value="WEB-INF/logging.properties" />
 	</system-properties>
 
+	<session-management>
+		<concurrency-control expired-url="/sessionExpired.jsp" />
+	</session-management>
+
+	<session-management invalid-session-url="/invalidSession.jsp">
+	</session-management>
+
+	<session-management session-fixation-protection="migrateSession"></session-management>
+
 	<sessions-enabled>true</sessions-enabled>
 	<!-- HTTP Sessions are disabled by default. To enable HTTP sessions specify: 
 		<sessions-enabled>true</sessions-enabled> It's possible to reduce request 

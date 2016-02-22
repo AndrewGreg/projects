@@ -14,13 +14,16 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.joda.time.DateTime;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 
-
+@Component
+@Scope("session")
 public class User implements UserDetails, CredentialsContainer {
 
 	/* serializable */

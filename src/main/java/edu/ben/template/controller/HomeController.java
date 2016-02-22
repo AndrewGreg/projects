@@ -6,14 +6,18 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.swing.plaf.synth.SynthSeparatorUI;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import edu.ben.template.model.Event;
 import edu.ben.template.model.JobPosting;
@@ -21,7 +25,9 @@ import edu.ben.template.model.User;
 
 @Controller
 public class HomeController extends BaseController {
-
+	
+	
+	
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(Model model) {
 		return "index";

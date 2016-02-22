@@ -117,13 +117,13 @@
  								<a href="#" class="btn btn-primary">Create Job Posting</a>
  								<br>
 								<br> 
-								<form action="fileUpload" method="post">
+								<form action="facultyProfile" method="post" enctype="multipart/form-data">
 									<div class="fileUpload btn btn-primary">
      									<span>Upload Profile Picture</span>
      									<input type="file" class="upload" />
  									</div>
-									<button class="btn btn-primary" name="Submit"
-									value="Submit" type="Submit">Submit</button> 
+									<button class="btn btn-primary" name="Upload"
+									value="Upload" type="Submit">Upload</button> 
 							</form>
 								
 							</div>

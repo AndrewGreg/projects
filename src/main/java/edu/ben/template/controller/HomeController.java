@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.swing.plaf.synth.SynthSeparatorUI;
 
 
@@ -31,7 +32,12 @@ import edu.ben.template.model.UploadFile;
 import edu.ben.template.model.User;
 
 @Controller
+@Scope("session")
 public class HomeController extends BaseController{
+	
+	
+	
+	
 //	 @Autowired
 //	 private FileUploadDao fileUploadDao;
 	@RequestMapping(value = "/index", method = RequestMethod.GET)

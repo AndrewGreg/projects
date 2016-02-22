@@ -111,22 +111,18 @@
 								<a href="#" class="btn btn-primary">Another button</a>
 								<br>
 								<br>
-								<form action="fileUpload" method="post">	
+								<form action="userProfile" method="post">	
 									<div class="fileUpload btn btn-primary">
     									<span>Upload Profile Picture</span>
     									<input type="file" class="upload" />
 									</div>
-									<button class="btn btn-primary" name="Submit" 
-										value="Submit" type="Submit">Submit</button>
 									<br>
-								</form>
-								<form action="fileUpload" method="post">
 									<div class="fileUpload btn btn-primary">
     									<span>Upload Resume</span>
     									<input type="file" class="upload" />		
 									</div>
-									<button class="btn btn-primary" name="Submit" 
-										value="Submit" type="Submit">Submit</button>
+									<button class="btn btn-primary" name="Upload" 
+										value="Upload" type="Submit">Upload</button>
 								</form>
 							</div>
 						</div>

@@ -9,7 +9,9 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.swing.plaf.synth.SynthSeparatorUI;
 
+
 import org.springframework.context.annotation.Scope;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -19,15 +21,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+import edu.ben.template.dao.FileUploadDao;
 import edu.ben.template.model.Event;
 import edu.ben.template.model.JobPosting;
+import edu.ben.template.model.UploadFile;
 import edu.ben.template.model.User;
 
 @Controller
-public class HomeController extends BaseController {
-	
-	
-	
+public class HomeController extends BaseController{
+//	 @Autowired
+//	 private FileUploadDao fileUploadDao;
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(Model model) {
 		return "index";
@@ -227,6 +233,8 @@ public class HomeController extends BaseController {
 
 		return "jobPostings";
 	}
+	
+	
 
 	/**
 	 * Access to the Faculty Profile page.
@@ -262,6 +270,25 @@ public class HomeController extends BaseController {
 
 		return "facultyProfile";
 	}
+	
+//	@RequestMapping(value = "/facultyProfile", method = RequestMethod.POST)
+//	public String facultyUpload(Model model, HttpServletRequest request,
+//            @RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
+//		
+//		if (fileUpload != null && fileUpload.length > 0) {
+//            for (CommonsMultipartFile aFile : fileUpload){
+//                  
+//                //System.out.println("Saving file: " + aFile.getOriginalFilename());
+//                 
+//                UploadFile uploadFile = new UploadFile();
+//                uploadFile.setFileName(aFile.getOriginalFilename());
+//                uploadFile.setData(aFile.getBytes());
+//                fileUploadDao.save(uploadFile);               
+//            }
+//        }
+//
+//		return "facultyProfile";
+//	}
 
 	/**
 	 * Displays all the alumni users in the system.
@@ -352,6 +379,25 @@ public class HomeController extends BaseController {
 
 		return "userProfile";
 	}
+	
+//	@RequestMapping(value = "/userProfile", method = RequestMethod.POST)
+//	public String userProfileUpload(Model model, HttpServletRequest request,
+//            @RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
+//		
+//		if (fileUpload != null && fileUpload.length > 0) {
+//            for (CommonsMultipartFile aFile : fileUpload){
+//                  
+//                //System.out.println("Saving file: " + aFile.getOriginalFilename());
+//                 
+//                UploadFile uploadFile = new UploadFile();
+//                uploadFile.setFileName(aFile.getOriginalFilename());
+//                uploadFile.setData(aFile.getBytes());
+//                fileUploadDao.save(uploadFile);               
+//            }
+//        }
+//
+//		return "userProfile";
+//	}
 
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/somethingSecret", method = RequestMethod.GET)

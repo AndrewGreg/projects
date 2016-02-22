@@ -5,9 +5,13 @@ import java.io.IOException;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
@@ -67,6 +71,28 @@ public class DaoConfig {
 		return dao;
 	}
 	
+//	@Autowired
+//	@Bean
+//	public FileUploadDao getUserDao(SessionFactory sessionFactory) {
+//	    return new FileUploadDaoImpl(sessionFactory);
+//	}
+	
+//	@Bean
+//	public SessionFactory sessionFactory(){
+//	    AnnotationSessionFactoryBean sessionFactoryBean = new AnnotationSessionFactoryBean();
+//	    sessionFactoryBean.setConfigLocation(new ClassPathResource("hibernate.cfg.xml"));
+//	    sessionFactoryBean.afterPropertiesSet();
+//	    return sessionFactoryBean.getObject();
+//	}
+	
+//	@Bean(name = "multipartResolver")
+//	public CommonsMultipartResolver getCommonsMultipartResolver() {
+//	    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+//	    multipartResolver.setMaxUploadSize(20971520);   // 20MB
+//	    multipartResolver.setMaxInMemorySize(1048576);  // 1MB
+//	    return multipartResolver;
+//	}
+//	
 	@Bean
 	public EventDao eventDao() throws IOException {
 		// create the dao

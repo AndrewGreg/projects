@@ -17,17 +17,33 @@ public class FileUploadController {
     public @ResponseBody String provideUploadInfo() {
         return "You can upload a file by posting to this same URL.";
     }
-
+    
+    /**
+     * Upload single file
+     */
     @RequestMapping(value="/upload", method=RequestMethod.POST)
     public @ResponseBody String handleFileUpload(@RequestParam("name") String name,
             @RequestParam("file") MultipartFile file){
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
+                
+                // Creating the directory to store file
+                String rootPath = System.getProperty("catalina.home");
+                File dir = new File(rootPath + File.separator + "tmpFiles");
+                if (!dir.exists())
+                    dir.mkdirs();
+                
+                // Create the file on server
+                File serverFile = new File(dir.getAbsolutePath()
+                        + File.separator + name);
+                
                 BufferedOutputStream stream =
                         new BufferedOutputStream(new FileOutputStream(new File(name)));
                 stream.write(bytes);
                 stream.close();
+//                logger.info("Server File Location="
+//                        + serverFile.getAbsolutePath());
                 return "You successfully uploaded " + name + "!";
             } catch (Exception e) {
                 return "You failed to upload " + name + " => " + e.getMessage();
@@ -36,5 +52,50 @@ public class FileUploadController {
             return "You failed to upload " + name + " because the file was empty.";
         }
     }
+    
+    /**
+     * Upload multiple file using Spring Controller
+     */
+    @RequestMapping(value = "/uploadMultiple", method = RequestMethod.POST)
+    public @ResponseBody
+    String uploadMultipleFileHandler(@RequestParam("name") String[] names,
+            @RequestParam("file") MultipartFile[] files) {
+ 
+        if (files.length != names.length)
+            return "Mandatory information missing";
+ 
+        String message = "";
+        for (int i = 0; i < files.length; i++) {
+            MultipartFile file = files[i];
+            String name = names[i];
+            try {
+                byte[] bytes = file.getBytes();
+ 
+                // Creating the directory to store file
+                String rootPath = System.getProperty("catalina.home");
+                File dir = new File(rootPath + File.separator + "tmpFiles");
+                if (!dir.exists())
+                    dir.mkdirs();
+ 
+                // Create the file on server
+                File serverFile = new File(dir.getAbsolutePath()
+                        + File.separator + name);
+                BufferedOutputStream stream = new BufferedOutputStream(
+                        new FileOutputStream(serverFile));
+                stream.write(bytes);
+                stream.close();
+ 
+//                logger.info("Server File Location="
+//                        + serverFile.getAbsolutePath());
+ 
+                message = message + "You successfully uploaded file=" + name
+                        + "<br />";
+            } catch (Exception e) {
+                return "You failed to upload " + name + " => " + e.getMessage();
+            }
+        }
+        return message;
+    }
+    
 
 }

@@ -18,10 +18,10 @@ import edu.ben.template.model.User;
 
 public class JobPostingDao extends BaseDao<JobPosting> {
 
-	public JobPostingDao(){
+	public JobPostingDao() {
 		super();
 	}
-	
+
 	public JobPosting getObjectById(int objectId, boolean complete) {
 		if (objectId == 0) {
 			/* Probably want to log this */
@@ -75,7 +75,14 @@ public class JobPostingDao extends BaseDao<JobPosting> {
 
 		String sql = "INSERT INTO job (name, description, company, user_id) VALUES (?, ?, ?, ?)";
 
-		jdbcTemplate.update(sql, job.getName(), job.getDescription(), job.getCompany(), job.getPoster().getId());
+		System.out.println(job.getPoster());
+		System.out.println(job.getName());
+		System.out.println(job.getDescription());
+		System.out.println(job.getCompany());
+
+		jdbcTemplate.update(sql,
+				new Object[] { job.getName(), job.getDescription(), job.getCompany(), job.getPoster().getId() });
+
 		return;
 	}
 

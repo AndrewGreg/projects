@@ -19,6 +19,7 @@
 <jsp:include page="header.jsp" />
 </head>
 <body>
+
 	<jsp:include page="navBar.jsp" />
 	<div class="container-fluid">
 		<div class="row">

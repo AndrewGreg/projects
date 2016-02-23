@@ -75,6 +75,8 @@ public class HomeController extends BaseController {
 			// jobPosting object
 			JobPosting job = new JobPosting(name, description, company, poster);
 
+			System.out.println(job);
+
 			job.setName(name);
 			job.setDescription(description);
 			job.setCompany(company);
@@ -86,8 +88,6 @@ public class HomeController extends BaseController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
-			return "createJobPostings";
 
 		} else {
 
@@ -108,7 +108,7 @@ public class HomeController extends BaseController {
 			model.addAttribute("errors", errors);
 		}
 
-		return "jobPostings";
+		return "jobPosting";
 
 	}
 
@@ -347,7 +347,6 @@ public class HomeController extends BaseController {
 
 	}
 
-
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public String edit(Model model, @RequestParam("title") String title, @RequestParam("fName") String firstName,
 			@RequestParam("lName") String lastName, @RequestParam("suffix") String suffix,
@@ -458,7 +457,6 @@ public class HomeController extends BaseController {
 
 	}
 
-	
 	/**
 	 * Access to the job postings page.
 	 * 
@@ -466,7 +464,7 @@ public class HomeController extends BaseController {
 	 *            is being passed in
 	 * @return the job postings page.
 	 */
-	@RequestMapping(value="/jobPostings",method=RequestMethod.GET)
+	@RequestMapping(value = "/jobPostings", method = RequestMethod.GET)
 
 	public String jobPostings(Model model) {
 
@@ -677,8 +675,6 @@ public class HomeController extends BaseController {
 		return "edit";
 
 	}
-
-	
 
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/somethingSecret", method = RequestMethod.GET)

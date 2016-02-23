@@ -65,29 +65,22 @@ public class HomeController extends BaseController {
 	 */
 	@RequestMapping(value = "/createJobPosting", method = RequestMethod.POST)
 	public String createJobPostingPost(Model model, @RequestParam("name") String name,
-			@RequestParam("company") String company, @RequestParam("description") String description,
-			@RequestParam("poster") User poster) {
+			@RequestParam("company") String company, @RequestParam("description") String description) {
 
 		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
 				&& description.matches(".{2,}")) {
 
 			// TODO Find out how to get the logged in user to add to the
 			// jobPosting object
-			JobPosting job = new JobPosting(name, description, company, poster);
-
-			System.out.println(job);
-
-			job.setName(name);
-			job.setDescription(description);
-			job.setCompany(company);
-
-			System.out.println("Job was created.");
+			JobPosting job = new JobPosting(name, description, company);
 
 			try {
 				getJobPostingDao().addJobPosting(job);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			System.out.println("Job was created");
+			return "index";
 
 		} else {
 
@@ -106,10 +99,9 @@ public class HomeController extends BaseController {
 			}
 
 			model.addAttribute("errors", errors);
+
+			return "createJobPosting";
 		}
-
-		return "jobPosting";
-
 	}
 
 	@RequestMapping(value = "/createEvent", method = RequestMethod.GET)
@@ -127,64 +119,66 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/createEvent", method = RequestMethod.POST)
 	public String createEventPost(Model model, @RequestParam("name") String name, @RequestParam("date") String dateStr,
 			@RequestParam("description") String description) {
-		try {
-			if (name != null && name.matches(".{2,}") && description != null && description.matches(".{2,}")
-					&& dateStr != null && dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
 
-				String[] datePart = dateStr.split("/");
+		if (name != null && name.matches(".{2,}") && description != null && description.matches(".{2,}")
+				&& dateStr != null && dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
 
-				// TODO Add 1900 as a year offset constant for the deprecated
-				// date
-				// constructor
-				Date eventDate = new Date(Integer.parseInt(datePart[2]) - 1900, Integer.parseInt(datePart[0]) - 1,
-						Integer.parseInt(datePart[1]));
-				Date currentDate = new Date(System.currentTimeMillis());
+			String[] datePart = dateStr.split("/");
 
-				Event createEvent = new Event();
+			// TODO Add 1900 as a year offset constant for the deprecated
+			// date
+			// constructor
+			Date eventDate = new Date(Integer.parseInt(datePart[2]) - 1900, Integer.parseInt(datePart[0]) - 1,
+					Integer.parseInt(datePart[1]));
+			Date currentDate = new Date(System.currentTimeMillis());
 
-				createEvent.setName(name);
-				createEvent.setDescription(description);
-				createEvent.setDate(eventDate);
+			Event createEvent = new Event();
 
-				if (eventDate.compareTo(currentDate) < 0) {
+			createEvent.setName(name);
+			createEvent.setDescription(description);
+			createEvent.setDate(eventDate);
 
-					HashMap<String, String> errors = new HashMap<String, String>();
-
-					errors.put("date", "Error. The event's date must be after the current date.");
-
-					model.addAttribute("errors", errors);
-
-					return "createEvent";
-				}
-
-				System.out.println("Event was created.");
-				getEventDao().addEvent(createEvent);
-
-				return "events";
-
-			} else {
+			if (eventDate.compareTo(currentDate) < 0) {
 
 				HashMap<String, String> errors = new HashMap<String, String>();
 
-				if (name == null || !name.matches(".{2,}")) {
-					errors.put("name", "Error in the input for the event name.");
-				}
-
-				if (description == null || !description.matches(".{2,}")) {
-					errors.put("description", "Error in the input for the event description.");
-				}
-
-				if (dateStr == null || !dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
-					errors.put("date", "Error in the input for the event's date.");
-				}
+				errors.put("date", "Error. The event's date must be after the current date.");
 
 				model.addAttribute("errors", errors);
 
+				return "createEvent";
 			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Event was created.");
+
+			try {
+				getEventDao().addEvent(createEvent);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			return "events";
+
+		} else {
+
+			HashMap<String, String> errors = new HashMap<String, String>();
+
+			if (name == null || !name.matches(".{2,}")) {
+				errors.put("name", "Error in the input for the event name.");
+			}
+
+			if (description == null || !description.matches(".{2,}")) {
+				errors.put("description", "Error in the input for the event description.");
+			}
+
+			if (dateStr == null || !dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
+				errors.put("date", "Error in the input for the event's date.");
+			}
+
+			model.addAttribute("errors", errors);
+
 		}
+
 		return "events";
 
 	}

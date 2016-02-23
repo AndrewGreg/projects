@@ -50,7 +50,7 @@
 
 				<!-- Profile Picture -->
 				<div style="border-color:black" class="panel panel-info">
-					<div style="background-color:red" style="color:red" class="panel-heading"><a href="edit.html" data-original-title="Edit this user" data-toggle="tooltip" 
+					<div style="background-color:red" style="color:red" class="panel-heading"><a href="/edit" data-original-title="Edit this user" data-toggle="tooltip" 
 						type="button" class="btn btn-sm btn-warning"> </a>
 						<h3 class="panel-title"><%user.getFirstName(); %>&nbsp;<%user.getLastName(); %></h3>
 					</div>

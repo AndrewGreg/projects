@@ -23,6 +23,8 @@ public class DaoKeeper {
 	private MajorDao majorDao;
 	@Autowired
 	private InterestDao interestDao;
+	@Autowired
+	private FileUploadDao fileUploadDao;
 	
 
 	public ObjectMapper getObjectMapper() {
@@ -59,6 +61,14 @@ public class DaoKeeper {
 
 	public void setMajorDao(MajorDao majorDao) {
 		this.majorDao = majorDao;
+	}
+	
+	public FileUploadDao getFileUploadDao() {
+		return fileUploadDao;
+	}
+
+	public void setFileUploadDao(FileUploadDao fileUploadDao) {
+		this.fileUploadDao = fileUploadDao;
 	}
 
 	public InterestDao getInterestDao() {

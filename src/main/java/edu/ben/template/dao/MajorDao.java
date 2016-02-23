@@ -62,6 +62,20 @@ public class MajorDao extends BaseDao<Major> {
 		}
 	}
 
+	public Major findByName(String name) {
+
+		Major majors = new Major();
+		String sql = "SELECT * FROM major WHERE name = ?";
+
+		try {
+			majors = jdbcTemplate.queryForObject(sql, new Object[] { name }, getRowMapper());
+			return majors;
+		} catch (EmptyResultDataAccessException e) {
+			/* Probably want to log this */
+			return null;
+		}
+	}
+
 	public ArrayList<Major> findAllMajors() {
 
 		List<Major> majors = new ArrayList<Major>();
@@ -90,6 +104,8 @@ public class MajorDao extends BaseDao<Major> {
 		}
 	}
 
+	// TODO Update Major/Minor
+
 	// Search for concentrations of a major
 	public ArrayList<Major> findConcentrationByMajor(Major m) {
 
@@ -117,6 +133,27 @@ public class MajorDao extends BaseDao<Major> {
 			/* Probably want to log this */
 			return null;
 		}
+	}
+
+	// TODO Check with Prof. Pollack
+	public void updateMajorByUser(User u) {
+
+		String sql = "DELETE FROM user_major WHERE user_id = ? AND minor = 0;";
+
+		if (u.equals(null)){
+		}
+		
+		try {
+			jdbcTemplate.update(sql, new Object[] { u.getId() });
+		} catch (Exception e) {
+			/* Probably should log this */
+		}
+
+		for (int i = 0; i < u.getMajor().size(); i++) {
+			addMajorToUser(u.getMajor().get(i), u);
+
+		}
+
 	}
 
 	public ArrayList<Major> findMinorByUser(User u) {
@@ -190,9 +227,13 @@ public class MajorDao extends BaseDao<Major> {
 	public void addMajorToUser(Major major, User u) {
 
 		String sql = "INSERT INTO user_major (user_id,major_id,minor) VALUES (?,?,0);";
-
-		jdbcTemplate.update(sql, u.getId(), major.getId());
-		return;
+		
+		try {
+			jdbcTemplate.update(sql, u.getId(), major.getId());
+			return;
+		} catch (Exception e) {
+			/*Probably should log this */
+		}
 	}
 
 	public void addMinorToUser(Major major, User u) {

@@ -27,8 +27,10 @@ import edu.ben.template.dao.FileUploadDao;
 import edu.ben.template.dao.UserDao;
 import edu.ben.template.model.Event;
 import edu.ben.template.model.JobPosting;
+import edu.ben.template.model.Major;
 import edu.ben.template.model.UploadFile;
 import edu.ben.template.model.User;
+import edu.ben.template.model.Validator;
 
 @Controller
 @Scope("session")
@@ -575,6 +577,153 @@ public class HomeController extends BaseController {
 	//
 	// return "userProfile";
 	// }
+	
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public String editPost(Model model) {
+
+		// GET USER FROM SESSION
+
+		// DUMMY User
+		
+
+		User u = getUserDao().getObjectById(DUMMY_ID);
+
+		u.setMajor(getMajorDao().findMajorByUser(u));
+		u.setConcentration(getMajorDao().findConcentrationByUser(u));
+		u.setMinor(getMajorDao().findMinorByUser(u));
+
+		ArrayList<Major> m = getMajorDao().findAllMajors();
+		
+		System.out.println(u.toString());
+
+		model.addAttribute("user", u);
+		model.addAttribute("majors", m);
+
+		HashMap<String, String> e = new HashMap<String, String>();
+		model.addAttribute("errors", e);
+
+		return "edit";
+
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	public String edit(Model model, @RequestParam("title") String title, @RequestParam("fName") String firstName,
+			@RequestParam("lName") String lastName, @RequestParam("suffix") String suffix,
+			@RequestParam("personalEmail") String personalEmail, @RequestParam("graduationYear") String graduationYear,
+			@RequestParam("major") String major, @RequestParam("doubleMajor") String doubleMajor,
+			@RequestParam("thirdMajor") String thirdMajor, @RequestParam("occupation") String occupation,
+			@RequestParam("bio") String biography, @RequestParam("experience") String experience,
+			@RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword) {
+
+		System.out.println("I'm here");
+		
+		if (validateEdit(password, confirmPassword, firstName, lastName, personalEmail, graduationYear)) {
+
+			// TODO GET USER FROM SESSION
+			//
+			// DUMMY User
+			//
+			User u = getUserDao().getObjectById(DUMMY_ID);
+
+			//Is this necessary?
+			u.setMajor(getMajorDao().findMajorByUser(u));
+			u.setConcentration(getMajorDao().findConcentrationByUser(u));
+			u.setMinor(getMajorDao().findMinorByUser(u));
+			
+			System.out.println("Here: " + u.toString());
+
+			if (Validator.isNull(title))
+				title = null;
+			if (Validator.isNull(suffix))
+				suffix = null;
+			if (Validator.isNull(personalEmail))
+				personalEmail = null;
+			if (Validator.isNull(occupation))
+				occupation = null;
+			if (Validator.isNull(biography))
+				biography = null;
+			if (Validator.isNull(experience))
+				experience = null;
+
+			if (!Validator.validateSelect(graduationYear)) {
+				u.setGraduationYear(0);
+			} else {
+				u.setGraduationYear(Integer.parseInt(graduationYear));
+			}
+
+			u.setTitle(title);
+			u.setFirstName(firstName);
+			u.setLastName(lastName);
+			u.setSuffix(suffix);
+			u.setPersonalEmail(personalEmail);
+			u.setOccupation(occupation);
+			u.setBio(biography);
+			u.setExperience(experience);
+
+			Major m = getMajorDao().findByName(major);
+			Major m2 = getMajorDao().findByName(doubleMajor);
+			Major m3 = getMajorDao().findByName(thirdMajor);
+
+			u.clearMajors();
+			if (m != null) {
+				u.addMajor(m);
+			}
+			if (m2 != null) {
+				u.addMajor(m2);
+			}
+			if (m2 != null) {
+				u.addMajor(m3);
+			}
+
+			System.out.println("Now its this: " + u.toString());
+			
+			// TODO Hash the password before saving to the user
+			u.setPassword(password);
+
+			try {
+				getUserDao().updateUser(u);
+				getMajorDao().updateMajorByUser(u);
+			} catch (Exception e) {
+				/* Probably should log this */
+				System.out.println("Oops");
+
+			}
+
+			return "userProfile";
+		}
+
+		HashMap<String, String> e = new HashMap<String, String>();// TODO
+
+		ArrayList<Major> m = getMajorDao().findAllMajors();
+
+		// TODO GET USER FROM SESSION
+		//
+		// DUMMY User
+		//
+		User u = getUserDao().getObjectById(DUMMY_ID);
+		
+		System.out.println("look at this");
+
+		u.setMajor(getMajorDao().findMajorByUser(u));
+		u.setConcentration(getMajorDao().findConcentrationByUser(u));
+		u.setMinor(getMajorDao().findMinorByUser(u));
+
+		if (!Validator.validatePassword(password) || !Validator.validatePasswordsMatch(password, confirmPassword))
+			e.put("password", "Invalid Password");
+		if (!Validator.validateName(firstName))
+			e.put("fName", "Invalid First Name Entry");
+		if (!Validator.validateName(lastName))
+			e.put("fName", "Invalid Last Name Entry");
+		if (!Validator.validateEmail(personalEmail, false))
+			e.put("fName", "Invalid Email Entry");
+
+		model.addAttribute("user", u);
+		model.addAttribute("majors", m);
+		model.addAttribute("errors", e);
+
+		return "edit";
+
+	}
 
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/somethingSecret", method = RequestMethod.GET)
@@ -587,4 +736,16 @@ public class HomeController extends BaseController {
 	public String userHome(Model model) {
 		return "index";
 	}
+	
+	private boolean validateEdit(String password, String confirmPassword, String firstName, String lastName,
+			String personalEmail, String graduationYear) {
+
+		return (Validator.validatePasswordsMatch(password, confirmPassword) && Validator.validatePassword(password)
+				&& Validator.validateName(firstName) && Validator.validateName(lastName)
+				&& Validator.validateGraduationYear(graduationYear, false)
+				&& Validator.validateEmail(personalEmail, false));
+	}
+
+	// For user testing purposes (taken out with sessions)
+	final static int DUMMY_ID = 1;
 }

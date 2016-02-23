@@ -17,7 +17,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-5  toppad  pull-right col-md-offset-3 ">
-				<A href="edit.jsp">Edit Profile</A> <A href="logout.jsp">Logout</A>
+				<A href="/edit">Edit Profile</A> <A href="logout.jsp">Logout</A>
 				<br>
 				<!-- 	<p class=" text-info">May 05,2014,03:00 pm</p> -->
 			</div>

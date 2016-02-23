@@ -100,7 +100,7 @@ public class EventDao extends BaseDao<Event> {
 
 		String sql = "INSERT INTO job (name, description, date, user_id) VALUES (?, ?, ?, ?)";
 
-		jdbcTemplate.update(sql, event.getName(), event.getDescription(), event.getDate(), event.getPoster().getId());
+		jdbcTemplate.update(sql, new Object[] { event.getName(), event.getDescription(), event.getDate(), event.getPoster().getId()});
 		return;
 	}
 

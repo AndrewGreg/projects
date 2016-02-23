@@ -64,42 +64,45 @@ public class HomeController extends BaseController {
 	public String createJobPostingPost(Model model, @RequestParam("name") String name,
 			@RequestParam("company") String company, @RequestParam("description") String description,
 			@RequestParam("poster") User poster) {
-		try {
-			if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}")
-					&& description != null && description.matches(".{2,}")) {
 
-				// TODO Find out how to get the logged in user to add to the
-				// jobPosting object
-				JobPosting job = new JobPosting(name, description, company, poster);
+		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
+				&& description.matches(".{2,}")) {
 
-				job.setName(name);
-				job.setDescription(description);
-				job.setCompany(company);
+			// TODO Find out how to get the logged in user to add to the
+			// jobPosting object
+			JobPosting job = new JobPosting(name, description, company, poster);
 
+			job.setName(name);
+			job.setDescription(description);
+			job.setCompany(company);
+
+			System.out.println("Job was created.");
+
+			try {
 				getJobPostingDao().addJobPosting(job);
-
-				return "jobPostings";
-
-			} else {
-
-				HashMap<String, String> errors = new HashMap<String, String>();
-
-				if (name == null || !name.matches(".{2,}")) {
-					errors.put("name", "Error in the input for the job name.");
-				}
-
-				if (company == null || !company.matches(".{2,}")) {
-					errors.put("company", "Error in the input for the job's company.");
-				}
-
-				if (description == null || !description.matches(".{2,}")) {
-					errors.put("description", "Error in the input for the job description.");
-				}
-
-				model.addAttribute("errors", errors);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+
+			return "createJobPostings";
+
+		} else {
+
+			HashMap<String, String> errors = new HashMap<String, String>();
+
+			if (name == null || !name.matches(".{2,}")) {
+				errors.put("name", "Error in the input for the job name.");
+			}
+
+			if (company == null || !company.matches(".{2,}")) {
+				errors.put("company", "Error in the input for the job's company.");
+			}
+
+			if (description == null || !description.matches(".{2,}")) {
+				errors.put("description", "Error in the input for the job description.");
+			}
+
+			model.addAttribute("errors", errors);
 		}
 
 		return "jobPostings";
@@ -151,6 +154,7 @@ public class HomeController extends BaseController {
 					return "createEvent";
 				}
 
+				System.out.println("Event was created.");
 				getEventDao().addEvent(createEvent);
 
 				return "events";

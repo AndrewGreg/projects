@@ -7,30 +7,205 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.swing.plaf.synth.SynthSeparatorUI;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
-
 import edu.ben.template.dao.FileUploadDao;
+import edu.ben.template.dao.UserDao;
 import edu.ben.template.model.Event;
 import edu.ben.template.model.JobPosting;
+import edu.ben.template.model.Major;
 import edu.ben.template.model.UploadFile;
+import edu.ben.template.model.Event;
+import edu.ben.template.model.JobPosting;
+import edu.ben.template.model.Major;
 import edu.ben.template.model.User;
+import edu.ben.template.model.Validator;
 
 @Controller
 public class HomeController extends BaseController{
-
+@Scope("session")
+	
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(Model model) {
 		return "index";
 	}
+
+	/**
+	 * Access to the Job Creation page.
+	 * 
+	 * @param model
+	 *            is being passed in
+	 * @return the job creation page.
+	 */
+	@RequestMapping(value = "/createJobPosting", method = RequestMethod.GET)
+	public String jobCreation(Model model) {
+		return "createJobPosting";
+	}
+
+	/**
+	 * Form processing of the job posting creation page.
+	 *
+	 * @param model
+	 *            model and the form information is passed in
+	 * @return index page.
+	 */
+	@RequestMapping(value = "/createJobPosting", method = RequestMethod.POST)
+	public String createJobPostingPost(Model model, @RequestParam("name") String name,
+			@RequestParam("company") String company, @RequestParam("description") String description) {
+
+		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
+				&& description.matches(".{2,}")) {
+
+			// TODO Find out how to get the logged in user to add to the
+			// jobPosting object
+			JobPosting job = new JobPosting(name, description, company);
+
+			try {
+				getJobPostingDao().addJobPosting(job);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			System.out.println("Job was created");
+			return "index";
+
+		} else {
+
+			HashMap<String, String> errors = new HashMap<String, String>();
+
+			if (name == null || !name.matches(".{2,}")) {
+				errors.put("name", "Error in the input for the job name.");
+			}
+
+			if (company == null || !company.matches(".{2,}")) {
+				errors.put("company", "Error in the input for the job's company.");
+			}
+
+			if (description == null || !description.matches(".{2,}")) {
+				errors.put("description", "Error in the input for the job description.");
+			}
+
+			model.addAttribute("errors", errors);
+
+			return "createJobPosting";
+		}
+	}
+
+	@RequestMapping(value = "/createEvent", method = RequestMethod.GET)
+	public String createEvent(Model model) {
+		return "createEvent";
+	}
+
+	/**
+	 * Form processing the event creation page.
+	 *
+	 * @param model
+	 *            is being passed in as well as the form information
+	 * @return the index page.
+	 */
+	@RequestMapping(value = "/createEvent", method = RequestMethod.POST)
+	public String createEventPost(Model model, @RequestParam("name") String name, @RequestParam("date") String dateStr,
+			@RequestParam("description") String description) {
+
+		if (name != null && name.matches(".{2,}") && description != null && description.matches(".{2,}")
+				&& dateStr != null && dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
+
+			String[] datePart = dateStr.split("/");
+
+			// TODO Add 1900 as a year offset constant for the deprecated
+			// date
+			// constructor
+			Date eventDate = new Date(Integer.parseInt(datePart[2]) - 1900, Integer.parseInt(datePart[0]) - 1,
+					Integer.parseInt(datePart[1]));
+			Date currentDate = new Date(System.currentTimeMillis());
+
+			Event createEvent = new Event();
+
+			createEvent.setName(name);
+			createEvent.setDescription(description);
+			createEvent.setDate(eventDate);
+
+			if (eventDate.compareTo(currentDate) < 0) {
+
+				HashMap<String, String> errors = new HashMap<String, String>();
+
+				errors.put("date", "Error. The event's date must be after the current date.");
+
+				model.addAttribute("errors", errors);
+
+				return "createEvent";
+			}
+
+			System.out.println("Event was created.");
+
+			try {
+				getEventDao().addEvent(createEvent);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			return "events";
+
+		} else {
+
+			HashMap<String, String> errors = new HashMap<String, String>();
+
+			if (name == null || !name.matches(".{2,}")) {
+				errors.put("name", "Error in the input for the event name.");
+			}
+
+			if (description == null || !description.matches(".{2,}")) {
+				errors.put("description", "Error in the input for the event description.");
+			}
+
+			if (dateStr == null || !dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
+				errors.put("date", "Error in the input for the event's date.");
+			}
+
+			model.addAttribute("errors", errors);
+
+		}
+
+		return "events";
+
+	}
+
+	/**
+	 * Displays all events.
+	 * 
+	 * @param model
+	 *            being passed in.
+	 * @return the page returning all the events being posted.
+	 */
+	@RequestMapping(value = "/events", method = RequestMethod.GET)
+	public String eventPostings(Model model) {
+
+		// TODO Remove the permit all access from the security config
+
+		try {
+			ArrayList<Event> events = new ArrayList<Event>();
+			events = getEventDao().findAll();
+
+			model.addAttribute("events", events);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "events";
+	}
+
 	/**
 	 * Access to the registration page.
 	 * 
@@ -40,6 +215,7 @@ public class HomeController extends BaseController{
 	 */
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String registration(Model model) {
+
 		return "register";
 	}
 
@@ -58,144 +234,221 @@ public class HomeController extends BaseController{
 			@RequestParam("title") String title, @RequestParam("suffix") String suffix,
 			@RequestParam("password") String password, @RequestParam("passConfirm") String passConfirm) {
 
-		boolean validatePerEmail = personalEmail != null && !personalEmail.equals("") ? true : false;
+		try {
 
-		int graduationYear = gradYear != null && !gradYear.equals("") && gradYear.matches("[0-9]{4}")
-				? Integer.parseInt(gradYear) : (gradYear == null || gradYear.equals("") ? 1 : -1);
-		int role = standing.equals("1") || standing.equals("2") || standing.equals("3") ? Integer.parseInt(standing)
-				: -1;
+			boolean validatePerEmail = personalEmail != null && !personalEmail.equals("") ? true : false;
 
-		if ((firstName != null && firstName.matches(".{2,}")) && (lastName != null && lastName.matches(".{2,}"))
-				&& (benEmail != null && benEmail.matches("[a-zA-Z](?:[a-zA-Z_0-9])+@ben.edu"))
-				&& ((validatePerEmail
-						&& personalEmail.matches("[a-zA-Z](?:[a-zA-Z_0-9])+@[a-zA-Z_0-9]+[.][a-zA-Z_0-9]{2,4}"))
-						|| !validatePerEmail)
-				&& (graduationYear != -1) && (role != -1) && ((password != null && password.matches(".{2,}")
-						&& passConfirm != null && passConfirm.matches(".{2,}")) && password.equals(passConfirm))) {
+			int graduationYear = gradYear != null && !gradYear.equals("") && gradYear.matches("[0-9]{4}")
+					? Integer.parseInt(gradYear) : (gradYear == null || gradYear.equals("") ? 1 : -1);
+			int role = standing.equals("1") || standing.equals("2") || standing.equals("3") ? Integer.parseInt(standing)
+					: -1;
 
-			User register = new User();
+			if ((firstName != null && firstName.matches(".{2,}")) && (lastName != null && lastName.matches(".{2,}"))
+					&& (benEmail != null && benEmail.matches("[a-zA-Z](?:[a-zA-Z_0-9])+@ben.edu"))
+					&& ((validatePerEmail
+							&& personalEmail.matches("[a-zA-Z](?:[a-zA-Z_0-9])+@[a-zA-Z_0-9]+[.][a-zA-Z_0-9]{2,4}"))
+							|| !validatePerEmail)
+					&& (graduationYear != -1) && (role != -1) && ((password != null && password.matches(".{2,}")
+							&& passConfirm != null && passConfirm.matches(".{2,}")) && password.equals(passConfirm))) {
 
-			register.setEmail(benEmail);
-			register.setFirstName(firstName);
-			register.setLastName(lastName);
+				User register = new User();
 
-			if (graduationYear != 0) {
-				register.setGraduationYear(graduationYear);
+				register.setEmail(benEmail);
+				register.setFirstName(firstName);
+				register.setLastName(lastName);
+
+				// FIX THE SALT
+				register.setSalt(password);
+
+				if (graduationYear != 0) {
+					register.setGraduationYear(graduationYear);
+				}
+
+				if (occupation == null || occupation.equals("")) {
+					register.setOccupation(null);
+				} else {
+					register.setOccupation(occupation);
+				}
+
+				register.setRole(role);
+				register.setPersonalEmail(personalEmail);
+
+				if (title == null || title.equals("")) {
+					register.setTitle(null);
+				} else {
+					register.setTitle(title);
+				}
+
+				if (suffix == null || suffix.equals("")) {
+					register.setSuffix(null);
+				} else {
+					register.setSuffix(suffix);
+				}
+
+				// TODO Hash the password before saving to the user
+				register.setPassword(password);
+
+				getUserDao().addUser(register);
+
+				return "index";
+
+			} else {
+				HashMap<String, String> errors = new HashMap<String, String>();
+
+				if (firstName == null || !firstName.matches(".{2,}")) {
+					errors.put("firstName", "Error in the input for first name.");
+				}
+
+				if (lastName == null || !lastName.matches(".{2,}")) {
+					errors.put("lastName", "Error in the input for last name.");
+				}
+
+				if (benEmail == null || !benEmail.matches("[a-zA-Z](?:[a-zA-Z_0-9])+@ben.edu")) {
+					errors.put("benEmail", "Error in the input for your Benedictine email.");
+				}
+
+				if (validatePerEmail
+						&& !personalEmail.matches("[a-zA-Z](?:[a-zA-Z_0-9])+@[a-zA-Z_0-9]+[.][a-zA-Z_0-9]{2,4}")) {
+					errors.put("personalEmail", "Error in the input for your personal email.");
+				}
+
+				if (graduationYear == -1) {
+					errors.put("gradYear", "Error in the input for the graduation year.");
+				}
+
+				if (role == -1) {
+					errors.put("standing", "You must choose a valid standing.");
+				}
+
+				// TODO Add validation for title and suffix
+				// find the regex to invalidate two special characters together
+
+				if ((password == null || !password.matches(".{2,}") || passConfirm == null
+						|| !passConfirm.matches(".{2,}")) || !password.equals(passConfirm)) {
+					errors.put("passwords", "Passwords either do not match or are too short.");
+				}
+
+				model.addAttribute("errors", errors);
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "index";
+
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	public String edit(Model model, @RequestParam("title") String title, @RequestParam("fName") String firstName,
+			@RequestParam("lName") String lastName, @RequestParam("suffix") String suffix,
+			@RequestParam("personalEmail") String personalEmail, @RequestParam("graduationYear") String graduationYear,
+			@RequestParam("major") String major, @RequestParam("doubleMajor") String doubleMajor,
+			@RequestParam("thirdMajor") String thirdMajor, @RequestParam("occupation") String occupation,
+			@RequestParam("bio") String biography, @RequestParam("experience") String experience,
+			@RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword) {
+
+		if (validateEdit(password, confirmPassword, firstName, lastName, personalEmail, graduationYear)) {
+
+			// TODO GET USER FROM SESSION
+			//
+			// DUMMY User
+			//
+			User u = getUserDao().getObjectById(DUMMY_ID);
+
+			u.setMajor(getMajorDao().findMajorByUser(u));
+			u.setConcentration(getMajorDao().findConcentrationByUser(u));
+			u.setMinor(getMajorDao().findMinorByUser(u));
+
+			if (Validator.isNull(title))
+				title = null;
+			if (Validator.isNull(suffix))
+				suffix = null;
+			if (Validator.isNull(personalEmail))
+				personalEmail = null;
+			if (Validator.isNull(occupation))
+				occupation = null;
+			if (Validator.isNull(biography))
+				biography = null;
+			if (Validator.isNull(experience))
+				experience = null;
+
+			if (!Validator.validateSelect(graduationYear)) {
+				u.setGraduationYear(0);
+			} else {
+				u.setGraduationYear(Integer.parseInt(graduationYear));
 			}
 
-			if (occupation == null || occupation.equals("")) {
-				register.setOccupation(null);
-			} else {
-				register.setOccupation(occupation);
+			u.setTitle(title);
+			u.setFirstName(firstName);
+			u.setLastName(lastName);
+			u.setSuffix(suffix);
+			u.setPersonalEmail(personalEmail);
+			u.setOccupation(occupation);
+			u.setBio(biography);
+			u.setExperience(experience);
+
+			Major m = getMajorDao().findByName(major);
+			Major m2 = getMajorDao().findByName(doubleMajor);
+			Major m3 = getMajorDao().findByName(thirdMajor);
+
+			u.clearMajors();
+			if (m != null) {
+				u.addMajor(m);
 			}
-
-			register.setRole(role);
-			register.setPersonalEmail(personalEmail);
-
-			if (title == null || title.equals("")) {
-				register.setTitle(null);
-			} else {
-				register.setTitle(title);
+			if (m2 != null) {
+				u.addMajor(m2);
 			}
-
-			if (suffix == null || suffix.equals("")) {
-				register.setSuffix(null);
-			} else {
-				register.setSuffix(suffix);
+			if (m2 != null) {
+				u.addMajor(m3);
 			}
 
 			// TODO Hash the password before saving to the user
-			register.setPassword(password);
+			u.setPassword(password);
 
-			getUserDao().addUser(register);
+			try {
+				getUserDao().updateUser(u);
+				getMajorDao().updateMajorByUser(u);
+			} catch (Exception e) {
+				/* Probably should log this */
+				System.out.println("Oops");
 
-			return "index";
-
-		} else {
-			HashMap<String, String> errors = new HashMap<String, String>();
-
-			if (firstName == null || !firstName.matches(".{2,}")) {
-				errors.put("firstName", "Error in the input for first name.");
 			}
 
-			if (lastName == null || !lastName.matches(".{2,}")) {
-				errors.put("lastName", "Error in the input for last name.");
-			}
-
-			if (benEmail == null || !benEmail.matches("[a-zA-Z](?:[a-zA-Z_0-9])+@ben.edu")) {
-				errors.put("benEmail", "Error in the input for your Benedictine email.");
-			}
-
-			if (validatePerEmail
-					&& !personalEmail.matches("[a-zA-Z](?:[a-zA-Z_0-9])+@[a-zA-Z_0-9]+[.][a-zA-Z_0-9]{2,4}")) {
-				errors.put("personalEmail", "Error in the input for your personal email.");
-			}
-
-			if (graduationYear == -1) {
-				errors.put("gradYear", "Error in the input for the graduation year.");
-			}
-
-			if (role == -1) {
-				errors.put("standing", "You must choose a valid standing.");
-			}
-
-			// TODO Add validation for title and suffix
-			// find the regex to invalidate two special characters together
-
-			if ((password == null || !password.matches(".{2,}") || passConfirm == null || !passConfirm.matches(".{2,}"))
-					|| !password.equals(passConfirm)) {
-				errors.put("passwords", "Passwords either do not match or are too short.");
-			}
-
-			model.addAttribute("errors", errors);
-
-			return "register";
+			return "userProfile";
 		}
+
+		HashMap<String, String> e = new HashMap<String, String>();// TODO
+
+		ArrayList<Major> m = getMajorDao().findAllMajors();
+
+		// TODO GET USER FROM SESSION
+		//
+		// DUMMY User
+		//
+		User u = getUserDao().getObjectById(DUMMY_ID);
+
+		u.setMajor(getMajorDao().findMajorByUser(u));
+		u.setConcentration(getMajorDao().findConcentrationByUser(u));
+		u.setMinor(getMajorDao().findMinorByUser(u));
+
+		if (!Validator.validatePassword(password) || !Validator.validatePasswordsMatch(password, confirmPassword))
+			e.put("password", "Invalid Password");
+		if (!Validator.validateName(firstName))
+			e.put("fName", "Invalid First Name Entry");
+		if (!Validator.validateName(lastName))
+			e.put("fName", "Invalid Last Name Entry");
+		if (!Validator.validateEmail(personalEmail, false))
+			e.put("fName", "Invalid Email Entry");
+
+		model.addAttribute("user", u);
+		model.addAttribute("majors", m);
+		model.addAttribute("errors", e);
+
+		return "edit";
+
 	}
 
-	@RequestMapping(value = "/editAccount", method = RequestMethod.GET)
-	public String editAccount(Model model/*, @RequestParam("firstName") String firstName,
-			@RequestParam("lastName") String lastName, @RequestParam("benEmail") String benEmail,
-			@RequestParam("personalEmail") String personalEmail, @RequestParam("gradYear") String gradYear,
-			@RequestParam("standing") String standing, @RequestParam("occupation") String occupation,
-			@RequestParam("title") String title, @RequestParam("suffix") String suffix,
-			@RequestParam("password") String password, @RequestParam("passConfirm") String passConfirm*/) {
-				
-		
-//		GET USER FROM SESSION
-		
-//		DUMMY User for now
-		
-		User u = getUserDao().getObjectById(1);
-		
-		System.out.println(u.getFirstName() + " " + u.getLastName());
-		
-		
-		
-
-		
-
-//		CHECK Profile Role
-		
-		
-//		For dropdown of major -> for loop to mark if selected
-		
-//		JSP has a password and confirm password
-		
-//		Confirm EDIT
-//			return to user profile
-		
-//		Can't confirm EDIT
-//			return to user profile but incomplete
-		
-		
-		
-		
-		
-		return "userProfile{userId}";//TODO CHECK THIS URL
-	
-	}
-	
 	/**
 	 * Access to the job postings page.
 	 * 
@@ -204,13 +457,15 @@ public class HomeController extends BaseController{
 	 * @return the job postings page.
 	 */
 	@RequestMapping(value = "/jobPostings", method = RequestMethod.GET)
+
 	public String jobPostings(Model model) {
 
 		// TODO Remove the permit all access from the security config
 
 		try {
 
-			ArrayList<JobPosting> job = getJobPostingDao().findAll();
+			ArrayList<JobPosting> job = new ArrayList<JobPosting>();
+			job = getJobPostingDao().findAll();
 
 			model.addAttribute("jobPostings", job);
 
@@ -220,8 +475,6 @@ public class HomeController extends BaseController{
 
 		return "jobPostings";
 	}
-	
-	
 
 	/**
 	 * Access to the Faculty Profile page.
@@ -233,9 +486,31 @@ public class HomeController extends BaseController{
 	@RequestMapping(value = "/facultyProfile", method = RequestMethod.GET)
 	public String faculty(Model model) {
 
+		// Return all Students
+		try {
+			ArrayList<User> student = new ArrayList<User>();
+			student = getUserDao().findAllStudents();
+
+			model.addAttribute("student", student);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// Return all Alumni
+		try {
+			ArrayList<User> alumni = new ArrayList<User>();
+			alumni = getUserDao().findAllAlumni();
+
+			model.addAttribute("alumni", alumni);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return "facultyProfile";
 	}
-	
+
 
 	/**
 	 * Displays all the alumni users in the system.
@@ -252,12 +527,13 @@ public class HomeController extends BaseController{
 			ArrayList<User> alumni = new ArrayList<User>();
 			alumni = getUserDao().findAll();
 
-			//System.out.println(alumni.get(0).toString());
+			// System.out.println(alumni.get(0).toString());
+
 			for (User users : alumni) {
 				users.setMajor(getMajorDao().findMajorByUser(users));
 				users.setConcentration(getMajorDao().findConcentrationByUser(users));
 				users.setMinor(getMajorDao().findMinorByUser(users));
-				
+
 			}
 
 			sortUsers(alumni);
@@ -273,7 +549,6 @@ public class HomeController extends BaseController{
 				}
 			}
 			model.addAttribute("alumni", users);
-
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -307,10 +582,13 @@ public class HomeController extends BaseController{
 	 * @return the profile page that belongs to the user.
 	 */
 	@RequestMapping(value = "/userProfile", method = RequestMethod.GET)
-//	public String userProfile(Model model, @RequestParam("name") String name, @RequestParam("bio") String biography,
-//			@RequestParam("occupation") String occupation, @RequestParam("graduation") String graduation,
-//			@RequestParam("workInterest") String workInterest, @RequestParam("experience") String experience) {
-	public String userProfile(Model model){
+	// public String userProfile(Model model, @RequestParam("name") String name,
+	// @RequestParam("bio") String biography,
+	// @RequestParam("occupation") String occupation,
+	// @RequestParam("graduation") String graduation,
+	// @RequestParam("workInterest") String workInterest,
+	// @RequestParam("experience") String experience) {
+	public String userProfile(Model model) {
 
 		// try {
 		//
@@ -325,7 +603,34 @@ public class HomeController extends BaseController{
 
 		return "userProfile";
 	}
-	
+
+
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public String editPost(Model model) {
+
+		// GET USER FROM SESSION
+
+		// DUMMY User
+
+		User u = getUserDao().getObjectById(DUMMY_ID);
+
+		u.setMajor(getMajorDao().findMajorByUser(u));
+		u.setConcentration(getMajorDao().findConcentrationByUser(u));
+		u.setMinor(getMajorDao().findMinorByUser(u));
+
+		ArrayList<Major> m = getMajorDao().findAllMajors();
+
+		System.out.println(u.toString());
+
+		model.addAttribute("user", u);
+		model.addAttribute("majors", m);
+
+		HashMap<String, String> e = new HashMap<String, String>();
+		model.addAttribute("errors", e);
+
+		return "edit";
+
+	}
 
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/somethingSecret", method = RequestMethod.GET)
@@ -338,4 +643,16 @@ public class HomeController extends BaseController{
 	public String userHome(Model model) {
 		return "index";
 	}
+
+	private boolean validateEdit(String password, String confirmPassword, String firstName, String lastName,
+			String personalEmail, String graduationYear) {
+
+		return (Validator.validatePasswordsMatch(password, confirmPassword) && Validator.validatePassword(password)
+				&& Validator.validateName(firstName) && Validator.validateName(lastName)
+				&& Validator.validateGraduationYear(graduationYear, false)
+				&& Validator.validateEmail(personalEmail, false));
+	}
+
+	// For user testing purposes (taken out with sessions)
+	final static int DUMMY_ID = 1;
 }

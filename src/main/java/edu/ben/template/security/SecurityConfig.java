@@ -54,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/").permitAll().antMatchers("/about").permitAll()
 				.antMatchers("/login").permitAll().antMatchers("/index").permitAll().
 				antMatchers("/facultyProfile").permitAll().antMatchers("/userProfile").permitAll().antMatchers("/jobPostings").permitAll().antMatchers("/alumniDirectory").permitAll().
-				antMatchers("/createJobPosting").permitAll().antMatchers("/createEvent").permitAll()
+				antMatchers("/createJobPosting").permitAll().antMatchers("/createEvent").permitAll().antMatchers("/events").permitAll().antMatchers("/edit").permitAll()
 				/* TODO Add any additional authorities here... */
 				.antMatchers("/**").permitAll()
 				.and()

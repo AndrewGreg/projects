@@ -18,10 +18,10 @@ import edu.ben.template.model.User;
 
 public class EventDao extends BaseDao<Event> {
 
-	public EventDao(){
-		
+	public EventDao() {
+
 	}
-	
+
 	public Event getObjectById(int objectId, boolean complete) {
 		if (objectId == 0) {
 			/* Probably want to log this */
@@ -95,12 +95,12 @@ public class EventDao extends BaseDao<Event> {
 		List<Event> events = new ArrayList<Event>();
 		return (ArrayList<Event>) events;
 	}
-	
+
 	public void addEvent(Event event) {
 
 		String sql = "INSERT INTO job (name, description, date, user_id) VALUES (?, ?, ?, ?)";
 
-		jdbcTemplate.update(sql, event.getName(), event.getDescription(), event.getDate(), event.getPoster().getId());
+		jdbcTemplate.update(sql, new Object[] { event.getName(), event.getDescription(), event.getDate(), event.getPoster().getId()});
 		return;
 	}
 
@@ -108,15 +108,13 @@ public class EventDao extends BaseDao<Event> {
 
 		String sql = "UPDATE job SET name = ?, description = ?, date = ?, user_id = ? WHERE job.id = ?";
 		try {
-			jdbcTemplate.update(sql, event.getName(), event.getDescription(), event.getDate(), event.getPoster().getId(),
-					event.getId());
+			jdbcTemplate.update(sql, new Object[] { event.getName(), event.getDescription(), event.getDate(),
+					event.getPoster().getId(), event.getId() });
 		} catch (Exception e) {
 			/* Probably want to log this */
 		}
 		return;
 	}
-	
-
 
 	@Override
 	public RowMapper<Event> getRowMapper() {

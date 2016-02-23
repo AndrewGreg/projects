@@ -6,22 +6,22 @@
 <%@ page import="edu.ben.template.dao.UserDao" %>
 <%@ page isELIgnored="false" %>
 
-
-
 <jsp:useBean id="user" class="edu.ben.template.model.User" scope="session" />
-
-
-
 <%
-	User faculty = new User();
-	UserDao person = new UserDao();
- 
+	
 
-	ArrayList<User> user1;
-	if (request.getAttribute("user") != null) {
-		user1 = (ArrayList<User>) request.getAttribute("user");
+	ArrayList<User> students;
+	if (request.getAttribute("student") != null) {
+		students = (ArrayList<User>) request.getAttribute("student");
 	} else {
-		user1 = new ArrayList<User>();
+		students = new ArrayList<User>();
+	} 
+	
+	ArrayList<User> alumni;
+	if (request.getAttribute("alumni") != null) {
+		alumni = (ArrayList<User>) request.getAttribute("alumni");
+	} else {
+		alumni = new ArrayList<User>();
 	} 
 %>
  		
@@ -50,7 +50,7 @@
 
 				<!-- Profile Picture -->
 				<div style="border-color:black" class="panel panel-info">
-					<div style="background-color:red" style="color:red" class="panel-heading"><a href="edit.html" data-original-title="Edit this user" data-toggle="tooltip" 
+					<div style="background-color:red" style="color:red" class="panel-heading"><a href="/edit" data-original-title="Edit this user" data-toggle="tooltip" 
 						type="button" class="btn btn-sm btn-warning"> </a>
 						<h3 class="panel-title"><%user.getFirstName(); %>&nbsp;<%user.getLastName(); %></h3>
 					</div>
@@ -80,12 +80,12 @@
 									<tbody>
 										<tr>
 											<td>Amount of Students Registered:</td>
-											<td></td>
+											<td><%=students.size() %></td>
 											
 										</tr>
 										<tr>
 											<td>Amount of Alumni Registered:</td>
-											<td></td>
+											<td><%=alumni.size() %></td>
 											
 										</tr>
 										<tr>
@@ -107,8 +107,8 @@
 										</tr>
 										<tr>
 											<td>Email</td>
-											<td><a href="mailfrom:info@support.com"><%faculty.getEmail(); %></a></td>
-											<td><a href="mailfrom:info@support.com"><%faculty.getPersonalEmail(); %></a></td>
+											<td><a href="mailfrom:info@support.com"><%user.getEmail(); %></a></td>
+											<td><a href="mailfrom:info@support.com"><%user.getPersonalEmail(); %></a></td>
 									</tbody>
 								</table>
 

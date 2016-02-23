@@ -51,13 +51,15 @@ public class UserDao extends BaseDao<User> {
 
 	public void addUser(User user) {
 
-		String sql = "INSERT INTO user (id, bnumber, email, personal_email, password, salt, first_name, last_name,  role, graduation_year, occupation, title, suffix, bio, experience) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
+		String sql = "UPDATE user SET bnumber = ?, email = ?, personal_email = ?, password = ?, salt = ?, first_name= ?, last_name = ?, role = ?, graduation_year = ?, occupation = ?, title = ?, suffix = ?, bio = ?, experience = ?, hidden = 1, active = 1, created = null, last_active = null, last_modified = null, social_media = null WHERE id = 2;";
+		
+//		TODO Change this include last last six columns 
+		
 		jdbcTemplate.update(sql,
-				new Object[] { user.getId(), user.getbNumber(), user.getEmail(), user.getPersonalEmail(),
+				new Object[] {  user.getbNumber(), user.getEmail(), user.getPersonalEmail(),
 						user.getPassword(), user.getSalt(), user.getFirstName(), user.getLastName(), user.getRole(),
 						user.getGraduationYear(), user.getOccupation(), user.getTitle(), user.getSuffix(),
-						user.getBio(), user.getExperience() });
+						user.getBio(), user.getExperience(),user.getId(), });
 
 	}
 
@@ -78,6 +80,67 @@ public class UserDao extends BaseDao<User> {
 			return (ArrayList<User>) users;
 		} catch (EmptyResultDataAccessException e) {
 			/* Probably want to log this */
+			return null;
+		}
+	}
+	
+
+	/**
+	 * Method to find all the students in the database.
+	 * 
+	 * @return the amount of students registered.
+	 */
+	public ArrayList<User> findAllStudents() {
+
+		List<User> users = new ArrayList<User>();
+		String sql = "SELECT * from alumnitracker.user WHERE role = '1'";
+
+		try {
+			users = jdbcTemplate.query(sql, getRowMapper());
+
+			return (ArrayList<User>) users;
+		} catch (EmptyResultDataAccessException e) {
+			System.out.println("There are not any students in the system.");
+			return null;
+		}
+	}
+
+	/**
+	 * Method to find all the alumni in the database.
+	 * 
+	 * @return the amount of alumni registered.
+	 */
+	public ArrayList<User> findAllAlumni() {
+
+		List<User> users = new ArrayList<User>();
+		String sql = "SELECT * from alumnitracker.user WHERE role = '2'";
+
+		try {
+			users = jdbcTemplate.query(sql, getRowMapper());
+
+			return (ArrayList<User>) users;
+		} catch (EmptyResultDataAccessException e) {
+			System.out.println("There are not any alumni in the system.");
+			return null;
+		}
+	}
+
+	/**
+	 * Method to find all the faculty in the database.
+	 * 
+	 * @return the amount of faculty registered.
+	 */
+	public ArrayList<User> findAllFaculty() {
+
+		List<User> users = new ArrayList<User>();
+		String sql = "SELECT * from alumnitracker.user WHERE role = '3'";
+
+		try {
+			users = jdbcTemplate.query(sql, getRowMapper());
+
+			return (ArrayList<User>) users;
+		} catch (EmptyResultDataAccessException e) {
+			System.out.println("There are not any faculty in the system.");
 			return null;
 		}
 	}
@@ -111,13 +174,13 @@ public class UserDao extends BaseDao<User> {
 
 	public void updateUser(User user) {
 
-		String sql = "UPDATE user SET bnumber = ?, first_name = ?, last_name = ?, email = ?, personal_email = ?, password = ?, salt = ?, role = ?, graduation_year = ?, occupation = ?, title = ?, suffix = ? WHERE user.id = ?";
+		String sql = "UPDATE user SET bnumber = ?, first_name = ?, last_name = ?, email = ?, personal_email = ?, password = ?, salt = ?, role = ?, graduation_year = ?, occupation = ?, title = ?, suffix = ?, experience = ?, bio = ?, role = ? WHERE user.id = ?";
 		try {
 			jdbcTemplate.update(sql,
 					new Object[] { user.getbNumber(), user.getFirstName(), user.getLastName(), user.getEmail(),
 							user.getPersonalEmail(), user.getPassword(), user.getSalt(), user.getRole(),
 							user.getGraduationYear(), user.getOccupation(), user.getTitle(), user.getSuffix(),
-							user.getId() });
+							user.getExperience(), user.getBio(), user.getRole(), user.getId(),});
 
 		} catch (Exception e) {
 			/* Probably want to log this */

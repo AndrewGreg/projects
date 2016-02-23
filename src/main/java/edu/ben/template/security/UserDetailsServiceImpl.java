@@ -22,11 +22,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		System.out.println("im here");
 		User person = getUserDao().findByEmail(username);
 		if(person == null){
+			System.out.println("Not HERE");
 			throw new UsernameNotFoundException("User not found");	
 		}
-		System.out.println("im here");
+		
 		org.springframework.security.core.userdetails.User user = new org.springframework.security.core.userdetails.User(person.getUsername(),person.getPassword(),Collections.singleton(new SimpleGrantedAuthority(Integer.toString(person.getRole()))));
 		return user;
 	}

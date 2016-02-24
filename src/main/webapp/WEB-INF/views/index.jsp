@@ -11,7 +11,7 @@
 <body>
 	<!-- Navigation -->
 	
-
+<jsp:include page="navBar.jsp" />
 
 	<!-- Header Carousel -->
 	<header id="myCarousel" class="carousel slide" style="width: 100%; height:75%;">

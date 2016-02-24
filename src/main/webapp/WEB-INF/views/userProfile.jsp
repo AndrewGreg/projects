@@ -46,10 +46,15 @@
 							<!-- Start of information -->
 							<div class=" col-md-9 col-lg-9 ">
 								<table class="table table-user-information">
+								
 									<tbody>
 										<tr>
 											<td>Current Occupation:</td>
+											<%if(currentUser.getOccupation() != null){ %>
 											<td><%=currentUser.getOccupation()%></td>
+											<%}else{ %>
+											<td>None</td>
+											<%} %>
 										</tr>
 										<tr>
 											<td>Year Expected to Graduate:</td>

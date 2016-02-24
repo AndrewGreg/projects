@@ -28,18 +28,16 @@ import edu.ben.template.model.UploadFile;
 import edu.ben.template.model.User;
 import edu.ben.template.model.Validator;
 
-
 @Controller
 public class HomeController extends BaseController {
 
-	
 	@Resource(name = "passwordEncoder")
 	private PasswordEncoder pwEncoder;
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(Model model) {
-		
 		return "index";
+
 	}
 
 	/**
@@ -509,35 +507,35 @@ public class HomeController extends BaseController {
 
 		return "facultyProfile";
 	}
-	
-	@RequestMapping(value = "/facultyProfile", method = RequestMethod.POST)
-	public String facultyUpload(Model model, HttpServletRequest request,
-			HttpServletResponse response,
-            @RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
-	
-			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-	        MultipartFile multipartFile = multipartRequest.getFile("file");
-	 
-	        UploadFile file = new UploadFile();
-//	        file.setFilename(multipartFile.getOriginalFilename());
-//	        file.setNotes(ServletRequestUtils.getStringParameter(request, "notes"));
-//	        file.setType(multipartFile.getContentType());
-	        file.setData(multipartFile.getBytes());
-	        getFileUploadDao().addFile(file);
 
-//		if (fileUpload != null && fileUpload.length > 0) {
-//            for (CommonsMultipartFile aFile : fileUpload){
-//                  
-                //System.out.println("Saving file: " + aFile.getOriginalFilename());
-                 
-//                UploadFile file = new UploadFile();
-//                getFileUploadDao().addFile(file);
-                
-//                uploadFile.setFileName(aFile.getOriginalFilename());
-//               uploadFile.setData(aFile.getBytes());
-//                fileUploadDao.save(uploadFile);               
-//            }
-//        }
+	@RequestMapping(value = "/facultyProfile", method = RequestMethod.POST)
+	public String facultyUpload(Model model, HttpServletRequest request, HttpServletResponse response,
+			@RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
+
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		MultipartFile multipartFile = multipartRequest.getFile("file");
+
+		UploadFile file = new UploadFile();
+		// file.setFilename(multipartFile.getOriginalFilename());
+		// file.setNotes(ServletRequestUtils.getStringParameter(request,
+		// "notes"));
+		// file.setType(multipartFile.getContentType());
+		file.setData(multipartFile.getBytes());
+		getFileUploadDao().addFile(file);
+
+		// if (fileUpload != null && fileUpload.length > 0) {
+		// for (CommonsMultipartFile aFile : fileUpload){
+		//
+		// System.out.println("Saving file: " + aFile.getOriginalFilename());
+
+		// UploadFile file = new UploadFile();
+		// getFileUploadDao().addFile(file);
+
+		// uploadFile.setFileName(aFile.getOriginalFilename());
+		// uploadFile.setData(aFile.getBytes());
+		// fileUploadDao.save(uploadFile);
+		// }
+		// }
 
 		return "facultyProfile";
 	}
@@ -633,28 +631,24 @@ public class HomeController extends BaseController {
 
 		return "userProfile";
 	}
-	
+
 	@RequestMapping(value = "/userProfile", method = RequestMethod.POST)
-	public String userProfileUpload(Model model,
-            @RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
-		
-		
-		
-//		if (fileUpload != null && fileUpload.length > 0) {
-//            for (CommonsMultipartFile aFile : fileUpload){
-                  
-                //System.out.println("Saving file: " + aFile.getOriginalFilename());
-                 
-//                UploadFile uploadFile = new UploadFile();
-//                uploadFile.setFileName(aFile.getOriginalFilename());
-//                uploadFile.setData(aFile.getBytes());
-//                fileUploadDao.save(uploadFile);               
-//            }
-//        }
+	public String userProfileUpload(Model model, @RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
+
+		// if (fileUpload != null && fileUpload.length > 0) {
+		// for (CommonsMultipartFile aFile : fileUpload){
+
+		// System.out.println("Saving file: " + aFile.getOriginalFilename());
+
+		// UploadFile uploadFile = new UploadFile();
+		// uploadFile.setFileName(aFile.getOriginalFilename());
+		// uploadFile.setData(aFile.getBytes());
+		// fileUploadDao.save(uploadFile);
+		// }
+		// }
 
 		return "userProfile";
 	}
-
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String editPost(Model model) {

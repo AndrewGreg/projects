@@ -28,7 +28,7 @@ public abstract class BaseController extends DaoKeeper {
 	/**
 	 * Retrieves the current user from the principal object
 	 * 
-	 * @return
+	 * @return the currentUser logged in.
 	 */
 	@ModelAttribute("currentUser")
 	public User getCurrentUser() {

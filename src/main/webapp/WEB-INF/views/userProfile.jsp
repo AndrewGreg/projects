@@ -21,17 +21,17 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-5  toppad  pull-right col-md-offset-3 ">
-				<A href="/edit">Edit Profile</A> <A href="logout.jsp">Logout</A>
+				
 				<br>
 				<!-- 	<p class=" text-info">May 05,2014,03:00 pm</p> -->
 			</div>
 			<div
-				class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
-
-
+				class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad"><h4>
+					<A style="float: right;" href="/logout"><font color="Red">Logout</font></A> &nbsp;</h4>
+					
 				<div style="border-color:black" class="panel panel-info">
 					<div style="background-color:red" class="panel-heading">
-						<h3 style="font-color:black;" class="panel-title"><%=currentUser.getFirstName()%> &nbsp;<%=currentUser.getLastName()%></h3>
+						<h3 class="panel-title"><font color="White"><%=currentUser.getFirstName()%> &nbsp;<%=currentUser.getLastName()%></font></h3>
 					</div>
 					<div class="panel-body">
 						<div class="row">
@@ -68,11 +68,19 @@
 										<tr>
 										<tr>
 											<td>Biography:</td>
+											<%if(currentUser.getBio() != null){ %>
 											<td><%=currentUser.getBio()%></td>
+											<%}else{ %>
+											<td>None</td>
+											<%} %>
 										</tr>
 										<tr>
 											<td>Experiences:</td>
+											<%if(currentUser.getExperience() != null){ %>
 											<td><%=currentUser.getExperience()%></td>
+											<%}else{ %>
+											<td>None</td>
+											<%} %>
 										</tr>
 										<tr>
 											<td>Email</td>
@@ -84,17 +92,17 @@
 								<br>
 								<br>
 								<form action="userProfile" method="post">	
-									<div class="fileUpload btn btn-primary">
+									<div style="background-color:black;" class="fileUpload btn btn-primary">
     									<span>Upload Profile Picture</span>
     									<input type="file" class="upload" />
 									</div>
 									<br>
 									<br>
-									<div class="fileUpload btn btn-primary">
+									<div style="background-color:black;" class="fileUpload btn btn-primary">
     									<span>Upload Resume</span>
     									<input type="file" class="upload" />		
 									</div>
-									<button class="btn btn-primary" name="Upload" 
+									<button style="background-color:black;" class="btn btn-primary" name="Upload" 
 										value="Upload" type="Submit">Upload</button>
 								</form>
 							</div>
@@ -107,16 +115,10 @@
 
 				</div>
 			</div>
-		</div>
-
-		<jsp:include page="footer.jsp" />
+		</div>	
 	</div>
 
-
-
-
-
-
+<jsp:include page="footer.jsp" />
 
 </body>
 </html>

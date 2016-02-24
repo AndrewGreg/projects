@@ -11,9 +11,11 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.stereotype.Component;
 
 import edu.ben.template.dao.DaoConfig;
 //import edu.ben.template.dao.DaoConfig;
@@ -43,6 +45,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected UserDetailsService userDetailsService() {
 		return new UserDetailsServiceImpl();
+	}
+	
+	@Bean(name="passwordEncoder")
+	public PasswordEncoder passwordEncoder(){
+		
+		return new StandardPasswordEncoder();
+		
 	}
 
 	@Override

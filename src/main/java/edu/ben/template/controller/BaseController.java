@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -28,9 +29,42 @@ public abstract class BaseController extends DaoKeeper {
 	 * 
 	 * @return
 	 */
+	@ModelAttribute("currentUser")
 	public User getCurrentUser() {
 		// get the security principal
-		return UserInterceptor.getUserFromPrincipal();
+		return getUserFromPrincipal();
+	}
+	
+	
+	/**
+	 * Retrieves the current user from the principal object
+	 * 
+	 * @param principal
+	 * @return
+	 */
+	public User getUserFromPrincipal(Object principal) {
+		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) principal;
+
+		String userName = user.getUsername();
+
+		System.out.println(userName);
+		User loggedUser = getUserDao().findByEmail(userName);
+
+		return loggedUser;
+	}
+
+	/**
+	 * Retrieves the current user from the principal object
+	 * 
+	 * @return
+	 */
+	public User getUserFromPrincipal() {
+		if (SecurityContextHolder.getContext() != null
+				&& SecurityContextHolder.getContext().getAuthentication() != null) {
+			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			return getUserFromPrincipal(principal);
+		}
+		return null;
 	}
 
 	/**
@@ -57,26 +91,6 @@ public abstract class BaseController extends DaoKeeper {
 		return "errors/accessDenied";
 	}
 
-	@ExceptionHandler(Exception.class)
-	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-	public String handleGeneralException(Exception e, HttpServletResponse response) {
-		/* TODO THIS SHOULD BE LOGGED SOMEWHERE */
-		return "errors/error500";
-	}
-
-	/**
-	 * needed to fix a bug in json request
-	 * https://jira.springsource.org/browse/SPR-9310
-	 * 
-	 * @param e
-	 * @param response
-	 * @return
-	 */
-	@ExceptionHandler(BindException.class)
-	public String handleBindException(BindException e, HttpServletResponse response) {
-		/* TODO THIS SHOULD BE LOGGED SOMEWHERE */
-		return "errors/error500";
-	}
 
 	public long getCurrentUserId() {
 		User u = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

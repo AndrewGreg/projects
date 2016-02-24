@@ -2,6 +2,7 @@ package edu.ben.template.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
+import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -28,6 +29,7 @@ public class DaoKeeper {
 	public ObjectMapper getObjectMapper() {
 		return objectMapper;
 	}
+
 
 	public UserDao getUserDao() {
 		return userDao;

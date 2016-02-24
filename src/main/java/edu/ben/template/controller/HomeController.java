@@ -6,27 +6,16 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.swing.plaf.synth.SynthSeparatorUI;
+import javax.annotation.Resource;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Component;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-import edu.ben.template.dao.FileUploadDao;
-import edu.ben.template.dao.UserDao;
-import edu.ben.template.model.Event;
-import edu.ben.template.model.JobPosting;
-import edu.ben.template.model.Major;
-import edu.ben.template.model.UploadFile;
+
 import edu.ben.template.model.Event;
 import edu.ben.template.model.JobPosting;
 import edu.ben.template.model.Major;
@@ -34,13 +23,16 @@ import edu.ben.template.model.User;
 import edu.ben.template.model.Validator;
 
 @Controller
-@Scope("session")
 public class HomeController extends BaseController {
+
+	@Resource(name = "passwordEncoder")
+	private PasswordEncoder pwEncoder;
 
 	// @Autowired
 	// private FileUploadDao fileUploadDao;
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(Model model) {
+		
 		return "index";
 	}
 
@@ -287,8 +279,7 @@ public class HomeController extends BaseController {
 					register.setSuffix(suffix);
 				}
 
-				// TODO Hash the password before saving to the user
-				register.setPassword(password);
+				register.setPassword(pwEncoder.encode(password));
 
 				getUserDao().addUser(register);
 

@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -43,6 +44,7 @@ public abstract class BaseController extends DaoKeeper {
 	 * @return
 	 */
 	public User getUserFromPrincipal(Object principal) {
+		System.out.println(principal);
 		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) principal;
 
 		String userName = user.getUsername();
@@ -60,7 +62,7 @@ public abstract class BaseController extends DaoKeeper {
 	 */
 	public User getUserFromPrincipal() {
 		if (SecurityContextHolder.getContext() != null
-				&& SecurityContextHolder.getContext().getAuthentication() != null) {
+				&& SecurityContextHolder.getContext().getAuthentication() != null && !SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) {
 			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			return getUserFromPrincipal(principal);
 		}

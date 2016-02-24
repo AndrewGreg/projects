@@ -6,12 +6,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.mysql.jdbc.Blob;
+
 @Entity 
 @Table (name = "FILES_UPLOAD")
 public class UploadFile {
     private long id;
     private String fileName;
-   // private byte[] data;
+    private byte[] data;
  
     @Id
     @GeneratedValue
@@ -33,12 +35,12 @@ public class UploadFile {
         this.fileName = fileName;
     }
  
-//    @Column(name = "FILE_DATA")
-//    public byte[] getData() {
-//        return data;
-//    }
-// 
-//    public void setData(byte[] data) {
-//        this.data = data;
-//    }
+    @Column(name = "FILE_DATA")
+    public byte[] getData() {
+        return data;
+    }
+ 
+    public void setData(byte[] data) {
+        this.data = data;
+    }
 }

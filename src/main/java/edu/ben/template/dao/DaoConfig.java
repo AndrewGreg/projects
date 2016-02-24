@@ -140,6 +140,18 @@ public class DaoConfig {
 		// return it
 		return dao;
 	}
+	
+	@Bean
+	public ImageUploadDao ImageUploadDao() throws IOException {
+		// create the dao
+		ImageUploadDao dao = new ImageUploadDao();
+		// set the specifics
+		// dao.setCache(cacheFactory());
+		dao.setDataSource(dataSource());
+		dao.setTransactionManager(transactionManager());
+		// return it
+		return dao;
+	}
 
 	@Bean
 	public InterestDao interestDao() throws IOException {

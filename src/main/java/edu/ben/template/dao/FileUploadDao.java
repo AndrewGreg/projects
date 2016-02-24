@@ -11,6 +11,9 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.mysql.jdbc.Blob;
+
 import edu.ben.template.model.UploadFile;
 import edu.ben.template.model.User;
 
@@ -40,7 +43,7 @@ public class FileUploadDao extends BaseDao<UploadFile>{
 		String sql = "INSERT INTO file (id, file) VALUES (?, ?)";
 
 		jdbcTemplate.update(sql,
-				new Object[] { file.getId(), file.getFileName() });
+				new Object[] { file.getId(), file.getData() });
 
 	}
 	
@@ -51,18 +54,8 @@ public class FileUploadDao extends BaseDao<UploadFile>{
 				// map result set to object
 				UploadFile file = new UploadFile();
 				file.setId(rs.getLong("id"));
-				file.setFileName(rs.getString("file"));
+				file.setData( rs.getBytes("file"));
 				
-				
-//				TODO See Pollack about structure change (INEFFICIENT)
-
-
-//				user.setConcentration(majorDao.findConcentrationByUser(user));
-//				user.setMinor(majorDao.findMinorByUser(user));
-//				user.setMajor(majorDao.findMajorByUser(user));
-//				user.setInterest(interestDao.findAllByUser(user));
-
-				// return the object
 				return file;
 			}
 		};
@@ -77,7 +70,7 @@ public class FileUploadDao extends BaseDao<UploadFile>{
 								+ "on duplicate key update file = values(file)",
 						new String[] { "id" });
 				ps.setLong(1, file.getId());
-				ps.setString(2, file.getFileName());
+				ps.setBytes(2, file.getData());
 				return ps;
 			}
 		};

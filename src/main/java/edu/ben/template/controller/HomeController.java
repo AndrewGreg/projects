@@ -510,6 +510,7 @@ public class HomeController extends BaseController{
 
 		return "facultyProfile";
 	}
+	
 
 
 	/**
@@ -600,6 +601,27 @@ public class HomeController extends BaseController{
 		// } catch (Exception e) {
 		// }
 		//
+
+		return "userProfile";
+	}
+	
+	@RequestMapping(value = "/userProfile", method = RequestMethod.POST)
+	public String userProfileUpload(Model model,
+            @RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
+		
+		
+		
+//		if (fileUpload != null && fileUpload.length > 0) {
+//            for (CommonsMultipartFile aFile : fileUpload){
+                  
+                //System.out.println("Saving file: " + aFile.getOriginalFilename());
+                 
+//                UploadFile uploadFile = new UploadFile();
+//                uploadFile.setFileName(aFile.getOriginalFilename());
+//                uploadFile.setData(aFile.getBytes());
+//                fileUploadDao.save(uploadFile);               
+//            }
+//        }
 
 		return "userProfile";
 	}

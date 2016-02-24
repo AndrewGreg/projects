@@ -51,7 +51,7 @@ public class FileUploadDao extends BaseDao<UploadFile>{
 				// map result set to object
 				UploadFile file = new UploadFile();
 				file.setId(rs.getLong("id"));
-				file.setFileName(rs.getString("first_name"));
+				file.setFileName(rs.getString("file"));
 				
 				
 //				TODO See Pollack about structure change (INEFFICIENT)

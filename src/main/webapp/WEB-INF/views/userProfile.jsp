@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+	
+<%@page import= "edu.ben.template.model.User"%>
+<%User currentUser = (User) request.getAttribute("currentUser"); %>
+
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -25,16 +29,16 @@
 				class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
 
 
-				<div class="panel panel-info">
-					<div class="panel-heading">
-						<h3 class="panel-title">Access name from database</h3>
+				<div style="border-color:black" class="panel panel-info">
+					<div style="background-color:red" class="panel-heading">
+						<h3 style="font-color:black;" class="panel-title"><%=currentUser.getFirstName()%> &nbsp;<%=currentUser.getLastName()%></h3>
 					</div>
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-md-3 col-lg-3 " align="center">
-								<!-- Grab picture from databse. -->
+								<!-- Grab picture from database. -->
 								<img alt="User Pic" src="content/img/BenedictineLogo.gif"
-									class="img-circle img-responsive" height=300px width=300px>
+									class="img-circle img-responsive" height=1000px width=1000px>
 							</div>
 							<br>
 
@@ -45,70 +49,33 @@
 									<tbody>
 										<tr>
 											<td>Current Occupation:</td>
-											<td>Access from Database</td>
-											<td><a href="edit.html"
-												data-original-title="Edit this user" data-toggle="tooltip"
-												type="button" class="btn btn-sm btn-warning"><i
-													class="glyphicon glyphicon-edit"></i></a> <a
-												data-original-title="Remove this user" data-toggle="tooltip"
-												type="button" class="btn btn-sm btn-danger"><i
-													class="glyphicon glyphicon-remove"></i></a></td>
+											<td><%=currentUser.getOccupation()%></td>
 										</tr>
 										<tr>
 											<td>Year Expected to Graduate:</td>
-											<td>Access from Database</td>
-											<td><a href="edit.html"
-												data-original-title="Edit this user" data-toggle="tooltip"
-												type="button" class="btn btn-sm btn-warning"><i
-													class="glyphicon glyphicon-edit"></i></a> <a
-												data-original-title="Remove this user" data-toggle="tooltip"
-												type="button" class="btn btn-sm btn-danger"><i
-													class="glyphicon glyphicon-remove"></i></a></td>
+											<td><%=currentUser.getGraduationYear()%></td>
 										</tr>
 										<tr>
 											<td>Areas of interest:</td>
-											<td>Access from Database</td>
-											<td><a href="edit.html"
-												data-original-title="Edit this user" data-toggle="tooltip"
-												type="button" class="btn btn-sm btn-warning"><i
-													class="glyphicon glyphicon-edit"></i></a> <a
-												data-original-title="Remove this user" data-toggle="tooltip"
-												type="button" class="btn btn-sm btn-danger"><i
-													class="glyphicon glyphicon-remove"></i></a></td>
+											<td><%=currentUser.getMajor()%></td>
 										</tr>
 
 										<tr>
 										<tr>
 											<td>Biography:</td>
-											<td>Access from Database</td>
-											<td><a href="edit.html"
-												data-original-title="Edit this user" data-toggle="tooltip"
-												type="button" class="btn btn-sm btn-warning"><i
-													class="glyphicon glyphicon-edit"></i></a> <a
-												data-original-title="Remove this user" data-toggle="tooltip"
-												type="button" class="btn btn-sm btn-danger"><i
-													class="glyphicon glyphicon-remove"></i></a></td>
+											<td><%=currentUser.getBio()%></td>
 										</tr>
 										<tr>
 											<td>Experiences:</td>
-											<td>Access from Database</td>
-											<td><a href="edit.html"
-												data-original-title="Edit this user" data-toggle="tooltip"
-												type="button" class="btn btn-sm btn-warning"><i
-													class="glyphicon glyphicon-edit"></i></a> <a
-												data-original-title="Remove this user" data-toggle="tooltip"
-												type="button" class="btn btn-sm btn-danger"><i
-													class="glyphicon glyphicon-remove"></i></a></td>
+											<td><%=currentUser.getExperience()%></td>
 										</tr>
 										<tr>
 											<td>Email</td>
-											<td><a href="mailfrom:info@support.com">Pull email
-													from database</a></td>
+											<td><a href="mailfrom:info@support.com"><%=currentUser.getEmail()%></a></td>
 									</tbody>
 								</table>
 
-								<a href="#" class="btn btn-primary">Settings</a> 
-								<a href="#" class="btn btn-primary">Another button</a>
+								
 								<br>
 								<br>
 								<form action="userProfile" method="post">	
@@ -116,6 +83,7 @@
     									<span>Upload Profile Picture</span>
     									<input type="file" class="upload" />
 									</div>
+									<br>
 									<br>
 									<div class="fileUpload btn btn-primary">
     									<span>Upload Resume</span>
@@ -128,17 +96,8 @@
 						</div>
 					</div>
 					<div class="panel-footer">
-						<a data-original-title="Broadcast Message" data-toggle="tooltip"
-							type="button" class="btn btn-sm btn-primary"><i
-							class="glyphicon glyphicon-envelope"></i></a> <span
-							class="pull-right"> <a href="edit.html"
-							data-original-title="Edit this user" data-toggle="tooltip"
-							type="button" class="btn btn-sm btn-warning"><i
-								class="glyphicon glyphicon-edit"></i></a> <a
-							data-original-title="Remove this user" data-toggle="tooltip"
-							type="button" class="btn btn-sm btn-danger"><i
-								class="glyphicon glyphicon-remove"></i></a>
-						</span>
+						<a href="/edit" style="background-color:black;" class="btn btn-primary">Edit Account</a> 
+						<a href="mailfrom:<%currentUser.getEmail();%>" style="float: right; background-color:black;" class="btn btn-primary"> Send Email</a>
 					</div>
 
 				</div>

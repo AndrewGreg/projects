@@ -52,7 +52,7 @@
 					<ul class="dropdown-menu">
 						<li><a href="/userProfile">My Profile</a></li>
 						<li><a href="#">View your Job Postings</a></li>
-						<li><a href="#"><%=currentUser.getEmail()%></a></li>
+						<li><a href="/logout">Logout</a></li>
 					</ul></li>
 
 
@@ -62,7 +62,7 @@
 					<ul class="dropdown-menu">
 						<li><a href="/facultyProfile">My Profile</a></li>
 						<li><a href="#">View your Job Postings</a></li>
-						<li><a href="#">Logout</a></li>
+						<li><a href="/logout">Logout</a></li>
 					</ul></li>
 			</ul>
 		</div>

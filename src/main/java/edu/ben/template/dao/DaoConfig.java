@@ -76,7 +76,7 @@ public class DaoConfig {
 //	public FileUploadDao getUserDao(SessionFactory sessionFactory) {
 //	    return new FileUploadDaoImpl(sessionFactory);
 //	}
-	
+//	
 //	@Bean
 //	public SessionFactory sessionFactory(){
 //	    AnnotationSessionFactoryBean sessionFactoryBean = new AnnotationSessionFactoryBean();
@@ -85,13 +85,13 @@ public class DaoConfig {
 //	    return sessionFactoryBean.getObject();
 //	}
 	
-//	@Bean(name = "multipartResolver")
-//	public CommonsMultipartResolver getCommonsMultipartResolver() {
-//	    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-//	    multipartResolver.setMaxUploadSize(20971520);   // 20MB
-//	    multipartResolver.setMaxInMemorySize(1048576);  // 1MB
-//	    return multipartResolver;
-//	}
+	@Bean(name = "multipartResolver")
+	public CommonsMultipartResolver getCommonsMultipartResolver() {
+	    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+	    multipartResolver.setMaxUploadSize(20971520);   // 20MB
+	    multipartResolver.setMaxInMemorySize(1048576);  // 1MB
+	    return multipartResolver;
+	}
 //	
 	@Bean
 	public EventDao eventDao() throws IOException {
@@ -121,6 +121,30 @@ public class DaoConfig {
 	public MajorDao majorDao() throws IOException {
 		// create the dao
 		MajorDao dao = new MajorDao();
+		// set the specifics
+		// dao.setCache(cacheFactory());
+		dao.setDataSource(dataSource());
+		dao.setTransactionManager(transactionManager());
+		// return it
+		return dao;
+	}
+	
+	@Bean
+	public FileUploadDao FileUploadDao() throws IOException {
+		// create the dao
+		FileUploadDao dao = new FileUploadDao();
+		// set the specifics
+		// dao.setCache(cacheFactory());
+		dao.setDataSource(dataSource());
+		dao.setTransactionManager(transactionManager());
+		// return it
+		return dao;
+	}
+	
+	@Bean
+	public ImageUploadDao ImageUploadDao() throws IOException {
+		// create the dao
+		ImageUploadDao dao = new ImageUploadDao();
 		// set the specifics
 		// dao.setCache(cacheFactory());
 		dao.setDataSource(dataSource());

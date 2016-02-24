@@ -4,8 +4,10 @@
 <%@page import= "edu.ben.template.model.User"%>
 <%User currentUser = (User) request.getAttribute("currentUser"); %>
 
+
 <!-- Navigation -->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+
 
 	<div class="container">
 		<!-- Brand and toggle get grouped for better mobile display -->
@@ -46,6 +48,7 @@
 						<li><a href="/createEvent">Create an Event</a></li>
 					</ul></li>
 
+			
 				<!-- When the user is logged in the session go here. -->
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">Profile <b class="caret"></b></a>
@@ -55,7 +58,7 @@
 						<li><a href="/logout">Logout</a></li>
 					</ul></li>
 
-
+				
 				<!-- When the user is logged in the session go here. -->
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">Profile <b class="caret"></b></a>
@@ -64,6 +67,9 @@
 						<li><a href="#">View your Job Postings</a></li>
 						<li><a href="/logout">Logout</a></li>
 					</ul></li>
+					
+					
+					
 			</ul>
 		</div>
 		<!-- /.navbar-collapse -->

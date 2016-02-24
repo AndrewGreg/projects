@@ -10,7 +10,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -30,7 +29,6 @@ import edu.ben.template.model.User;
 import edu.ben.template.model.Validator;
 
 
-//@Scope("session")
 @Controller
 public class HomeController extends BaseController {
 

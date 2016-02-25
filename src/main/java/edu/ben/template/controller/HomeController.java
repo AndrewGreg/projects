@@ -337,6 +337,12 @@ public class HomeController extends BaseController {
 		return "index";
 
 	}
+	
+//	@RequestMapping(value = "/massRegister", method = RequestMethod.POST)
+//	public String massRegistration(Model model){
+//		
+//		return "index";
+//	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public String edit(Model model, @RequestParam("title") String title, @RequestParam("fName") String firstName,
@@ -658,22 +664,6 @@ public class HomeController extends BaseController {
 		return "userProfile";
 	}
 
-	@RequestMapping(value = "/user/{id}", method = RequestMethod.POST)
-	public String userProfileUpload(Model model, @RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
-
-		// if (fileUpload != null && fileUpload.length > 0) {
-		// for (CommonsMultipartFile aFile : fileUpload){
-
-		// System.out.println("Saving file: " + aFile.getOriginalFilename());
-
-		// UploadFile uploadFile = new UploadFile();
-		// uploadFile.setFileName(aFile.getOriginalFilename());
-		// uploadFile.setData(aFile.getBytes());
-		// fileUploadDao.save(uploadFile);
-		// }
-		// }
-		return "userProfile";
-	}
 	
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)

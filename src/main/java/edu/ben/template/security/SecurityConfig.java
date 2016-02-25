@@ -58,19 +58,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf()
 				.disable()
-				.authorizeRequests()
+				.authorizeRequests().antMatchers("/index").permitAll().antMatchers("/register").permitAll()
 				/* TODO Add any additional open links here */
-				.antMatchers("/").permitAll().antMatchers("/about").permitAll()
-				.antMatchers("/login").permitAll().antMatchers("/index").permitAll().
-				antMatchers("/facultyProfile").permitAll().antMatchers("/userProfile").permitAll().antMatchers("/jobPostings").permitAll().antMatchers("/alumniDirectory").permitAll().
-				antMatchers("/createJobPosting").permitAll().antMatchers("/createEvent").permitAll().antMatchers("/events").permitAll().antMatchers("/edit").permitAll()
-				/* TODO Add any additional authorities here... */
-				.antMatchers("/**").permitAll()
+				.anyRequest().authenticated()
 				.and()
 					.logout()
 						.deleteCookies("JSESSIONID")
 						.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
-						.logoutSuccessUrl("/")
+						.logoutSuccessUrl("/index")
 					.permitAll()
 				.and()
 					.formLogin()

@@ -10,7 +10,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -29,19 +28,16 @@ import edu.ben.template.model.UploadFile;
 import edu.ben.template.model.User;
 import edu.ben.template.model.Validator;
 
-
-//@Scope("session")
 @Controller
 public class HomeController extends BaseController {
 
-	
 	@Resource(name = "passwordEncoder")
 	private PasswordEncoder pwEncoder;
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(Model model) {
-		
 		return "index";
+
 	}
 
 	/**
@@ -511,7 +507,7 @@ public class HomeController extends BaseController {
 
 		return "facultyProfile";
 	}
-	
+
 	@RequestMapping(value = "/facultyProfile", method = RequestMethod.POST)
 	public String facultyUpload(Model model, HttpServletRequest request,
 			HttpServletResponse response,
@@ -635,7 +631,7 @@ public class HomeController extends BaseController {
 
 		return "userProfile";
 	}
-	
+
 	@RequestMapping(value = "/userProfile", method = RequestMethod.POST)
 	public String userProfileUpload(Model model,HttpServletRequest request,
 			HttpServletResponse response,
@@ -667,6 +663,23 @@ public class HomeController extends BaseController {
 //                fileUploadDao.save(uploadFile);               
 //            }
 //        }
+
+		return "userProfile";
+	}
+	public String userProfileUpload(Model model, @RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
+
+		// if (fileUpload != null && fileUpload.length > 0) {
+		// for (CommonsMultipartFile aFile : fileUpload){
+
+		// System.out.println("Saving file: " + aFile.getOriginalFilename());
+
+		// UploadFile uploadFile = new UploadFile();
+		// uploadFile.setFileName(aFile.getOriginalFilename());
+		// uploadFile.setData(aFile.getBytes());
+		// fileUploadDao.save(uploadFile);
+		// }
+		// }
+
 
 		return "userProfile";
 	}
@@ -702,7 +715,6 @@ public class HomeController extends BaseController {
 //	}
 	
 	
-
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String editPost(Model model) {

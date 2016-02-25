@@ -520,12 +520,12 @@ public class HomeController extends BaseController {
 			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 	        MultipartFile multipartFile = multipartRequest.getFile("file");
 	 
-	        UploadFile file = new UploadFile();
+	        UploadFile image = new UploadFile();
 //	        file.setFilename(multipartFile.getOriginalFilename());
 //	        file.setNotes(ServletRequestUtils.getStringParameter(request, "notes"));
 //	        file.setType(multipartFile.getContentType());
-	        file.setData(multipartFile.getBytes());
-	        getFileUploadDao().addFile(file);
+	        image.setData(multipartFile.getBytes());
+	        getImageUploadDao().addImage(image);
 
 //		if (fileUpload != null && fileUpload.length > 0) {
 //            for (CommonsMultipartFile aFile : fileUpload){
@@ -637,11 +637,25 @@ public class HomeController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/userProfile", method = RequestMethod.POST)
-	public String userProfileUpload(Model model,
-            @RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
+	public String userProfileUpload(Model model,HttpServletRequest request,
+			HttpServletResponse response,
+            @RequestParam CommonsMultipartFile[] fileUpload, @RequestParam("file") MultipartFile[] files) throws Exception {
 		
-		
-		
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile multipartFile = multipartRequest.getFile("file");
+ 
+        //UploadFile file = new UploadFile();
+//        file.setFilename(multipartFile.getOriginalFilename());
+//        file.setNotes(ServletRequestUtils.getStringParameter(request, "notes"));
+//        file.setType(multipartFile.getContentType());
+        if(files[0] != null){
+        	((UploadFile) files[0]).setData(multipartFile.getBytes());
+        	 getFileUploadDao().addFile((UploadFile) files[0]);
+        }
+        if(files[1] != null){
+        	((UploadFile) files[1]).setData(multipartFile.getBytes());
+            getImageUploadDao().addImage((UploadFile) files[1]);
+        }
 //		if (fileUpload != null && fileUpload.length > 0) {
 //            for (CommonsMultipartFile aFile : fileUpload){
                   
@@ -656,6 +670,38 @@ public class HomeController extends BaseController {
 
 		return "userProfile";
 	}
+	
+//	@RequestMapping(value = "/userProfile", method = RequestMethod.POST)
+//	public String userProfileUploadPic(Model model,HttpServletRequest request,
+//			HttpServletResponse response,
+//            @RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
+//		
+//		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+//        MultipartFile multipartFile = multipartRequest.getFile("file");
+// 
+//        UploadFile image = new UploadFile();
+//        file.setFilename(multipartFile.getOriginalFilename());
+//        file.setNotes(ServletRequestUtils.getStringParameter(request, "notes"));
+//        file.setType(multipartFile.getContentType());
+//        image.setData(multipartFile.getBytes());
+//        getImageUploadDao().addImage(image);
+		
+//		if (fileUpload != null && fileUpload.length > 0) {
+//            for (CommonsMultipartFile aFile : fileUpload){
+                  
+                //System.out.println("Saving file: " + aFile.getOriginalFilename());
+                 
+//                UploadFile uploadFile = new UploadFile();
+//                uploadFile.setFileName(aFile.getOriginalFilename());
+//                uploadFile.setData(aFile.getBytes());
+//                fileUploadDao.save(uploadFile);               
+//            }
+//        }
+//
+//		return "userProfile";
+//	}
+	
+	
 
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)

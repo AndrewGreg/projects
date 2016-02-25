@@ -10,7 +10,7 @@
 </head>
 <body>
 	<!-- Navigation -->
-	
+	<jsp:include page="header.jsp" />
 
 
 	<!-- Header Carousel -->

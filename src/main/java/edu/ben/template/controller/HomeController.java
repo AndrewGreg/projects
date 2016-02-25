@@ -353,7 +353,7 @@ public class HomeController extends BaseController {
 			//
 			// DUMMY User
 			//
-			User u = getUserDao().getObjectById(DUMMY_ID);
+			User u = getUserDao().getObjectById(getCurrentUserId());
 
 			u.setMajor(getMajorDao().findMajorByUser(u));
 			u.setConcentration(getMajorDao().findConcentrationByUser(u));
@@ -402,8 +402,7 @@ public class HomeController extends BaseController {
 				u.addMajor(m3);
 			}
 
-			// TODO Hash the password before saving to the user
-			u.setPassword(password);
+			u.setPassword(pwEncoder.encode(password));
 
 			try {
 				getUserDao().updateUser(u);
@@ -424,8 +423,10 @@ public class HomeController extends BaseController {
 		// TODO GET USER FROM SESSION
 		//
 		// DUMMY User
+		// Donald Touched this.... I put the currentUserId()... That is what
+		// keeping the session.
 		//
-		User u = getUserDao().getObjectById(DUMMY_ID);
+		User u = getUserDao().getObjectById(getCurrentUserId());
 
 		u.setMajor(getMajorDao().findMajorByUser(u));
 		u.setConcentration(getMajorDao().findConcentrationByUser(u));
@@ -502,6 +503,17 @@ public class HomeController extends BaseController {
 			alumni = getUserDao().findAllAlumni();
 
 			model.addAttribute("alumni", alumni);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// Return all Alumni
+		try {
+			ArrayList<User> faculty = new ArrayList<User>();
+			faculty = getUserDao().findAllFaculty();
+
+			model.addAttribute("faculty", faculty);
 
 		} catch (Exception e) {
 			e.printStackTrace();

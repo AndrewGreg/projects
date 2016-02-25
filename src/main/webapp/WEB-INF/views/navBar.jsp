@@ -42,9 +42,34 @@
 					data-toggle="dropdown">Job Postings <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li><a href="/jobPostings">View Job Postings</a></li>
+					</ul></li>
+					
+				<!-- When the user is logged in the session go here. -->
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown">Events <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="/events">View Upcoming Events</a></li>
+					</ul></li>
+					
+					<!-- When the user is logged in the session go here. -->
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown">Profile <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="/user/<%=currentUser.getId()%>">My Profile</a></li>
+						<li><a href="#">View your Job Postings</a></li>
+						<li><a href="/logout">Logout</a></li>
+					</ul></li>
+					
+					
+					
+				<%} else if(currentUser.getRole() == 3){%>
+					<!-- When the user is logged in the session go here. -->
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown">Job Postings <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="/jobPostings">View Job Postings</a></li>
 						<li><a href="/createJobPosting">Create a Job Posting</a></li>
 					</ul></li>
-
 
 				<!-- When the user is logged in the session go here. -->
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -54,16 +79,6 @@
 						<li><a href="/createEvent">Create an Event</a></li>
 					</ul></li>
 
-			
-				<!-- When the user is logged in the session go here. -->
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown">Profile <b class="caret"></b></a>
-					<ul class="dropdown-menu">
-						<li><a href="/user/<%=currentUser.getId()%>">My Profile</a></li>
-						<li><a href="#">View your Job Postings</a></li>
-						<li><a href="/logout">Logout</a></li>
-					</ul></li>
-				<%}else if(currentUser.getRole() == 3){ %>
 				<!-- When the user is logged in the session go here. -->
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">Profile <b class="caret"></b></a>
@@ -73,7 +88,7 @@
 						<li><a href="/logout">Logout</a></li>
 					</ul></li>
 					<%} %>
-				<%} %>
+				<%}%>
 					
 			</ul>
 		</div>

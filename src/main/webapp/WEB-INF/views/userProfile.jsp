@@ -83,8 +83,12 @@
 											<%} %>
 										</tr>
 										<tr>
-											<td>Email</td>
+											<td>Benedictine Email:</td>
 											<td><a href="mailfrom:info@support.com"><%=currentUser.getEmail()%></a></td>
+											<tr>
+											<td>Personal Email:</td>
+											<td><a href="mailfrom:info@support.com"><%=currentUser.getPersonalEmail()%></a></td>
+									
 									</tbody>
 								</table>
 

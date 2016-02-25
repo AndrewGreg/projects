@@ -664,8 +664,18 @@ public class HomeController extends BaseController {
 	 *            is being passed in
 	 * @return the faculty page.
 	 */
-	@RequestMapping(value = "/facultyProfile", method = RequestMethod.GET)
-	public String faculty(Model model) {
+	@RequestMapping(value = "/facultyProfile/{id}", method = RequestMethod.GET)
+	public String faculty(Model model, @PathVariable Long id) {
+
+		User currentUser = getUserDao().getObjectById(id);
+		model.addAttribute("currentUser", currentUser);
+
+		// Wait until Andrew moves file upload to edit page.
+		// if(id != getCurrentUser().getId()){
+		// return "userProfile";
+		// }
+		//
+		// return "edit";
 
 		// Return all Students
 		try {
@@ -701,6 +711,7 @@ public class HomeController extends BaseController {
 		}
 
 		return "facultyProfile";
+
 	}
 
 	/**
@@ -745,6 +756,10 @@ public class HomeController extends BaseController {
 		// fileUploadDao.save(uploadFile);
 		// }
 		// }
+		
+		if (getCurrentUser().getRole() <= 2) {
+			return "userProfile";
+		}
 
 		return "facultyProfile";
 	}

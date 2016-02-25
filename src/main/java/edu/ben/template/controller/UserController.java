@@ -17,11 +17,12 @@ public class UserController extends BaseController {
 	@PreAuthorize("isFullyAuthenticated()")
 	@RequestMapping(value = "/displayAccount", method = RequestMethod.GET)
 	public String displayAccount(Model model) {
-		long userId = getCurrentUserId();
 
-		User user = getUserDao().getObjectById(userId);
+		User userId = getCurrentUser();
 
-		model.addAttribute("user", user);
+		// User user = getUserDao().getObjectById(userId);
+
+		model.addAttribute("userId", userId);
 		return "account/view";
 	}
 }

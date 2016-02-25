@@ -69,15 +69,18 @@ public class HomeController extends BaseController {
 
 			// TODO Find out how to get the logged in user to add to the
 			// jobPosting object
-			JobPosting job = new JobPosting(name, description, company);
+			User u = getCurrentUser();
+
+			JobPosting job = new JobPosting(name, description, company, u);
 
 			try {
+
 				getJobPostingDao().addJobPosting(job);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			System.out.println("Job was created");
-			return "index";
+			return "jobPosting";
 
 		} else {
 
@@ -129,11 +132,14 @@ public class HomeController extends BaseController {
 					Integer.parseInt(datePart[1]));
 			Date currentDate = new Date(System.currentTimeMillis());
 
+			User u = getCurrentUser();
+
 			Event createEvent = new Event();
 
 			createEvent.setName(name);
 			createEvent.setDescription(description);
 			createEvent.setDate(eventDate);
+			createEvent.setPoster(u);
 
 			if (eventDate.compareTo(currentDate) < 0) {
 
@@ -143,7 +149,7 @@ public class HomeController extends BaseController {
 
 				model.addAttribute("errors", errors);
 
-				return "createEvent";
+				return "events";
 			}
 
 			System.out.println("Event was created.");
@@ -349,11 +355,7 @@ public class HomeController extends BaseController {
 
 		if (validateEdit(password, confirmPassword, firstName, lastName, personalEmail, graduationYear)) {
 
-			// TODO GET USER FROM SESSION
-			//
-			// DUMMY User
-			//
-			User u = getUserDao().getObjectById(getCurrentUserId());
+			User u = getCurrentUser();
 
 			u.setMajor(getMajorDao().findMajorByUser(u));
 			u.setConcentration(getMajorDao().findConcentrationByUser(u));
@@ -420,13 +422,7 @@ public class HomeController extends BaseController {
 
 		ArrayList<Major> m = getMajorDao().findAllMajors();
 
-		// TODO GET USER FROM SESSION
-		//
-		// DUMMY User
-		// Donald Touched this.... I put the currentUserId()... That is what
-		// keeping the session.
-		//
-		User u = getUserDao().getObjectById(getCurrentUserId());
+		User u = getCurrentUser();
 
 		u.setMajor(getMajorDao().findMajorByUser(u));
 		u.setConcentration(getMajorDao().findConcentrationByUser(u));
@@ -619,13 +615,15 @@ public class HomeController extends BaseController {
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		MultipartFile multipartFile = multipartRequest.getFile("file");
 
-		UploadFile file = new UploadFile();
+		UploadFile image = new UploadFile();
 		// file.setFilename(multipartFile.getOriginalFilename());
 		// file.setNotes(ServletRequestUtils.getStringParameter(request,
 		// "notes"));
 		// file.setType(multipartFile.getContentType());
-		file.setData(multipartFile.getBytes());
-		getFileUploadDao().addFile(file);
+		if (image != null) {
+			image.setData(multipartFile.getBytes());
+			getImageUploadDao().addImage(image);
+		}
 
 		// if (fileUpload != null && fileUpload.length > 0) {
 		// for (CommonsMultipartFile aFile : fileUpload){
@@ -658,8 +656,6 @@ public class HomeController extends BaseController {
 
 			ArrayList<User> alumni = new ArrayList<User>();
 			alumni = getUserDao().findAll();
-
-			// System.out.println(alumni.get(0).toString());
 
 			for (User users : alumni) {
 				users.setMajor(getMajorDao().findMajorByUser(users));
@@ -722,9 +718,27 @@ public class HomeController extends BaseController {
 		return "userProfile";
 	}
 
-	@RequestMapping(value = "/user/{id}", method = RequestMethod.POST)
-	public String userProfileUpload(Model model, @RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
+	@RequestMapping(value = "/userProfile", method = RequestMethod.POST)
+	public String userProfileUpload(Model model, HttpServletRequest request, HttpServletResponse response,
+			@RequestParam CommonsMultipartFile[] fileUpload, @RequestParam("file") MultipartFile[] files)
+					throws Exception {
 
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		MultipartFile multipartFile = multipartRequest.getFile("file");
+
+		// UploadFile file = new UploadFile();
+		// file.setFilename(multipartFile.getOriginalFilename());
+		// file.setNotes(ServletRequestUtils.getStringParameter(request,
+		// "notes"));
+		// file.setType(multipartFile.getContentType());
+		if (files[0] != null) {
+			((UploadFile) files[0]).setData(multipartFile.getBytes());
+			getFileUploadDao().addFile((UploadFile) files[0]);
+		}
+		if (files[1] != null) {
+			((UploadFile) files[1]).setData(multipartFile.getBytes());
+			getImageUploadDao().addImage((UploadFile) files[1]);
+		}
 		// if (fileUpload != null && fileUpload.length > 0) {
 		// for (CommonsMultipartFile aFile : fileUpload){
 
@@ -740,14 +754,28 @@ public class HomeController extends BaseController {
 		return "userProfile";
 	}
 
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.POST)
+	public String userProfileUpload(Model model, @RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
+
+		// if (fileUpload != null && fileUpload.length > 0) {
+		// for (CommonsMultipartFile aFile : fileUpload){
+
+		// System.out.println("Saving file: " + aFile.getOriginalFilename());
+
+		// UploadFile uploadFile = new UploadFile();
+		// uploadFile.setFileName(aFile.getOriginalFilename());
+		// uploadFile.setData(aFile.getBytes());
+		// fileUploadDao.save(uploadFile);
+		// }
+		// }
+		return "userProfile";
+	}
+
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String editPost(Model model) {
 
-		// GET USER FROM SESSION
-
-		// DUMMY User
-
-		User u = getUserDao().getObjectById(DUMMY_ID);
+		// User in session.
+		User u = getCurrentUser();
 
 		u.setMajor(getMajorDao().findMajorByUser(u));
 		u.setConcentration(getMajorDao().findConcentrationByUser(u));
@@ -804,6 +832,4 @@ public class HomeController extends BaseController {
 				&& Validator.validateEmail(personalEmail, false));
 	}
 
-	// For user testing purposes (taken out with sessions)
-	final static int DUMMY_ID = 2;
 }

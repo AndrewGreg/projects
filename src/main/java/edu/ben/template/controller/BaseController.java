@@ -92,8 +92,8 @@ public abstract class BaseController extends DaoKeeper {
 	}
 
 
-	public long getCurrentUserId() {
-		User u = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		return u.getId();
-	}
+//	public long getCurrentUserId() {
+//		User u = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		return u.getId();
+//	}
 }

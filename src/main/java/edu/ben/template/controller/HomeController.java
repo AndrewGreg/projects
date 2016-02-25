@@ -458,7 +458,94 @@ public class HomeController extends BaseController {
 
 	}
 
-	
+//	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+//	public String edit(Model model, @RequestParam("title") String title, @RequestParam("fName") String firstName,
+//			@RequestParam("lName") String lastName, @RequestParam("suffix") String suffix,
+//			@RequestParam("personalEmail") String personalEmail, @RequestParam("occupation") String occupation,
+//			@RequestParam("bio") String biography, @RequestParam("experience") String experience,
+//			@RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword) {
+//
+//		if (validateEdit(password, confirmPassword, firstName, lastName, personalEmail)) {
+//
+//			// TODO GET USER FROM SESSION
+//			//
+//			// DUMMY User
+//			//
+//			User u = getUserDao().getObjectById(DUMMY_ID);
+//
+//			u.setMajor(getMajorDao().findMajorByUser(u));
+//			u.setConcentration(getMajorDao().findConcentrationByUser(u));
+//			u.setMinor(getMajorDao().findMinorByUser(u));
+//
+//			if (Validator.isNull(title))
+//				title = null;
+//			if (Validator.isNull(suffix))
+//				suffix = null;
+//			if (Validator.isNull(personalEmail))
+//				personalEmail = null;
+//			if (Validator.isNull(occupation))
+//				occupation = null;
+//			if (Validator.isNull(biography))
+//				biography = null;
+//			if (Validator.isNull(experience))
+//				experience = null;
+//
+//
+//			u.setTitle(title);
+//			u.setFirstName(firstName);
+//			u.setLastName(lastName);
+//			u.setSuffix(suffix);
+//			u.setPersonalEmail(personalEmail);
+//			u.setOccupation(occupation);
+//			u.setBio(biography);
+//			u.setExperience(experience);
+//
+//			// TODO Hash the password before saving to the user
+//			u.setPassword(password);
+//
+//			try {
+//				getUserDao().updateUser(u);
+//				getMajorDao().updateMajorByUser(u);
+//			} catch (Exception e) {
+//				/* Probably should log this */
+//				System.out.println("Oops");
+//
+//			}
+//
+//			return "userProfile";
+//		}
+//
+//		HashMap<String, String> e = new HashMap<String, String>();// TODO
+//
+//		ArrayList<Major> m = getMajorDao().findAllMajors();
+//
+//		// TODO GET USER FROM SESSION
+//		//
+//		// DUMMY User
+//		//
+//		User u = getUserDao().getObjectById(DUMMY_ID);
+//
+//		u.setMajor(getMajorDao().findMajorByUser(u));
+//		u.setConcentration(getMajorDao().findConcentrationByUser(u));
+//		u.setMinor(getMajorDao().findMinorByUser(u));
+//
+//		if (!Validator.validatePassword(password) || !Validator.validatePasswordsMatch(password, confirmPassword))
+//			e.put("password", "Invalid Password");
+//		if (!Validator.validateName(firstName))
+//			e.put("fName", "Invalid First Name Entry");
+//		if (!Validator.validateName(lastName))
+//			e.put("fName", "Invalid Last Name Entry");
+//		if (!Validator.validateEmail(personalEmail, false))
+//			e.put("fName", "Invalid Email Entry");
+//
+//		model.addAttribute("user", u);
+//		model.addAttribute("majors", m);
+//		model.addAttribute("errors", e);
+//
+//		return "edit";
+//
+//	}
+//	
 	/**
 	 * Access to the job postings page.
 	 * 
@@ -674,6 +761,14 @@ public class HomeController extends BaseController {
 		HashMap<String, String> e = new HashMap<String, String>();
 		model.addAttribute("errors", e);
 
+		System.out.println("Here!");
+		
+		//in jsp TODO
+		//if role == 2 => /editStudent 
+		//else if role == 5 /editAlum change request param
+		//else if role == 10 adminedit account TODO later with admin functionality
+		//else reutnr error 500
+		
 		return "edit";
 
 	}
@@ -700,7 +795,15 @@ public class HomeController extends BaseController {
 				&& Validator.validateGraduationYear(graduationYear, false)
 				&& Validator.validateEmail(personalEmail, false));
 	}
+	
+	private boolean validateEdit(String password, String confirmPassword, String firstName, String lastName,
+			String personalEmail) {
+
+		return (Validator.validatePasswordsMatch(password, confirmPassword) && Validator.validatePassword(password)
+				&& Validator.validateName(firstName) && Validator.validateName(lastName)
+				&& Validator.validateEmail(personalEmail, false));
+	}
 
 	// For user testing purposes (taken out with sessions)
-	final static int DUMMY_ID = 1;
+	final static int DUMMY_ID = 2;
 }

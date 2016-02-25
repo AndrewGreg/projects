@@ -10,8 +10,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Profile</title>
 <jsp:include page="header.jsp" />
-<link href="content/css/fileUpload.css" rel="stylesheet">
 </head>
+
 <body>
 	<jsp:include page="navBar.jsp" />
 	<br>
@@ -37,7 +37,7 @@
 						<div class="row">
 							<div class="col-md-3 col-lg-3 " align="center">
 								<!-- Grab picture from database. -->
-								<img alt="User Pic" src="content/img/BenedictineLogo.gif"
+								<img alt="User Pic" src="/content/img/BenedictineLogo.gif"
 									class="img-circle img-responsive" height=1000px width=1000px>
 							</div>
 							<br>
@@ -83,8 +83,12 @@
 											<%} %>
 										</tr>
 										<tr>
-											<td>Email</td>
+											<td>Benedictine Email:</td>
 											<td><a href="mailfrom:info@support.com"><%=currentUser.getEmail()%></a></td>
+											<tr>
+											<td>Personal Email:</td>
+											<td><a href="mailfrom:info@support.com"><%=currentUser.getPersonalEmail()%></a></td>
+									
 									</tbody>
 								</table>
 

@@ -5,9 +5,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.validation.BindException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,7 +14,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import edu.ben.template.dao.DaoKeeper;
-import edu.ben.template.interceptor.UserInterceptor;
 import edu.ben.template.model.User;
 
 /**
@@ -51,6 +48,7 @@ public abstract class BaseController extends DaoKeeper {
 
 		System.out.println(userName);
 		User loggedUser = getUserDao().findByEmail(userName);
+		
 
 		return loggedUser;
 	}

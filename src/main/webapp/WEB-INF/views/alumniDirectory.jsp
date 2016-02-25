@@ -71,7 +71,7 @@ th {
 						<%if (alumni.get(i).getRole() == 2) {%>
 							
 					<tr>
-						<td><a href="/userProfile?userName=<%=alumni.get(i).getId()%>"><font color="Black"><%=(alumni.get(i).getFirstName())%></font></a></td>
+						<td><a href=" /user/<%=alumni.get(i).getId()%>"><font color="Black"><%=(alumni.get(i).getFirstName())%></font></a></td>
 						<td><font color="Black"><%=(alumni.get(i).getLastName())%></font></td>
 						<td><font color="Black"><%=(alumni.get(i).getGraduationYear())%></font></td>
 					  <%if(alumni.get(i).getMajor().get(0).getName() != null){ %> 

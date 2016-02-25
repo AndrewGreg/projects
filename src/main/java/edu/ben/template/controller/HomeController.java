@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -252,6 +253,7 @@ public class HomeController extends BaseController {
 				User register = new User();
 
 				register.setEmail(benEmail);
+				register.setPersonalEmail(personalEmail);
 				register.setFirstName(firstName);
 				register.setLastName(lastName);
 
@@ -612,25 +614,11 @@ public class HomeController extends BaseController {
 	 *            is being passed in.
 	 * @return the profile page that belongs to the user.
 	 */
-	@RequestMapping(value = "/userProfile", method = RequestMethod.GET)
-	// public String userProfile(Model model, @RequestParam("name") String name,
-	// @RequestParam("bio") String biography,
-	// @RequestParam("occupation") String occupation,
-	// @RequestParam("graduation") String graduation,
-	// @RequestParam("workInterest") String workInterest,
-	// @RequestParam("experience") String experience) {
-	public String userProfile(Model model) {
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+	public String userProfile(Model model, @PathVariable Long id) {
 
-		// try {
-		//
-		// ArrayList<User> user = new ArrayList<User>();
-		// users = getJdbcTypeDao().findAll();
-		//
-		// model.addAttribute("users", users);
-		//
-		// } catch (Exception e) {
-		// }
-		//
+		User userId = getUserDao().getObjectById(id);
+		model.addAttribute("userId", userId);
 
 		return "userProfile";
 	}
@@ -667,6 +655,23 @@ public class HomeController extends BaseController {
 //            }
 //        }
 
+		return "userProfile";
+	}
+
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.POST)
+	public String userProfileUpload(Model model, @RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
+
+		// if (fileUpload != null && fileUpload.length > 0) {
+		// for (CommonsMultipartFile aFile : fileUpload){
+
+		// System.out.println("Saving file: " + aFile.getOriginalFilename());
+
+		// UploadFile uploadFile = new UploadFile();
+		// uploadFile.setFileName(aFile.getOriginalFilename());
+		// uploadFile.setData(aFile.getBytes());
+		// fileUploadDao.save(uploadFile);
+		// }
+		// }
 		return "userProfile";
 	}
 	

@@ -18,12 +18,12 @@ public class UserDao extends BaseDao<User> {
 
 	private MajorDao majorDao;
 	private InterestDao interestDao;
-	
+
 	public UserDao() {
 		super();
 		this.majorDao = new MajorDao();
 		this.interestDao = new InterestDao();
-		
+
 	}
 
 	public User getObjectById(long userId) {
@@ -52,15 +52,15 @@ public class UserDao extends BaseDao<User> {
 
 	public void addUser(User user) {
 
-		String sql = "UPDATE user SET bnumber = ?, email = ?, personal_email = ?, password = ?, salt = ?, first_name= ?, last_name = ?, role = ?, graduation_year = ?, occupation = ?, title = ?, suffix = ?, bio = ?, experience = ?, hidden = 1, active = 1, created = null, last_active = null, last_modified = null, social_media = null WHERE id = 2;";
-		
-//		TODO Change this include last last six columns 
-		
+		String sql = "UPDATE user SET bnumber = ?, email = ?, personal_email = ?, password = ?, salt = ?, first_name= ?, last_name = ?, role = ?, graduation_year = ?, occupation = ?, title = ?, suffix = ?, bio = ?, experience = ?, hidden = 1, active = 1, created = null, last_active = null, last_modified = null, social_media = null WHERE id = ?";
+
+		// TODO Change this include last last six columns
+
 		jdbcTemplate.update(sql,
-				new Object[] {  user.getbNumber(), user.getEmail(), user.getPersonalEmail(),
-						user.getPassword(), user.getSalt(), user.getFirstName(), user.getLastName(), user.getRole(),
+				new Object[] { user.getbNumber(), user.getEmail(), user.getPersonalEmail(), user.getPassword(),
+						user.getSalt(), user.getFirstName(), user.getLastName(), user.getRole(),
 						user.getGraduationYear(), user.getOccupation(), user.getTitle(), user.getSuffix(),
-						user.getBio(), user.getExperience(),user.getId(), });
+						user.getBio(), user.getExperience(), user.getId(), });
 
 	}
 	
@@ -83,20 +83,13 @@ public class UserDao extends BaseDao<User> {
 
 		try {
 			users = jdbcTemplate.query(sql, getRowMapper());
-			
-//			for (User u: users){
-//				u.setConcentration(majorDao.findConcentrationByUser(u));
-//				u.setMajor(majorDao.findMajorByUser(u));
-//				u.setMinor(majorDao.findMinorByUser(u));
-//			}
-			
+
 			return (ArrayList<User>) users;
 		} catch (EmptyResultDataAccessException e) {
 			/* Probably want to log this */
 			return null;
 		}
 	}
-	
 
 	/**
 	 * Method to find all the students in the database.
@@ -166,7 +159,6 @@ public class UserDao extends BaseDao<User> {
 			String sql = "SELECT user.id as id, user.bnumber, user.email, user.personal_email, user.password, user.salt, user.first_name, user.last_name, user.role, user.graduation_year,user.occupation, user.title, user.suffix, user.bio, user.experience FROM user WHERE user.email = ? GROUP BY id";
 			u = jdbcTemplate.queryForObject(sql, new Object[] { email }, getRowMapper());
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 		return u;
@@ -194,7 +186,7 @@ public class UserDao extends BaseDao<User> {
 					new Object[] { user.getbNumber(), user.getFirstName(), user.getLastName(), user.getEmail(),
 							user.getPersonalEmail(), user.getPassword(), user.getSalt(), user.getRole(),
 							user.getGraduationYear(), user.getOccupation(), user.getTitle(), user.getSuffix(),
-							user.getExperience(), user.getBio(), user.getRole(), user.getId(),});
+							user.getExperience(), user.getBio(), user.getRole(), user.getId(), });
 
 		} catch (Exception e) {
 			/* Probably want to log this */
@@ -202,32 +194,6 @@ public class UserDao extends BaseDao<User> {
 		return;
 
 	}
-
-	// Prof. Pollack's template code
-	// /**
-	// * FOR LOGIN
-	// *
-	// * @param email
-	// * @return User from database that matches the email provided
-	// * @throws SQLException
-	// */
-	// public User getUserByEmail(String email) {
-	// return getUserByEmail(email, true);
-	// }
-
-	// public User getUserByEmail(String email, boolean active) {
-	// User user = null;
-	//
-	// try {
-	// // look up the object
-	// String sql = "select * from user where email = ? and user.is_active = ?";
-	// user = this.jdbcTemplate.queryForObject(sql, new Object[] { email, active
-	// }, getRowMapper());
-	// } catch (EmptyResultDataAccessException e) {
-	// return null;
-	// }
-	// return user;
-	// }
 
 	@Override
 	public RowMapper<User> getRowMapper() {
@@ -250,14 +216,13 @@ public class UserDao extends BaseDao<User> {
 				user.setRole(rs.getInt("role"));
 				user.setBio(rs.getString("bio"));
 				user.setExperience(rs.getString("experience"));
-				
-//				TODO See Pollack about structure change (INEFFICIENT)
 
+				// TODO See Pollack about structure change (INEFFICIENT)
 
-//				user.setConcentration(majorDao.findConcentrationByUser(user));
-//				user.setMinor(majorDao.findMinorByUser(user));
-//				user.setMajor(majorDao.findMajorByUser(user));
-//				user.setInterest(interestDao.findAllByUser(user));
+				// user.setConcentration(majorDao.findConcentrationByUser(user));
+				// user.setMinor(majorDao.findMinorByUser(user));
+				// user.setMajor(majorDao.findMajorByUser(user));
+				// user.setInterest(interestDao.findAllByUser(user));
 
 				// return the object
 				return user;

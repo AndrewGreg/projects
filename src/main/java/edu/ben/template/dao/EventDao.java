@@ -98,15 +98,16 @@ public class EventDao extends BaseDao<Event> {
 
 	public void addEvent(Event event) {
 
-		String sql = "INSERT INTO job (name, description, date, user_id) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO event (name, description, date, user_id, hidden) VALUES (?, ?, ?, ?, 0)";
 
-		jdbcTemplate.update(sql, new Object[] { event.getName(), event.getDescription(), event.getDate(), event.getPoster().getId()});
+		jdbcTemplate.update(sql,
+				new Object[] { event.getName(), event.getDescription(), event.getDate(), event.getPoster().getId() });
 		return;
 	}
 
 	public void updateEvent(Event event) {
 
-		String sql = "UPDATE job SET name = ?, description = ?, date = ?, user_id = ? WHERE job.id = ?";
+		String sql = "UPDATE event SET name = ?, description = ?, date = ?, user_id = ? WHERE job.id = ?";
 		try {
 			jdbcTemplate.update(sql, new Object[] { event.getName(), event.getDescription(), event.getDate(),
 					event.getPoster().getId(), event.getId() });

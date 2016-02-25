@@ -69,15 +69,18 @@ public class HomeController extends BaseController {
 
 			// TODO Find out how to get the logged in user to add to the
 			// jobPosting object
-			JobPosting job = new JobPosting(name, description, company);
+			User u = getCurrentUser();
+
+			JobPosting job = new JobPosting(name, description, company, u);
 
 			try {
+
 				getJobPostingDao().addJobPosting(job);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			System.out.println("Job was created");
-			return "index";
+			return "jobPosting";
 
 		} else {
 
@@ -129,11 +132,14 @@ public class HomeController extends BaseController {
 					Integer.parseInt(datePart[1]));
 			Date currentDate = new Date(System.currentTimeMillis());
 
+			User u = getCurrentUser();
+
 			Event createEvent = new Event();
 
 			createEvent.setName(name);
 			createEvent.setDescription(description);
 			createEvent.setDate(eventDate);
+			createEvent.setPoster(u);
 
 			if (eventDate.compareTo(currentDate) < 0) {
 
@@ -143,7 +149,7 @@ public class HomeController extends BaseController {
 
 				model.addAttribute("errors", errors);
 
-				return "createEvent";
+				return "events";
 			}
 
 			System.out.println("Event was created.");
@@ -350,8 +356,6 @@ public class HomeController extends BaseController {
 		if (validateEdit(password, confirmPassword, firstName, lastName, personalEmail, graduationYear)) {
 
 			User u = getCurrentUser();
-
-			System.out.println(u.toString());
 
 			u.setMajor(getMajorDao().findMajorByUser(u));
 			u.setConcentration(getMajorDao().findConcentrationByUser(u));

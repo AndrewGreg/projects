@@ -6,7 +6,7 @@
 <%@ page import="edu.ben.template.dao.UserDao" %>
 <%@ page isELIgnored="false" %>
 
-<jsp:useBean id="user" class="edu.ben.template.model.User" scope="session" />
+<%User currentUser = (User) request.getAttribute("currentUser"); %>
 <%
 	
 
@@ -15,6 +15,13 @@
 		students = (ArrayList<User>) request.getAttribute("student");
 	} else {
 		students = new ArrayList<User>();
+	} 
+	
+	ArrayList<User> faculty;
+	if (request.getAttribute("faculty") != null) {
+		faculty = (ArrayList<User>) request.getAttribute("faculty");
+	} else {
+		faculty = new ArrayList<User>();
 	} 
 	
 	ArrayList<User> alumni;
@@ -32,8 +39,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Profile</title>
 <jsp:include page="header.jsp" />
-<link href="content/css/fileUpload.css" rel="stylesheet">
 </head>
+
 <body>
 	<jsp:include page="navBar.jsp" />
 	<br>
@@ -42,33 +49,23 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-5  toppad  pull-right col-md-offset-2 ">
-
-				<p class=" text-info"><%=new java.util.Date()  %></p>
 			</div>
-			<div
-				class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
-
+		
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad"><h4>
+					<A style="float: right;" href="/logout"><font color="Red">Logout</font></A> &nbsp;</h4>
 				<!-- Profile Picture -->
 				<div style="border-color:black" class="panel panel-info">
-					<div style="background-color:red" style="color:red" class="panel-heading"><a href="/edit" data-original-title="Edit this user" data-toggle="tooltip" 
-						type="button" class="btn btn-sm btn-warning"> </a>
-						<h3 class="panel-title"><%user.getFirstName(); %>&nbsp;<%user.getLastName(); %></h3>
+					<div style="background-color:red" class="panel-heading">
+						<h3 class="panel-title"><font color="White"><%=currentUser.getFirstName()%> &nbsp;<%=currentUser.getLastName()%></font></h3>
 					</div>
-					
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-md-3 col-lg-3 " align="center">
 								<!-- Grab picture from database. -->
-								<img alt="User Pic" src="content/img/ernieEagle.jpg"
+								<img alt="User Pic" src="/content/img/BenedictineLogo.gif"
 									class="img-circle img-responsive" height=1000px width=1000px>
-								<!-- <form method="POST" enctype="multipart/form-data"
-									action="/upload">
-									 <font size="2">File to upload:</font> <input type="file" name="file"><br />
-									<input type="submit" value="Upload"> <font size="2">Press here to
-									upload the file!</font> 
-								</form> -->
-
 							</div>
+							<br>
 
 
 
@@ -89,55 +86,67 @@
 											
 										</tr>
 										<tr>
-											<td>Areas of interest:</td>
-											<td><% %></td>
-											
+											<td>Amount of Faculty:</td>
+											<td><%=faculty.size()%></td>
 										</tr>
 
 										<tr>
 										<tr>
 											<td>Biography:</td>
-											<td><% %></td>
-											
+											<%if(currentUser.getBio() != null){ %>
+											<td><%=currentUser.getBio()%></td>
+											<%}else{ %>
+											<td>None</td>
+											<%} %>
 										</tr>
 										<tr>
 											<td>Experiences:</td>
-											<td><% %></td>
-											
+											<%if(currentUser.getExperience() != null){ %>
+											<td><%=currentUser.getExperience()%></td>
+											<%}else{ %>
+											<td>None</td>
+											<%} %>
 										</tr>
 										<tr>
-											<td>Email</td>
-											<td><a href="mailfrom:info@support.com"><%user.getEmail(); %></a></td>
-											<td><a href="mailfrom:info@support.com"><%user.getPersonalEmail(); %></a></td>
+											<td>Benedictine Email:</td>
+											<td><a href="mailfrom:info@support.com"><%=currentUser.getEmail()%></a></td>
+											<tr>
+											<td>Personal Email:</td>
+											<td><a href="mailfrom:info@support.com"><%=currentUser.getPersonalEmail()%></a></td>
+									
 									</tbody>
 								</table>
 
-
- 								<a href="#" class="btn btn-primary">Settings</a>
- 								<a href="#" class="btn btn-primary">Create Job Posting</a>
- 								<br>
-								<br> 
-								<form action="facultyProfile" method="post" enctype="multipart/form-data">
-									<div class="fileUpload btn btn-primary">
-     									<span>Upload Profile Picture</span>
-     									<input type="file" class="upload" />
- 									</div>
-									<button class="btn btn-primary" name="Upload"
-									value="Upload" type="Submit">Upload</button> 
+								<br>
+								<br>
+								<form action="userProfile" method="post" enctype="multipart/form-data">	
+									<div style="background-color:black;" class="fileUpload btn btn-primary">
+    									<span>Upload Profile Picture</span>
+    									<input type="file" class="upload" />
+									</div>
+									<br>
+									<br>
+									<div style="background-color:black;" class="fileUpload btn btn-primary">
+    									<span>Upload Resume</span>
+    									<input type="file" class="upload" />		
+									</div>
+									<button style="background-color:black;" class="btn btn-primary" name="Upload" 
+										value="Upload" type="Submit">Upload</button>
 								</form>
-								
 							</div>
 						</div>
 					</div>
 					<div class="panel-footer">
+						<a href="/edit" style="background-color:black;" class="btn btn-primary">Edit Account</a> 
+						<a href="mailfrom:<%currentUser.getEmail();%>" style="float: right; background-color:black;" class="btn btn-primary"> Send Email</a>
 					</div>
+
 				</div>
 			</div>
-		</div>
-
+		</div>	
 	</div>
 
-	<jsp:include page="footer.jsp" />
+<jsp:include page="footer.jsp" />
 
 </body>
 </html>

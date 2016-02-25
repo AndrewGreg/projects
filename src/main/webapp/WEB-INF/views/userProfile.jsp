@@ -83,15 +83,19 @@
 											<%} %>
 										</tr>
 										<tr>
-											<td>Email</td>
+											<td>Benedictine Email:</td>
 											<td><a href="mailfrom:info@support.com"><%=currentUser.getEmail()%></a></td>
+											<tr>
+											<td>Personal Email:</td>
+											<td><a href="mailfrom:info@support.com"><%=currentUser.getPersonalEmail()%></a></td>
+									
 									</tbody>
 								</table>
 
 								
 								<br>
 								<br>
-								<form action="userProfile" method="post">	
+								<form action="userProfile" method="post" enctype="multipart/form-data">	
 									<div style="background-color:black;" class="fileUpload btn btn-primary">
     									<span>Upload Profile Picture</span>
     									<input type="file" class="upload" />

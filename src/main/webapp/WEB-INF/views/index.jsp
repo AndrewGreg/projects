@@ -9,9 +9,6 @@
 <jsp:include page="header.jsp" />
 </head>
 <body>
-	<!-- Navigation -->
-	<jsp:include page="header.jsp" />
-
 	
 <jsp:include page="navBar.jsp" />
 	<!-- Header Carousel -->

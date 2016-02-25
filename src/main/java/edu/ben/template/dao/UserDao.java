@@ -11,6 +11,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 
+import edu.ben.template.model.UploadFile;
 import edu.ben.template.model.User;
 
 public class UserDao extends BaseDao<User> {
@@ -61,6 +62,18 @@ public class UserDao extends BaseDao<User> {
 						user.getGraduationYear(), user.getOccupation(), user.getTitle(), user.getSuffix(),
 						user.getBio(), user.getExperience(),user.getId(), });
 
+	}
+	
+	public void addMultiple(User user, String file){
+		
+		
+		String sql = "LOAD DATA INFILE '" +file+ "' INTO TABLE user FIELDS TERMINATED BY ','" + "LINES TERMINATED BY '\n' (bnumber, email, personal_email, password, salt, first_name, last_name, role, graduation_year, occupation, title, suffix, bio, experience, hidden, active, created, last_active, last_modified, social_media) WHERE id = ?;";
+		
+		jdbcTemplate.update(sql,
+				new Object[] {  user.getbNumber(), user.getEmail(), user.getPersonalEmail(),
+						user.getPassword(), user.getSalt(), user.getFirstName(), user.getLastName(), user.getRole(),
+						user.getGraduationYear(), user.getOccupation(), user.getTitle(), user.getSuffix(),
+						user.getBio(), user.getExperience(),user.getId(), });
 	}
 
 	public ArrayList<User> findAll() {

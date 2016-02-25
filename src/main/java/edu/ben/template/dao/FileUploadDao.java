@@ -40,7 +40,7 @@ public class FileUploadDao extends BaseDao<UploadFile>{
 	
 	public void addFile(UploadFile file) {
 
-		String sql = "INSERT INTO file (id, file) VALUES (?, ?)";
+		String sql = "INSERT INTO file (id, file) VALUES (?, ?);";
 
 		jdbcTemplate.update(sql,
 				new Object[] { file.getId(), file.getData() });

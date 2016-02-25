@@ -33,7 +33,7 @@ public class ImageUploadDao extends BaseDao<UploadFile> {
 				UploadFile image = new UploadFile();
 				image.setId(rs.getLong("id"));
 				image.setData( rs.getBytes("file"));
-				
+
 				return image;
 			}
 		};

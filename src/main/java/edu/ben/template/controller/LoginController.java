@@ -1,7 +1,5 @@
 package edu.ben.template.controller;
 
-import java.sql.SQLException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -37,23 +35,9 @@ public class LoginController {
 		model.addAttribute("user", new User());
 		return "login";
 	}
-
 	
 	
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logout(Model model) throws SQLException {
-
-		model.addAttribute("logout", "logout");
-		model.addAttribute("user", null);
-		return "index";
-	}
 	
-	@RequestMapping(value = "/logout", method = RequestMethod.POST)
-	public String edit(Model model) throws SQLException {
-
-		model.addAttribute("logout", "logout");
-		model.addAttribute("user", null);
-		return "index";
-	}
-
+	
+	
 }

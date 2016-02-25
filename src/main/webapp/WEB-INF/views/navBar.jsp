@@ -1,10 +1,18 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
+<%@page import= "edu.ben.template.model.User"%>
+<%User currentUser = (User) request.getAttribute("currentUser"); %>
+
 
 
 <!-- Navigation -->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 
+
 	<div class="container">
 		<!-- Brand and toggle get grouped for better mobile display -->
+		
 
 		<div class="navbar-header">
 				<a class="navbar-brand" href="/index"><img src="content/img/benu-logo.svg"
@@ -22,9 +30,11 @@
 			id="bs-example-navbar-collapse-1">
 
 			<ul class="nav navbar-nav navbar-right">
+			
 				<li><a href="/index">Home</a></li>
 				<li><a href="/alumniDirectory">Alumni Directory</a></li>
 
+			<% if(currentUser !=null){%>
 				<!-- When the user is logged in the session go here. -->
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">Job Postings <b class="caret"></b></a>
@@ -42,27 +52,31 @@
 						<li><a href="/createEvent">Create an Event</a></li>
 					</ul></li>
 
+			
 				<!-- When the user is logged in the session go here. -->
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">Profile <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li><a href="/userProfile">My Profile</a></li>
 						<li><a href="#">View your Job Postings</a></li>
-						<li><a href="#">Logout</a></li>
+						<li><a href="/logout">Logout</a></li>
 					</ul></li>
-
-
+		
 				<!-- When the user is logged in the session go here. -->
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">Profile <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li><a href="/facultyProfile">My Profile</a></li>
 						<li><a href="#">View your Job Postings</a></li>
-						<li><a href="#">Logout</a></li>
+						<li><a href="/logout">Logout</a></li>
 					</ul></li>
+					
+					<%} %>
+					
 			</ul>
 		</div>
 		<!-- /.navbar-collapse -->
 	</div>
 	<!-- /.container -->
 </nav>
+

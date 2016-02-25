@@ -2,6 +2,7 @@ package edu.ben.template.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
+import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -23,11 +24,15 @@ public class DaoKeeper {
 	private MajorDao majorDao;
 	@Autowired
 	private InterestDao interestDao;
-	
+	@Autowired
+	private FileUploadDao fileUploadDao;
+	@Autowired
+	private ImageUploadDao imageUploadDao;
 
 	public ObjectMapper getObjectMapper() {
 		return objectMapper;
 	}
+
 
 	public UserDao getUserDao() {
 		return userDao;
@@ -59,6 +64,22 @@ public class DaoKeeper {
 
 	public void setMajorDao(MajorDao majorDao) {
 		this.majorDao = majorDao;
+	}
+	
+	public FileUploadDao getFileUploadDao() {
+		return fileUploadDao;
+	}
+
+	public void setFileUploadDao(FileUploadDao fileUploadDao) {
+		this.fileUploadDao = fileUploadDao;
+	}
+	
+	public ImageUploadDao getImageUploadDao() {
+		return imageUploadDao;
+	}
+
+	public void setimageUploadDao(ImageUploadDao imageUploadDao) {
+		this.imageUploadDao = imageUploadDao;
 	}
 
 	public InterestDao getInterestDao() {

@@ -11,9 +11,11 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.stereotype.Component;
 
 import edu.ben.template.dao.DaoConfig;
 //import edu.ben.template.dao.DaoConfig;
@@ -44,24 +46,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected UserDetailsService userDetailsService() {
 		return new UserDetailsServiceImpl();
 	}
+	
+	@Bean(name="passwordEncoder")
+	public PasswordEncoder passwordEncoder(){
+		
+		return new StandardPasswordEncoder();
+		
+	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf()
 				.disable()
-				.authorizeRequests()
+				.authorizeRequests().antMatchers("/index").permitAll().antMatchers("/register").permitAll()
 				/* TODO Add any additional open links here */
-				.antMatchers("/").permitAll().antMatchers("/about").permitAll()
-				.antMatchers("/login").permitAll().antMatchers("/index").permitAll().
-				antMatchers("/facultyProfile").permitAll().antMatchers("/userProfile").permitAll().antMatchers("/jobPostings").permitAll().antMatchers("/alumniDirectory").permitAll().
-				antMatchers("/createJobPosting").permitAll().antMatchers("/createEvent").permitAll().antMatchers("/events").permitAll().antMatchers("/edit").permitAll()
-				/* TODO Add any additional authorities here... */
-				.antMatchers("/**").permitAll()
+				.anyRequest().authenticated()
 				.and()
 					.logout()
 						.deleteCookies("JSESSIONID")
 						.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
-						.logoutSuccessUrl("/")
+						.logoutSuccessUrl("/index")
 					.permitAll()
 				.and()
 					.formLogin()

@@ -6,42 +6,38 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.swing.plaf.synth.SynthSeparatorUI;
+import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Component;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
-import edu.ben.template.dao.FileUploadDao;
-import edu.ben.template.dao.UserDao;
+
 import edu.ben.template.model.Event;
 import edu.ben.template.model.JobPosting;
 import edu.ben.template.model.Major;
 import edu.ben.template.model.UploadFile;
-import edu.ben.template.model.Event;
-import edu.ben.template.model.JobPosting;
-import edu.ben.template.model.Major;
 import edu.ben.template.model.User;
 import edu.ben.template.model.Validator;
 
 @Controller
-@Scope("session")
 public class HomeController extends BaseController {
 
-	// @Autowired
-	// private FileUploadDao fileUploadDao;
+	@Resource(name = "passwordEncoder")
+	private PasswordEncoder pwEncoder;
+
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(Model model) {
 		return "index";
+
 	}
 
 	/**
@@ -65,29 +61,22 @@ public class HomeController extends BaseController {
 	 */
 	@RequestMapping(value = "/createJobPosting", method = RequestMethod.POST)
 	public String createJobPostingPost(Model model, @RequestParam("name") String name,
-			@RequestParam("company") String company, @RequestParam("description") String description,
-			@RequestParam("poster") User poster) {
+			@RequestParam("company") String company, @RequestParam("description") String description) {
 
 		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
 				&& description.matches(".{2,}")) {
 
 			// TODO Find out how to get the logged in user to add to the
 			// jobPosting object
-			JobPosting job = new JobPosting(name, description, company, poster);
-
-			job.setName(name);
-			job.setDescription(description);
-			job.setCompany(company);
-
-			System.out.println("Job was created.");
+			JobPosting job = new JobPosting(name, description, company);
 
 			try {
 				getJobPostingDao().addJobPosting(job);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
-			return "createJobPostings";
+			System.out.println("Job was created");
+			return "index";
 
 		} else {
 
@@ -106,10 +95,9 @@ public class HomeController extends BaseController {
 			}
 
 			model.addAttribute("errors", errors);
+
+			return "createJobPosting";
 		}
-
-		return "jobPostings";
-
 	}
 
 	@RequestMapping(value = "/createEvent", method = RequestMethod.GET)
@@ -127,64 +115,66 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/createEvent", method = RequestMethod.POST)
 	public String createEventPost(Model model, @RequestParam("name") String name, @RequestParam("date") String dateStr,
 			@RequestParam("description") String description) {
-		try {
-			if (name != null && name.matches(".{2,}") && description != null && description.matches(".{2,}")
-					&& dateStr != null && dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
 
-				String[] datePart = dateStr.split("/");
+		if (name != null && name.matches(".{2,}") && description != null && description.matches(".{2,}")
+				&& dateStr != null && dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
 
-				// TODO Add 1900 as a year offset constant for the deprecated
-				// date
-				// constructor
-				Date eventDate = new Date(Integer.parseInt(datePart[2]) - 1900, Integer.parseInt(datePart[0]) - 1,
-						Integer.parseInt(datePart[1]));
-				Date currentDate = new Date(System.currentTimeMillis());
+			String[] datePart = dateStr.split("/");
 
-				Event createEvent = new Event();
+			// TODO Add 1900 as a year offset constant for the deprecated
+			// date
+			// constructor
+			Date eventDate = new Date(Integer.parseInt(datePart[2]) - 1900, Integer.parseInt(datePart[0]) - 1,
+					Integer.parseInt(datePart[1]));
+			Date currentDate = new Date(System.currentTimeMillis());
 
-				createEvent.setName(name);
-				createEvent.setDescription(description);
-				createEvent.setDate(eventDate);
+			Event createEvent = new Event();
 
-				if (eventDate.compareTo(currentDate) < 0) {
+			createEvent.setName(name);
+			createEvent.setDescription(description);
+			createEvent.setDate(eventDate);
 
-					HashMap<String, String> errors = new HashMap<String, String>();
-
-					errors.put("date", "Error. The event's date must be after the current date.");
-
-					model.addAttribute("errors", errors);
-
-					return "createEvent";
-				}
-
-				System.out.println("Event was created.");
-				getEventDao().addEvent(createEvent);
-
-				return "events";
-
-			} else {
+			if (eventDate.compareTo(currentDate) < 0) {
 
 				HashMap<String, String> errors = new HashMap<String, String>();
 
-				if (name == null || !name.matches(".{2,}")) {
-					errors.put("name", "Error in the input for the event name.");
-				}
-
-				if (description == null || !description.matches(".{2,}")) {
-					errors.put("description", "Error in the input for the event description.");
-				}
-
-				if (dateStr == null || !dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
-					errors.put("date", "Error in the input for the event's date.");
-				}
+				errors.put("date", "Error. The event's date must be after the current date.");
 
 				model.addAttribute("errors", errors);
 
+				return "createEvent";
 			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Event was created.");
+
+			try {
+				getEventDao().addEvent(createEvent);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			return "events";
+
+		} else {
+
+			HashMap<String, String> errors = new HashMap<String, String>();
+
+			if (name == null || !name.matches(".{2,}")) {
+				errors.put("name", "Error in the input for the event name.");
+			}
+
+			if (description == null || !description.matches(".{2,}")) {
+				errors.put("description", "Error in the input for the event description.");
+			}
+
+			if (dateStr == null || !dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
+				errors.put("date", "Error in the input for the event's date.");
+			}
+
+			model.addAttribute("errors", errors);
+
 		}
+
 		return "events";
 
 	}
@@ -293,8 +283,7 @@ public class HomeController extends BaseController {
 					register.setSuffix(suffix);
 				}
 
-				// TODO Hash the password before saving to the user
-				register.setPassword(password);
+				register.setPassword(pwEncoder.encode(password));
 
 				getUserDao().addUser(register);
 
@@ -346,7 +335,6 @@ public class HomeController extends BaseController {
 		return "index";
 
 	}
-
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public String edit(Model model, @RequestParam("title") String title, @RequestParam("fName") String firstName,
@@ -458,6 +446,7 @@ public class HomeController extends BaseController {
 
 	}
 
+
 //	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 //	public String edit(Model model, @RequestParam("title") String title, @RequestParam("fName") String firstName,
 //			@RequestParam("lName") String lastName, @RequestParam("suffix") String suffix,
@@ -546,6 +535,7 @@ public class HomeController extends BaseController {
 //
 //	}
 //	
+
 	/**
 	 * Access to the job postings page.
 	 * 
@@ -553,7 +543,7 @@ public class HomeController extends BaseController {
 	 *            is being passed in
 	 * @return the job postings page.
 	 */
-	@RequestMapping(value="/jobPostings",method=RequestMethod.GET)
+	@RequestMapping(value = "/jobPostings", method = RequestMethod.GET)
 
 	public String jobPostings(Model model) {
 
@@ -608,24 +598,37 @@ public class HomeController extends BaseController {
 		return "facultyProfile";
 	}
 
-	// @RequestMapping(value = "/facultyProfile", method = RequestMethod.POST)
-	// public String facultyUpload(Model model, HttpServletRequest request,
-	// @RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
-	//
-	// if (fileUpload != null && fileUpload.length > 0) {
-	// for (CommonsMultipartFile aFile : fileUpload){
-	//
-	// //System.out.println("Saving file: " + aFile.getOriginalFilename());
-	//
-	// UploadFile uploadFile = new UploadFile();
-	// uploadFile.setFileName(aFile.getOriginalFilename());
-	// uploadFile.setData(aFile.getBytes());
-	// fileUploadDao.save(uploadFile);
-	// }
-	// }
-	//
-	// return "facultyProfile";
-	// }
+	@RequestMapping(value = "/facultyProfile", method = RequestMethod.POST)
+	public String facultyUpload(Model model, HttpServletRequest request, HttpServletResponse response,
+			@RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
+
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		MultipartFile multipartFile = multipartRequest.getFile("file");
+
+		UploadFile file = new UploadFile();
+		// file.setFilename(multipartFile.getOriginalFilename());
+		// file.setNotes(ServletRequestUtils.getStringParameter(request,
+		// "notes"));
+		// file.setType(multipartFile.getContentType());
+		file.setData(multipartFile.getBytes());
+		getFileUploadDao().addFile(file);
+
+		// if (fileUpload != null && fileUpload.length > 0) {
+		// for (CommonsMultipartFile aFile : fileUpload){
+		//
+		// System.out.println("Saving file: " + aFile.getOriginalFilename());
+
+		// UploadFile file = new UploadFile();
+		// getFileUploadDao().addFile(file);
+
+		// uploadFile.setFileName(aFile.getOriginalFilename());
+		// uploadFile.setData(aFile.getBytes());
+		// fileUploadDao.save(uploadFile);
+		// }
+		// }
+
+		return "facultyProfile";
+	}
 
 	/**
 	 * Displays all the alumni users in the system.
@@ -719,24 +722,23 @@ public class HomeController extends BaseController {
 		return "userProfile";
 	}
 
-	// @RequestMapping(value = "/userProfile", method = RequestMethod.POST)
-	// public String userProfileUpload(Model model, HttpServletRequest request,
-	// @RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
-	//
-	// if (fileUpload != null && fileUpload.length > 0) {
-	// for (CommonsMultipartFile aFile : fileUpload){
-	//
-	// //System.out.println("Saving file: " + aFile.getOriginalFilename());
-	//
-	// UploadFile uploadFile = new UploadFile();
-	// uploadFile.setFileName(aFile.getOriginalFilename());
-	// uploadFile.setData(aFile.getBytes());
-	// fileUploadDao.save(uploadFile);
-	// }
-	// }
-	//
-	// return "userProfile";
-	// }
+	@RequestMapping(value = "/userProfile", method = RequestMethod.POST)
+	public String userProfileUpload(Model model, @RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
+
+		// if (fileUpload != null && fileUpload.length > 0) {
+		// for (CommonsMultipartFile aFile : fileUpload){
+
+		// System.out.println("Saving file: " + aFile.getOriginalFilename());
+
+		// UploadFile uploadFile = new UploadFile();
+		// uploadFile.setFileName(aFile.getOriginalFilename());
+		// uploadFile.setData(aFile.getBytes());
+		// fileUploadDao.save(uploadFile);
+		// }
+		// }
+
+		return "userProfile";
+	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String editPost(Model model) {
@@ -772,8 +774,6 @@ public class HomeController extends BaseController {
 		return "edit";
 
 	}
-
-	
 
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/somethingSecret", method = RequestMethod.GET)

@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.mysql.jdbc.Blob;
+
 @Entity 
 @Table (name = "FILES_UPLOAD")
 public class UploadFile {

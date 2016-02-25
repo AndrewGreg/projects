@@ -18,7 +18,7 @@ public class ImageUploadDao extends BaseDao<UploadFile> {
 	
 	public void addImage(UploadFile image) {
 
-		String sql = "INSERT INTO file (id, file) VALUES (?, ?)";
+		String sql = "INSERT INTO image (id, file) VALUES (?, ?)";
 
 		jdbcTemplate.update(sql,
 				new Object[] { image.getId(), image.getData() });
@@ -33,7 +33,7 @@ public class ImageUploadDao extends BaseDao<UploadFile> {
 				UploadFile image = new UploadFile();
 				image.setId(rs.getLong("id"));
 				image.setData( rs.getBytes("file"));
-				
+
 				return image;
 			}
 		};

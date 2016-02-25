@@ -349,11 +349,9 @@ public class HomeController extends BaseController {
 
 		if (validateEdit(password, confirmPassword, firstName, lastName, personalEmail, graduationYear)) {
 
-			// TODO GET USER FROM SESSION
-			//
-			// DUMMY User
-			//
-			User u = getUserDao().getObjectById(getCurrentUserId());
+			User u = getCurrentUser();
+			
+			System.out.println(u.toString());
 
 			u.setMajor(getMajorDao().findMajorByUser(u));
 			u.setConcentration(getMajorDao().findConcentrationByUser(u));
@@ -420,13 +418,7 @@ public class HomeController extends BaseController {
 
 		ArrayList<Major> m = getMajorDao().findAllMajors();
 
-		// TODO GET USER FROM SESSION
-		//
-		// DUMMY User
-		// Donald Touched this.... I put the currentUserId()... That is what
-		// keeping the session.
-		//
-		User u = getUserDao().getObjectById(getCurrentUserId());
+		User u = getCurrentUser();
 
 		u.setMajor(getMajorDao().findMajorByUser(u));
 		u.setConcentration(getMajorDao().findConcentrationByUser(u));
@@ -569,8 +561,6 @@ public class HomeController extends BaseController {
 			ArrayList<User> alumni = new ArrayList<User>();
 			alumni = getUserDao().findAll();
 
-			// System.out.println(alumni.get(0).toString());
-
 			for (User users : alumni) {
 				users.setMajor(getMajorDao().findMajorByUser(users));
 				users.setConcentration(getMajorDao().findConcentrationByUser(users));
@@ -653,11 +643,8 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String editPost(Model model) {
 
-		// GET USER FROM SESSION
-
-		// DUMMY User
-
-		User u = getUserDao().getObjectById(DUMMY_ID);
+		// User in session.
+		User u = getCurrentUser();
 
 		u.setMajor(getMajorDao().findMajorByUser(u));
 		u.setConcentration(getMajorDao().findConcentrationByUser(u));
@@ -697,7 +684,4 @@ public class HomeController extends BaseController {
 				&& Validator.validateGraduationYear(graduationYear, false)
 				&& Validator.validateEmail(personalEmail, false));
 	}
-
-	// For user testing purposes (taken out with sessions)
-	final static int DUMMY_ID = 1;
 }

@@ -2,7 +2,10 @@
 	pageEncoding="UTF-8"%>
 	
 <%@page import= "edu.ben.template.model.User"%>
-<%User currentUser = (User) request.getAttribute("currentUser"); %>
+
+<% User currentUser = (User) request.getAttribute("currentUser");%>
+
+
 
 <!DOCTYPE html>
 <html>
@@ -21,13 +24,10 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-5  toppad  pull-right col-md-offset-3 ">
-				
 				<br>
-				<!-- 	<p class=" text-info">May 05,2014,03:00 pm</p> -->
 			</div>
 			<div
-				class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad"><h4>
-					<A style="float: right;" href="/logout"><font color="Red">Logout</font></A> &nbsp;</h4>
+				class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
 					
 				<div style="border-color:black" class="panel panel-info">
 					<div style="background-color:red" class="panel-heading">
@@ -113,8 +113,10 @@
 						</div>
 					</div>
 					<div class="panel-footer">
+					
 						<a href="/edit" style="background-color:black;" class="btn btn-primary">Edit Account</a> 
 						<a href="mailfrom:<%currentUser.getEmail();%>" style="float: right; background-color:black;" class="btn btn-primary"> Send Email</a>
+						
 					</div>
 
 				</div>

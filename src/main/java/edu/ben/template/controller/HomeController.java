@@ -32,9 +32,33 @@ import edu.ben.template.model.Validator;
 @Controller
 public class HomeController extends BaseController {
 
+	// Allows the password to be Hashed.
 	@Resource(name = "passwordEncoder")
 	private PasswordEncoder pwEncoder;
 
+	/**
+	 * Sort Method to compare the first name of every user.
+	 * 
+	 * @param user
+	 *            is being passed in.
+	 */
+	public void sortUsers(ArrayList<User> user) {
+
+		Collections.sort(user, new Comparator<User>() {
+			@Override
+			public int compare(User o1, User o2) {
+				return o1.getFirstName().compareTo(o2.getFirstName());
+			}
+		});
+	}
+
+	/**
+	 * Index method.
+	 * 
+	 * @param model
+	 *            being passed.
+	 * @return to the homepage of Alumni Tracker.
+	 */
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(Model model) {
 		return "index";
@@ -55,10 +79,16 @@ public class HomeController extends BaseController {
 
 	/**
 	 * Form processing of the job posting creation page.
-	 *
+	 * 
 	 * @param model
-	 *            model and the form information is passed in
-	 * @return index page.
+	 *            of passing
+	 * @param name
+	 *            of the Job.
+	 * @param company
+	 *            that belongs to the Job.
+	 * @param description
+	 *            of the Job.
+	 * @return the Job Posting page to view all the jobs.
 	 */
 	@RequestMapping(value = "/createJobPosting", method = RequestMethod.POST)
 	public String createJobPostingPost(Model model, @RequestParam("name") String name,
@@ -104,6 +134,13 @@ public class HomeController extends BaseController {
 		}
 	}
 
+	/**
+	 * Method to request the Get for creating an event.
+	 * 
+	 * @param model
+	 *            being passed.
+	 * @return createEvent page
+	 */
 	@RequestMapping(value = "/createEvent", method = RequestMethod.GET)
 	public String createEvent(Model model) {
 		return "createEvent";
@@ -111,10 +148,17 @@ public class HomeController extends BaseController {
 
 	/**
 	 * Form processing the event creation page.
-	 *
+	 * 
 	 * @param model
-	 *            is being passed in as well as the form information
-	 * @return the index page.
+	 *            being passed.
+	 * @param name
+	 *            of the event.
+	 * @param dateStr
+	 *            date of the event.
+	 * @param description
+	 *            of the event.
+	 * @return to the event posting page to view the created on and the rest of
+	 *         them.
 	 */
 	@RequestMapping(value = "/createEvent", method = RequestMethod.POST)
 	public String createEventPost(Model model, @RequestParam("name") String name, @RequestParam("date") String dateStr,
@@ -149,7 +193,7 @@ public class HomeController extends BaseController {
 
 				model.addAttribute("errors", errors);
 
-				return "events";
+				return "createEvent";
 			}
 
 			System.out.println("Event was created.");
@@ -195,8 +239,6 @@ public class HomeController extends BaseController {
 	 */
 	@RequestMapping(value = "/events", method = RequestMethod.GET)
 	public String eventPostings(Model model) {
-
-		// TODO Remove the permit all access from the security config
 
 		try {
 			ArrayList<Event> events = new ArrayList<Event>();
@@ -344,6 +386,72 @@ public class HomeController extends BaseController {
 
 	}
 
+	/**
+	 * Method to request for the edit page.
+	 * 
+	 * @param model
+	 *            being passed.
+	 * @return the edit page before post.
+	 */
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public String editPost(Model model) {
+
+		// User in session.
+		User u = getCurrentUser();
+
+		u.setMajor(getMajorDao().findMajorByUser(u));
+		u.setConcentration(getMajorDao().findConcentrationByUser(u));
+		u.setMinor(getMajorDao().findMinorByUser(u));
+
+		ArrayList<Major> m = getMajorDao().findAllMajors();
+
+		System.out.println(u.toString());
+
+		model.addAttribute("user", u);
+		model.addAttribute("majors", m);
+
+		HashMap<String, String> e = new HashMap<String, String>();
+		model.addAttribute("errors", e);
+
+		return "edit";
+
+	}
+
+	/**
+	 * Method is after the user edits their information.
+	 * 
+	 * @param model
+	 *            being passed.
+	 * @param title
+	 *            of user.
+	 * @param firstName
+	 *            of user.
+	 * @param lastName
+	 *            of user.
+	 * @param suffix
+	 *            of user.
+	 * @param personalEmail
+	 *            of user.
+	 * @param graduationYear
+	 *            of user.
+	 * @param major
+	 *            of user.
+	 * @param doubleMajor
+	 *            of user.
+	 * @param thirdMajor
+	 *            of user.
+	 * @param occupation
+	 *            of user.
+	 * @param biography
+	 *            of user.
+	 * @param experience
+	 *            of user.
+	 * @param password
+	 *            of user.
+	 * @param confirmPassword
+	 *            of user.
+	 * @return The new information of the user.
+	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public String edit(Model model, @RequestParam("title") String title, @RequestParam("fName") String firstName,
 			@RequestParam("lName") String lastName, @RequestParam("suffix") String suffix,
@@ -473,6 +581,83 @@ public class HomeController extends BaseController {
 	}
 
 	/**
+	 * Accesses the user profile page. Dynamically grabs information depending
+	 * who is logged in such as student, alumni, and faculty.
+	 * 
+	 * @param model
+	 *            is being passed in.
+	 * @param id
+	 *            that belongs to that user.
+	 * @return the profile page that belongs to the user.
+	 */
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+	public String userProfile(Model model, @PathVariable Long id) {
+
+		User currentUser = getUserDao().getObjectById(id);
+		model.addAttribute("currentUser", currentUser);
+
+		// Wait until Andrew moves file upload to edit page.
+		// if(id != getCurrentUser().getId()){
+		// return "userProfile";
+		// }
+		//
+		// return "edit";
+
+		return "userProfile";
+	}
+
+	/**
+	 * Post method that displays after user profile is displayed.
+	 * 
+	 * @param model
+	 *            being passed.
+	 * @param request
+	 * @param response
+	 * @param fileUpload
+	 *            to pass the file in.
+	 * @param files
+	 *            to pass the text file in.
+	 * @return the profile after its displayed.
+	 * @throws Exception
+	 *             to file that is invalid.
+	 */
+	@RequestMapping(value = "/userProfile", method = RequestMethod.POST)
+	public String userProfileUpload(Model model, HttpServletRequest request, HttpServletResponse response,
+			@RequestParam CommonsMultipartFile[] fileUpload, @RequestParam("file") MultipartFile[] files)
+					throws Exception {
+
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		MultipartFile multipartFile = multipartRequest.getFile("file");
+
+		// UploadFile file = new UploadFile();
+		// file.setFilename(multipartFile.getOriginalFilename());
+		// file.setNotes(ServletRequestUtils.getStringParameter(request,
+		// "notes"));
+		// file.setType(multipartFile.getContentType());
+		if (files[0] != null) {
+			((UploadFile) files[0]).setData(multipartFile.getBytes());
+			getFileUploadDao().addFile((UploadFile) files[0]);
+		}
+		if (files[1] != null) {
+			((UploadFile) files[1]).setData(multipartFile.getBytes());
+			getImageUploadDao().addImage((UploadFile) files[1]);
+		}
+		// if (fileUpload != null && fileUpload.length > 0) {
+		// for (CommonsMultipartFile aFile : fileUpload){
+
+		// System.out.println("Saving file: " + aFile.getOriginalFilename());
+
+		// UploadFile uploadFile = new UploadFile();
+		// uploadFile.setFileName(aFile.getOriginalFilename());
+		// uploadFile.setData(aFile.getBytes());
+		// fileUploadDao.save(uploadFile);
+		// }
+		// }
+
+		return "userProfile";
+	}
+
+	/**
 	 * Access to the Faculty Profile page.
 	 * 
 	 * @param model
@@ -518,6 +703,18 @@ public class HomeController extends BaseController {
 		return "facultyProfile";
 	}
 
+	/**
+	 * Post method that faculty page.
+	 * 
+	 * @param model
+	 *            being passed.
+	 * @param request
+	 * @param response
+	 * @param fileUpload
+	 * @return the faculty page after the user uploads their information.
+	 * @throws Exception
+	 *             is the file is invalid.
+	 */
 	@RequestMapping(value = "/facultyProfile", method = RequestMethod.POST)
 	public String facultyUpload(Model model, HttpServletRequest request, HttpServletResponse response,
 			@RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
@@ -557,6 +754,8 @@ public class HomeController extends BaseController {
 	 * 
 	 * @param model
 	 *            being passed in.
+	 * @param page
+	 *            that displays 15 users at a time.
 	 * @return the alumni Directory page.
 	 */
 	@RequestMapping(value = "/alumniDirectory", method = RequestMethod.GET)
@@ -592,116 +791,6 @@ public class HomeController extends BaseController {
 			e.printStackTrace();
 		}
 		return "alumniDirectory";
-
-	}
-
-	/**
-	 * Sort Method to compare the first name of every user.
-	 * 
-	 * @param user
-	 *            is being passed in.
-	 */
-	public void sortUsers(ArrayList<User> user) {
-
-		Collections.sort(user, new Comparator<User>() {
-			@Override
-			public int compare(User o1, User o2) {
-				return o1.getFirstName().compareTo(o2.getFirstName());
-			}
-		});
-	}
-
-	/**
-	 * Accesses the user profile page. Dynamically grabs information depending
-	 * who is logged in such as student, alumni, and faculty.
-	 * 
-	 * @param model
-	 *            is being passed in.
-	 * @return the profile page that belongs to the user.
-	 */
-	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-	public String userProfile(Model model, @PathVariable Long id) {
-
-		User userId = getUserDao().getObjectById(id);
-		model.addAttribute("userId", userId);
-
-		return "userProfile";
-	}
-
-	@RequestMapping(value = "/userProfile", method = RequestMethod.POST)
-	public String userProfileUpload(Model model, HttpServletRequest request, HttpServletResponse response,
-			@RequestParam CommonsMultipartFile[] fileUpload, @RequestParam("file") MultipartFile[] files)
-					throws Exception {
-
-		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		MultipartFile multipartFile = multipartRequest.getFile("file");
-
-		// UploadFile file = new UploadFile();
-		// file.setFilename(multipartFile.getOriginalFilename());
-		// file.setNotes(ServletRequestUtils.getStringParameter(request,
-		// "notes"));
-		// file.setType(multipartFile.getContentType());
-		if (files[0] != null) {
-			((UploadFile) files[0]).setData(multipartFile.getBytes());
-			getFileUploadDao().addFile((UploadFile) files[0]);
-		}
-		if (files[1] != null) {
-			((UploadFile) files[1]).setData(multipartFile.getBytes());
-			getImageUploadDao().addImage((UploadFile) files[1]);
-		}
-		// if (fileUpload != null && fileUpload.length > 0) {
-		// for (CommonsMultipartFile aFile : fileUpload){
-
-		// System.out.println("Saving file: " + aFile.getOriginalFilename());
-
-		// UploadFile uploadFile = new UploadFile();
-		// uploadFile.setFileName(aFile.getOriginalFilename());
-		// uploadFile.setData(aFile.getBytes());
-		// fileUploadDao.save(uploadFile);
-		// }
-		// }
-
-		return "userProfile";
-	}
-
-	@RequestMapping(value = "/user/{id}", method = RequestMethod.POST)
-	public String userProfileUpload(Model model, @RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
-
-		// if (fileUpload != null && fileUpload.length > 0) {
-		// for (CommonsMultipartFile aFile : fileUpload){
-
-		// System.out.println("Saving file: " + aFile.getOriginalFilename());
-
-		// UploadFile uploadFile = new UploadFile();
-		// uploadFile.setFileName(aFile.getOriginalFilename());
-		// uploadFile.setData(aFile.getBytes());
-		// fileUploadDao.save(uploadFile);
-		// }
-		// }
-		return "userProfile";
-	}
-
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String editPost(Model model) {
-
-		// User in session.
-		User u = getCurrentUser();
-
-		u.setMajor(getMajorDao().findMajorByUser(u));
-		u.setConcentration(getMajorDao().findConcentrationByUser(u));
-		u.setMinor(getMajorDao().findMinorByUser(u));
-
-		ArrayList<Major> m = getMajorDao().findAllMajors();
-
-		System.out.println(u.toString());
-
-		model.addAttribute("user", u);
-		model.addAttribute("majors", m);
-
-		HashMap<String, String> e = new HashMap<String, String>();
-		model.addAttribute("errors", e);
-
-		return "edit";
 
 	}
 

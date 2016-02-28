@@ -17,8 +17,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Jobs</title>
 <jsp:include page="header.jsp" />
-
-
 <link rel="stylesheet" type="text/css" href="/content/css/lists.css">
 </head>
 <body>
@@ -35,7 +33,6 @@
 	</div>
 
 	<div class="container">
-
 		<div id="jobs">
 			<input class="search" placeholder="Search" />
 			<ul class="list">
@@ -57,13 +54,11 @@
 					}
 				%>
 			</ul>
-
-
 		</div>
 		<script src="/content/jQuery/list.js"></script>
-		<script src="/content/jQuery/searchSortJobs.js"></script>
-	</div>
+		<script src="/content/jQuery/searchJobs.js"></script>
 
+	</div>
 	<jsp:include page="footer.jsp" />
 </body>
 </html>

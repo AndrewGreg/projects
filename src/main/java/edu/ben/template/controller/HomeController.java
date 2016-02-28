@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -110,7 +111,7 @@ public class HomeController extends BaseController {
 				e.printStackTrace();
 			}
 			System.out.println("Job was created");
-			return "jobPosting";
+			return "jobPostings";
 
 		} else {
 
@@ -756,7 +757,7 @@ public class HomeController extends BaseController {
 		// fileUploadDao.save(uploadFile);
 		// }
 		// }
-		
+
 		if (getCurrentUser().getRole() <= 2) {
 			return "userProfile";
 		}

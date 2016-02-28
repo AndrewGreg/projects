@@ -170,9 +170,7 @@ public class HomeController extends BaseController {
 
 			String[] datePart = dateStr.split("/");
 
-			// TODO Add 1900 as a year offset constant for the deprecated
-			// date
-			// constructor
+			// Subtracted 1900 from year and 1 from month to offset the deprecated constructor
 			Date eventDate = new Date(Integer.parseInt(datePart[2]) - 1900, Integer.parseInt(datePart[0]) - 1,
 					Integer.parseInt(datePart[1]));
 			Date currentDate = new Date(System.currentTimeMillis());
@@ -565,8 +563,6 @@ public class HomeController extends BaseController {
 
 	public String jobPostings(Model model) {
 
-		// TODO Remove the permit all access from the security config
-
 		try {
 
 			ArrayList<JobPosting> job = new ArrayList<JobPosting>();
@@ -578,7 +574,7 @@ public class HomeController extends BaseController {
 			e.printStackTrace();
 		}
 
-		return "jobPostings";
+		return "jobList";
 	}
 
 	/**

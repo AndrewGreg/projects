@@ -191,7 +191,7 @@ public class HomeController extends BaseController {
 
 				model.addAttribute("errors", errors);
 
-				return "createEvents";
+				return "redirect:/events";
 			}
 
 			System.out.println("Event was created.");
@@ -202,7 +202,7 @@ public class HomeController extends BaseController {
 				e.printStackTrace();
 			}
 
-			return "events";
+			return "redirect:/events";
 
 		} else {
 

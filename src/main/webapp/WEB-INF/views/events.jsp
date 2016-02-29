@@ -58,7 +58,7 @@
 				
 				<li>
 					<h4 class="primary">
-						<a href="/eventDisplay/<%=id%>"><%=name%></a>
+						<a href="/event/<%=id%>"><%=name%></a>
 					</h4>
 					<p class="secondary"><%=date%></p>
 				</li>

@@ -35,9 +35,9 @@
 			<div class="row" align="left" style="padding-left: 50px;">
 				<h4>
 					Posted by:
-					<%=currentEvent.getPoster()%>
+					<%=currentEvent.getPoster().getFirstName()%> <%=currentEvent.getPoster().getLastName()%>
 				</h4>
-				<h4>Contact: <%=currentUser.getEmail()%></h4>
+				<h4>Contact: <%=currentEvent.getPoster().getEmail()%></h4>
 				<br>
 				<hr>
 				<h4>Description: </h4>

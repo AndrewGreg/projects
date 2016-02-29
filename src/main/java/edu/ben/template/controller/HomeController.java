@@ -110,7 +110,7 @@ public class HomeController extends BaseController {
 				e.printStackTrace();
 			}
 			System.out.println("Job was created");
-			return "jobList";
+			return "redirect:/jobPostings";
 
 		} else {
 
@@ -622,14 +622,7 @@ public class HomeController extends BaseController {
 	public String userProfile(Model model, @PathVariable Long id) {
 
 		User currentUser = getUserDao().getObjectById(id);
-		model.addAttribute("currentUser", currentUser);
-
-		// Wait until Andrew moves file upload to edit page.
-		// if(id != getCurrentUser().getId()){
-		// return "userProfile";
-		// }
-		//
-		// return "edit";
+		model.addAttribute("profileUser", currentUser);
 
 		return "userProfile";
 	}
@@ -696,16 +689,8 @@ public class HomeController extends BaseController {
 	public String faculty(Model model, @PathVariable Long id) {
 
 		User currentUser = getUserDao().getObjectById(id);
-		model.addAttribute("currentUser", currentUser);
+		model.addAttribute("facultyUser", currentUser);
 
-		// Wait until Andrew moves file upload to edit page.
-		// if(id != getCurrentUser().getId()){
-		// return "userProfile";
-		// }
-		//
-		// return "edit";
-
-		// Return all Students
 		try {
 			ArrayList<User> student = new ArrayList<User>();
 			student = getUserDao().findAllStudents();

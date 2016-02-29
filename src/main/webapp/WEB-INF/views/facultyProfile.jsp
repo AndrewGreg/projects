@@ -6,7 +6,7 @@
 <%@ page import="edu.ben.template.dao.UserDao" %>
 <%@ page isELIgnored="false" %>
 
-<%User currentUser = (User) request.getAttribute("currentUser"); %>
+<%User currentUser = (User) request.getAttribute("facultyUser"); %>
 <%
 	
 

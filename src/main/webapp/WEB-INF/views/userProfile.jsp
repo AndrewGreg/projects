@@ -3,7 +3,7 @@
 	
 <%@page import= "edu.ben.template.model.User"%>
 
-<% User currentUser = (User) request.getAttribute("currentUser");%>
+<% User currentUser = (User) request.getAttribute("profileUser");%>
 
 
 

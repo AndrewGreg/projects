@@ -33,13 +33,6 @@ public abstract class BaseController extends DaoKeeper {
 		return getUserFromPrincipal();
 	}
 
-	@ModelAttribute("currentJob")
-	public User getCurrentJob() {
-		// get the security principal
-		return getUserFromPrincipal();
-	}
-
-	
 	/**
 	 * Retrieves the current user from the principal object
 	 * 

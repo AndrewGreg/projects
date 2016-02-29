@@ -60,7 +60,7 @@
 				
 				<li>
 					<h4 class="name">
-						<a href="/eventDisplay/<%=id%>"><%=name%></a>
+						<a href="/event/<%=id%>"><%=name%></a>
 					</h4>
 					<p class="date"><%=date%></p>
 				</li>

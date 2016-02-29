@@ -1,21 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
-<%@ page import="edu.ben.template.model.Event"%>
+<%@ page import="edu.ben.template.model.User"%>
 <%@ page import="java.util.ArrayList"%>
 <%
-	ArrayList<Event> events;
-	if (request.getAttribute("events") != null) {
-		events = (ArrayList<Event>) request.getAttribute("events");
+	ArrayList<User> alumni;
+	if (request.getAttribute("alumni") != null) {
+		alumni = (ArrayList<User>) request.getAttribute("alumni");
 	} else {
-		events = new ArrayList<Event>();
+		alumni = new ArrayList<User>();
 	}
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Events</title>
+<title>Alumni</title>
 <jsp:include page="header.jsp" />
 <link rel="stylesheet" type="text/css" href="/content/css/lists.css">
 </head>
@@ -25,7 +25,7 @@
 		<div class="row">
 			<div class="col col-xs-12">
 				<div class="page-header">
-					<h2 style="padding-left: 100px;">Events List</h2>
+					<h2 style="padding-left: 100px;">Alumni</h2>
 				</div>
 			</div>
 		</div>
@@ -35,34 +35,21 @@
 		<div id="itemList">
 			<input class="search" placeholder="Search" />
 			<ul class="list">
-				<%
-					for (int i = 0; i < events.size(); i++) {
 
-						String name = events.get(i).getName() != null ? events.get(i).getName() : "";
-						
-						
-						String date;
-						
-						if(events.get(i).getDate() != null) {
-							String[] localeDate = events.get(i).getDate().toLocaleString().split(" ");
-							date = localeDate[0] + " " +  localeDate[1] + " " + localeDate[2];
-						}
-						else {
-							date = "";
-						}
-						
-						
-						
-						String id = Long.toString(events.get(i).getId());
+				<%
+					for (int i = 0; i < alumni.size(); i++) {
+
+						String name = alumni.get(i) != null && alumni.get(i).getLastName() != null
+								&& alumni.get(i).getFirstName() != null
+										? alumni.get(i).getLastName() + ", " + alumni.get(i).getFirstName() : "";
+						String id = alumni.get(i) != null ? Long.toString(alumni.get(i).getId()) : "";
 				%>
-				
+
 				<li>
 					<h4 class="primary">
-						<a href="/event/<%=id%>"><%=name%></a>
+						<a href="/user/<%=id%>"><%=name%></a>
 					</h4>
-					<p class="secondary"><%=date%></p>
 				</li>
-
 
 				<%
 					}

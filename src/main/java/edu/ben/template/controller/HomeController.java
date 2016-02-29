@@ -1,5 +1,7 @@
 package edu.ben.template.controller;
 
+
+import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,7 +49,7 @@ public class HomeController extends BaseController {
 		Collections.sort(user, new Comparator<User>() {
 			@Override
 			public int compare(User o1, User o2) {
-				return o1.getFirstName().compareTo(o2.getFirstName());
+				return o1.getLastName().compareTo(o2.getLastName());
 			}
 		});
 	}
@@ -97,8 +99,6 @@ public class HomeController extends BaseController {
 		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
 				&& description.matches(".{2,}")) {
 
-			// TODO Find out how to get the logged in user to add to the
-			// jobPosting object
 			User u = getCurrentUser();
 
 			JobPosting job = new JobPosting(name, description, company, u);
@@ -110,7 +110,7 @@ public class HomeController extends BaseController {
 				e.printStackTrace();
 			}
 			System.out.println("Job was created");
-			return "jobPosting";
+			return "redirect:/jobPostings";
 
 		} else {
 
@@ -169,9 +169,8 @@ public class HomeController extends BaseController {
 
 			String[] datePart = dateStr.split("/");
 
-			// TODO Add 1900 as a year offset constant for the deprecated
-			// date
-			// constructor
+			// Subtracted 1900 from year and 1 from month to offset the
+			// deprecated constructor
 			Date eventDate = new Date(Integer.parseInt(datePart[2]) - 1900, Integer.parseInt(datePart[0]) - 1,
 					Integer.parseInt(datePart[1]));
 			Date currentDate = new Date(System.currentTimeMillis());
@@ -193,7 +192,7 @@ public class HomeController extends BaseController {
 
 				model.addAttribute("errors", errors);
 
-				return "createEvent";
+				return "redirect:/events";
 			}
 
 			System.out.println("Event was created.");
@@ -204,7 +203,7 @@ public class HomeController extends BaseController {
 				e.printStackTrace();
 			}
 
-			return "events";
+			return "redirect:/events";
 
 		} else {
 
@@ -251,6 +250,22 @@ public class HomeController extends BaseController {
 		}
 
 		return "events";
+	}
+
+	@RequestMapping(value = "/event/{id}", method = RequestMethod.GET)
+	public String eventDisplay(Model model, @PathVariable Long id) {
+
+		try {
+
+			Event currentEvent = getEventDao().getObjectById(id);
+			model.addAttribute("currentEvent", currentEvent);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "eventDisplay";
+
 	}
 
 	/**
@@ -386,6 +401,12 @@ public class HomeController extends BaseController {
 
 	}
 
+	@RequestMapping(value = "/massRegister", method = RequestMethod.POST)
+	public String massRegistration(Model model) {
+
+		return "index";
+	}
+
 	/**
 	 * Method to request for the edit page.
 	 * 
@@ -451,6 +472,7 @@ public class HomeController extends BaseController {
 	 * @param confirmPassword
 	 *            of user.
 	 * @return The new information of the user.
+	 * @throws IOException
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public String edit(Model model, @RequestParam("title") String title, @RequestParam("fName") String firstName,
@@ -459,7 +481,9 @@ public class HomeController extends BaseController {
 			@RequestParam("major") String major, @RequestParam("doubleMajor") String doubleMajor,
 			@RequestParam("thirdMajor") String thirdMajor, @RequestParam("occupation") String occupation,
 			@RequestParam("bio") String biography, @RequestParam("experience") String experience,
-			@RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword) {
+			@RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword,
+			HttpServletRequest request, HttpServletResponse response, @RequestParam CommonsMultipartFile[] fileUpload,
+			@RequestParam("file") MultipartFile[] files) throws IOException {
 
 		if (validateEdit(password, confirmPassword, firstName, lastName, personalEmail, graduationYear)) {
 
@@ -523,6 +547,35 @@ public class HomeController extends BaseController {
 
 			}
 
+			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+			MultipartFile multipartFile = multipartRequest.getFile("file");
+
+			// UploadFile file = new UploadFile();
+			// file.setFilename(multipartFile.getOriginalFilename());
+			// file.setNotes(ServletRequestUtils.getStringParameter(request,
+			// "notes"));
+			// file.setType(multipartFile.getContentType());
+			if (files[0] != null) {
+				((UploadFile) files[0]).setData(multipartFile.getBytes());
+				getFileUploadDao().addFile((UploadFile) files[0]);
+			}
+			if (files[1] != null) {
+				((UploadFile) files[1]).setData(multipartFile.getBytes());
+				getImageUploadDao().addImage((UploadFile) files[1]);
+			}
+			// if (fileUpload != null && fileUpload.length > 0) {
+			// for (CommonsMultipartFile aFile : fileUpload){
+
+			// System.out.println("Saving file: " +
+			// aFile.getOriginalFilename());
+
+			// UploadFile uploadFile = new UploadFile();
+			// uploadFile.setFileName(aFile.getOriginalFilename());
+			// uploadFile.setData(aFile.getBytes());
+			// fileUploadDao.save(uploadFile);
+			// }
+			// }
+
 			return "userProfile";
 		}
 
@@ -552,6 +605,7 @@ public class HomeController extends BaseController {
 		return "edit";
 
 	}
+
 
 
 //	@RequestMapping(value = "/edit", method = RequestMethod.POST)
@@ -642,6 +696,23 @@ public class HomeController extends BaseController {
 //
 //	}
 //	
+	
+	@RequestMapping(value = "/job/{id}", method = RequestMethod.GET)
+	public String jobDisplay(Model model, @PathVariable Long id) {
+
+		try {
+
+			JobPosting currentJob = getJobPostingDao().getObjectById(id);
+			model.addAttribute("currentJob", currentJob);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "jobDisplay";
+
+	}
+
 
 	/**
 	 * Access to the job postings page.
@@ -651,10 +722,7 @@ public class HomeController extends BaseController {
 	 * @return the job postings page.
 	 */
 	@RequestMapping(value = "/jobPostings", method = RequestMethod.GET)
-
 	public String jobPostings(Model model) {
-
-		// TODO Remove the permit all access from the security config
 
 		try {
 
@@ -667,7 +735,7 @@ public class HomeController extends BaseController {
 			e.printStackTrace();
 		}
 
-		return "jobPostings";
+		return "jobList";
 	}
 
 	/**
@@ -684,14 +752,7 @@ public class HomeController extends BaseController {
 	public String userProfile(Model model, @PathVariable Long id) {
 
 		User currentUser = getUserDao().getObjectById(id);
-		model.addAttribute("currentUser", currentUser);
-
-		// Wait until Andrew moves file upload to edit page.
-		// if(id != getCurrentUser().getId()){
-		// return "userProfile";
-		// }
-		//
-		// return "edit";
+		model.addAttribute("profileUser", currentUser);
 
 		return "userProfile";
 	}
@@ -711,41 +772,44 @@ public class HomeController extends BaseController {
 	 * @throws Exception
 	 *             to file that is invalid.
 	 */
-	@RequestMapping(value = "/userProfile", method = RequestMethod.POST)
-	public String userProfileUpload(Model model, HttpServletRequest request, HttpServletResponse response,
-			@RequestParam CommonsMultipartFile[] fileUpload, @RequestParam("file") MultipartFile[] files)
-					throws Exception {
+	// @RequestMapping(value = "/userProfile", method = RequestMethod.POST)
+	// public void userProfileUpload(Model model, HttpServletRequest request,
+	// HttpServletResponse response,
+	// @RequestParam CommonsMultipartFile[] fileUpload, @RequestParam("file")
+	// MultipartFile[] files)
+	// throws Exception {
+	//
+	// MultipartHttpServletRequest multipartRequest =
+	// (MultipartHttpServletRequest) request;
+	// MultipartFile multipartFile = multipartRequest.getFile("file");
+	//
+	// // UploadFile file = new UploadFile();
+	// // file.setFilename(multipartFile.getOriginalFilename());
+	// // file.setNotes(ServletRequestUtils.getStringParameter(request,
+	// // "notes"));
+	// // file.setType(multipartFile.getContentType());
+	// if (files[0] != null) {
+	// ((UploadFile) files[0]).setData(multipartFile.getBytes());
+	// getFileUploadDao().addFile((UploadFile) files[0]);
+	// }
+	// if (files[1] != null) {
+	// ((UploadFile) files[1]).setData(multipartFile.getBytes());
+	// getImageUploadDao().addImage((UploadFile) files[1]);
+	// }
+	// if (fileUpload != null && fileUpload.length > 0) {
+	// for (CommonsMultipartFile aFile : fileUpload){
 
-		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		MultipartFile multipartFile = multipartRequest.getFile("file");
+	// System.out.println("Saving file: " + aFile.getOriginalFilename());
 
-		// UploadFile file = new UploadFile();
-		// file.setFilename(multipartFile.getOriginalFilename());
-		// file.setNotes(ServletRequestUtils.getStringParameter(request,
-		// "notes"));
-		// file.setType(multipartFile.getContentType());
-		if (files[0] != null) {
-			((UploadFile) files[0]).setData(multipartFile.getBytes());
-			getFileUploadDao().addFile((UploadFile) files[0]);
-		}
-		if (files[1] != null) {
-			((UploadFile) files[1]).setData(multipartFile.getBytes());
-			getImageUploadDao().addImage((UploadFile) files[1]);
-		}
-		// if (fileUpload != null && fileUpload.length > 0) {
-		// for (CommonsMultipartFile aFile : fileUpload){
+	// UploadFile uploadFile = new UploadFile();
+	// uploadFile.setFileName(aFile.getOriginalFilename());
+	// uploadFile.setData(aFile.getBytes());
+	// fileUploadDao.save(uploadFile);
+	// }
+	// }
 
-		// System.out.println("Saving file: " + aFile.getOriginalFilename());
-
-		// UploadFile uploadFile = new UploadFile();
-		// uploadFile.setFileName(aFile.getOriginalFilename());
-		// uploadFile.setData(aFile.getBytes());
-		// fileUploadDao.save(uploadFile);
-		// }
-		// }
-
-		return "userProfile";
-	}
+	// return "userProfile";
+	// }
 
 	/**
 	 * Access to the Faculty Profile page.
@@ -754,10 +818,12 @@ public class HomeController extends BaseController {
 	 *            is being passed in
 	 * @return the faculty page.
 	 */
-	@RequestMapping(value = "/facultyProfile", method = RequestMethod.GET)
-	public String faculty(Model model) {
+	@RequestMapping(value = "/faculty/{id}", method = RequestMethod.GET)
+	public String faculty(Model model, @PathVariable Long id) {
 
-		// Return all Students
+		User currentUser = getUserDao().getObjectById(id);
+		model.addAttribute("facultyUser", currentUser);
+
 		try {
 			ArrayList<User> student = new ArrayList<User>();
 			student = getUserDao().findAllStudents();
@@ -791,6 +857,7 @@ public class HomeController extends BaseController {
 		}
 
 		return "facultyProfile";
+
 	}
 
 	/**
@@ -905,6 +972,38 @@ public class HomeController extends BaseController {
 		return "userProfile";
 	}
 
+
+	/**
+	 * Displays all the alumni users in the system.
+	 * 
+	 * @param model
+	 *            being passed in.
+	 * @return the alumni list page.
+	 */
+	@RequestMapping(value = "/alumniList", method = RequestMethod.GET)
+	public String alumniList(Model model) {
+
+		try {
+
+			ArrayList<User> alumni = new ArrayList<User>();
+			alumni = getUserDao().findAll();
+
+			for (User users : alumni) {
+				users.setMajor(getMajorDao().findMajorByUser(users));
+				users.setConcentration(getMajorDao().findConcentrationByUser(users));
+				users.setMinor(getMajorDao().findMinorByUser(users));
+			}
+
+			sortUsers(alumni);
+
+			model.addAttribute("alumni", alumni);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "alumniList";
+	}
 
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/somethingSecret", method = RequestMethod.GET)

@@ -1,29 +1,36 @@
 package edu.ben.template.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 
-import edu.ben.template.model.Event;
 import edu.ben.template.model.JobPosting;
 import edu.ben.template.model.User;
 
 public class JobPostingDao extends BaseDao<JobPosting> {
+	
+	@Autowired
+	private UserDao userDao;
 
 	public JobPostingDao() {
 		super();
 	}
+	
+	
+	public JobPosting getObjectById(long jobId) {
+		return this.getObjectById(jobId, false);
+	}
 
-	public JobPosting getObjectById(int objectId, boolean complete) {
-		if (objectId == 0) {
+	public JobPosting getObjectById(long jobId, boolean complete) {
+		if (jobId == 0) {
 			/* Probably want to log this */
 			return null;
 		}
@@ -33,7 +40,7 @@ public class JobPostingDao extends BaseDao<JobPosting> {
 			try {
 				// look up the object
 				String sql = "SELECT * FROM job WHERE id = ?";
-				object = this.jdbcTemplate.queryForObject(sql, new Object[] { objectId }, getRowMapper());
+				object = this.jdbcTemplate.queryForObject(sql, new Object[] { jobId }, getRowMapper());
 			} catch (EmptyResultDataAccessException e) {
 				/* Probably want to log this */
 				return null;
@@ -109,9 +116,10 @@ public class JobPostingDao extends BaseDao<JobPosting> {
 				jobPosting.setName(rs.getString("name"));
 				jobPosting.setDescription(rs.getString("description"));
 				jobPosting.setCompany(rs.getString("company"));
-				// TODO get Job Poster through sql on "user" table // through
-				// userDao sql?
-				// return the object
+				long userId = rs.getLong("user_id");
+				User poster = userDao.getObjectById(userId);
+				jobPosting.setPoster(poster);
+				
 				return jobPosting;
 			}
 		};

@@ -8,22 +8,29 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 
 import edu.ben.template.model.Event;
-import edu.ben.template.model.JobPosting;
 import edu.ben.template.model.User;
 
 public class EventDao extends BaseDao<Event> {
 
+	@Autowired
+	private UserDao userDao;
+	
 	public EventDao() {
-
+		super();
 	}
 
-	public Event getObjectById(int objectId, boolean complete) {
-		if (objectId == 0) {
+	public Event getObjectById(long eventId) {
+		return this.getObjectById(eventId, false);
+	}
+
+	public Event getObjectById(long eventId, boolean complete) {
+		if (eventId == 0) {
 			/* Probably want to log this */
 			return null;
 		}
@@ -33,7 +40,7 @@ public class EventDao extends BaseDao<Event> {
 			try {
 				// look up the object
 				String sql = "SELECT * FROM event WHERE id = ?";
-				object = this.jdbcTemplate.queryForObject(sql, new Object[] { objectId }, getRowMapper());
+				object = this.jdbcTemplate.queryForObject(sql, new Object[] { eventId }, getRowMapper());
 			} catch (EmptyResultDataAccessException e) {
 				/* Probably want to log this */
 				return null;
@@ -127,8 +134,10 @@ public class EventDao extends BaseDao<Event> {
 				event.setName(rs.getString("name"));
 				event.setDate(rs.getDate("date"));
 				event.setDescription(rs.getString("description"));
-				// TODO get Event Poster through sql on "user" table
-				// return the object // userdao sql?
+				long userId = rs.getLong("user_id");
+				User poster = userDao.getObjectById(userId);
+				event.setPoster(poster);
+				
 				return event;
 			}
 		};

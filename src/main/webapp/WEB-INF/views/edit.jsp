@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 
 <%@ page import="java.util.HashMap"%>
 <%@ page import="edu.ben.template.model.User"%>
@@ -30,7 +30,7 @@
 					<div class="panel-body">
 						<h3 class="text-center text-danger">Edit My Account</h3>
 						<h4 class="text-center"><%=u.getEmail()%></h4>
-						<form action="" method="post">
+						<form action="/edit" method="post" enctype="multipart/form-data">
 							<%
 								if (errors != null && errors.get("title") != null) {
 							%>
@@ -331,11 +331,14 @@
 								<div class="form-group">
 									<label class="control-label">Biography:</label>
 									<textarea type="text" class="form-control" name="bio" id="bio"
-										placeholder="Enter Biography" rows="5"><%
+										placeholder="Enter Biography" rows="5">
+										<%
 											if (u.getBio() != null) {
-										%><%=u.getBio()%><%
+										%><%=u.getBio()%>
+										<%
 											}
-										%></textarea>
+										%>
+									</textarea>
 								</div>
 							</div>
 							<%
@@ -351,11 +354,14 @@
 								<div class="form-group">
 									<label class="control-label">Experience:</label>
 									<textarea type="text" class="form-control" name="experience"
-										id="experience" placeholder="Enter Experience" rows="5"><%
+										id="experience" placeholder="Enter Experience" rows="5">
+										<%
 											if (u.getExperience() != null) {
-										%><%=u.getExperience()%><%
+										%><%=u.getExperience()%>
+										<%
 											}
-										%></textarea>
+										%>
+									</textarea>
 								</div>
 							</div>
 							<%
@@ -381,7 +387,18 @@
 										id="confirmPassword" placeholder="Confirm Password" required />
 								</div>
 							</div>
-
+							<div style="background-color: black; margin-left: 20px"
+								class="fileUpload btn btn-primary">
+								<span>Upload Profile Picture</span> <input type="file"
+									class="upload" />
+							</div>
+							<br> <br>
+							<div style="background-color: black; margin-left: 20px"
+								class="fileUpload btn btn-primary">
+								<span>Upload Resume</span> <input type="file" class="upload" />
+							</div>
+							<br>
+							<br>
 							<div class="col-xs-12">
 								<button type="submit"
 									class="btn btn-large btn btn-danger btn-lg btn-block">

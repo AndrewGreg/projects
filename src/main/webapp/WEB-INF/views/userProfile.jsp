@@ -91,24 +91,6 @@
 									
 									</tbody>
 								</table>
-
-								
-								<br>
-								<br>
-								<form action="userProfile" method="post" enctype="multipart/form-data">	
-									<div style="background-color:black;" class="fileUpload btn btn-primary">
-    									<span>Upload Profile Picture</span>
-    									<input type="file" class="upload" />
-									</div>
-									<br>
-									<br>
-									<div style="background-color:black;" class="fileUpload btn btn-primary">
-    									<span>Upload Resume</span>
-    									<input type="file" class="upload" />		
-									</div>
-									<button style="background-color:black;" class="btn btn-primary" name="Upload" 
-										value="Upload" type="Submit">Upload</button>
-								</form>
 							</div>
 						</div>
 					</div>

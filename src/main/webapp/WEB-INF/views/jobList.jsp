@@ -33,7 +33,7 @@
 	</div>
 
 	<div class="container">
-		<div id="jobs">
+		<div id="itemList">
 			<input class="search" placeholder="Search" />
 			<ul class="list">
 				<%
@@ -44,10 +44,10 @@
 						String id = Long.toString(jobPostings.get(i).getId());
 				%>
 				<li>
-					<h4 class="name">
+					<h4 class="primary">
 						<a href="/job/<%=id%>"><%=name%></a>
 					</h4>
-					<p class="company"><%=company%></p>
+					<p class="secondary"><%=company%></p>
 				</li>
 
 				<%
@@ -56,7 +56,7 @@
 			</ul>
 		</div>
 		<script src="/content/jQuery/list.js"></script>
-		<script src="/content/jQuery/searchJobs.js"></script>
+		<script src="/content/jQuery/listSearch.js"></script>
 
 	</div>
 	<jsp:include page="footer.jsp" />

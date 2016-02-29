@@ -822,6 +822,38 @@ public class HomeController extends BaseController {
 
 	}
 
+	/**
+	 * Displays all the alumni users in the system.
+	 * 
+	 * @param model
+	 *            being passed in.
+	 * @return the alumni list page.
+	 */
+	@RequestMapping(value = "/alumniList", method = RequestMethod.GET)
+	public String alumniList(Model model) {
+
+		try {
+
+			ArrayList<User> alumni = new ArrayList<User>();
+			alumni = getUserDao().findAll();
+
+			for (User users : alumni) {
+				users.setMajor(getMajorDao().findMajorByUser(users));
+				users.setConcentration(getMajorDao().findConcentrationByUser(users));
+				users.setMinor(getMajorDao().findMinorByUser(users));
+			}
+
+			sortUsers(alumni);
+
+			model.addAttribute("alumni", alumni);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "alumniList";
+	}
+
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/somethingSecret", method = RequestMethod.GET)
 	public String viewSecret(Model model) {

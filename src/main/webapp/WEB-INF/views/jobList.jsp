@@ -45,7 +45,7 @@
 				%>
 				<li>
 					<h4 class="primary">
-						<a href="/job/<%=id%>"><%=name%></a>
+						<a href="/jobDisplay/<%=id%>"><%=name%></a>
 					</h4>
 					<p class="secondary"><%=company%></p>
 				</li>

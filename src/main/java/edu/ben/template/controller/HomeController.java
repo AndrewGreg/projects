@@ -14,7 +14,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -111,7 +110,7 @@ public class HomeController extends BaseController {
 				e.printStackTrace();
 			}
 			System.out.println("Job was created");
-			return "jobPostings";
+			return "jobList";
 
 		} else {
 
@@ -193,7 +192,7 @@ public class HomeController extends BaseController {
 
 				model.addAttribute("errors", errors);
 
-				return "createEvent";
+				return "createEvents";
 			}
 
 			System.out.println("Event was created.");
@@ -251,6 +250,22 @@ public class HomeController extends BaseController {
 		}
 
 		return "events";
+	}
+
+	@RequestMapping(value = "/event/{id}", method = RequestMethod.GET)
+	public String eventDisplay(Model model, @PathVariable Long id) {
+
+		try {
+
+			Event currentEvent = getEventDao().getObjectById(id);
+			model.addAttribute("currentEvent", currentEvent);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "eventDisplay";
+
 	}
 
 	/**

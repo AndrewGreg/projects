@@ -48,7 +48,7 @@ public class HomeController extends BaseController {
 		Collections.sort(user, new Comparator<User>() {
 			@Override
 			public int compare(User o1, User o2) {
-				return o1.getFirstName().compareTo(o2.getFirstName());
+				return o1.getLastName().compareTo(o2.getLastName());
 			}
 		});
 	}
@@ -98,8 +98,6 @@ public class HomeController extends BaseController {
 		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
 				&& description.matches(".{2,}")) {
 
-			// TODO Find out how to get the logged in user to add to the
-			// jobPosting object
 			User u = getCurrentUser();
 
 			JobPosting job = new JobPosting(name, description, company, u);
@@ -401,10 +399,10 @@ public class HomeController extends BaseController {
 		return "index";
 
 	}
-	
+
 	@RequestMapping(value = "/massRegister", method = RequestMethod.POST)
-	public String massRegistration(Model model){
-		
+	public String massRegistration(Model model) {
+
 		return "index";
 	}
 
@@ -473,7 +471,7 @@ public class HomeController extends BaseController {
 	 * @param confirmPassword
 	 *            of user.
 	 * @return The new information of the user.
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public String edit(Model model, @RequestParam("title") String title, @RequestParam("fName") String firstName,
@@ -482,8 +480,9 @@ public class HomeController extends BaseController {
 			@RequestParam("major") String major, @RequestParam("doubleMajor") String doubleMajor,
 			@RequestParam("thirdMajor") String thirdMajor, @RequestParam("occupation") String occupation,
 			@RequestParam("bio") String biography, @RequestParam("experience") String experience,
-			@RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword, HttpServletRequest request, HttpServletResponse response,
-			@RequestParam CommonsMultipartFile[] fileUpload, @RequestParam("file") MultipartFile[] files) throws IOException {
+			@RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword,
+			HttpServletRequest request, HttpServletResponse response, @RequestParam CommonsMultipartFile[] fileUpload,
+			@RequestParam("file") MultipartFile[] files) throws IOException {
 
 		if (validateEdit(password, confirmPassword, firstName, lastName, personalEmail, graduationYear)) {
 
@@ -546,7 +545,7 @@ public class HomeController extends BaseController {
 				System.out.println("Oops");
 
 			}
-			
+
 			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 			MultipartFile multipartFile = multipartRequest.getFile("file");
 
@@ -566,7 +565,8 @@ public class HomeController extends BaseController {
 			// if (fileUpload != null && fileUpload.length > 0) {
 			// for (CommonsMultipartFile aFile : fileUpload){
 
-			// System.out.println("Saving file: " + aFile.getOriginalFilename());
+			// System.out.println("Saving file: " +
+			// aFile.getOriginalFilename());
 
 			// UploadFile uploadFile = new UploadFile();
 			// uploadFile.setFileName(aFile.getOriginalFilename());
@@ -679,41 +679,44 @@ public class HomeController extends BaseController {
 	 * @throws Exception
 	 *             to file that is invalid.
 	 */
-//	@RequestMapping(value = "/userProfile", method = RequestMethod.POST)
-//	public void userProfileUpload(Model model, HttpServletRequest request, HttpServletResponse response,
-//			@RequestParam CommonsMultipartFile[] fileUpload, @RequestParam("file") MultipartFile[] files)
-//					throws Exception {
-//
-//		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-//		MultipartFile multipartFile = multipartRequest.getFile("file");
-//
-//		// UploadFile file = new UploadFile();
-//		// file.setFilename(multipartFile.getOriginalFilename());
-//		// file.setNotes(ServletRequestUtils.getStringParameter(request,
-//		// "notes"));
-//		// file.setType(multipartFile.getContentType());
-//		if (files[0] != null) {
-//			((UploadFile) files[0]).setData(multipartFile.getBytes());
-//			getFileUploadDao().addFile((UploadFile) files[0]);
-//		}
-//		if (files[1] != null) {
-//			((UploadFile) files[1]).setData(multipartFile.getBytes());
-//			getImageUploadDao().addImage((UploadFile) files[1]);
-//		}
-		// if (fileUpload != null && fileUpload.length > 0) {
-		// for (CommonsMultipartFile aFile : fileUpload){
+	// @RequestMapping(value = "/userProfile", method = RequestMethod.POST)
+	// public void userProfileUpload(Model model, HttpServletRequest request,
+	// HttpServletResponse response,
+	// @RequestParam CommonsMultipartFile[] fileUpload, @RequestParam("file")
+	// MultipartFile[] files)
+	// throws Exception {
+	//
+	// MultipartHttpServletRequest multipartRequest =
+	// (MultipartHttpServletRequest) request;
+	// MultipartFile multipartFile = multipartRequest.getFile("file");
+	//
+	// // UploadFile file = new UploadFile();
+	// // file.setFilename(multipartFile.getOriginalFilename());
+	// // file.setNotes(ServletRequestUtils.getStringParameter(request,
+	// // "notes"));
+	// // file.setType(multipartFile.getContentType());
+	// if (files[0] != null) {
+	// ((UploadFile) files[0]).setData(multipartFile.getBytes());
+	// getFileUploadDao().addFile((UploadFile) files[0]);
+	// }
+	// if (files[1] != null) {
+	// ((UploadFile) files[1]).setData(multipartFile.getBytes());
+	// getImageUploadDao().addImage((UploadFile) files[1]);
+	// }
+	// if (fileUpload != null && fileUpload.length > 0) {
+	// for (CommonsMultipartFile aFile : fileUpload){
 
-		// System.out.println("Saving file: " + aFile.getOriginalFilename());
+	// System.out.println("Saving file: " + aFile.getOriginalFilename());
 
-		// UploadFile uploadFile = new UploadFile();
-		// uploadFile.setFileName(aFile.getOriginalFilename());
-		// uploadFile.setData(aFile.getBytes());
-		// fileUploadDao.save(uploadFile);
-		// }
-		// }
+	// UploadFile uploadFile = new UploadFile();
+	// uploadFile.setFileName(aFile.getOriginalFilename());
+	// uploadFile.setData(aFile.getBytes());
+	// fileUploadDao.save(uploadFile);
+	// }
+	// }
 
-		//return "userProfile";
-	//}
+	// return "userProfile";
+	// }
 
 	/**
 	 * Access to the Faculty Profile page.
@@ -807,7 +810,6 @@ public class HomeController extends BaseController {
 		// }
 		// }
 
-		
 		return "facultyProfile";
 	}
 

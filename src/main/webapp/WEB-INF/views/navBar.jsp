@@ -33,7 +33,7 @@
 			<ul class="nav navbar-nav navbar-right">
 			
 				<li><a href="/index">Home</a></li>
-				<li><a href="/alumniDirectory">Alumni Directory</a></li>
+				<li><a href="/alumniList">Alumni Directory</a></li>
 
 			<% if(currentUser !=null){%>
 				<%if(currentUser.getRole() == 1){ %>

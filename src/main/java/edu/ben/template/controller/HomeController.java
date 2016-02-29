@@ -170,7 +170,8 @@ public class HomeController extends BaseController {
 
 			String[] datePart = dateStr.split("/");
 
-			// Subtracted 1900 from year and 1 from month to offset the deprecated constructor
+			// Subtracted 1900 from year and 1 from month to offset the
+			// deprecated constructor
 			Date eventDate = new Date(Integer.parseInt(datePart[2]) - 1900, Integer.parseInt(datePart[0]) - 1,
 					Integer.parseInt(datePart[1]));
 			Date currentDate = new Date(System.currentTimeMillis());
@@ -552,6 +553,22 @@ public class HomeController extends BaseController {
 
 	}
 
+	@RequestMapping(value = "/job/{id}", method = RequestMethod.GET)
+	public String jobDisplay(Model model, @PathVariable Long id) {
+
+		try {
+
+			JobPosting currentJob = getJobPostingDao().getObjectById(id);
+			model.addAttribute("currentJob", currentJob);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "jobDisplay";
+
+	}
+
 	/**
 	 * Access to the job postings page.
 	 * 
@@ -560,7 +577,6 @@ public class HomeController extends BaseController {
 	 * @return the job postings page.
 	 */
 	@RequestMapping(value = "/jobPostings", method = RequestMethod.GET)
-
 	public String jobPostings(Model model) {
 
 		try {

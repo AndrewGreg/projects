@@ -30,7 +30,7 @@
 				class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
 					
 				<div style="border-color:black" class="panel panel-info">
-					<div style="background-color:red" class="panel-heading">
+					<div style="background-color:#990b0b" class="panel-heading">
 						<h3 class="panel-title"><font color="White"><%=currentUser.getFirstName()%> &nbsp;<%=currentUser.getLastName()%></font></h3>
 					</div>
 					<div class="panel-body">

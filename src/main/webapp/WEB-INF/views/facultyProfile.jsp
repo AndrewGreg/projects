@@ -55,7 +55,7 @@
 			
 				<!-- Profile Picture -->
 				<div style="border-color:black" class="panel panel-info">
-					<div style="background-color:red" class="panel-heading">
+					<div style="background-color:#990b0b" class="panel-heading">
 						<h3 class="panel-title"><font color="White"><%=currentUser.getFirstName()%> &nbsp;<%=currentUser.getLastName()%></font></h3>
 					</div>
 					<div class="panel-body">

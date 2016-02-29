@@ -1,7 +1,5 @@
 package edu.ben.template.controller;
 
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -16,7 +14,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import edu.ben.template.dao.DaoKeeper;
-import edu.ben.template.model.JobPosting;
 import edu.ben.template.model.User;
 
 /**
@@ -36,6 +33,13 @@ public abstract class BaseController extends DaoKeeper {
 		return getUserFromPrincipal();
 	}
 
+	@ModelAttribute("currentJob")
+	public User getCurrentJob() {
+		// get the security principal
+		return getUserFromPrincipal();
+	}
+
+	
 	/**
 	 * Retrieves the current user from the principal object
 	 * 

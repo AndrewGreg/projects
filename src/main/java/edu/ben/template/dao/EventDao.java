@@ -13,17 +13,20 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 
 import edu.ben.template.model.Event;
-import edu.ben.template.model.JobPosting;
 import edu.ben.template.model.User;
 
 public class EventDao extends BaseDao<Event> {
 
 	public EventDao() {
-
+		super();
 	}
 
-	public Event getObjectById(int objectId, boolean complete) {
-		if (objectId == 0) {
+	public Event getObjectById(long eventId) {
+		return this.getObjectById(eventId, false);
+	}
+
+	public Event getObjectById(long eventId, boolean complete) {
+		if (eventId == 0) {
 			/* Probably want to log this */
 			return null;
 		}
@@ -33,7 +36,7 @@ public class EventDao extends BaseDao<Event> {
 			try {
 				// look up the object
 				String sql = "SELECT * FROM event WHERE id = ?";
-				object = this.jdbcTemplate.queryForObject(sql, new Object[] { objectId }, getRowMapper());
+				object = this.jdbcTemplate.queryForObject(sql, new Object[] { eventId }, getRowMapper());
 			} catch (EmptyResultDataAccessException e) {
 				/* Probably want to log this */
 				return null;

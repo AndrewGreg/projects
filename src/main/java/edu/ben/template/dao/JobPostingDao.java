@@ -21,9 +21,14 @@ public class JobPostingDao extends BaseDao<JobPosting> {
 	public JobPostingDao() {
 		super();
 	}
+	
+	
+	public JobPosting getObjectById(long jobId) {
+		return this.getObjectById(jobId, false);
+	}
 
-	public JobPosting getObjectById(int objectId, boolean complete) {
-		if (objectId == 0) {
+	public JobPosting getObjectById(long jobId, boolean complete) {
+		if (jobId == 0) {
 			/* Probably want to log this */
 			return null;
 		}
@@ -33,7 +38,7 @@ public class JobPostingDao extends BaseDao<JobPosting> {
 			try {
 				// look up the object
 				String sql = "SELECT * FROM job WHERE id = ?";
-				object = this.jdbcTemplate.queryForObject(sql, new Object[] { objectId }, getRowMapper());
+				object = this.jdbcTemplate.queryForObject(sql, new Object[] { jobId }, getRowMapper());
 			} catch (EmptyResultDataAccessException e) {
 				/* Probably want to log this */
 				return null;

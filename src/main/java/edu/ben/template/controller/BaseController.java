@@ -32,8 +32,7 @@ public abstract class BaseController extends DaoKeeper {
 		// get the security principal
 		return getUserFromPrincipal();
 	}
-	
-	
+
 	/**
 	 * Retrieves the current user from the principal object
 	 * 
@@ -48,7 +47,6 @@ public abstract class BaseController extends DaoKeeper {
 
 		System.out.println(userName);
 		User loggedUser = getUserDao().findByEmail(userName);
-		
 
 		return loggedUser;
 	}
@@ -59,8 +57,8 @@ public abstract class BaseController extends DaoKeeper {
 	 * @return
 	 */
 	public User getUserFromPrincipal() {
-		if (SecurityContextHolder.getContext() != null
-				&& SecurityContextHolder.getContext().getAuthentication() != null && !SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) {
+		if (SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication() != null
+				&& !SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) {
 			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			return getUserFromPrincipal(principal);
 		}
@@ -91,9 +89,9 @@ public abstract class BaseController extends DaoKeeper {
 		return "errors/accessDenied";
 	}
 
-
-//	public long getCurrentUserId() {
-//		User u = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		return u.getId();
-//	}
+	// public long getCurrentUserId() {
+	// User u = (User)
+	// SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	// return u.getId();
+	// }
 }

@@ -1,11 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<%@ page import="javax.servlet.http.HttpSession"%>
 <%@ page import="edu.ben.template.model.User"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="edu.ben.template.dao.UserDao"%>
-<%@ page isELIgnored="false"%>
 
 <%
 	
@@ -36,7 +34,7 @@ th, td {
 tr:nth-child(even){background-color: #f2f2f2}
 
 th {
-    background-color: red;
+    background-color: #990b0b;
     color: white;
 }
 </style>
@@ -74,7 +72,7 @@ th {
 						<td><a href=" /user/<%=alumni.get(i).getId()%>"><font color="Black"><%=(alumni.get(i).getFirstName())%></font></a></td>
 						<td><font color="Black"><%=(alumni.get(i).getLastName())%></font></td>
 						<td><font color="Black"><%=(alumni.get(i).getGraduationYear())%></font></td>
-					  <%if(alumni.get(i).getMajor().get(0).getName() != null){ %> 
+					  <%if(alumni.get(i).getMajor() != null && alumni.get(i).getMajor().get(0).getName() != null){ %> 
 						<td><font color="Black"><%=(alumni.get(i).getMajor().get(0).getName())%></font></td>
 					<%} else{%>
 						<td><font color="Black">None</font></td>

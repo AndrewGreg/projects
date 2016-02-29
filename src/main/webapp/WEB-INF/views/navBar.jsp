@@ -111,7 +111,7 @@
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">Profile <b class="caret"></b></a>
 					<ul class="dropdown-menu">
-						<li><a href="/user/<%=currentUser.getId()%>">My Profile</a></li>
+						<li><a href="/faculty/<%=currentUser.getId()%>">My Profile</a></li>
 						<li><a href="#">View your Job Postings</a></li>
 						<li><a href="/logout">Logout</a></li>
 					</ul></li>

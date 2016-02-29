@@ -722,7 +722,7 @@ public class HomeController extends BaseController {
 	 *            is being passed in
 	 * @return the faculty page.
 	 */
-	@RequestMapping(value = "/facultyProfile/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/faculty/{id}", method = RequestMethod.GET)
 	public String faculty(Model model, @PathVariable Long id) {
 
 		User currentUser = getUserDao().getObjectById(id);
@@ -807,10 +807,7 @@ public class HomeController extends BaseController {
 		// }
 		// }
 
-		if (getCurrentUser().getRole() <= 2) {
-			return "userProfile";
-		}
-
+		
 		return "facultyProfile";
 	}
 

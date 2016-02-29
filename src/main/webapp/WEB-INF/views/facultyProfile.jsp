@@ -119,15 +119,7 @@
 
 								<br>
 								<br>
-								<form action="/facultyProfile" method="post" enctype="multipart/form-data">	
-									<div style="background-color:black;" class="fileUpload btn btn-primary">
-    									<span>Upload Profile Picture</span>
-    									<input type="file" class="upload" />
-									</div>
-									<br>
-									<button style="background-color:black;" class="btn btn-primary" name="Upload" 
-										value="Upload" type="Submit">Upload</button>
-								</form>
+								
 							</div>
 						</div>
 					</div>

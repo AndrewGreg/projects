@@ -200,7 +200,7 @@
 					
 				</form>
 				
-				<form action="/register" method="POST" name="register" enctype="multipart/form-data">
+				<form action="/massRegister" method="POST" name="massRegister" enctype="multipart/form-data">
 					<div class="fileUpload btn btn-primary">
 						<span>Upload Multiple Users</span> <input type="file"
 							class="upload" />

@@ -344,11 +344,11 @@ public class HomeController extends BaseController {
 
 	}
 	
-//	@RequestMapping(value = "/massRegister", method = RequestMethod.POST)
-//	public String massRegistration(Model model){
-//		
-//		return "index";
-//	}
+	@RequestMapping(value = "/massRegister", method = RequestMethod.POST)
+	public String massRegistration(Model model){
+		
+		return "index";
+	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public String edit(Model model, @RequestParam("title") String title, @RequestParam("fName") String firstName,

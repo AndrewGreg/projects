@@ -1,5 +1,6 @@
 package edu.ben.template.controller;
 
+
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -243,7 +244,7 @@ public class HomeController extends BaseController {
 
 				model.addAttribute("errors", errors);
 
-				return "createEvents";
+				return "/createEvent";
 			}
 
 			System.out.println("Event was created.");
@@ -254,7 +255,7 @@ public class HomeController extends BaseController {
 				e.printStackTrace();
 			}
 
-			return "events";
+			return "redirect:/events";
 
 		} else {
 
@@ -274,9 +275,8 @@ public class HomeController extends BaseController {
 
 			model.addAttribute("errors", errors);
 
+			return "createEvent";
 		}
-
-		return "events";
 
 	}
 
@@ -292,7 +292,7 @@ public class HomeController extends BaseController {
 
 		try {
 			ArrayList<Event> events = new ArrayList<Event>();
-			events = getEventDao().findAll();
+			events = getEventDao().getAll();
 
 			model.addAttribute("events", events);
 
@@ -485,11 +485,11 @@ public class HomeController extends BaseController {
 		// User in session.
 		User u = getCurrentUser();
 
-		u.setMajor(getMajorDao().findMajorByUser(u));
-		u.setConcentration(getMajorDao().findConcentrationByUser(u));
-		u.setMinor(getMajorDao().findMinorByUser(u));
+		u.setMajor(getMajorDao().getMajorByUser(u));
+		u.setConcentration(getMajorDao().getConcentrationByUser(u));
+		u.setMinor(getMajorDao().getMinorByUser(u));
 
-		ArrayList<Major> m = getMajorDao().findAllMajors();
+		ArrayList<Major> m = getMajorDao().getAllMajors();
 
 		System.out.println(u.toString());
 
@@ -554,9 +554,9 @@ public class HomeController extends BaseController {
 
 			User u = getCurrentUser();
 
-			u.setMajor(getMajorDao().findMajorByUser(u));
-			u.setConcentration(getMajorDao().findConcentrationByUser(u));
-			u.setMinor(getMajorDao().findMinorByUser(u));
+			u.setMajor(getMajorDao().getMajorByUser(u));
+			u.setConcentration(getMajorDao().getConcentrationByUser(u));
+			u.setMinor(getMajorDao().getMinorByUser(u));
 
 			if (Validator.isNull(title))
 				title = null;
@@ -586,9 +586,9 @@ public class HomeController extends BaseController {
 			u.setBio(biography);
 			u.setExperience(experience);
 
-			Major m = getMajorDao().findByName(major);
-			Major m2 = getMajorDao().findByName(doubleMajor);
-			Major m3 = getMajorDao().findByName(thirdMajor);
+			Major m = getMajorDao().getByName(major);
+			Major m2 = getMajorDao().getByName(doubleMajor);
+			Major m3 = getMajorDao().getByName(thirdMajor);
 
 			u.clearMajors();
 			if (m != null) {
@@ -605,7 +605,7 @@ public class HomeController extends BaseController {
 
 			try {
 				getUserDao().updateUser(u);
-				getMajorDao().updateMajorByUser(u);
+				getMajorDao().updateMajorAndConcentrationByUser(u);
 			} catch (Exception e) {
 				/* Probably should log this */
 				System.out.println("Oops");
@@ -646,13 +646,13 @@ public class HomeController extends BaseController {
 
 		HashMap<String, String> e = new HashMap<String, String>();// TODO
 
-		ArrayList<Major> m = getMajorDao().findAllMajors();
+		ArrayList<Major> m = getMajorDao().getAllMajors();
 
 		User u = getCurrentUser();
 
-		u.setMajor(getMajorDao().findMajorByUser(u));
-		u.setConcentration(getMajorDao().findConcentrationByUser(u));
-		u.setMinor(getMajorDao().findMinorByUser(u));
+		u.setMajor(getMajorDao().getMajorByUser(u));
+		u.setConcentration(getMajorDao().getConcentrationByUser(u));
+		u.setMinor(getMajorDao().getMinorByUser(u));
 
 		if (!Validator.validatePassword(password) || !Validator.validatePasswordsMatch(password, confirmPassword))
 			e.put("password", "Invalid Password");
@@ -671,6 +671,97 @@ public class HomeController extends BaseController {
 
 	}
 
+
+
+//	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+//	public String edit(Model model, @RequestParam("title") String title, @RequestParam("fName") String firstName,
+//			@RequestParam("lName") String lastName, @RequestParam("suffix") String suffix,
+//			@RequestParam("personalEmail") String personalEmail, @RequestParam("occupation") String occupation,
+//			@RequestParam("bio") String biography, @RequestParam("experience") String experience,
+//			@RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword) {
+//
+//		if (validateEdit(password, confirmPassword, firstName, lastName, personalEmail)) {
+//
+//			// TODO GET USER FROM SESSION
+//			//
+//			// DUMMY User
+//			//
+//			User u = getUserDao().getObjectById(DUMMY_ID);
+//
+//			u.setMajor(getMajorDao().findMajorByUser(u));
+//			u.setConcentration(getMajorDao().findConcentrationByUser(u));
+//			u.setMinor(getMajorDao().findMinorByUser(u));
+//
+//			if (Validator.isNull(title))
+//				title = null;
+//			if (Validator.isNull(suffix))
+//				suffix = null;
+//			if (Validator.isNull(personalEmail))
+//				personalEmail = null;
+//			if (Validator.isNull(occupation))
+//				occupation = null;
+//			if (Validator.isNull(biography))
+//				biography = null;
+//			if (Validator.isNull(experience))
+//				experience = null;
+//
+//
+//			u.setTitle(title);
+//			u.setFirstName(firstName);
+//			u.setLastName(lastName);
+//			u.setSuffix(suffix);
+//			u.setPersonalEmail(personalEmail);
+//			u.setOccupation(occupation);
+//			u.setBio(biography);
+//			u.setExperience(experience);
+//
+//			// TODO Hash the password before saving to the user
+//			u.setPassword(password);
+//
+//			try {
+//				getUserDao().updateUser(u);
+//				getMajorDao().updateMajorByUser(u);
+//			} catch (Exception e) {
+//				/* Probably should log this */
+//				System.out.println("Oops");
+//
+//			}
+//
+//			return "userProfile";
+//		}
+//
+//		HashMap<String, String> e = new HashMap<String, String>();// TODO
+//
+//		ArrayList<Major> m = getMajorDao().findAllMajors();
+//
+//		// TODO GET USER FROM SESSION
+//		//
+//		// DUMMY User
+//		//
+//		User u = getUserDao().getObjectById(DUMMY_ID);
+//
+//		u.setMajor(getMajorDao().findMajorByUser(u));
+//		u.setConcentration(getMajorDao().findConcentrationByUser(u));
+//		u.setMinor(getMajorDao().findMinorByUser(u));
+//
+//		if (!Validator.validatePassword(password) || !Validator.validatePasswordsMatch(password, confirmPassword))
+//			e.put("password", "Invalid Password");
+//		if (!Validator.validateName(firstName))
+//			e.put("fName", "Invalid First Name Entry");
+//		if (!Validator.validateName(lastName))
+//			e.put("fName", "Invalid Last Name Entry");
+//		if (!Validator.validateEmail(personalEmail, false))
+//			e.put("fName", "Invalid Email Entry");
+//
+//		model.addAttribute("user", u);
+//		model.addAttribute("majors", m);
+//		model.addAttribute("errors", e);
+//
+//		return "edit";
+//
+//	}
+//	
+	
 	@RequestMapping(value = "/job/{id}", method = RequestMethod.GET)
 	public String jobDisplay(Model model, @PathVariable Long id) {
 
@@ -687,6 +778,7 @@ public class HomeController extends BaseController {
 
 	}
 
+
 	/**
 	 * Access to the job postings page.
 	 * 
@@ -700,7 +792,7 @@ public class HomeController extends BaseController {
 		try {
 
 			ArrayList<JobPosting> job = new ArrayList<JobPosting>();
-			job = getJobPostingDao().findAll();
+			job = getJobPostingDao().getAll();
 
 			model.addAttribute("jobPostings", job);
 
@@ -799,7 +891,7 @@ public class HomeController extends BaseController {
 
 		try {
 			ArrayList<User> student = new ArrayList<User>();
-			student = getUserDao().findAllStudents();
+			student = getUserDao().getAllStudents();
 
 			model.addAttribute("student", student);
 
@@ -810,7 +902,7 @@ public class HomeController extends BaseController {
 		// Return all Alumni
 		try {
 			ArrayList<User> alumni = new ArrayList<User>();
-			alumni = getUserDao().findAllAlumni();
+			alumni = getUserDao().getAllAlumni();
 
 			model.addAttribute("alumni", alumni);
 
@@ -821,7 +913,7 @@ public class HomeController extends BaseController {
 		// Return all Alumni
 		try {
 			ArrayList<User> faculty = new ArrayList<User>();
-			faculty = getUserDao().findAllFaculty();
+			faculty = getUserDao().getAllFaculty();
 
 			model.addAttribute("faculty", faculty);
 
@@ -894,12 +986,12 @@ public class HomeController extends BaseController {
 		try {
 
 			ArrayList<User> alumni = new ArrayList<User>();
-			alumni = getUserDao().findAll();
+			alumni = getUserDao().getAll();
 
 			for (User users : alumni) {
-				users.setMajor(getMajorDao().findMajorByUser(users));
-				users.setConcentration(getMajorDao().findConcentrationByUser(users));
-				users.setMinor(getMajorDao().findMinorByUser(users));
+				users.setMajor(getMajorDao().getMajorByUser(users));
+				users.setConcentration(getMajorDao().getConcentrationByUser(users));
+				users.setMinor(getMajorDao().getMinorByUser(users));
 
 			}
 
@@ -924,6 +1016,28 @@ public class HomeController extends BaseController {
 
 	}
 
+
+
+	
+
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.POST)
+	public String userProfileUpload(Model model, @RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
+
+		// if (fileUpload != null && fileUpload.length > 0) {
+		// for (CommonsMultipartFile aFile : fileUpload){
+
+		// System.out.println("Saving file: " + aFile.getOriginalFilename());
+
+		// UploadFile uploadFile = new UploadFile();
+		// uploadFile.setFileName(aFile.getOriginalFilename());
+		// uploadFile.setData(aFile.getBytes());
+		// fileUploadDao.save(uploadFile);
+		// }
+		// }
+		return "userProfile";
+	}
+
+
 	/**
 	 * Displays all the alumni users in the system.
 	 * 
@@ -937,12 +1051,12 @@ public class HomeController extends BaseController {
 		try {
 
 			ArrayList<User> alumni = new ArrayList<User>();
-			alumni = getUserDao().findAll();
+			alumni = getUserDao().getAll();
 
 			for (User users : alumni) {
-				users.setMajor(getMajorDao().findMajorByUser(users));
-				users.setConcentration(getMajorDao().findConcentrationByUser(users));
-				users.setMinor(getMajorDao().findMinorByUser(users));
+				users.setMajor(getMajorDao().getMajorByUser(users));
+				users.setConcentration(getMajorDao().getConcentrationByUser(users));
+				users.setMinor(getMajorDao().getMinorByUser(users));
 			}
 
 			sortUsers(alumni);
@@ -976,4 +1090,13 @@ public class HomeController extends BaseController {
 				&& Validator.validateGraduationYear(graduationYear, false)
 				&& Validator.validateEmail(personalEmail, false));
 	}
+	
+	private boolean validateEdit(String password, String confirmPassword, String firstName, String lastName,
+			String personalEmail) {
+
+		return (Validator.validatePasswordsMatch(password, confirmPassword) && Validator.validatePassword(password)
+				&& Validator.validateName(firstName) && Validator.validateName(lastName)
+				&& Validator.validateEmail(personalEmail, false));
+	}
+
 }

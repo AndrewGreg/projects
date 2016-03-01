@@ -46,7 +46,7 @@ public abstract class BaseController extends DaoKeeper {
 		String userName = user.getUsername();
 
 		System.out.println(userName);
-		User loggedUser = getUserDao().findByEmail(userName);
+		User loggedUser = getUserDao().getByEmail(userName);
 
 		return loggedUser;
 	}

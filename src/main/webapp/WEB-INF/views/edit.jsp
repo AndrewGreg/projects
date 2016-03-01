@@ -157,7 +157,7 @@
 									<%
 										} else if (u.getRole() == 5) {
 									%>
-									<div class="">
+									<div class="" name="graduationYear" id="graduationYear">
 										<%
 											if (u.getGraduationYear() != 0) {
 										%>
@@ -204,7 +204,7 @@
 									</select>
 									<%
 										} else if (u.getRole() == 5 && u.getMajor().size() > 0 && u.getMajor().get(0) != null) {
-									%><div class="">
+									%><div class="" name="major" id="major">
 										<h3><%=u.getMajor().get(0).getName()%></h3>
 									</div>
 									<%
@@ -215,7 +215,7 @@
 							</div>
 
 							<%
-								if (errors != null && errors.get("doublMajor") != null) {
+								if (errors != null && errors.get("doubleMajor") != null) {
 							%>
 							<div class="col-xs-12">
 								<p class="alert alert-danger text-center"><%=errors.get("doubleMajor")%></p>
@@ -246,7 +246,7 @@
 									</select>
 									<%
 										} else if (u.getRole() == 5 && u.getMajor().size() > 1 && u.getMajor().get(1) != null) {
-									%><div class="">
+									%><div class="" name="doubleMajor" id="doubleMajor">
 										<h3><%=u.getMajor().get(1).getName()%></h3>
 									</div>
 									<%
@@ -288,7 +288,7 @@
 									</select>
 									<%
 										} else if (u.getRole() == 5 && u.getMajor().size() > 2 && u.getMajor().get(2) != null) {
-									%><div class="">
+									%><div class="" name="thirdMajor" id="thirdMajor">
 										<h3><%=u.getMajor().get(2).getName()%></h3>
 									</div>
 									<%

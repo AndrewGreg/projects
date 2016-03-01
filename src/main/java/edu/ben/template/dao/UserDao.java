@@ -16,14 +16,9 @@ import edu.ben.template.model.User;
 
 public class UserDao extends BaseDao<User> {
 
-	private MajorDao majorDao;
-	private InterestDao interestDao;
 
 	public UserDao() {
 		super();
-		this.majorDao = new MajorDao();
-		this.interestDao = new InterestDao();
-
 	}
 
 	public User getObjectById(long userId) {
@@ -64,7 +59,9 @@ public class UserDao extends BaseDao<User> {
 
 	}
 	
+	//TODO Not Tested in Sprint 3
 	public void addMultiple(String file){
+		
 		
 		User user = new User();
 		String sql = "LOAD DATA INFILE '" +file+ "' INTO TABLE user FIELDS TERMINATED BY ','" + "LINES TERMINATED BY '\n' (bnumber, email, personal_email, password, salt, first_name, last_name, role, graduation_year, occupation, title, suffix, bio, experience, hidden, active, created, last_active, last_modified, social_media) WHERE id = ?;";
@@ -76,7 +73,7 @@ public class UserDao extends BaseDao<User> {
 						user.getBio(), user.getExperience(),user.getId(), });
 	}
 
-	public ArrayList<User> findAll() {
+	public ArrayList<User> getAll() {
 
 		List<User> users = new ArrayList<User>();
 		String sql = "SELECT * from user";
@@ -96,7 +93,7 @@ public class UserDao extends BaseDao<User> {
 	 * 
 	 * @return the amount of students registered.
 	 */
-	public ArrayList<User> findAllStudents() {
+	public ArrayList<User> getAllStudents() {
 
 		List<User> users = new ArrayList<User>();
 		String sql = "SELECT * from alumnitracker.user WHERE role = '1'";
@@ -116,7 +113,7 @@ public class UserDao extends BaseDao<User> {
 	 * 
 	 * @return the amount of alumni registered.
 	 */
-	public ArrayList<User> findAllAlumni() {
+	public ArrayList<User> getAllAlumni() {
 
 		List<User> users = new ArrayList<User>();
 		String sql = "SELECT * from alumnitracker.user WHERE role = '2'";
@@ -136,7 +133,7 @@ public class UserDao extends BaseDao<User> {
 	 * 
 	 * @return the amount of faculty registered.
 	 */
-	public ArrayList<User> findAllFaculty() {
+	public ArrayList<User> getAllFaculty() {
 
 		List<User> users = new ArrayList<User>();
 		String sql = "SELECT * from alumnitracker.user WHERE role = '3'";
@@ -151,12 +148,12 @@ public class UserDao extends BaseDao<User> {
 		}
 	}
 
-	public User findByEmail(String email) {
+	public User getByEmail(String email) {
 
 		User u = null;
 		try {
 
-			String sql = "SELECT user.id as id, user.bnumber, user.email, user.personal_email, user.password, user.salt, user.first_name, user.last_name, user.role, user.graduation_year,user.occupation, user.title, user.suffix, user.bio, user.experience FROM user WHERE user.email = ? GROUP BY id";
+			String sql = "SELECT * FROM user WHERE email = ? LIMIT 1";
 			u = jdbcTemplate.queryForObject(sql, new Object[] { email }, getRowMapper());
 		} catch (Exception e) {
 			return null;
@@ -165,11 +162,11 @@ public class UserDao extends BaseDao<User> {
 
 	}
 
-	public User findByPersonalEmail(String email) {
+	public User getByPersonalEmail(String email) {
 
 		User u = null;
 		try {
-			String sql = "SELECT user.id as id, user.bnumber, user.email, user.personal_email, user.password, user.salt, user.first_name, user.last_name, user.role, user.graduation_year,user.occupation, user.title, user.suffix, user.bio, user.experience FROM user WHERE user.personal_email = ? GROUP BY id";
+			String sql = "SELECT * FROM user WHERE personal_email = ? LIMIT 1";
 			u = jdbcTemplate.queryForObject(sql, new Object[] { email }, getRowMapper());
 		} catch (EmptyResultDataAccessException e) {
 			return null;
@@ -177,9 +174,11 @@ public class UserDao extends BaseDao<User> {
 		return u;
 
 	}
+	
+	//TODO GET ACCOUNT
 
 	public void updateUser(User user) {
-
+		
 		String sql = "UPDATE user SET bnumber = ?, first_name = ?, last_name = ?, email = ?, personal_email = ?, password = ?, salt = ?, role = ?, graduation_year = ?, occupation = ?, title = ?, suffix = ?, experience = ?, bio = ?, role = ? WHERE user.id = ?";
 		try {
 			jdbcTemplate.update(sql,
@@ -217,14 +216,6 @@ public class UserDao extends BaseDao<User> {
 				user.setBio(rs.getString("bio"));
 				user.setExperience(rs.getString("experience"));
 
-				// TODO See Pollack about structure change (INEFFICIENT)
-
-				// user.setConcentration(majorDao.findConcentrationByUser(user));
-				// user.setMinor(majorDao.findMinorByUser(user));
-				// user.setMajor(majorDao.findMajorByUser(user));
-				// user.setInterest(interestDao.findAllByUser(user));
-
-				// return the object
 				return user;
 			}
 		};

@@ -40,7 +40,10 @@
 			<div class="row" align="left" style="padding-left: 50px;">
 				<h4>
 					Posted by:
+					<%if(currentJob.getPoster() != null && currentJob.getPoster().getFirstName() != null && currentJob.getPoster().getEmail() != null) { %>
 					<%=currentJob.getPoster().getFirstName()%> <%=currentJob.getPoster().getLastName()%>
+					
+					
 				</h4>
 				<h4>Contact: <%=currentJob.getPoster().getEmail()%></h4>
 				<br>
@@ -50,6 +53,7 @@
 			<div class="row" align="left" style="padding-left: 125px;">
 			<h5> <%=currentJob.getDescription()%></h5>
 			</div>
+			<%} %>
 		</div>
 		<br>
 	</div>

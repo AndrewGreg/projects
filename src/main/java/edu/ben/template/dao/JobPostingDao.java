@@ -137,6 +137,10 @@ public class JobPostingDao extends BaseDao<JobPosting> {
 				jobPosting.setName(rs.getString("name"));
 				jobPosting.setDescription(rs.getString("description"));
 				jobPosting.setCompany(rs.getString("company"));
+				long userId = rs.getLong("user_id");
+				User poster = userDao.getObjectById(userId);
+				jobPosting.setPoster(poster);
+				
 				return jobPosting;
 			}
 		};

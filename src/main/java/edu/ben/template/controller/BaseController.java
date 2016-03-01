@@ -37,7 +37,7 @@ public abstract class BaseController extends DaoKeeper {
 	 * Retrieves the current user from the principal object
 	 * 
 	 * @param principal
-	 * @return
+	 * @return the logged in user.
 	 */
 	public User getUserFromPrincipal(Object principal) {
 		System.out.println(principal);
@@ -45,7 +45,6 @@ public abstract class BaseController extends DaoKeeper {
 
 		String userName = user.getUsername();
 
-		System.out.println(userName);
 		User loggedUser = getUserDao().getByEmail(userName);
 
 		return loggedUser;

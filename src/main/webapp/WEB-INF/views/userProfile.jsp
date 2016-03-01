@@ -67,6 +67,15 @@
 
 										<tr>
 										<tr>
+											<td>Benedictine Email:</td>
+											<td><a href="mailfrom:info@support.com"><%=currentUser.getEmail()%></a></td>
+											<tr>
+											<td>Personal Email:</td>
+											<td><a href="mailfrom:info@support.com"><%=currentUser.getPersonalEmail()%></a></td>
+									
+										</tr>
+										<tr>
+										<tr>
 											<td>Biography:</td>
 											<%if(currentUser.getBio() != null){ %>
 											<td><%=currentUser.getBio()%></td>
@@ -81,14 +90,7 @@
 											<%}else{ %>
 											<td>None</td>
 											<%} %>
-										</tr>
-										<tr>
-											<td>Benedictine Email:</td>
-											<td><a href="mailfrom:info@support.com"><%=currentUser.getEmail()%></a></td>
-											<tr>
-											<td>Personal Email:</td>
-											<td><a href="mailfrom:info@support.com"><%=currentUser.getPersonalEmail()%></a></td>
-									
+											
 									</tbody>
 								</table>
 							</div>

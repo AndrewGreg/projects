@@ -144,6 +144,9 @@ public class EventDao extends BaseDao<Event> {
 				event.setName(rs.getString("name"));
 				event.setDate(rs.getDate("date"));
 				event.setDescription(rs.getString("description"));
+				long userId = rs.getLong("user_id");
+				User poster = userDao.getObjectById(userId);
+				event.setPoster(poster);
 				return event;
 			}
 		};

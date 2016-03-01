@@ -64,9 +64,9 @@ public class UserDao extends BaseDao<User> {
 
 	}
 	
-	public void addMultiple(User user, String file){
+	public void addMultiple(String file){
 		
-		
+		User user = new User();
 		String sql = "LOAD DATA INFILE '" +file+ "' INTO TABLE user FIELDS TERMINATED BY ','" + "LINES TERMINATED BY '\n' (bnumber, email, personal_email, password, salt, first_name, last_name, role, graduation_year, occupation, title, suffix, bio, experience, hidden, active, created, last_active, last_modified, social_media) WHERE id = ?;";
 		
 		jdbcTemplate.update(sql,

@@ -199,12 +199,9 @@
 					<button type="submit" class="btn btn-primary">Register</button>
 					
 				</form>
-				
+				<br>
 				<form action="/massRegister" method="POST" name="massRegister" enctype="multipart/form-data">
-					<div class="fileUpload btn btn-primary">
-						<span>Upload Multiple Users</span> <input type="file"
-							class="upload" />
-					</div>
+					<label>Upload Multiple Users</label><input type="file" name="photo" class="form-control" id="" value="">
 					<button class="btn btn-primary" name="Upload" value="Upload"
 						type="Submit">Upload</button>
 				</form>

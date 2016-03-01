@@ -15,10 +15,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -31,6 +33,7 @@ import edu.ben.template.model.User;
 import edu.ben.template.model.Validator;
 
 @Controller
+@SessionAttributes("editJob")
 public class HomeController extends BaseController {
 
 	// Allows the password to be Hashed.
@@ -131,6 +134,55 @@ public class HomeController extends BaseController {
 
 			return "createJobPosting";
 		}
+	}
+	
+	
+	@RequestMapping(value = "/editJob/{id}", method = RequestMethod.GET)
+	public String editJob(Model model,@PathVariable Long id) {
+		JobPosting editJob = getJobPostingDao().getObjectById(id);
+		//Long jobId = editJob.getId();
+		model.addAttribute("editJob", editJob);
+		//model.addAttribute("editJobId", jobId);
+		return "editJob";
+	}
+
+	@RequestMapping(value = "/editJob", method = RequestMethod.POST)
+	public String editJobPost(Model model, @RequestParam("name") String name,
+			@RequestParam("company") String company, @RequestParam("description") String description,
+			@ModelAttribute("editJob") JobPosting editJob) {
+
+		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
+				&& description.matches(".{2,}")) {
+			
+			
+			try {
+				getJobPostingDao().updateJobPosting(editJob);
+
+			} catch (Exception e) {
+				//e.printStackTrace();
+			}
+		
+			return "redirect:/jobPostings";
+		}else{
+			HashMap<String, String> errors = new HashMap<String, String>();
+
+			if (name == null || !name.matches(".{2,}")) {
+				errors.put("name", "Error in the input for the job name.");
+			}
+
+			if (company == null || !company.matches(".{2,}")) {
+				errors.put("company", "Error in the input for the job's company.");
+			}
+
+			if (description == null || !description.matches(".{2,}")) {
+				errors.put("description", "Error in the input for the job description.");
+			}
+
+			model.addAttribute("errors", errors);
+
+			return "editJob";
+		}
+//		return "jobPostings";
 	}
 
 	/**
@@ -276,7 +328,7 @@ public class HomeController extends BaseController {
 	 */
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String registration(Model model) {
-
+		
 		return "register";
 	}
 
@@ -401,8 +453,22 @@ public class HomeController extends BaseController {
 	}
 
 	@RequestMapping(value = "/massRegister", method = RequestMethod.POST)
-	public String massRegistration(Model model) {
+	public String massRegistration(Model model, HttpServletRequest request, HttpServletResponse response,
+			@RequestParam CommonsMultipartFile[] fileUpload) throws IOException {
+		
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		MultipartFile multipartFile = multipartRequest.getFile("file");
 
+		UploadFile file = new UploadFile();
+		file.setFileName(multipartFile.getOriginalFilename());
+		// file.setNotes(ServletRequestUtils.getStringParameter(request,
+		// "notes"));
+		// file.setType(multipartFile.getContentType());
+		if (file != null) {
+			file.setData(multipartFile.getBytes());
+			getUserDao().addMultiple(file.getFileName());
+		}
+		
 		return "index";
 	}
 

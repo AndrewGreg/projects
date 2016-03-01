@@ -10,6 +10,7 @@
 %>
 <%
 	JobPosting currentJob = (JobPosting) request.getAttribute("currentJob");
+	String id = Long.toString(currentJob.getId());
 %>
 
 <!DOCTYPE>
@@ -28,6 +29,9 @@
 		<div class="well well-lg">
 			<div class="row" align="left" style="padding-left: 50px;">
 				<h1><%=currentJob.getName()%></h1>
+				<%if(currentUser.getRole() > 1){%>
+				<a href="/editJob/<%=id%>">Edit Job</a>
+				<%} %>
 				<hr>
 				<h3>
 					Location:

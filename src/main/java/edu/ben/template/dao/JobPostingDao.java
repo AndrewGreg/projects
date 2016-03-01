@@ -100,7 +100,7 @@ public class JobPostingDao extends BaseDao<JobPosting> {
 			jdbcTemplate.update(sql, job.getName(), job.getDescription(), job.getCompany(), job.getPoster().getId(),
 					job.getId());
 		} catch (Exception e) {
-			/* Probably want to log this */
+			e.printStackTrace();
 		}
 		return;
 

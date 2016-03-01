@@ -240,7 +240,7 @@ public class HomeController extends BaseController {
 
 		try {
 			ArrayList<Event> events = new ArrayList<Event>();
-			events = getEventDao().findAll();
+			events = getEventDao().getAll();
 
 			model.addAttribute("events", events);
 
@@ -419,11 +419,11 @@ public class HomeController extends BaseController {
 		// User in session.
 		User u = getCurrentUser();
 
-		u.setMajor(getMajorDao().findMajorByUser(u));
-		u.setConcentration(getMajorDao().findConcentrationByUser(u));
-		u.setMinor(getMajorDao().findMinorByUser(u));
+		u.setMajor(getMajorDao().getMajorByUser(u));
+		u.setConcentration(getMajorDao().getConcentrationByUser(u));
+		u.setMinor(getMajorDao().getMinorByUser(u));
 
-		ArrayList<Major> m = getMajorDao().findAllMajors();
+		ArrayList<Major> m = getMajorDao().getAllMajors();
 
 		System.out.println(u.toString());
 
@@ -488,9 +488,9 @@ public class HomeController extends BaseController {
 
 			User u = getCurrentUser();
 
-			u.setMajor(getMajorDao().findMajorByUser(u));
-			u.setConcentration(getMajorDao().findConcentrationByUser(u));
-			u.setMinor(getMajorDao().findMinorByUser(u));
+			u.setMajor(getMajorDao().getMajorByUser(u));
+			u.setConcentration(getMajorDao().getConcentrationByUser(u));
+			u.setMinor(getMajorDao().getMinorByUser(u));
 
 			if (Validator.isNull(title))
 				title = null;
@@ -520,9 +520,9 @@ public class HomeController extends BaseController {
 			u.setBio(biography);
 			u.setExperience(experience);
 
-			Major m = getMajorDao().findByName(major);
-			Major m2 = getMajorDao().findByName(doubleMajor);
-			Major m3 = getMajorDao().findByName(thirdMajor);
+			Major m = getMajorDao().getByName(major);
+			Major m2 = getMajorDao().getByName(doubleMajor);
+			Major m3 = getMajorDao().getByName(thirdMajor);
 
 			u.clearMajors();
 			if (m != null) {
@@ -539,7 +539,7 @@ public class HomeController extends BaseController {
 
 			try {
 				getUserDao().updateUser(u);
-				getMajorDao().updateMajorByUser(u);
+				getMajorDao().updateMajorAndConcentrationByUser(u);
 			} catch (Exception e) {
 				/* Probably should log this */
 				System.out.println("Oops");
@@ -580,13 +580,13 @@ public class HomeController extends BaseController {
 
 		HashMap<String, String> e = new HashMap<String, String>();// TODO
 
-		ArrayList<Major> m = getMajorDao().findAllMajors();
+		ArrayList<Major> m = getMajorDao().getAllMajors();
 
 		User u = getCurrentUser();
 
-		u.setMajor(getMajorDao().findMajorByUser(u));
-		u.setConcentration(getMajorDao().findConcentrationByUser(u));
-		u.setMinor(getMajorDao().findMinorByUser(u));
+		u.setMajor(getMajorDao().getMajorByUser(u));
+		u.setConcentration(getMajorDao().getConcentrationByUser(u));
+		u.setMinor(getMajorDao().getMinorByUser(u));
 
 		if (!Validator.validatePassword(password) || !Validator.validatePasswordsMatch(password, confirmPassword))
 			e.put("password", "Invalid Password");
@@ -726,7 +726,7 @@ public class HomeController extends BaseController {
 		try {
 
 			ArrayList<JobPosting> job = new ArrayList<JobPosting>();
-			job = getJobPostingDao().findAll();
+			job = getJobPostingDao().getAll();
 
 			model.addAttribute("jobPostings", job);
 
@@ -825,7 +825,7 @@ public class HomeController extends BaseController {
 
 		try {
 			ArrayList<User> student = new ArrayList<User>();
-			student = getUserDao().findAllStudents();
+			student = getUserDao().getAllStudents();
 
 			model.addAttribute("student", student);
 
@@ -836,7 +836,7 @@ public class HomeController extends BaseController {
 		// Return all Alumni
 		try {
 			ArrayList<User> alumni = new ArrayList<User>();
-			alumni = getUserDao().findAllAlumni();
+			alumni = getUserDao().getAllAlumni();
 
 			model.addAttribute("alumni", alumni);
 
@@ -847,7 +847,7 @@ public class HomeController extends BaseController {
 		// Return all Alumni
 		try {
 			ArrayList<User> faculty = new ArrayList<User>();
-			faculty = getUserDao().findAllFaculty();
+			faculty = getUserDao().getAllFaculty();
 
 			model.addAttribute("faculty", faculty);
 
@@ -920,12 +920,12 @@ public class HomeController extends BaseController {
 		try {
 
 			ArrayList<User> alumni = new ArrayList<User>();
-			alumni = getUserDao().findAll();
+			alumni = getUserDao().getAll();
 
 			for (User users : alumni) {
-				users.setMajor(getMajorDao().findMajorByUser(users));
-				users.setConcentration(getMajorDao().findConcentrationByUser(users));
-				users.setMinor(getMajorDao().findMinorByUser(users));
+				users.setMajor(getMajorDao().getMajorByUser(users));
+				users.setConcentration(getMajorDao().getConcentrationByUser(users));
+				users.setMinor(getMajorDao().getMinorByUser(users));
 
 			}
 
@@ -985,12 +985,12 @@ public class HomeController extends BaseController {
 		try {
 
 			ArrayList<User> alumni = new ArrayList<User>();
-			alumni = getUserDao().findAll();
+			alumni = getUserDao().getAll();
 
 			for (User users : alumni) {
-				users.setMajor(getMajorDao().findMajorByUser(users));
-				users.setConcentration(getMajorDao().findConcentrationByUser(users));
-				users.setMinor(getMajorDao().findMinorByUser(users));
+				users.setMajor(getMajorDao().getMajorByUser(users));
+				users.setConcentration(getMajorDao().getConcentrationByUser(users));
+				users.setMinor(getMajorDao().getMinorByUser(users));
 			}
 
 			sortUsers(alumni);

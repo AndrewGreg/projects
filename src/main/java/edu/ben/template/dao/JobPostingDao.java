@@ -12,6 +12,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 
+import edu.ben.template.model.Event;
+import edu.ben.template.model.Interest;
 import edu.ben.template.model.JobPosting;
 import edu.ben.template.model.User;
 
@@ -49,7 +51,7 @@ public class JobPostingDao extends BaseDao<JobPosting> {
 		return object;
 	}
 
-	public ArrayList<JobPosting> findAll() {
+	public ArrayList<JobPosting> getAll() {
 
 		List<JobPosting> events = new ArrayList<JobPosting>();
 		String sql = "SELECT * from job";
@@ -63,7 +65,7 @@ public class JobPostingDao extends BaseDao<JobPosting> {
 		}
 	}
 
-	public ArrayList<JobPosting> findByPoster(User user) {
+	public ArrayList<JobPosting> getByPoster(User user) {
 
 		List<JobPosting> jobs = new ArrayList<JobPosting>();
 		String sql = "SELECT * from job WHERE user_id = ?";
@@ -77,15 +79,32 @@ public class JobPostingDao extends BaseDao<JobPosting> {
 			return null;
 		}
 	}
+	
+	// Returns events by areas of interest they are associated with
+	public ArrayList<JobPosting> getByInterest(Interest interest) {
+
+		//Returns duplicate rows?
+		String sql = "SELECT j.id, j.name, j.company, j.description FROM  job_interest ji JOIN job j on ji.job_id = j.id JOIN interest i on ji.interest_id = i.id WHERE i.id = ?";
+		List<JobPosting> events = new ArrayList<JobPosting>();
+		
+		try {
+			events = jdbcTemplate.query(sql, new Object[] { interest.getId() }, getRowMapper());// TEST
+																							// THIS
+			return (ArrayList<JobPosting>) events;
+		} catch (EmptyResultDataAccessException e) {
+			/* Probably want to log this */
+			return null;
+		}
+	}
 
 	public void addJobPosting(JobPosting job) {
 
 		String sql = "INSERT INTO job (name, description, company, user_id) VALUES (?, ?, ?, ?)";
 
-		System.out.println(job.getPoster());
-		System.out.println(job.getName());
-		System.out.println(job.getDescription());
-		System.out.println(job.getCompany());
+//		System.out.println(job.getPoster());
+//		System.out.println(job.getName());
+//		System.out.println(job.getDescription());
+//		System.out.println(job.getCompany());
 
 		jdbcTemplate.update(sql,
 				new Object[] { job.getName(), job.getDescription(), job.getCompany(), job.getPoster().getId() });
@@ -105,6 +124,8 @@ public class JobPostingDao extends BaseDao<JobPosting> {
 		return;
 
 	}
+	
+	
 
 	@Override
 	public RowMapper<JobPosting> getRowMapper() {
@@ -116,10 +137,6 @@ public class JobPostingDao extends BaseDao<JobPosting> {
 				jobPosting.setName(rs.getString("name"));
 				jobPosting.setDescription(rs.getString("description"));
 				jobPosting.setCompany(rs.getString("company"));
-				long userId = rs.getLong("user_id");
-				User poster = userDao.getObjectById(userId);
-				jobPosting.setPoster(poster);
-				
 				return jobPosting;
 			}
 		};

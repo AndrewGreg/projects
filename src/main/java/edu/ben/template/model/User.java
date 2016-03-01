@@ -440,6 +440,22 @@ public class User implements UserDetails, CredentialsContainer {
 	public void setMinor(ArrayList<Major> minor) {
 		this.minor = minor;
 	}
+	
+	public void clearMinor(){
+		this.minor.clear();
+	}
+	
+	public void addMinor(Major minor) {
+
+		for (int i = 0; i < this.minor.size(); i++) {
+
+			Major m = this.minor.get(i);
+			if (m.equals(minor)) {
+				return;
+			}
+		}
+		this.minor.add(minor);
+	}
 
 	public ArrayList<Major> getConcentration() {
 		return concentration;
@@ -449,6 +465,23 @@ public class User implements UserDetails, CredentialsContainer {
 		this.concentration = concentration;
 	}
 
+	public void clearConcentration(){
+		this.concentration.clear();
+	}
+	
+	public void addConcentration(Major concentration) {
+
+		for (int i = 0; i < this.concentration.size(); i++) {
+
+			Major c = this.concentration.get(i);
+			if (c.equals(concentration)) {
+				return;
+			}
+		}
+		this.concentration.add(concentration);
+	}
+
+	
 	public ArrayList<Interest> getInterest() {
 		return interest;
 	}
@@ -456,6 +489,23 @@ public class User implements UserDetails, CredentialsContainer {
 	public void setInterest(ArrayList<Interest> interest) {
 		this.interest = interest;
 	}
+	
+	public void clearInterest(){
+		this.interest.clear();
+	}
+	
+	public void addInterest(Interest interest) {
+
+		for (int i = 0; i < this.interest.size(); i++) {
+
+			Interest m = this.interest.get(i);
+			if (m.equals(interest)) {
+				return;
+			}
+		}
+		this.interest.add(interest);
+	}
+
 
 	@Override
 	public String toString() {

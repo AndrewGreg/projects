@@ -5,6 +5,11 @@ public class Interest {
 	private Long id;
 	private String Name;
 
+	@Override
+	public String toString() {
+		return "Interest [id=" + id + ", Name=" + Name + "]";
+	}
+
 	public Interest() {
 		super();
 	}
@@ -29,4 +34,6 @@ public class Interest {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	
 }

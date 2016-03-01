@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 
 import edu.ben.template.model.Event;
+import edu.ben.template.model.Interest;
 import edu.ben.template.model.User;
 
 public class EventDao extends BaseDao<Event> {
@@ -49,7 +50,7 @@ public class EventDao extends BaseDao<Event> {
 		return object;
 	}
 
-	public ArrayList<Event> findAll() {
+	public ArrayList<Event> getAll() {
 
 		List<Event> events = new ArrayList<Event>();
 		String sql = "SELECT * from event";
@@ -63,7 +64,7 @@ public class EventDao extends BaseDao<Event> {
 		}
 	}
 
-	public ArrayList<Event> findByDate(Date date) {
+	public ArrayList<Event> getByDate(Date date) {
 
 		List<Event> events = new ArrayList<Event>();
 		String sql = "SELECT * from event WHERE date = ?";
@@ -79,7 +80,7 @@ public class EventDao extends BaseDao<Event> {
 
 	}
 
-	public ArrayList<Event> findByPoster(User user) {
+	public ArrayList<Event> getByPoster(User user) {
 
 		List<Event> events = new ArrayList<Event>();
 		String sql = "SELECT * from event WHERE user_id = ?";
@@ -96,11 +97,20 @@ public class EventDao extends BaseDao<Event> {
 	}
 
 	// Returns events by areas of interest they are associated with
-	public ArrayList<Event> findByInterest(ArrayList<String> interests) {
+	public ArrayList<Event> getByInterest(Interest interest) {
 
-		// TODO CALL USING OTHER DAO?
+		//Returns duplicate rows?
+		String sql = "SELECT e.id, e.name, e.date, e.description FROM  event_interest ei JOIN event e on ei.event_id = e.id JOIN interest i on ei.event_id = i.id WHERE i.id = ?";
 		List<Event> events = new ArrayList<Event>();
-		return (ArrayList<Event>) events;
+		
+		try {
+			events = jdbcTemplate.query(sql, new Object[] { interest.getId() }, getRowMapper());// TEST
+																							// THIS
+			return (ArrayList<Event>) events;
+		} catch (EmptyResultDataAccessException e) {
+			/* Probably want to log this */
+			return null;
+		}
 	}
 
 	public void addEvent(Event event) {
@@ -114,7 +124,7 @@ public class EventDao extends BaseDao<Event> {
 
 	public void updateEvent(Event event) {
 
-		String sql = "UPDATE event SET name = ?, description = ?, date = ?, user_id = ? WHERE job.id = ?";
+		String sql = "UPDATE event SET name = ?, description = ?, date = ?, user_id = ? WHERE id = ?";
 		try {
 			jdbcTemplate.update(sql, new Object[] { event.getName(), event.getDescription(), event.getDate(),
 					event.getPoster().getId(), event.getId() });
@@ -134,10 +144,6 @@ public class EventDao extends BaseDao<Event> {
 				event.setName(rs.getString("name"));
 				event.setDate(rs.getDate("date"));
 				event.setDescription(rs.getString("description"));
-				long userId = rs.getLong("user_id");
-				User poster = userDao.getObjectById(userId);
-				event.setPoster(poster);
-				
 				return event;
 			}
 		};

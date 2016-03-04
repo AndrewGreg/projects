@@ -1,6 +1,7 @@
 package edu.ben.template.controller;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -548,7 +549,7 @@ public class HomeController extends BaseController {
 			@RequestParam("bio") String biography, @RequestParam("experience") String experience,
 			@RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword,
 			HttpServletRequest request, HttpServletResponse response, @RequestParam CommonsMultipartFile[] fileUpload,
-			@RequestParam("file") MultipartFile[] files) throws IOException {
+			@RequestParam("file") MultipartFile[] files, @RequestParam("photo") File photo, @RequestParam("resume") File resume) throws IOException {
 
 		if (validateEdit(password, confirmPassword, firstName, lastName, personalEmail, graduationYear)) {
 
@@ -615,18 +616,23 @@ public class HomeController extends BaseController {
 			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 			MultipartFile multipartFile = multipartRequest.getFile("file");
 
-			// UploadFile file = new UploadFile();
+			 
 			// file.setFilename(multipartFile.getOriginalFilename());
 			// file.setNotes(ServletRequestUtils.getStringParameter(request,
 			// "notes"));
 			// file.setType(multipartFile.getContentType());
-			if (files[0] != null) {
-				((UploadFile) files[0]).setData(multipartFile.getBytes());
-				getFileUploadDao().addFile((UploadFile) files[0]);
+			if(resume != null){	
+			//if (files[0] != null) {
+				UploadFile resumeFile = new UploadFile();
+				(resumeFile).setData(multipartFile.getBytes());
+				getFileUploadDao().addFile(resumeFile);
 			}
-			if (files[1] != null) {
-				((UploadFile) files[1]).setData(multipartFile.getBytes());
-				getImageUploadDao().addImage((UploadFile) files[1]);
+			
+			if(photo != null){
+			//if (files[1] != null) {
+				UploadFile photoFile = new UploadFile();
+				(photoFile).setData(multipartFile.getBytes());
+				getImageUploadDao().addImage(photoFile);
 			}
 			// if (fileUpload != null && fileUpload.length > 0) {
 			// for (CommonsMultipartFile aFile : fileUpload){

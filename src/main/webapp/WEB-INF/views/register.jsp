@@ -201,7 +201,7 @@
 				</form>
 				<br>
 				<form action="/massRegister" method="POST" name="massRegister" enctype="multipart/form-data">
-					<label>Upload Multiple Users</label><input type="file" name="photo" class="form-control" id="" value="">
+					<label>Upload Multiple Users</label><input type="file" name="file" id="" value="">
 					<button class="btn btn-primary" name="Upload" value="Upload"
 						type="Submit">Upload</button>
 				</form>

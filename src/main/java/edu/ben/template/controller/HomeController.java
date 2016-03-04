@@ -70,6 +70,19 @@ public class HomeController extends BaseController {
 		return "index";
 
 	}
+	
+	/**
+	 * IndexTemplate method.
+	 * 
+	 * @param model
+	 *            being passed.
+	 * @return to the homepage template of Alumni Tracker.
+	 */
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String indexTemplate(Model model) {
+		return "indexTemplate";
+
+	}
 
 	/**
 	 * Access to the Job Creation page.

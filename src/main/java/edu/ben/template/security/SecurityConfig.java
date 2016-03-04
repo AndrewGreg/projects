@@ -58,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf()
 				.disable()
-				.authorizeRequests().antMatchers("/index").permitAll().antMatchers("/register").permitAll()
+				.authorizeRequests().antMatchers("/index").permitAll().antMatchers("/register").permitAll().antMatchers("/").permitAll()
 				/* TODO Add any additional open links here */
 				.anyRequest().authenticated()
 				.and()

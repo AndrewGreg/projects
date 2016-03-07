@@ -95,6 +95,68 @@ public class HomeController extends BaseController {
 	public String jobCreation(Model model) {
 		return "createJobPosting";
 	}
+	
+	@RequestMapping(value = "/createJob", method = RequestMethod.GET)
+	public String createJob(Model model) {
+		return "createJobTemplate";
+	}
+	
+	/**
+	 * Form processing of the job posting creation page.
+	 * 
+	 * @param model
+	 *            of passing
+	 * @param name
+	 *            of the Job.
+	 * @param company
+	 *            that belongs to the Job.
+	 * @param description
+	 *            of the Job.
+	 * @return the Job Posting page to view all the jobs.
+	 */
+	@RequestMapping(value = "/createJob", method = RequestMethod.POST)
+	public String createJobPost(Model model, @RequestParam("name") String name,
+			@RequestParam("company") String company, @RequestParam("description") String description,
+			@RequestParam("location") String location, @RequestParam("salary") String salary) {
+
+		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
+				&& description.matches(".{2,}") && location != null && location.matches(".{2,}") 
+				&& salary != null && salary.matches(".{2,}")) {
+
+			User u = getCurrentUser();
+
+			JobPosting job = new JobPosting(name, description, company, location, salary, u);
+
+			try {
+
+				getJobPostingDao().addJobPosting(job);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			System.out.println("Job was created");
+			return "redirect:/jobPostings";
+
+		} else {
+
+			HashMap<String, String> errors = new HashMap<String, String>();
+
+			if (name == null || !name.matches(".{2,}")) {
+				errors.put("name", "Error in the input for the job name.");
+			}
+
+			if (company == null || !company.matches(".{2,}")) {
+				errors.put("company", "Error in the input for the job's company.");
+			}
+
+			if (description == null || !description.matches(".{2,}")) {
+				errors.put("description", "Error in the input for the job description.");
+			}
+
+			model.addAttribute("errors", errors);
+
+			return "createJobTemplate";
+		}
+	}
 
 	/**
 	 * Form processing of the job posting creation page.
@@ -111,14 +173,16 @@ public class HomeController extends BaseController {
 	 */
 	@RequestMapping(value = "/createJobPosting", method = RequestMethod.POST)
 	public String createJobPostingPost(Model model, @RequestParam("name") String name,
-			@RequestParam("company") String company, @RequestParam("description") String description) {
+			@RequestParam("company") String company, @RequestParam("description") String description,
+			@RequestParam("location") String location, @RequestParam("salary") String salary) {
 
 		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
-				&& description.matches(".{2,}")) {
+				&& description.matches(".{2,}") && location != null && location.matches(".{2,}") 
+						&& salary != null && salary.matches(".{2,}")) {
 
 			User u = getCurrentUser();
 
-			JobPosting job = new JobPosting(name, description, company, u);
+			JobPosting job = new JobPosting(name, description, company, location, salary, u);
 
 			try {
 

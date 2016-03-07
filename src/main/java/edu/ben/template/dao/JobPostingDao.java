@@ -17,20 +17,42 @@ import edu.ben.template.model.Interest;
 import edu.ben.template.model.JobPosting;
 import edu.ben.template.model.User;
 
+/**
+ * This Dao controls the object class of Jobs
+ * 
+ * @author donald
+ *
+ */
 public class JobPostingDao extends BaseDao<JobPosting> {
-	
+
 	@Autowired
 	private UserDao userDao;
 
+	/**
+	 * Super constructor
+	 */
 	public JobPostingDao() {
 		super();
 	}
-	
-	
+
+	/**
+	 * Grab the job object by Id.
+	 * 
+	 * @param jobId
+	 *            is type long
+	 * @return the object by id.
+	 */
 	public JobPosting getObjectById(long jobId) {
 		return this.getObjectById(jobId, false);
 	}
 
+	/**
+	 * Grabs the job object by it's Id depending on the boolean type.
+	 * 
+	 * @param jobId
+	 * @param complete
+	 * @return the Id of the object.
+	 */
 	public JobPosting getObjectById(long jobId, boolean complete) {
 		if (jobId == 0) {
 			/* Probably want to log this */
@@ -51,6 +73,11 @@ public class JobPostingDao extends BaseDao<JobPosting> {
 		return object;
 	}
 
+	/**
+	 * Retrieves all Jobs from database.
+	 * 
+	 * @return all jobs.
+	 */
 	public ArrayList<JobPosting> getAll() {
 
 		List<JobPosting> events = new ArrayList<JobPosting>();
@@ -65,6 +92,13 @@ public class JobPostingDao extends BaseDao<JobPosting> {
 		}
 	}
 
+	/**
+	 * Retrieve the user who created the job.
+	 * 
+	 * @param user
+	 *            of job.
+	 * @return the Poster of the job.
+	 */
 	public ArrayList<JobPosting> getByPoster(User user) {
 
 		List<JobPosting> jobs = new ArrayList<JobPosting>();
@@ -79,17 +113,22 @@ public class JobPostingDao extends BaseDao<JobPosting> {
 			return null;
 		}
 	}
-	
-	// Returns events by areas of interest they are associated with
+
+	/**
+	 * Retrieve the area of interest that are associated with that job.
+	 * 
+	 * @param interest
+	 * @return events by areas of interest they are associated with.
+	 */
 	public ArrayList<JobPosting> getByInterest(Interest interest) {
 
-		//Returns duplicate rows?
+		// Returns duplicate rows?
 		String sql = "SELECT j.id, j.name, j.company, j.description FROM  job_interest ji JOIN job j on ji.job_id = j.id JOIN interest i on ji.interest_id = i.id WHERE i.id = ?";
 		List<JobPosting> events = new ArrayList<JobPosting>();
-		
+
 		try {
 			events = jdbcTemplate.query(sql, new Object[] { interest.getId() }, getRowMapper());// TEST
-																							// THIS
+			// THIS
 			return (ArrayList<JobPosting>) events;
 		} catch (EmptyResultDataAccessException e) {
 			/* Probably want to log this */
@@ -97,14 +136,15 @@ public class JobPostingDao extends BaseDao<JobPosting> {
 		}
 	}
 
+	/**
+	 * Inserts the Job into the database.
+	 * 
+	 * @param job
+	 *            entails of name, description, company, the poster, and more.
+	 */
 	public void addJobPosting(JobPosting job) {
 
 		String sql = "INSERT INTO job (name, description, company, user_id) VALUES (?, ?, ?, ?)";
-
-//		System.out.println(job.getPoster());
-//		System.out.println(job.getName());
-//		System.out.println(job.getDescription());
-//		System.out.println(job.getCompany());
 
 		jdbcTemplate.update(sql,
 				new Object[] { job.getName(), job.getDescription(), job.getCompany(), job.getPoster().getId() });
@@ -112,6 +152,11 @@ public class JobPostingDao extends BaseDao<JobPosting> {
 		return;
 	}
 
+	/**
+	 * Enables the user to edit the following attributes.
+	 * 
+	 * @param job
+	 */
 	public void updateJobPosting(JobPosting job) {
 
 		String sql = "UPDATE job SET name = ?, description = ?, company = ?, user_id = ? WHERE job.id = ?";
@@ -124,8 +169,6 @@ public class JobPostingDao extends BaseDao<JobPosting> {
 		return;
 
 	}
-	
-	
 
 	@Override
 	public RowMapper<JobPosting> getRowMapper() {
@@ -140,7 +183,7 @@ public class JobPostingDao extends BaseDao<JobPosting> {
 				long userId = rs.getLong("user_id");
 				User poster = userDao.getObjectById(userId);
 				jobPosting.setPoster(poster);
-				
+
 				return jobPosting;
 			}
 		};

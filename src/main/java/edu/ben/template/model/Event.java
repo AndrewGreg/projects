@@ -20,7 +20,7 @@ public class Event {
 	private int endTime;
 	private int longitude;
 	private int latitude;
-	private Long departmentId;
+	private int role;
 
 	/**
 	 * An empty constructor.
@@ -74,7 +74,7 @@ public class Event {
 	 * @param departmentId
 	 */
 	public Event(Long id, String name, Date date, String description, User poster, int startTime, int endTime,
-			int longitude, int latitude, Long departmentId) {
+			int longitude, int latitude, int role) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -85,7 +85,7 @@ public class Event {
 		this.endTime = endTime;
 		this.longitude = longitude;
 		this.latitude = latitude;
-		this.departmentId = departmentId;
+		this.role = role;
 	}
 
 	/**
@@ -245,20 +245,21 @@ public class Event {
 	}
 
 	/**
+	 * (Google Maps)
 	 * 
-	 * @return the Id of the department that created the Event.
+	 * @return the latitude of the location.
 	 */
-	public Long getDepartmentId() {
-		return departmentId;
+	public int getRole() {
+		return role;
 	}
 
 	/**
-	 * Sets the Id of the department responsible for the event.
+	 * Sets the latitude of the location.
 	 * 
-	 * @param departmentId
+	 * @param latitude
 	 */
-	public void setDepartmentId(Long departmentId) {
-		this.departmentId = departmentId;
+	public void setRole(int role) {
+		this.role = role;
 	}
 
 	/**
@@ -268,7 +269,7 @@ public class Event {
 	public String toString() {
 		return "Event [id=" + id + ", name=" + name + ", date=" + date + ", description=" + description + ", poster="
 				+ poster + ", startTime=" + startTime + ", endTime=" + endTime + ", longitude=" + longitude
-				+ ", latitude=" + latitude + ", departmentId=" + departmentId + "]";
+				+ ", latitude=" + latitude + ", role=" + role + "]";
 	}
 
 }

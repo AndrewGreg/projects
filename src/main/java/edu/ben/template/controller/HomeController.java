@@ -27,7 +27,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import edu.ben.template.model.Event;
-import edu.ben.template.model.JobPosting;
+import edu.ben.template.model.Job;
 import edu.ben.template.model.Major;
 import edu.ben.template.model.UploadFile;
 import edu.ben.template.model.User;
@@ -117,7 +117,7 @@ public class HomeController extends BaseController {
 
 			User u = getCurrentUser();
 
-			JobPosting job = new JobPosting(name, description, company, u);
+			Job job = new Job(name, description, company, u);
 
 			try {
 
@@ -153,7 +153,7 @@ public class HomeController extends BaseController {
 	
 	@RequestMapping(value = "/editJob/{id}", method = RequestMethod.GET)
 	public String editJob(Model model,@PathVariable Long id) {
-		JobPosting editJob = getJobPostingDao().getObjectById(id);
+		Job editJob = getJobPostingDao().getObjectById(id);
 		//Long jobId = editJob.getId();
 		model.addAttribute("editJob", editJob);
 		//model.addAttribute("editJobId", jobId);
@@ -163,7 +163,7 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/editJob", method = RequestMethod.POST)
 	public String editJobPost(Model model, @RequestParam("name") String name,
 			@RequestParam("company") String company, @RequestParam("description") String description,
-			@ModelAttribute("editJob") JobPosting editJob) {
+			@ModelAttribute("editJob") Job editJob) {
 
 		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
 				&& description.matches(".{2,}")) {
@@ -780,7 +780,7 @@ public class HomeController extends BaseController {
 
 		try {
 
-			JobPosting currentJob = getJobPostingDao().getObjectById(id);
+			Job currentJob = getJobPostingDao().getObjectById(id);
 			model.addAttribute("currentJob", currentJob);
 
 		} catch (Exception e) {
@@ -804,7 +804,7 @@ public class HomeController extends BaseController {
 
 		try {
 
-			ArrayList<JobPosting> job = new ArrayList<JobPosting>();
+			ArrayList<Job> job = new ArrayList<Job>();
 			job = getJobPostingDao().getAll();
 
 			model.addAttribute("jobPostings", job);

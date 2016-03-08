@@ -7,7 +7,7 @@ package edu.ben.template.model;
  * @version 1.0
  *
  */
-public class JobPosting {
+public class Job {
 
 	private long id;
 	private String name;
@@ -18,11 +18,16 @@ public class JobPosting {
 	private double salary;
 	private String position;
 	private String endDate;
+	private String startDate;
+	private String reference;
+	private boolean toPublic;
+	private int hours;
+	private String link;
 
 	/**
 	 * Empty constructor
 	 */
-	public JobPosting() {
+	public Job() {
 		super();
 	}
 
@@ -33,7 +38,7 @@ public class JobPosting {
 	 * @param description
 	 * @param company
 	 */
-	public JobPosting(String name, String description, String company) {
+	public Job(String name, String description, String company) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -48,7 +53,7 @@ public class JobPosting {
 	 * @param company
 	 * @param poster
 	 */
-	public JobPosting(String name, String description, String company, User poster) {
+	public Job(String name, String description, String company, User poster) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -68,9 +73,15 @@ public class JobPosting {
 	 * @param salary
 	 * @param position
 	 * @param endDate
+	 * @param startDate
+	 * @param reference
+	 * @param toPublic
+	 * @param hours
+	 * @param link
 	 */
-	public JobPosting(long id, String name, String description, String company, User poster, String location,
-			double salary, String position, String endDate) {
+	public Job(long id, String name, String description, String company, User poster, String location, double salary,
+			String position, String endDate, String startDate, String reference, boolean toPublic, int hours,
+			String link) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -81,6 +92,11 @@ public class JobPosting {
 		this.salary = salary;
 		this.position = position;
 		this.endDate = endDate;
+		this.startDate = startDate;
+		this.reference = reference;
+		this.toPublic = toPublic;
+		this.hours = hours;
+		this.link = link;
 	}
 
 	/**
@@ -237,13 +253,98 @@ public class JobPosting {
 	}
 
 	/**
+	 * 
+	 * @return the Start date of the job.
+	 */
+	public String getStartDate() {
+		return startDate;
+	}
+
+	/**
+	 * Set the start date of the job.
+	 * 
+	 * @param startDate
+	 */
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	/**
+	 * 
+	 * @return how you heard about this job.
+	 */
+	public String getReference() {
+		return reference;
+	}
+
+	/**
+	 * Set the reference of the job.
+	 * 
+	 * @param reference
+	 */
+	public void setReference(String reference) {
+		this.reference = reference;
+	}
+
+	/**
+	 * 
+	 * @return true, if the job is available to the public.
+	 */
+	public boolean isToPublic() {
+		return toPublic;
+	}
+
+	/**
+	 * Set the job to the public or not.
+	 * 
+	 * @param toPublic
+	 */
+	public void setToPublic(boolean toPublic) {
+		this.toPublic = toPublic;
+	}
+
+	/**
+	 * 
+	 * @return the hours of the job.
+	 */
+	public int getHours() {
+		return hours;
+	}
+
+	/**
+	 * Set the hours of the job.
+	 * 
+	 * @param hours
+	 */
+	public void setHours(int hours) {
+		this.hours = hours;
+	}
+
+	/**
+	 * 
+	 * @return the link that redirects to the application.
+	 */
+	public String getLink() {
+		return link;
+	}
+
+	/**
+	 * Set the link to gain access to job application.
+	 * 
+	 * @param link
+	 */
+	public void setLink(String link) {
+		this.link = link;
+	}
+
+	/**
 	 * ToString of the job class.
 	 */
 	@Override
 	public String toString() {
-		return "JobPosting [id=" + id + ", name=" + name + ", description=" + description + ", company=" + company
+		return "Job [id=" + id + ", name=" + name + ", description=" + description + ", company=" + company
 				+ ", poster=" + poster + ", location=" + location + ", salary=" + salary + ", position=" + position
-				+ ", endDate=" + endDate + "]";
+				+ ", endDate=" + endDate + ", startDate=" + startDate + ", reference=" + reference + ", toPublic="
+				+ toPublic + ", hours=" + hours + ", link=" + link + "]";
 	}
-
 }

@@ -102,7 +102,7 @@ a:focus {
 }
 a.btn-cta,
 .btn-cta {
-  background: #333;
+  background: #555;
   color: #fff;
   padding: 10px 20px;
   font-size: 18px;
@@ -115,13 +115,13 @@ a.btn-cta,
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  border: 1px solid #333;
+
   font-family: 'open sans', arial, sans-serif;
 }
 a.btn-cta:hover,
 .btn-cta:hover {
   color: #fff;
-  background: #444;
+  background: #777;
   border: 1px solid #444;
 }
 a.btn-cta .fa,
@@ -2028,6 +2028,15 @@ ul.custom-list-style li {
   }
 }
 
-#schoolImg {
-	height: 500px;
+.schoolImg {
+	height: 100%;
+	width: auto;
+}
+
+#socialIconList {
+	top: 5px;
+}
+
+.top-bar-btn {
+	margin-top: 10px;
 }

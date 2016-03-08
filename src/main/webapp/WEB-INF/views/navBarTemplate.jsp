@@ -1,19 +1,19 @@
-<%@page import= "edu.ben.template.model.User"%>
+<%@page import="edu.ben.template.model.User"%>
 
-<%User currentUser = (User) request.getAttribute("currentUser"); %>
+<%
+	User currentUser = (User) request.getAttribute("currentUser");
+%>
 
 <!-- ******HEADER****** -->
 <header class="header">
 	<div class="top-bar">
 		<div class="container">
-			<ul class="social-icons col-md-6 col-sm-6 col-xs-12 ">
+			<ul id="socialIconList"
+				class="social-icons col-md-6 col-sm-6 col-xs-12 ">
 				<li class="row-end"><a href="https://www.ben.edu"
 					target="_blank"><i class="fa fa-university"></i></a></li>
 				<li><a href="https://www.instagram.com/benu1887/"
 					target="_blank"><i class="fa fa-instagram"></i></a></li>
-				<li><a
-					href="https://plus.google.com/113106216606814236277/posts"
-					target="_blank"><i class="fa fa-google-plus"></i></a></li>
 				<li><a
 					href="https://www.linkedin.com/company/benedictine-university"
 					target="_blank"><i class="fa fa-linkedin"></i></a></li>
@@ -25,25 +25,30 @@
 						class="fa fa-twitter"></i></a></li>
 			</ul>
 			<!--//social-icons-->
-			
-			<% if(currentUser == null) { %>
-			<form class="pull-right search-form" role="search">
+			<ul class="pull-right">
+				<%
+					if (currentUser == null) {
+				%>
+
 				<!-- Trigger the modal with a button -->
-				<button type="button" class="btn btn-theme" data-toggle="modal"
-					data-target="#loginModal">Login</button>
-				<button type="button" class="btn btn-theme" data-toggle="modal"
-					data-target="#registerModal">Register</button>
+				<button type="button" class="btn btn-theme top-bar-btn"
+					data-toggle="modal" data-target="#loginModal">Login</button>
+				<a href="/register" class="btn btn-theme top-bar-btn">Register</a>
 
 				<jsp:include page="loginModal.jsp" />
 				<jsp:include page="registrationModal.jsp" />
-				
-				<% } else { %>
-			
-				<h5 class="pull_right" style="color: #fff">Welcome back <%=currentUser.getFirstName()%></h5>
-			
-			<% } %>
-				
-			</form>
+
+				<%
+					} else {
+				%>
+				<li><a href="#"><h5 class="pull_right" style="color: #fff">
+							Welcome back
+							<%=currentUser.getFirstName()%></h5> </a></li>
+				<%
+					}
+				%>
+
+			</ul>
 		</div>
 
 	</div>
@@ -74,7 +79,7 @@
 			</button>
 			<!--//nav-toggle-->
 		</div>
-		
+
 		<!-- Get a variable from home controller indicating which one is the active page -->
 		<!--//navbar-header-->
 		<div class="navbar-collapse collapse" id="navbar-collapse">
@@ -98,7 +103,6 @@
 						<li><a href="#">View Job Postings</a></li>
 						<li><a href="#">Create a Job Posting</a></li>
 					</ul></li>
-				<li class="nav-item"><a href="contact.html">Contact</a></li>
 			</ul>
 			<!--//nav-->
 		</div>

@@ -66,7 +66,7 @@ public class HomeController extends BaseController {
 	 */
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(Model model) {
-		return "index";
+		return "indexTemplate";
 
 	}
 	

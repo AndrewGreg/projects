@@ -24,28 +24,28 @@
 		<div class="content container">
 			<div id="promo-slider" class="slider flexslider">
 				<ul class="slides">
-					<li><img id="schoolImg" src="content/img/schoolCrop1.jpg"
+					<li><img class="schoolImg" src="content/img/schoolCrop1.jpg"
 						alt="" />
 						<p class="flex-caption">
 							<span class="main">Stay in touch.</span> <br /> <span
 								class="secondary clearfix">Connect with fellow alumni,
 								students, and faculty.</span>
 						</p></li>
-					<li><img id="schoolImg" src="content/img/schoolCrop2.jpg"
+					<li><img class="schoolImg" src="content/img/schoolCrop2.jpg"
 						alt="" />
 						<p class="flex-caption">
 							<span class="main">Socialize</span> <br /> <span
 								class="secondary clearfix">Keep track of events related
 								to Benedictine and its alumni.</span>
 						</p></li>
-					<li><img id="schoolImg" src="content/img/schoolCrop3.jpg"
+					<li><img class="schoolImg" src="content/img/schoolCrop3.jpg"
 						alt="" />
 						<p class="flex-caption">
 							<span class="main">What are they up to?</span> <br /> <span
 								class="secondary clearfix">Look at alumni or faculty
 								profiles to see where they're working at or what they're doing.</span>
 						</p></li>
-					<li><img id="schoolImg" src="content/img/schoolCrop4.jpg"
+					<li><img class="schoolImg" src="content/img/schoolCrop4.jpg"
 						alt="" />
 						<p class="flex-caption">
 							<span class="main">Find a path</span> <br /> <span
@@ -70,7 +70,7 @@
 					are a part of Benedictine University. This web site will let you
 					keep in touch with current students, old classmates, and faculty.
 					You can organize or keep track of events related to the University.
-					You'll also be able to post Job Openings which other alumni might
+					You'll also be able to post job openings which other alumni might
 					be able to apply for, or check out opportunities posted by other users.</p>
 			</div>
 			

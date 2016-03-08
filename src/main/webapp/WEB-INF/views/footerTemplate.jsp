@@ -19,20 +19,13 @@
 					</div>
 					<!--//footer-col-inner-->
 				</div>
-				<!--//foooter-col-->
+				<!--//footer-col-->
 				<div class="footer-col col-md-6 col-sm-8 newsletter">
 					<div class="footer-col-inner">
-						<h3>Join our mailing list</h3>
-						<p>Subscribe to get our weekly newsletter delivered directly
-							to your inbox</p>
-						<form class="subscribe-form">
-							<div class="form-group">
-								<input type="email" class="form-control"
-									placeholder="Enter your email" />
-							</div>
-							<input class="btn btn-theme btn-subscribe" type="submit"
-								value="Subscribe">
-						</form>
+						<iframe
+							src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13982.388980346223!2d-88.1081289788033!3d41.77855593726398!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880e572eebeb741b%3A0x595f78ae69ec2107!2sBenedictine+University!5e0!3m2!1sen!2sus!4v1457379042884"
+							width="100%" height="250" frameborder="0" style="border: 0"
+							allowfullscreen></iframe>
 
 					</div>
 					<!--//footer-col-inner-->
@@ -70,8 +63,7 @@
 		<div class="container">
 			<div class="row">
 				<small class="copyright col-md-6 col-sm-12 col-xs-12">Copyright
-					@ 2016 Benedictine University | Website template by 3rd
-						Wave Media
+					@ 2016 Benedictine University | Website template by 3rd Wave Media
 				</small>
 				<ul class="social pull-right col-md-6 col-sm-12 col-xs-12">
 					<li><a href="https://twitter.com/BenU1887" target="_blank"><i

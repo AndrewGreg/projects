@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Random;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +29,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import edu.ben.template.model.Event;
-import edu.ben.template.model.JobPosting;
+import edu.ben.template.model.Job;
 import edu.ben.template.model.Major;
 import edu.ben.template.model.UploadFile;
 import edu.ben.template.model.User;
@@ -70,7 +71,7 @@ public class HomeController extends BaseController {
 		return "index";
 
 	}
-	
+
 	/**
 	 * IndexTemplate method.
 	 * 
@@ -117,19 +118,29 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/createJob", method = RequestMethod.POST)
 	public String createJobPost(Model model, @RequestParam("name") String name,
 			@RequestParam("company") String company, @RequestParam("description") String description,
-			@RequestParam("location") String location, @RequestParam("salary") String salary) {
+			@RequestParam("location") String location, @RequestParam("salary") boolean salary, 
+			@RequestParam("startSalary") int startSalary, @RequestParam("endSalary") int endSalary,
+			@RequestParam("startWage") float startWage, @RequestParam("endWage") float endWage,
+			@RequestParam("hours") int hours) {
+		
+		Random r = new Random();
+		int min = 1;
+		int max = 7;
+		int ref = r.nextInt(max - min) + min;
 
 		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
 				&& description.matches(".{2,}") && location != null && location.matches(".{2,}") 
-				&& salary != null && salary.matches(".{2,}")) {
+				) {
 
 			User u = getCurrentUser();
-
-			JobPosting job = new JobPosting(name, description, company, u);
+			
+			Job job = new Job(name, description, company, u, location, salary,
+					startSalary, endSalary, startWage, endWage, "stuff", 1,
+					 hours, "things");
 
 			try {
 
-				getJobPostingDao().addJobPosting(job);
+				getJobPostingDao().addJob(job);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -182,11 +193,11 @@ public class HomeController extends BaseController {
 
 			User u = getCurrentUser();
 
-			JobPosting job = new JobPosting(name, description, company, u);
+			Job job = new Job(name, description, company, u);
 
 			try {
 
-				getJobPostingDao().addJobPosting(job);
+				getJobPostingDao().addJob(job);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -214,35 +225,32 @@ public class HomeController extends BaseController {
 			return "createJobPosting";
 		}
 	}
-	
-	
+
 	@RequestMapping(value = "/editJob/{id}", method = RequestMethod.GET)
-	public String editJob(Model model,@PathVariable Long id) {
-		JobPosting editJob = getJobPostingDao().getObjectById(id);
-		//Long jobId = editJob.getId();
+	public String editJob(Model model, @PathVariable Long id) {
+		Job editJob = getJobPostingDao().getObjectById(id);
+		// Long jobId = editJob.getId();
 		model.addAttribute("editJob", editJob);
-		//model.addAttribute("editJobId", jobId);
+		// model.addAttribute("editJobId", jobId);
 		return "editJob";
 	}
 
 	@RequestMapping(value = "/editJob", method = RequestMethod.POST)
-	public String editJobPost(Model model, @RequestParam("name") String name,
-			@RequestParam("company") String company, @RequestParam("description") String description,
-			@ModelAttribute("editJob") JobPosting editJob) {
+	public String editJobPost(Model model, @RequestParam("name") String name, @RequestParam("company") String company,
+			@RequestParam("description") String description, @ModelAttribute("editJob") Job editJob) {
 
 		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
 				&& description.matches(".{2,}")) {
-			
-			
+
 			try {
-				getJobPostingDao().updateJobPosting(editJob);
+				getJobPostingDao().updateJob(editJob);
 
 			} catch (Exception e) {
-				//e.printStackTrace();
+				// e.printStackTrace();
 			}
-		
+
 			return "redirect:/jobPostings";
-		}else{
+		} else {
 			HashMap<String, String> errors = new HashMap<String, String>();
 
 			if (name == null || !name.matches(".{2,}")) {
@@ -261,7 +269,7 @@ public class HomeController extends BaseController {
 
 			return "editJob";
 		}
-//		return "jobPostings";
+		// return "jobPostings";
 	}
 
 	/**
@@ -274,6 +282,18 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/createEvent", method = RequestMethod.GET)
 	public String createEvent(Model model) {
 		return "createEvent";
+	}
+	
+	/**
+	 * Method to request the Get for creating an event.
+	 * 
+	 * @param model
+	 *            being passed.
+	 * @return createEvent page
+	 */
+	@RequestMapping(value = "/createNewEvent", method = RequestMethod.GET)
+	public String createEventTemplate(Model model) {
+		return "createEventTemplate";
 	}
 
 	/**
@@ -406,7 +426,7 @@ public class HomeController extends BaseController {
 	 */
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String registration(Model model) {
-		
+
 		return "register";
 	}
 
@@ -533,7 +553,7 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/massRegister", method = RequestMethod.POST)
 	public String massRegistration(Model model, HttpServletRequest request, HttpServletResponse response,
 			@RequestParam CommonsMultipartFile[] fileUpload) throws IOException {
-		
+
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		MultipartFile multipartFile = multipartRequest.getFile("file");
 
@@ -546,7 +566,7 @@ public class HomeController extends BaseController {
 			file.setData(multipartFile.getBytes());
 			getUserDao().addMultiple(file.getFileName());
 		}
-		
+
 		return "index";
 	}
 
@@ -754,103 +774,108 @@ public class HomeController extends BaseController {
 
 	}
 
+	// @RequestMapping(value = "/edit", method = RequestMethod.POST)
+	// public String edit(Model model, @RequestParam("title") String title,
+	// @RequestParam("fName") String firstName,
+	// @RequestParam("lName") String lastName, @RequestParam("suffix") String
+	// suffix,
+	// @RequestParam("personalEmail") String personalEmail,
+	// @RequestParam("occupation") String occupation,
+	// @RequestParam("bio") String biography, @RequestParam("experience") String
+	// experience,
+	// @RequestParam("password") String password,
+	// @RequestParam("confirmPassword") String confirmPassword) {
+	//
+	// if (validateEdit(password, confirmPassword, firstName, lastName,
+	// personalEmail)) {
+	//
+	// // TODO GET USER FROM SESSION
+	// //
+	// // DUMMY User
+	// //
+	// User u = getUserDao().getObjectById(DUMMY_ID);
+	//
+	// u.setMajor(getMajorDao().findMajorByUser(u));
+	// u.setConcentration(getMajorDao().findConcentrationByUser(u));
+	// u.setMinor(getMajorDao().findMinorByUser(u));
+	//
+	// if (Validator.isNull(title))
+	// title = null;
+	// if (Validator.isNull(suffix))
+	// suffix = null;
+	// if (Validator.isNull(personalEmail))
+	// personalEmail = null;
+	// if (Validator.isNull(occupation))
+	// occupation = null;
+	// if (Validator.isNull(biography))
+	// biography = null;
+	// if (Validator.isNull(experience))
+	// experience = null;
+	//
+	//
+	// u.setTitle(title);
+	// u.setFirstName(firstName);
+	// u.setLastName(lastName);
+	// u.setSuffix(suffix);
+	// u.setPersonalEmail(personalEmail);
+	// u.setOccupation(occupation);
+	// u.setBio(biography);
+	// u.setExperience(experience);
+	//
+	// // TODO Hash the password before saving to the user
+	// u.setPassword(password);
+	//
+	// try {
+	// getUserDao().updateUser(u);
+	// getMajorDao().updateMajorByUser(u);
+	// } catch (Exception e) {
+	// /* Probably should log this */
+	// System.out.println("Oops");
+	//
+	// }
+	//
+	// return "userProfile";
+	// }
+	//
+	// HashMap<String, String> e = new HashMap<String, String>();// TODO
+	//
+	// ArrayList<Major> m = getMajorDao().findAllMajors();
+	//
+	// // TODO GET USER FROM SESSION
+	// //
+	// // DUMMY User
+	// //
+	// User u = getUserDao().getObjectById(DUMMY_ID);
+	//
+	// u.setMajor(getMajorDao().findMajorByUser(u));
+	// u.setConcentration(getMajorDao().findConcentrationByUser(u));
+	// u.setMinor(getMajorDao().findMinorByUser(u));
+	//
+	// if (!Validator.validatePassword(password) ||
+	// !Validator.validatePasswordsMatch(password, confirmPassword))
+	// e.put("password", "Invalid Password");
+	// if (!Validator.validateName(firstName))
+	// e.put("fName", "Invalid First Name Entry");
+	// if (!Validator.validateName(lastName))
+	// e.put("fName", "Invalid Last Name Entry");
+	// if (!Validator.validateEmail(personalEmail, false))
+	// e.put("fName", "Invalid Email Entry");
+	//
+	// model.addAttribute("user", u);
+	// model.addAttribute("majors", m);
+	// model.addAttribute("errors", e);
+	//
+	// return "edit";
+	//
+	// }
+	//
 
-
-//	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-//	public String edit(Model model, @RequestParam("title") String title, @RequestParam("fName") String firstName,
-//			@RequestParam("lName") String lastName, @RequestParam("suffix") String suffix,
-//			@RequestParam("personalEmail") String personalEmail, @RequestParam("occupation") String occupation,
-//			@RequestParam("bio") String biography, @RequestParam("experience") String experience,
-//			@RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword) {
-//
-//		if (validateEdit(password, confirmPassword, firstName, lastName, personalEmail)) {
-//
-//			// TODO GET USER FROM SESSION
-//			//
-//			// DUMMY User
-//			//
-//			User u = getUserDao().getObjectById(DUMMY_ID);
-//
-//			u.setMajor(getMajorDao().findMajorByUser(u));
-//			u.setConcentration(getMajorDao().findConcentrationByUser(u));
-//			u.setMinor(getMajorDao().findMinorByUser(u));
-//
-//			if (Validator.isNull(title))
-//				title = null;
-//			if (Validator.isNull(suffix))
-//				suffix = null;
-//			if (Validator.isNull(personalEmail))
-//				personalEmail = null;
-//			if (Validator.isNull(occupation))
-//				occupation = null;
-//			if (Validator.isNull(biography))
-//				biography = null;
-//			if (Validator.isNull(experience))
-//				experience = null;
-//
-//
-//			u.setTitle(title);
-//			u.setFirstName(firstName);
-//			u.setLastName(lastName);
-//			u.setSuffix(suffix);
-//			u.setPersonalEmail(personalEmail);
-//			u.setOccupation(occupation);
-//			u.setBio(biography);
-//			u.setExperience(experience);
-//
-//			// TODO Hash the password before saving to the user
-//			u.setPassword(password);
-//
-//			try {
-//				getUserDao().updateUser(u);
-//				getMajorDao().updateMajorByUser(u);
-//			} catch (Exception e) {
-//				/* Probably should log this */
-//				System.out.println("Oops");
-//
-//			}
-//
-//			return "userProfile";
-//		}
-//
-//		HashMap<String, String> e = new HashMap<String, String>();// TODO
-//
-//		ArrayList<Major> m = getMajorDao().findAllMajors();
-//
-//		// TODO GET USER FROM SESSION
-//		//
-//		// DUMMY User
-//		//
-//		User u = getUserDao().getObjectById(DUMMY_ID);
-//
-//		u.setMajor(getMajorDao().findMajorByUser(u));
-//		u.setConcentration(getMajorDao().findConcentrationByUser(u));
-//		u.setMinor(getMajorDao().findMinorByUser(u));
-//
-//		if (!Validator.validatePassword(password) || !Validator.validatePasswordsMatch(password, confirmPassword))
-//			e.put("password", "Invalid Password");
-//		if (!Validator.validateName(firstName))
-//			e.put("fName", "Invalid First Name Entry");
-//		if (!Validator.validateName(lastName))
-//			e.put("fName", "Invalid Last Name Entry");
-//		if (!Validator.validateEmail(personalEmail, false))
-//			e.put("fName", "Invalid Email Entry");
-//
-//		model.addAttribute("user", u);
-//		model.addAttribute("majors", m);
-//		model.addAttribute("errors", e);
-//
-//		return "edit";
-//
-//	}
-//	
-	
 	@RequestMapping(value = "/job/{id}", method = RequestMethod.GET)
 	public String jobDisplay(Model model, @PathVariable Long id) {
 
 		try {
 
-			JobPosting currentJob = getJobPostingDao().getObjectById(id);
+			Job currentJob = getJobPostingDao().getObjectById(id);
 			model.addAttribute("currentJob", currentJob);
 
 		} catch (Exception e) {
@@ -860,7 +885,22 @@ public class HomeController extends BaseController {
 		return "jobDisplay";
 
 	}
+	
+	@RequestMapping(value = "/jobs/{id}", method = RequestMethod.GET)
+	public String jobsSingle(Model model, @PathVariable Long id) {
 
+		try {
+
+			Job currentJob = getJobPostingDao().getObjectById(id);
+			model.addAttribute("currentJob", currentJob);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "jobsSingleTemplate";
+
+	}
 
 	/**
 	 * Access to the job postings page.
@@ -874,7 +914,7 @@ public class HomeController extends BaseController {
 
 		try {
 
-			ArrayList<JobPosting> job = new ArrayList<JobPosting>();
+			ArrayList<Job> job = new ArrayList<Job>();
 			job = getJobPostingDao().getAll();
 
 			model.addAttribute("jobPostings", job);
@@ -885,7 +925,24 @@ public class HomeController extends BaseController {
 
 		return "jobList";
 	}
+	
+	
+	@RequestMapping(value = "/jobs", method = RequestMethod.GET)
+	public String jobs(Model model) {
 
+		try {
+
+			ArrayList<Job> job = new ArrayList<Job>();
+			job = getJobPostingDao().getAll();
+
+			model.addAttribute("jobs", job);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "jobsTemplate";
+	}
 	/**
 	 * Accesses the user profile page. Dynamically grabs information depending
 	 * who is logged in such as student, alumni, and faculty.
@@ -1099,10 +1156,6 @@ public class HomeController extends BaseController {
 
 	}
 
-
-
-	
-
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.POST)
 	public String userProfileUpload(Model model, @RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
 
@@ -1119,7 +1172,6 @@ public class HomeController extends BaseController {
 		// }
 		return "userProfile";
 	}
-
 
 	/**
 	 * Displays all the alumni users in the system.
@@ -1173,7 +1225,7 @@ public class HomeController extends BaseController {
 				&& Validator.validateGraduationYear(graduationYear, false)
 				&& Validator.validateEmail(personalEmail, false));
 	}
-	
+
 	private boolean validateEdit(String password, String confirmPassword, String firstName, String lastName,
 			String personalEmail) {
 

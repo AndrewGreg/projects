@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="edu.ben.template.model.JobPosting"%>
+<%@ page import="edu.ben.template.model.Job"%>
 <%@ page import="edu.ben.template.model.User"%>
 <%@ page import="java.util.ArrayList"%>
 <%
-	ArrayList<JobPosting> jobPostings;
+	ArrayList<Job> jobPostings;
 	if (request.getAttribute("jobPostings") != null) {
-		jobPostings = (ArrayList<JobPosting>) request.getAttribute("jobPostings");
+		jobPostings = (ArrayList<Job>) request.getAttribute("jobPostings");
 	} else {
-		jobPostings = new ArrayList<JobPosting>();
+		jobPostings = new ArrayList<Job>();
 	}
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">

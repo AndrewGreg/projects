@@ -1,15 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     
-<%@ page import="edu.ben.template.model.JobPosting"%>
+<%@ page import="edu.ben.template.model.Job"%>
 <%@ page import="edu.ben.template.model.User"%>
 <%@ page import="java.util.ArrayList"%>
 <%
-	ArrayList<JobPosting> jobPostings;
-	if (request.getAttribute("jobPostings") != null) {
-		jobPostings = (ArrayList<JobPosting>) request.getAttribute("jobPostings");
+	ArrayList<Job> jobs;
+	if (request.getAttribute("jobs") != null) {
+		jobs = (ArrayList<Job>) request.getAttribute("jobs");
 	} else {
-		jobPostings = new ArrayList<JobPosting>();
+		jobs = new ArrayList<Job>();
 	}
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -180,33 +180,34 @@
                     <div class="row page-row">
                         <div class="jobs-wrapper col-md-8 col-sm-7">           
                             <%
-								for (int i = 0; i < Job.size(); i++) {
+								for (int i = 0; i < jobs.size(); i++) {
 
-									String name = Job.get(i).getName() != null ? Job.get(i).getName() : "";
-									String company = Job.get(i).getCompany() != null ? Job.get(i).getCompany() : "";
-									String id = Long.toString(Job.get(i).getId());
-									//String description = Job.get(i).getDescription() != null ? jobPostings.get(i).getDescription() : "";
-									//String location = Job.get(i).getLocation() != null ? Job.get(i).getLocation() : "";
-									//int startSalary = Job.get(i).getStartSalary() != null ? Job.get(i).getStartSalary() : "";
-									//int endSalary = Job.get(i).getEndSalary() != null ? Job.get(i).getEndSalary() : "";
+									String name = jobs.get(i).getName() != null ? jobs.get(i).getName() : "";
+									String company = jobs.get(i).getCompany() != null ? jobs.get(i).getCompany() : "";
+									String id = Long.toString(jobs.get(i).getId());
+									String description = jobs.get(i).getDescription() != null ? jobs.get(i).getDescription() : "";
+									String location = jobs.get(i).getLocation() != null ? jobs.get(i).getLocation() : "";
+									int hours = jobs.get(i).getHours() != 0 ? jobs.get(i).getHours() : 0;
+									int startSalary = jobs.get(i).getStart_salary() != 0 ? jobs.get(i).getStart_salary() : 0;
+									int endSalary = jobs.get(i).getEnd_salary() != 0 ? jobs.get(i).getEnd_salary() : 0;
 									
 							%>
                             <div class="panel panel-default page-row">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title"><a href="/job/<%=id%>"><%=name%>t</a> <span class="label label-success pull-right">Full Time</span></h3>
+                                    <h3 class="panel-title"><a href="/jobs/<%=id%>"><%=name%></a> <span class="label label-success pull-right"><%=hours%></span></h3>
                                     
                                 </div>
                                 <div class="panel-body">
-                                    <!--  <%=//description%>-->
+                                    <%=description%>
                                 </div>
                                 <ul class="list-group">
-                                    <li class="list-group-item"><strong>Location:</strong> <%=//location%></li>
-                                    <li class="list-group-item"><strong>Salary:</strong> <%=//startSalary%> - <%=//startSalary%></li>
+                                    <li class="list-group-item"><strong>Location:</strong> <%=location%></li>
+                                    <li class="list-group-item"><strong>Salary:</strong> <%=startSalary%> - <%=endSalary%></li>
                                 </ul>
                                 <div class="panel-footer">
                                     <div class="row">
                                         <ul class="list-inline col-md-8 col-sm-6 col-xs-6">
-                                            <li><a href="/job/<%=id%>">More details</a></li>
+                                            <li><a href="/jobs/<%=id%>">More details</a></li>
                                         </ul>
                                         <div class="meta col-md-4 col-sm-6 col-xs-6 text-right">
                                             <small>Posted 3 days ago</small>

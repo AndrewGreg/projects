@@ -15,7 +15,7 @@ import edu.ben.template.model.Event;
 import edu.ben.template.model.Interest;
 import edu.ben.template.model.Major;
 import edu.ben.template.model.User;
-import edu.ben.template.model.JobPosting;
+import edu.ben.template.model.Job;
 
 public class InterestDao extends BaseDao<Interest> {
 
@@ -75,7 +75,7 @@ public class InterestDao extends BaseDao<Interest> {
 		}
 	}
 
-	public ArrayList<Interest> getAllByJobPosting(JobPosting j) {
+	public ArrayList<Interest> getAllByJobPosting(Job j) {
 
 		List<Interest> interests = new ArrayList<Interest>();
 		String sql = "SELECT i.id, i.name FROM job_interest ji JOIN job j ON j.id = ji.job_id JOIN interest i ON i.id = ji.interest_id WHERE j.id = ?;";
@@ -135,7 +135,7 @@ public class InterestDao extends BaseDao<Interest> {
 		}
 	}
 
-	public void addInterestToJobPosting(JobPosting job, Interest interest) {
+	public void addInterestToJobPosting(Job job, Interest interest) {
 
 		String sql = "INSERT INTO job_interest (job_id,interest_id) VALUES (?,?);";
 

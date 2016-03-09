@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@ page import="edu.ben.template.model.Job"%>
-<%@ page import="edu.ben.template.model.User"%>
+    pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.HashMap"%>
 <%
 	HashMap<String, String> errors;
@@ -15,7 +13,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Create a Job</title>
+<title>Create an Event</title>
 
 <!-- Meta -->
 <meta charset="utf-8">
@@ -210,29 +208,19 @@
 				<div class="container">
 					<div class="row">
 						<article class="contact-form col-md-8 col-sm-7  page-row">
-						<form action="/createJob" method="POST"
-							name="createJob">
+						<form action="/createNewEvent" method="POST"
+							name="createNewEvent">
 
 							<%
 								String name = (request.getParameter("name") == null) ? "" : (String) request.getParameter("name");
-								String company = (request.getParameter("company") == null) ? "" : (String) request.getParameter("company");
-								String description = (request.getParameter("description") == null) ? ""
-										: (String) request.getParameter("description");
+								String description = (request.getParameter("description") == null) ? "" : (String) request.getParameter("description");
 								String location = (request.getParameter("location") == null) ? "" : (String) request.getParameter("location");
-								String startSalary = (request.getParameter("startSalary") == null) ? "" : (String) request.getParameter("startSalary");
-								String endSalary = (request.getParameter("endSalary") == null) ? "" : (String) request.getParameter("endSalary");
-								String startWage = (request.getParameter("startWage") == null) ? "" : (String) request.getParameter("startWage");
-								String endWage = (request.getParameter("endWage") == null) ? "" : (String) request.getParameter("endWage");
-								String hours = (request.getParameter("hours") == null) ? "" : (String) request.getParameter("hours");
-								String startDate = (request.getParameter("startDate") == null) ? "" : (String) request.getParameter("startDate");
-								String endDate = (request.getParameter("endDate") == null) ? "" : (String) request.getParameter("endDate");
-
-
+								String date = (request.getParameter("date") == null) ? "" : (String) request.getParameter("date");
 							%>
 
 
 							<div class="form-group col-sm-6">
-								<label style="color: white">Job Name </label><input type="text"
+								<label style="color: white">Event Name </label><input type="text"
 									class="form-control" name="name" value="<%=name%>" required>
 
 								<%
@@ -246,23 +234,7 @@
 								%>
 							</div>
 
-							<div class="form-group col-sm-6">
-								<label style="color: white">Company </label><input type="text"
-									class="form-control" name="company" value="<%=company%>"
-									required>
-
-								<%
-									if (errors.get("company") != null) {
-								%>
-
-								<h6 style="color: red"><%=errors.get("company")%></h6>
-
-								<%
-									}
-								%>
-							</div>
-
-							<div class="form-group col-sm-6">
+							<div class="form-group col-sm-3">
 								<label style="color: white">Location </label><input type="text"
 									class="form-control" name="location" value="<%=location%>"
 									required>
@@ -277,115 +249,17 @@
 									}
 								%>
 							</div>
-							
-							<div class="form-group col-sm-6">
-								<label style="color: white">Hours</label><input type="text"
-									class="form-control" name="hours" value="<%=hours%>"
-									required>
 
-								<%
-									if (errors.get("hours") != null) {
-								%>
-
-								<h6 style="color: red"><%=errors.get("hours")%></h6>
-
-								<%
-									}
-								%>
-							</div>
-							
 							<div class="form-group col-sm-3">
-								<label style="color: white">Start Salary</label><input type="text"
-									class="form-control" name="startSalary" value="<%=startSalary%>"
+								<label style="color: white">Date </label><input type="text"
+									class="form-control" name=date value="<%=date%>"
 									required>
 
 								<%
-									if (errors.get("startSalary") != null) {
+									if (errors.get("date") != null) {
 								%>
 
-								<h6 style="color: red"><%=errors.get("startSalary")%></h6>
-
-								<%
-									}
-								%>
-							</div>
-							
-							<div class="form-group col-sm-3">
-								<label style="color: white">End Salary</label><input type="text"
-									class="form-control" name="endSalary" value="<%=endSalary%>"
-									required>
-
-								<%
-									if (errors.get("endSalary") != null) {
-								%>
-
-								<h6 style="color: red"><%=errors.get("endSalary")%></h6>
-
-								<%
-									}
-								%>
-							</div>
-							
-							<div class="form-group col-sm-3">
-								<label style="color: white">Start Wage</label><input type="text"
-									class="form-control" name="startWage" value="<%=startWage%>"
-									required>
-
-								<%
-									if (errors.get("startWage") != null) {
-								%>
-
-								<h6 style="color: red"><%=errors.get("startWage")%></h6>
-
-								<%
-									}
-								%>
-							</div>
-							
-							<div class="form-group col-sm-3">
-								<label style="color: white">End Wage</label><input type="text"
-									class="form-control" name="endWage" value="<%=endWage%>"
-									required>
-
-								<%
-									if (errors.get("endWage") != null) {
-								%>
-
-								<h6 style="color: red"><%=errors.get("endWage")%></h6>
-
-								<%
-									}
-								%>
-							</div>
-							
-							
-							
-							<div class="form-group col-sm-3">
-								<label style="color: white">Start Date</label><input type="text"
-									class="form-control" name="startDate" value="<%=startDate%>"
-									required>
-
-								<%
-									if (errors.get("startDate") != null) {
-								%>
-
-								<h6 style="color: red"><%=errors.get("startDate")%></h6>
-
-								<%
-									}
-								%>
-							</div>
-							
-							<div class="form-group col-sm-3">
-								<label style="color: white">End Date</label><input type="text"
-									class="form-control" name="endDate" value="<%=endDate%>"
-									required>
-
-								<%
-									if (errors.get("endDate") != null) {
-								%>
-
-								<h6 style="color: red"><%=errors.get("endDate")%></h6>
+								<h6 style="color: red"><%=errors.get("date")%></h6>
 
 								<%
 									}

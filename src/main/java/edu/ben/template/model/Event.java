@@ -21,6 +21,7 @@ public class Event {
 	private float latitude;
 	private int role;
 	private String reference;
+	private String location;
 	// private int startTime;
 	// private int endTime;
 
@@ -76,7 +77,7 @@ public class Event {
 	 * @param reference
 	 */
 	public Event(Long id, String name, Date date, String description, User poster, int toPublic, float longitude,
-			float latitude, int role, String reference) {
+			float latitude, int role, String reference, String location) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -88,6 +89,7 @@ public class Event {
 		this.latitude = latitude;
 		this.role = role;
 		this.reference = reference;
+		this.setLocation(location);
 	}
 
 	/**
@@ -269,13 +271,29 @@ public class Event {
 	}
 
 	/**
+	 * 
+	 * @return the location of the Event.
+	 */
+	public String getLocation() {
+		return location;
+	}
+
+	/**
+	 * Set the location of the event.
+	 * 
+	 * @param location
+	 */
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	/**
 	 * Prints the Event in String Form.
 	 */
 	@Override
 	public String toString() {
 		return "Event [id=" + id + ", name=" + name + ", date=" + date + ", description=" + description + ", poster="
 				+ poster + ", toPublic=" + toPublic + ", longitude=" + longitude + ", latitude=" + latitude + ", role="
-				+ role + ", reference=" + reference + "]";
+				+ role + ", reference=" + reference + ", location=" + location + "]";
 	}
-
 }

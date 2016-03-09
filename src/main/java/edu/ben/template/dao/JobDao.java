@@ -25,7 +25,7 @@ import edu.ben.template.model.User;
  */
 public class JobDao extends BaseDao<Job> {
 
-	static final String SEARCH = "SELECT * FROM";
+	static final String SEARCH = "SELECT * FROM ";
 
 	// Passes in the User signed in.
 	@Autowired

@@ -26,7 +26,7 @@ import edu.ben.template.model.User;
  */
 public class EventDao extends BaseDao<Event> {
 
-	static final String SEARCH = "SELECT * FROM";
+	static final String SEARCH = "SELECT * FROM ";
 
 	// Passes in the User signed in.
 	@Autowired
@@ -83,13 +83,12 @@ public class EventDao extends BaseDao<Event> {
 	 */
 	public void addEvent(Event event) {
 
-		String sql = "INSERT INTO event (name, description, date,user_id,hidden, longtitude, latitude,role, reference) VALUES (?, ?, ?, ?,0,?, ?, ?, ?,)";
+		String sql = "INSERT INTO event (name, description, date,user_id,hidden, longtitude, latitude,role, reference, location) VALUES (?, ?, ?, ?,0,?, ?, ?, ?,?)";
 
-		jdbcTemplate
-				.update(sql,
-						new Object[] { event.getName(), event.getDescription(), event.getDate(),
-								event.getPoster().getId(), event.getLongitude(), event.getLatitude(), event.getRole(),
-								event.getReference() });
+		jdbcTemplate.update(sql,
+				new Object[] { event.getName(), event.getDescription(), event.getDate(), event.getPoster().getId(),
+						event.getLongitude(), event.getLatitude(), event.getRole(), event.getReference(),
+						event.getLocation() });
 		return;
 	}
 
@@ -100,12 +99,12 @@ public class EventDao extends BaseDao<Event> {
 	 */
 	public void updateEvent(Event event) {
 
-		String sql = "UPDATE event SET name = ?, description = ?, date = ?, user_id = ?, public = ? longtitude = ?, latitude = ?, role = ?, reference = ? WHERE id = ?";
+		String sql = "UPDATE event SET name = ?, description = ?, date = ?, user_id = ?, public = ? longtitude = ?, latitude = ?, role = ?, reference = ?, location = ? WHERE id = ?";
 		try {
 			jdbcTemplate.update(sql,
 					new Object[] { event.getName(), event.getDescription(), event.getDate(), event.getPoster().getId(),
 							event.getLongitude(), event.getLatitude(), event.getRole(), event.getReference(),
-							event.getId() });
+							event.getLocation(), event.getId() });
 		} catch (Exception e) {
 			/* Probably want to log this */
 		}
@@ -236,6 +235,7 @@ public class EventDao extends BaseDao<Event> {
 				event.setLongitude(rs.getFloat("longitude"));
 				event.setRole(rs.getInt("role"));
 				event.setReference(rs.getString("reference"));
+				event.setLocation(rs.getString("location"));
 
 				// Grabs the id of the user that created the event.
 				// Displays who posted the event.

@@ -77,12 +77,12 @@ public class CollegeDao extends BaseDao<College> {
 	 */
 	public ArrayList<College> getAll() {
 
-		List<College> events = new ArrayList<College>();
+		List<College> colleges = new ArrayList<College>();
 		String sql = SEARCH + "college ORDER BY college";
 
 		try {
-			events = jdbcTemplate.query(sql, getRowMapper());
-			return (ArrayList<College>) events;
+			colleges = jdbcTemplate.query(sql, getRowMapper());
+			return (ArrayList<College>) colleges;
 		} catch (EmptyResultDataAccessException e) {
 			/* Probably want to log this */
 			return null;

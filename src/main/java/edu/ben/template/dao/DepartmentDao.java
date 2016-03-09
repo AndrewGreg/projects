@@ -77,12 +77,12 @@ public class DepartmentDao extends BaseDao<Department> {
 	 */
 	public ArrayList<Department> getAll() {
 
-		List<Department> events = new ArrayList<Department>();
+		List<Department> departments = new ArrayList<Department>();
 		String sql = SEARCH + "Department ORDER BY Department";
 
 		try {
-			events = jdbcTemplate.query(sql, getRowMapper());
-			return (ArrayList<Department>) events;
+			departments = jdbcTemplate.query(sql, getRowMapper());
+			return (ArrayList<Department>) departments;
 		} catch (EmptyResultDataAccessException e) {
 			/* Probably want to log this */
 			return null;

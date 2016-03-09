@@ -84,12 +84,12 @@ public class JobDao extends BaseDao<Job> {
 	 */
 	public ArrayList<Job> getAll() {
 
-		List<Job> events = new ArrayList<Job>();
+		List<Job> jobs = new ArrayList<Job>();
 		String sql = SEARCH + "job ORDER BY job";
 
 		try {
-			events = jdbcTemplate.query(sql, getRowMapper());
-			return (ArrayList<Job>) events;
+			jobs = jdbcTemplate.query(sql, getRowMapper());
+			return (ArrayList<Job>) jobs;
 		} catch (EmptyResultDataAccessException e) {
 			/* Probably want to log this */
 			return null;

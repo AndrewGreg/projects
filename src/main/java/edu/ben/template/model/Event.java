@@ -65,7 +65,6 @@ public class Event {
 	/**
 	 * Constructor with all variables that are used with an Event.
 	 * 
-	 * @param id
 	 * @param name
 	 * @param date
 	 * @param description
@@ -76,10 +75,9 @@ public class Event {
 	 * @param role
 	 * @param reference
 	 */
-	public Event(Long id, String name, Date date, String description, User poster, int toPublic, float longitude,
-			float latitude, int role, String reference, String location) {
+	public Event(String name, Date date, String description, User poster, int toPublic, float longitude, float latitude,
+			int role, String reference, String location) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.date = date;
 		this.description = description;

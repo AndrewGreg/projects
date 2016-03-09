@@ -67,7 +67,6 @@ public class Job {
 	/**
 	 * Constructor that passes in all the attributes of the job class.
 	 * 
-	 * @param id
 	 * @param name
 	 * @param description
 	 * @param company
@@ -83,11 +82,10 @@ public class Job {
 	 * @param hours
 	 * @param link
 	 */
-	public Job(long id, String name, String description, String company, User poster, String location, boolean salary,
+	public Job(String name, String description, String company, User poster, String location, boolean salary,
 			int start_salary, int end_salary, float start_wage, float end_wage, String reference, int toPublic,
 			int hours, String link) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.company = company;

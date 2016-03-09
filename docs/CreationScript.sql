@@ -57,13 +57,15 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`user` (
   `last_active` DATETIME(6) NULL,
   `last_modified` DATETIME(6) NULL,
   `social_media` VARCHAR(100) NULL,
-  `phone_number` INT NULL,
+  `phone_number` VARCHAR(10) NULL,
   `work_number` VARCHAR(45) NULL,
   `user_verified` TINYINT(1) NULL DEFAULT 0,
   `admin_verified` TINYINT(1) NULL DEFAULT 0,
   `graduate_verified` TINYINT(1) NULL DEFAULT 0,
   `current_graduate_verified` TINYINT(1) NULL DEFAULT 0,
   `graduate_school` VARCHAR(200) NULL,
+  `public` INT NULL DEFAULT 1,
+  `reference` VARCHAR(45) NULL,
   PRIMARY KEY (`id`, `title_id`),
   UNIQUE INDEX `personal_email_UNIQUE` (`personal_email` ASC),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC),
@@ -73,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`user` (
     REFERENCES `alumnitracker`.`title` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB;A
 
 
 -- -----------------------------------------------------
@@ -99,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`job` (
   `end_date` DATETIME(6) NULL,
   `start_date` DATETIME(6) NULL,
   `reference` VARCHAR(45) NULL,
-  `public` TINYINT(1) NULL DEFAULT 1,
+  `public` INT NULL DEFAULT 1,
   `hours_id` INT NOT NULL,
   `salary` TINYINT(1) NOT NULL DEFAULT 0,
   `start_wage` FLOAT NULL,
@@ -135,10 +137,12 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`event` (
   `hidden` TINYINT(1) NOT NULL DEFAULT 0,
   `start_time` DATETIME(6) NULL,
   `end_time` DATETIME(6) NULL,
-  `public` TINYINT(1) NOT NULL DEFAULT 1,
+  `public` INT NOT NULL DEFAULT 1,
   `longitude` FLOAT NULL,
   `latitude` FLOAT NULL,
   `role` INT NOT NULL DEFAULT 0,
+  `reference` VARCHAR(45) NULL,
+  `location` VARCHAR(200) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_event_user1_idx` (`user_id` ASC),
   CONSTRAINT `fk_event_user1`
@@ -337,6 +341,7 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`transfer` (
   `reason_id` INT NOT NULL,
   `user_id` INT NOT NULL,
   `verified_id` INT NULL,
+  `hidden` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`, `reason_id`, `user_id`, `verified_id`),
   INDEX `fk_transfer_reason1_idx` (`reason_id` ASC),
   INDEX `fk_transfer_user1_idx` (`user_id` ASC),
@@ -425,7 +430,7 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`contact` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(100) NULL,
   `email` VARCHAR(1000) NULL,
-  `phone_number` INT NULL,
+  `phone_number` VARCHAR(11) NULL,
   `message` VARCHAR(1000) NULL,
   `user_id` INT NOT NULL,
   `recipient_id` INT NOT NULL,
@@ -704,4 +709,3 @@ DEFAULT CHARACTER SET = utf8;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-alumnitracker

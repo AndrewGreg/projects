@@ -11,7 +11,6 @@ public class College {
 
 	private Long id;
 	private String name;
-	private String location;
 
 	/**
 	 * Empty constructor.
@@ -25,13 +24,11 @@ public class College {
 	 * 
 	 * @param id
 	 * @param name
-	 * @param location
 	 */
-	public College(Long id, String name, String location) {
+	public College(Long id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.location = location;
 	}
 
 	/**
@@ -69,28 +66,11 @@ public class College {
 	}
 
 	/**
-	 * 
-	 * @return where that college is located at.
-	 */
-	public String getLocation() {
-		return location;
-	}
-
-	/**
-	 * Sets the location of the college.
-	 * 
-	 * @param location
-	 */
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	/**
 	 * Prints the College in a string form.
 	 */
 	@Override
 	public String toString() {
-		return "College [id=" + id + ", name=" + name + ", location=" + location + "]";
+		return "College [id=" + id + ", name=" + name + "]";
 	}
 
 }

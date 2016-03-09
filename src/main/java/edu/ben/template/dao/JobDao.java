@@ -25,6 +25,9 @@ import edu.ben.template.model.User;
  */
 public class JobDao extends BaseDao<Job> {
 
+	static final String SEARCH = "SELECT * FROM";
+
+	// Passes in the User signed in.
 	@Autowired
 	private UserDao userDao;
 
@@ -64,7 +67,7 @@ public class JobDao extends BaseDao<Job> {
 		if (object == null) {
 			try {
 				// look up the object
-				String sql = "SELECT * FROM job WHERE id = ?";
+				String sql = SEARCH + "job WHERE id = ?";
 				object = this.jdbcTemplate.queryForObject(sql, new Object[] { jobId }, getRowMapper());
 			} catch (EmptyResultDataAccessException e) {
 				/* Probably want to log this */
@@ -82,7 +85,7 @@ public class JobDao extends BaseDao<Job> {
 	public ArrayList<Job> getAll() {
 
 		List<Job> events = new ArrayList<Job>();
-		String sql = "SELECT * from job";
+		String sql = SEARCH + "job ORDER BY job";
 
 		try {
 			events = jdbcTemplate.query(sql, getRowMapper());
@@ -99,14 +102,15 @@ public class JobDao extends BaseDao<Job> {
 	 * @param job
 	 *            entails of name, description, company, the poster, and more.
 	 */
-	public void addJobPosting(Job job) {
+	public void addJob(Job job) {
 
-		String sql = "INSERT INTO job (name, description, company, end_date, location, salary, position, start_date, reference, public, hours, link, user_id) VALUES (?, ?, ?, ?,?,?,?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO job (name, description, company, reference, public, hours, salary,start_wage, end_wage,start_salary,end_salary, link,location, user_id) VALUES (?, ?, ?, ?,?,?,?,?,?,?,?,?,?)";
 
 		jdbcTemplate.update(sql,
-				new Object[] { job.getName(), job.getDescription(), job.getCompany(), job.getEndDate(),
-						job.getLocation(), job.getSalary(), job.getPosition(), job.getStartDate(), job.getReference(),
-						job.isToPublic(), job.getHours(), job.getLink(), job.getPoster().getId() });
+				new Object[] { job.getName(), job.getDescription(), job.getCompany(), job.getReference(),
+						job.isToPublic(), job.getHours(), job.getSalary(), job.getStart_wage(), job.getEnd_wage(),
+						job.getStart_salary(), job.getEnd_salary(), job.getLink(), job.getLocation(),
+						job.getPoster().getId() });
 
 		return;
 	}
@@ -116,18 +120,42 @@ public class JobDao extends BaseDao<Job> {
 	 * 
 	 * @param job
 	 */
-	public void updateJobPosting(Job job) {
+	public void updateJob(Job job) {
 
-		String sql = "UPDATE job SET name = ?, description = ?, company = ?, end_date = ?, location = ?, salary = ?, position = ?, start_date = ?, reference = ?, public = ?, hours = ?, link = ?, user_id = ? WHERE job.id = ?";
+		String sql = "UPDATE job SET name = ?, description = ?, company = ?, start_wage = ?,end_wage = ?, start_salary = ?, end_salary = ?, location = ?, salary = ?, reference = ?, public = ?, hours = ?, link = ?, user_id = ? WHERE job.id = ?";
 		try {
-			jdbcTemplate.update(sql, job.getName(), job.getDescription(), job.getCompany(), job.getEndDate(),
-					job.getLocation(), job.getSalary(), job.getPosition(), job.getStartDate(), job.getReference(),
-					job.isToPublic(), job.getHours(), job.getLink(), job.getPoster().getId(), job.getId());
+			jdbcTemplate.update(sql, job.getName(), job.getDescription(), job.getCompany(), job.getStart_wage(),
+					job.getEnd_wage(), job.getStart_salary(), job.getEnd_salary(), job.getLocation(), job.getSalary(),
+					job.getReference(), job.isToPublic(), job.getHours(), job.getLink(), job.getPoster().getId(),
+					job.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return;
 
+	}
+
+	/**
+	 * Searches by name of the job in ascending order.
+	 * 
+	 * @param job
+	 * 
+	 * @return the name of the job.
+	 */
+	public ArrayList<Job> getSearchByJobName(String name) {
+
+		List<Job> jobs = new ArrayList<Job>();
+		String sql = "SELECT name FROM job WHERE name LIKE '%name%' ORDER BY name";
+
+		try {
+			// Test this.
+			jobs = jdbcTemplate.query(sql, new Object[] { name }, getRowMapper());
+
+			return (ArrayList<Job>) jobs;
+		} catch (EmptyResultDataAccessException e) {
+			System.out.println("There are no jobs with that search!");
+			return null;
+		}
 	}
 
 	/**
@@ -140,7 +168,7 @@ public class JobDao extends BaseDao<Job> {
 	public ArrayList<Job> getByPoster(User user) {
 
 		List<Job> jobs = new ArrayList<Job>();
-		String sql = "SELECT * from job WHERE user_id = ?";
+		String sql = SEARCH + "job WHERE user_id = ?";
 
 		try {
 			jobs = jdbcTemplate.query(sql, new Object[] { user.getId() }, getRowMapper());// TEST
@@ -166,7 +194,7 @@ public class JobDao extends BaseDao<Job> {
 
 		try {
 			events = jdbcTemplate.query(sql, new Object[] { interest.getId() }, getRowMapper());// TEST
-			// THIS
+																								// THIS
 			return (ArrayList<Job>) events;
 		} catch (EmptyResultDataAccessException e) {
 			/* Probably want to log this */
@@ -188,14 +216,15 @@ public class JobDao extends BaseDao<Job> {
 				job.setDescription(rs.getString("description"));
 				job.setCompany(rs.getString("company"));
 				job.setLocation(rs.getString("location"));
-				job.setSalary(rs.getDouble("salary"));
-				job.setPosition(rs.getString("position"));
-				job.setStartDate(rs.getString("startDate"));
-				job.setEndDate(rs.getString("endDate"));
+				job.setSalary(rs.getBoolean("salary"));
+				job.setStart_wage(rs.getFloat("start_wage"));
+				job.setEnd_wage(rs.getFloat("start_wage"));
+				job.setStart_salary(rs.getInt("start_salary"));
+				job.setEnd_salary(rs.getInt("end_salary"));
 				job.setHours(rs.getInt("hours"));
 				job.setLink(rs.getString("link"));
 				job.setReference(rs.getString("reference"));
-				job.setToPublic(rs.getBoolean("toPublic"));
+				job.setToPublic(rs.getInt("toPublic"));
 
 				// Grabs the id of the user that created the job.
 				// Displays who posted the job.

@@ -16,11 +16,13 @@ public class Event {
 	private Date date;
 	private String description;
 	private User poster;
-	private int startTime;
-	private int endTime;
-	private int longitude;
-	private int latitude;
+	private int toPublic;
+	private float longitude;
+	private float latitude;
 	private int role;
+	private String reference;
+	// private int startTime;
+	// private int endTime;
 
 	/**
 	 * An empty constructor.
@@ -67,25 +69,25 @@ public class Event {
 	 * @param date
 	 * @param description
 	 * @param poster
-	 * @param startTime
-	 * @param endTime
+	 * @param toPublic
 	 * @param longitude
 	 * @param latitude
-	 * @param departmentId
+	 * @param role
+	 * @param reference
 	 */
-	public Event(Long id, String name, Date date, String description, User poster, int startTime, int endTime,
-			int longitude, int latitude, int role) {
+	public Event(Long id, String name, Date date, String description, User poster, int toPublic, float longitude,
+			float latitude, int role, String reference) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.date = date;
 		this.description = description;
 		this.poster = poster;
-		this.startTime = startTime;
-		this.endTime = endTime;
+		this.toPublic = toPublic;
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.role = role;
+		this.reference = reference;
 	}
 
 	/**
@@ -175,45 +177,11 @@ public class Event {
 	}
 
 	/**
-	 * 
-	 * @return the start time of the event.
-	 */
-	public int getStartTime() {
-		return startTime;
-	}
-
-	/**
-	 * Sets the start time of the event.
-	 * 
-	 * @param startTime
-	 */
-	public void setStartTime(int startTime) {
-		this.startTime = startTime;
-	}
-
-	/**
-	 * 
-	 * @return the end time of the event.
-	 */
-	public int getEndTime() {
-		return endTime;
-	}
-
-	/**
-	 * Sets the end time of the event.
-	 * 
-	 * @param endTime
-	 */
-	public void setEndTime(int endTime) {
-		this.endTime = endTime;
-	}
-
-	/**
 	 * (Google Maps)
 	 * 
 	 * @return the longitude of the location.
 	 */
-	public int getLongitude() {
+	public float getLongitude() {
 		return longitude;
 	}
 
@@ -222,7 +190,7 @@ public class Event {
 	 * 
 	 * @param longitude
 	 */
-	public void setLongitude(int longitude) {
+	public void setLongitude(float longitude) {
 		this.longitude = longitude;
 	}
 
@@ -231,7 +199,7 @@ public class Event {
 	 * 
 	 * @return the latitude of the location.
 	 */
-	public int getLatitude() {
+	public float getLatitude() {
 		return latitude;
 	}
 
@@ -240,7 +208,7 @@ public class Event {
 	 * 
 	 * @param latitude
 	 */
-	public void setLatitude(int latitude) {
+	public void setLatitude(float latitude) {
 		this.latitude = latitude;
 	}
 
@@ -265,11 +233,49 @@ public class Event {
 	/**
 	 * ToString Method of the Event class.
 	 */
+
+	/**
+	 * 
+	 * @return 1, if the event is displayed to everyone.
+	 */
+	public int getToPublic() {
+		return toPublic;
+	}
+
+	/**
+	 * Set the number for the event (security).
+	 * 
+	 * @param toPublic
+	 */
+	public void setToPublic(int toPublic) {
+		this.toPublic = toPublic;
+	}
+
+	/**
+	 * 
+	 * @return reference number to the event.
+	 */
+	public String getReference() {
+		return reference;
+	}
+
+	/**
+	 * Set the reference number to the event.
+	 * 
+	 * @param reference
+	 */
+	public void setReference(String reference) {
+		this.reference = reference;
+	}
+
+	/**
+	 * Prints the Event in String Form.
+	 */
 	@Override
 	public String toString() {
 		return "Event [id=" + id + ", name=" + name + ", date=" + date + ", description=" + description + ", poster="
-				+ poster + ", startTime=" + startTime + ", endTime=" + endTime + ", longitude=" + longitude
-				+ ", latitude=" + latitude + ", role=" + role + "]";
+				+ poster + ", toPublic=" + toPublic + ", longitude=" + longitude + ", latitude=" + latitude + ", role="
+				+ role + ", reference=" + reference + "]";
 	}
 
 }

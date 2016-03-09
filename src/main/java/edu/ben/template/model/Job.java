@@ -15,14 +15,17 @@ public class Job {
 	private String company;
 	private User poster;
 	private String location;
-	private double salary;
-	private String position;
-	private String endDate;
-	private String startDate;
+	private boolean salary;
+	private int start_salary;
+	private int end_salary;
+	private float start_wage;
+	private float end_wage;
 	private String reference;
-	private boolean toPublic;
+	private int toPublic;
 	private int hours;
 	private String link;
+	// private String endDate;
+	// private String startDate;
 
 	/**
 	 * Empty constructor
@@ -71,17 +74,18 @@ public class Job {
 	 * @param poster
 	 * @param location
 	 * @param salary
-	 * @param position
-	 * @param endDate
-	 * @param startDate
+	 * @param start_salary
+	 * @param end_salary
+	 * @param start_wage
+	 * @param end_wage
 	 * @param reference
 	 * @param toPublic
 	 * @param hours
 	 * @param link
 	 */
-	public Job(long id, String name, String description, String company, User poster, String location, double salary,
-			String position, String endDate, String startDate, String reference, boolean toPublic, int hours,
-			String link) {
+	public Job(long id, String name, String description, String company, User poster, String location, boolean salary,
+			int start_salary, int end_salary, float start_wage, float end_wage, String reference, int toPublic,
+			int hours, String link) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -90,9 +94,10 @@ public class Job {
 		this.poster = poster;
 		this.location = location;
 		this.salary = salary;
-		this.position = position;
-		this.endDate = endDate;
-		this.startDate = startDate;
+		this.start_salary = start_salary;
+		this.end_salary = end_salary;
+		this.start_wage = start_wage;
+		this.end_wage = end_wage;
 		this.reference = reference;
 		this.toPublic = toPublic;
 		this.hours = hours;
@@ -205,7 +210,7 @@ public class Job {
 	 * 
 	 * @return the salary of the job.
 	 */
-	public double getSalary() {
+	public boolean getSalary() {
 		return salary;
 	}
 
@@ -214,59 +219,8 @@ public class Job {
 	 * 
 	 * @param salary
 	 */
-	public void setSalary(double salary) {
+	public void setSalary(boolean salary) {
 		this.salary = salary;
-	}
-
-	/**
-	 * 
-	 * @return the type of position of the job (Full-Time/Part-Time).
-	 */
-	public String getPosition() {
-		return position;
-	}
-
-	/**
-	 * Sets the position of the job.
-	 * 
-	 * @param position
-	 */
-	public void setPosition(String position) {
-		this.position = position;
-	}
-
-	/**
-	 * 
-	 * @return The end date before the job being displayed is taken off.
-	 */
-	public String getEndDate() {
-		return endDate;
-	}
-
-	/**
-	 * Sets the last day for the job to be displayed.
-	 * 
-	 * @param endDate
-	 */
-	public void setEndDate(String endDate) {
-		this.endDate = endDate;
-	}
-
-	/**
-	 * 
-	 * @return the Start date of the job.
-	 */
-	public String getStartDate() {
-		return startDate;
-	}
-
-	/**
-	 * Set the start date of the job.
-	 * 
-	 * @param startDate
-	 */
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
 	}
 
 	/**
@@ -290,7 +244,7 @@ public class Job {
 	 * 
 	 * @return true, if the job is available to the public.
 	 */
-	public boolean isToPublic() {
+	public int isToPublic() {
 		return toPublic;
 	}
 
@@ -299,7 +253,7 @@ public class Job {
 	 * 
 	 * @param toPublic
 	 */
-	public void setToPublic(boolean toPublic) {
+	public void setToPublic(int toPublic) {
 		this.toPublic = toPublic;
 	}
 
@@ -338,13 +292,90 @@ public class Job {
 	}
 
 	/**
+	 * 
+	 * @return starting Salary of position.
+	 */
+	public int getStart_salary() {
+		return start_salary;
+	}
+
+	/**
+	 * Set the starting salary cap.
+	 * 
+	 * @param start_salary
+	 */
+	public void setStart_salary(int start_salary) {
+		this.start_salary = start_salary;
+	}
+
+	/**
+	 * 
+	 * @return the ending salary cap.
+	 */
+	public int getEnd_salary() {
+		return end_salary;
+	}
+
+	/**
+	 * Set the ending salary.
+	 * 
+	 * @param end_salary
+	 */
+	public void setEnd_salary(int end_salary) {
+		this.end_salary = end_salary;
+	}
+
+	/**
+	 * 
+	 * @return the starting wage of position. (intern)
+	 */
+	public float getStart_wage() {
+		return start_wage;
+	}
+
+	/**
+	 * Set starting wage for position.
+	 * 
+	 * @param start_wage
+	 */
+	public void setStart_wage(float start_wage) {
+		this.start_wage = start_wage;
+	}
+
+	/**
+	 * 
+	 * @return the ending wage for position.
+	 */
+	public float getEnd_wage() {
+		return end_wage;
+	}
+
+	/**
+	 * Set ending wage of position.
+	 * 
+	 * @param end_wage
+	 */
+	public void setEnd_wage(float end_wage) {
+		this.end_wage = end_wage;
+	}
+
+	/**
+	 * 
+	 * @return 1 if the job is displayed to the public.
+	 */
+	public int getToPublic() {
+		return toPublic;
+	}
+
+	/**
 	 * ToString of the job class.
 	 */
 	@Override
 	public String toString() {
 		return "Job [id=" + id + ", name=" + name + ", description=" + description + ", company=" + company
-				+ ", poster=" + poster + ", location=" + location + ", salary=" + salary + ", position=" + position
-				+ ", endDate=" + endDate + ", startDate=" + startDate + ", reference=" + reference + ", toPublic="
-				+ toPublic + ", hours=" + hours + ", link=" + link + "]";
+				+ ", poster=" + poster + ", location=" + location + ", salary=" + salary + ", start_salary="
+				+ start_salary + ", end_salary=" + end_salary + ", start_wage=" + start_wage + ", end_wage=" + end_wage
+				+ ", reference=" + reference + ", toPublic=" + toPublic + ", hours=" + hours + ", link=" + link + "]";
 	}
+
 }

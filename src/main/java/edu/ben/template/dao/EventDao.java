@@ -20,11 +20,15 @@ import edu.ben.template.model.User;
 /**
  * This dao controls the Event object.
  * 
- * @author donald
+ * @author Donald Kirk
+ * @version 1.0
  *
  */
 public class EventDao extends BaseDao<Event> {
 
+	static final String SEARCH = "SELECT * FROM";
+
+	// Passes in the User signed in.
 	@Autowired
 	private UserDao userDao;
 
@@ -62,7 +66,7 @@ public class EventDao extends BaseDao<Event> {
 		if (object == null) {
 			try {
 				// look up the object
-				String sql = "SELECT * FROM event WHERE id = ?";
+				String sql = SEARCH + "event WHERE id = ?";
 				object = this.jdbcTemplate.queryForObject(sql, new Object[] { eventId }, getRowMapper());
 			} catch (EmptyResultDataAccessException e) {
 				/* Probably want to log this */
@@ -73,6 +77,42 @@ public class EventDao extends BaseDao<Event> {
 	}
 
 	/**
+	 * Adds the Event to the database.
+	 * 
+	 * @param event
+	 */
+	public void addEvent(Event event) {
+
+		String sql = "INSERT INTO event (name, description, date,user_id,hidden, longtitude, latitude,role, reference) VALUES (?, ?, ?, ?,0,?, ?, ?, ?,)";
+
+		jdbcTemplate
+				.update(sql,
+						new Object[] { event.getName(), event.getDescription(), event.getDate(),
+								event.getPoster().getId(), event.getLongitude(), event.getLatitude(), event.getRole(),
+								event.getReference() });
+		return;
+	}
+
+	/**
+	 * Updates the Event and places it back into the database.
+	 * 
+	 * @param event
+	 */
+	public void updateEvent(Event event) {
+
+		String sql = "UPDATE event SET name = ?, description = ?, date = ?, user_id = ?, public = ? longtitude = ?, latitude = ?, role = ?, reference = ? WHERE id = ?";
+		try {
+			jdbcTemplate.update(sql,
+					new Object[] { event.getName(), event.getDescription(), event.getDate(), event.getPoster().getId(),
+							event.getLongitude(), event.getLatitude(), event.getRole(), event.getReference(),
+							event.getId() });
+		} catch (Exception e) {
+			/* Probably want to log this */
+		}
+		return;
+	}
+
+	/**
 	 * List all of the Events.
 	 * 
 	 * @return all the Events in the database.
@@ -80,13 +120,34 @@ public class EventDao extends BaseDao<Event> {
 	public ArrayList<Event> getAll() {
 
 		List<Event> events = new ArrayList<Event>();
-		String sql = "SELECT * from event";
+		String sql = SEARCH + "event ORDER BY event";
 
 		try {
 			events = jdbcTemplate.query(sql, getRowMapper());
 			return (ArrayList<Event>) events;
 		} catch (EmptyResultDataAccessException e) {
 			/* Probably want to log this */
+			return null;
+		}
+	}
+
+	/**
+	 * 
+	 * @param name
+	 * @return the name of the event in ascending order.
+	 */
+	public ArrayList<Event> getByEventSearch(String name) {
+
+		List<Event> events = new ArrayList<Event>();
+		String sql = "SELECT name FROM event WHERE name LIKE '%name%' ORDER BY name";
+
+		try {
+			// Test this.
+			events = jdbcTemplate.query(sql, new Object[] { name }, getRowMapper());
+
+			return (ArrayList<Event>) events;
+		} catch (EmptyResultDataAccessException e) {
+			System.out.println("There are no events with that search!");
 			return null;
 		}
 	}
@@ -100,7 +161,7 @@ public class EventDao extends BaseDao<Event> {
 	public ArrayList<Event> getByDate(Date date) {
 
 		List<Event> events = new ArrayList<Event>();
-		String sql = "SELECT * from event WHERE date = ?";
+		String sql = SEARCH + "event WHERE date = ?";
 
 		try {
 			events = jdbcTemplate.query(sql, new Object[] { date }, getRowMapper());// TEST
@@ -122,7 +183,7 @@ public class EventDao extends BaseDao<Event> {
 	public ArrayList<Event> getByPoster(User user) {
 
 		List<Event> events = new ArrayList<Event>();
-		String sql = "SELECT * from event WHERE user_id = ?";
+		String sql = SEARCH + "event WHERE user_id = ?";
 
 		try {
 			events = jdbcTemplate.query(sql, new Object[] { user.getId() }, getRowMapper());// TEST
@@ -158,41 +219,6 @@ public class EventDao extends BaseDao<Event> {
 	}
 
 	/**
-	 * Adds the Event to the database.
-	 * 
-	 * @param event
-	 */
-	public void addEvent(Event event) {
-
-		String sql = "INSERT INTO event (name, description, date, user_id, start_time, end_time, longtitude, latitude, role hidden) VALUES (?, ?, ?, ?,?, ?, ?, ?,?, 0)";
-
-		jdbcTemplate.update(sql,
-				new Object[] { event.getName(), event.getDescription(), event.getDate(), event.getPoster().getId(),
-						event.getStartTime(), event.getEndTime(), event.getLongitude(), event.getLatitude(),
-						event.getRole() });
-		return;
-	}
-
-	/**
-	 * Updates the Event and places it back into the database.
-	 * 
-	 * @param event
-	 */
-	public void updateEvent(Event event) {
-
-		String sql = "UPDATE event SET name = ?, description = ?, date = ?, user_id = ?, start_time = ?, end_time = ?, longtitude = ?, latitude = ? role = ? WHERE id = ?";
-		try {
-			jdbcTemplate.update(sql,
-					new Object[] { event.getName(), event.getDescription(), event.getDate(), event.getPoster().getId(),
-							event.getStartTime(), event.getEndTime(), event.getLongitude(), event.getLatitude(),
-							event.getRole(), event.getId() });
-		} catch (Exception e) {
-			/* Probably want to log this */
-		}
-		return;
-	}
-
-	/**
 	 * Row Mapper.
 	 */
 	@Override
@@ -205,11 +231,11 @@ public class EventDao extends BaseDao<Event> {
 				event.setName(rs.getString("name"));
 				event.setDate(rs.getDate("date"));
 				event.setDescription(rs.getString("description"));
-				event.setStartTime(rs.getInt("startTime"));
-				event.setEndTime(rs.getInt("endTime"));
-				event.setLatitude(rs.getInt("latitude"));
-				event.setLongitude(rs.getInt("longitude"));
+				event.setToPublic(rs.getInt("toPublic"));
+				event.setLatitude(rs.getFloat("latitude"));
+				event.setLongitude(rs.getFloat("longitude"));
 				event.setRole(rs.getInt("role"));
+				event.setReference(rs.getString("reference"));
 
 				// Grabs the id of the user that created the event.
 				// Displays who posted the event.

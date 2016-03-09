@@ -125,7 +125,7 @@ public class HomeController extends BaseController {
 
 			User u = getCurrentUser();
 
-			JobPosting job = new JobPosting(name, description, company, location, salary, u);
+			JobPosting job = new JobPosting(name, description, company, u);
 
 			try {
 
@@ -182,7 +182,7 @@ public class HomeController extends BaseController {
 
 			User u = getCurrentUser();
 
-			JobPosting job = new JobPosting(name, description, company, location, salary, u);
+			JobPosting job = new JobPosting(name, description, company, u);
 
 			try {
 

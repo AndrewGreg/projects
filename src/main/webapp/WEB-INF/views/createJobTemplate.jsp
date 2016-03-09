@@ -210,8 +210,8 @@
 				<div class="container">
 					<div class="row">
 						<article class="contact-form col-md-8 col-sm-7  page-row">
-						<form action="/createJobPosting" method="POST"
-							name="createJobPosting">
+						<form action="/createJob" method="POST"
+							name="createJob">
 
 							<%
 								String name = (request.getParameter("name") == null) ? "" : (String) request.getParameter("name");
@@ -268,7 +268,7 @@
 								%>
 							</div>
 							
-							<div class="form-group col-sm-3">
+							<div class="form-group col-sm-6">
 								<label style="color: white">Salary</label><input type="text"
 									class="form-control" name="salary" value="<%=company%>"
 									required>
@@ -284,7 +284,7 @@
 								%>
 							</div>
 							
-							<div class="form-group col-sm-3">
+							<div class="form-group col-sm-6">
 								<label style="color: white">Hours</label><input type="text"
 									class="form-control" name="hours" value="<%=company%>"
 									required>
@@ -294,6 +294,22 @@
 								%>
 
 								<h6 style="color: red"><%=errors.get("hours")%></h6>
+
+								<%
+									}
+								%>
+							</div>
+							
+							<div class="form-group col-sm-6">
+								<label style="color: white">End Date</label><input type="text"
+									class="form-control" name="date" value="<%=company%>"
+									required>
+
+								<%
+									if (errors.get("date") != null) {
+								%>
+
+								<h6 style="color: red"><%=errors.get("date")%></h6>
 
 								<%
 									}

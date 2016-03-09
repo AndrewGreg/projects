@@ -22,7 +22,7 @@ import edu.ben.template.model.College;
  */
 public class CollegeDao extends BaseDao<College> {
 
-	static final String SEARCH = "SELECT * FROM";
+	static final String SEARCH = "SELECT * FROM ";
 
 	/**
 	 * Super constructor

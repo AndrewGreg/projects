@@ -106,9 +106,9 @@ public class DaoConfig {
 	}
 
 	@Bean
-	public JobPostingDao jobPostingDao() throws IOException {
+	public JobDao jobPostingDao() throws IOException {
 		// create the dao
-		JobPostingDao dao = new JobPostingDao();
+		JobDao dao = new JobDao();
 		// set the specifics
 		// dao.setCache(cacheFactory());
 		dao.setDataSource(dataSource());

@@ -12,19 +12,18 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.ben.template.dao.InterestDao;
-import edu.ben.template.dao.JobPostingDao;
+import edu.ben.template.dao.jobDao;
 import edu.ben.template.dao.UserDao;
 import edu.ben.template.model.Event;
 import edu.ben.template.model.Interest;
-import edu.ben.template.model.JobPosting;
+import edu.ben.template.model.job;
 import edu.ben.template.model.User;
 import junit.framework.AssertionFailedError;
-
 
 public class JobPostingDaoTest {
 
 	@Autowired
-	private JobPostingDao jobPostingDao = new JobPostingDao();
+	private JobDao jobDao = new JobDao();
 	@Autowired
 	private InterestDao interestDao = new InterestDao();
 
@@ -34,21 +33,21 @@ public class JobPostingDaoTest {
 	public void test() {
 		Assert.assertEquals(null, null);
 	}
-	
+
 	@org.junit.Test
 	@Transactional
 	@Rollback(true)
 	public void testGetters() {
 
-		jobPostingDao.setDataSource(getDataSource());
-		jobPostingDao.setTransactionManager(getTransactionManager());
+		jobDao.setDataSource(getDataSource());
+		jobDao.setTransactionManager(getTransactionManager());
 		interestDao.setDataSource(getDataSource());
 		interestDao.setTransactionManager(getTransactionManager());
-		
+
 		Date d = new Date(6);
 		User user = new User();
 		user.setId((long) 1);
-		JobPosting job = new JobPosting("Developer", "Code Monkey", "BU", user);
+		job job = new job("Developer", "Code Monkey", "BU", user);
 		Interest interest = new Interest();
 		interest.setId((long) 1);
 		User u = new User();
@@ -57,16 +56,16 @@ public class JobPostingDaoTest {
 		interestDao.addInterestToJobPosting(job, interest);
 
 		try {
-			jobPostingDao.addJobPosting(job);
+			jobDao.addJobPosting(job);
 
 		} catch (Exception e) {
 			throw new AssertionFailedError("addJobPosting() failed");
 
 		}
-		
+
 		try {
 
-			if (jobPostingDao.getAll() == null) {
+			if (jobDao.getAll() == null) {
 				throw new AssertionFailedError("getAll() Failed");
 			}
 
@@ -76,18 +75,17 @@ public class JobPostingDaoTest {
 
 		try {
 
-			if (jobPostingDao.getByPoster(u) == null) {
+			if (jobDao.getByPoster(u) == null) {
 				throw new AssertionFailedError("getByPoster() Failed");
 			}
 
 		} catch (Exception e) {
 			throw new AssertionFailedError("getByPoster() Failed");
 		}
-		
-		
+
 		try {
 
-			if (jobPostingDao.getByInterest(interest) == null) {
+			if (jobDao.getByInterest(interest) == null) {
 				throw new AssertionFailedError("getByInterest() Failed");
 			}
 
@@ -95,30 +93,30 @@ public class JobPostingDaoTest {
 			throw new AssertionFailedError("getByInterest() Failed");
 		}
 	}
-	
+
 	@org.junit.Test
 	@Transactional
 	@Rollback(true)
 	public void testGetObjectByID() {
 
-		jobPostingDao.setDataSource(getDataSource());
-		jobPostingDao.setTransactionManager(getTransactionManager());
+		jobDao.setDataSource(getDataSource());
+		jobDao.setTransactionManager(getTransactionManager());
 
 		User user = new User();
 		user.setId((long) 1);
-		JobPosting job = new JobPosting("Developer", "Code Monkey", "BU", user);
+		job job = new job("Developer", "Code Monkey", "BU", user);
 
 		try {
-			jobPostingDao.addJobPosting(job);
+			jobDao.addJobPosting(job);
 
 		} catch (Exception e) {
-			throw new AssertionFailedError("addJobPosting() failed");
+			throw new AssertionFailedError("addJob() failed");
 
 		}
 
 		try {
 
-			if (jobPostingDao.getObjectById(1) == null) {
+			if (jobDao.getObjectById(1) == null) {
 				throw new AssertionFailedError("getObjectById() Failed");
 			}
 
@@ -126,71 +124,67 @@ public class JobPostingDaoTest {
 			throw new AssertionFailedError("getObjectById() Failed");
 		}
 	}
-	
+
 	@org.junit.Test
 	@Transactional
 	@Rollback(true)
 	public void testInsertRecords() {
 
-		jobPostingDao.setDataSource(getDataSource());
-		jobPostingDao.setTransactionManager(getTransactionManager());
+		jobDao.setDataSource(getDataSource());
+		jobDao.setTransactionManager(getTransactionManager());
 
 		User user = new User();
 		user.setId((long) 1);
-		JobPosting job = new JobPosting("Developer", "Code Monkey", "BU", user);
+		job job = new job("Developer", "Code Monkey", "BU", user);
 
 		try {
-			jobPostingDao.addJobPosting(job);
+			jobDao.addJobPosting(job);
 
 		} catch (Exception e) {
-			throw new AssertionFailedError("addJobPosting() failed");
+			throw new AssertionFailedError("addJob() failed");
 
 		}
 
 	}
-	
+
 	@org.junit.Test
 	@Transactional
 	@Rollback(true)
 	public void testUpdateJobPosting() {
 
+		jobDao.setDataSource(getDataSource());
+		jobDao.setTransactionManager(getTransactionManager());
 
-		jobPostingDao.setDataSource(getDataSource());
-		jobPostingDao.setTransactionManager(getTransactionManager());
-
-		
 		User user = new User();
 		user.setId((long) 1);
-		JobPosting job = new JobPosting("Developer", "Code Monkey", "BU", user);
+		job job = new job("Developer", "Code Monkey", "BU", user);
 
 		try {
-			jobPostingDao.addJobPosting(job);
+			jobDao.addJobPosting(job);
 
 		} catch (Exception e) {
-			throw new AssertionFailedError("addJobPosting() failed");
+			throw new AssertionFailedError("addJob() failed");
 
 		}
 
 		User user2 = new User();
 		user2.setId((long) 1000);
 		job.setPoster(user2);
-		
+
 		try {
 
-			jobPostingDao.updateJobPosting(job);
-			
-			if (jobPostingDao.getByPoster(user2) == null) {
-				throw new AssertionFailedError("updateJobPosting() Failed");
+			jobDao.updateJobPosting(job);
+
+			if (jobDao.getByPoster(user2) == null) {
+				throw new AssertionFailedError("updateJob() Failed");
 			}
 
 		} catch (Exception e) {
-			throw new AssertionFailedError("updateJobPosting() Failed");
+			throw new AssertionFailedError("updateJob() Failed");
 		}
-		
-	}
-	
 
-	
+	}
+
 	// turn to bean? How to use in DaoConfig rather than here... Injection not
 	// working here
 	public DataSource getDataSource() {

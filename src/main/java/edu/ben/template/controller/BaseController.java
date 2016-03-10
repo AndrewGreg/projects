@@ -1,5 +1,6 @@
 package edu.ben.template.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -32,16 +33,6 @@ public abstract class BaseController extends DaoKeeper {
 	public User getCurrentUser() {
 		// get the security principal
 		return getUserFromPrincipal();
-	}
-	
-	//TODO Get the active page
-	public String getActivePage(HttpRequest request) {
-		
-		String uri = request.getURI().toString();
-		
-		//TODO Parse uri to get the name of the current page
-		
-		return null;
 	}
 
 	/**

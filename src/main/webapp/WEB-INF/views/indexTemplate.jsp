@@ -76,7 +76,7 @@
 			
 			<%  if(user == null) { %>
 			<div class="col-md-3">
-				<a class="btn btn-cta" href="#"><i class="fa fa-pencil"></i>Apply
+				<a class="btn btn-cta" href="/register"><i class="fa fa-pencil"></i>Register
 					Now</a>
 			</div> <% } %>
 			
@@ -343,13 +343,13 @@
 							<a href="#"><i class="fa fa-caret-right"></i>Faculty Directory</a>
 						</p>
 						<p>
-							<a href="#"><i class="fa fa-caret-right"></i>Events</a>
+							<a href="/alumniList"><i class="fa fa-caret-right"></i>Alumni Directory</a>
 						</p>
 						<p>
-							<a href="#"><i class="fa fa-caret-right"></i>Job Postings</a>
+							<a href="/events"><i class="fa fa-caret-right"></i>Events</a>
 						</p>
 						<p>
-							<a href="#"><i class="fa fa-caret-right"></i>Contact</a>
+							<a href="/jobPostings"><i class="fa fa-caret-right"></i>Job Postings</a>
 						</p>
 					</div>
 					<!--//section-content--> </section>

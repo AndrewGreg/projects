@@ -2,6 +2,7 @@
 
 <%
 	User currentUser = (User) request.getAttribute("currentUser");
+	String active = request.getAttribute("active") != null ? (String)request.getAttribute("active") : "";
 %>
 
 <!-- ******HEADER****** -->
@@ -41,9 +42,19 @@
 				<%
 					} else {
 				%>
-				<li><a href="#"><h5 class="pull_right" style="color: #fff">
-							Welcome back
-							<%=currentUser.getFirstName()%></h5> </a></li>
+				<div class="btn-group">
+					<button type="button"
+						class="btn btn-theme top-bar-btn dropdown-toggle"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Welcome back
+						<%=currentUser.getFirstName()%>! &nbsp<i class="fa fa-angle-down"></i>
+					</button>
+					<ul class="dropdown-menu">
+						<li><a href="/user/<%=currentUser.getId()%>">My Profile</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="/logout">Logout</a></li>
+					</ul>
+				</div>
 				<%
 					}
 				%>
@@ -84,24 +95,55 @@
 		<!--//navbar-header-->
 		<div class="navbar-collapse collapse" id="navbar-collapse">
 			<ul class="nav navbar-nav">
-				<li class="active nav-item"><a href="index.html">Home</a></li>
-				<li class="nav-item"><a href="#">Faculty Directory</a></li>
-				<li class="nav-item"><a href="#">Alumni Directory</a></li>
-				<li class="nav-item dropdown"><a class="dropdown-toggle"
+				<li class="<% if (active.equals("index")) {%>active<% }%> nav-item"><a href="/">Home</a></li>
+				<li class="<% if (active.equals("faculty")) {%>active<% }%> nav-item"><a href="#">Faculty Directory</a></li>
+
+				<%
+					if (currentUser != null) {
+				%>
+				<li class="<% if (active.equals("alumni")) {%>active<% }%> nav-item"><a href="/alumni">Alumni Directory</a></li>
+				<%
+					}
+					
+				%>
+
+				<li class="<% if (active.equals("event")) {%>active<% }%> nav-item dropdown"><a class="dropdown-toggle"
 					data-toggle="dropdown" data-hover="dropdown" data-delay="0"
 					data-close-others="false" href="#">Events <i
 						class="fa fa-angle-down"></i></a>
 					<ul class="dropdown-menu">
+
+						<%
+							if (currentUser != null) {
+						%>
 						<li><a href="/events">View Events</a></li>
 						<li><a href="/createEvent">Create Event</a></li>
+						<%
+							} else {
+						%>
+						<li><a href="/events">View Public Events</a></li>
+						<%
+							}
+						%>
 					</ul></li>
-				<li class="nav-item dropdown"><a class="dropdown-toggle"
+				<li class="<% if (active.equals("job")) {%>active<% }%> nav-item dropdown"><a class="dropdown-toggle"
 					data-toggle="dropdown" data-hover="dropdown" data-delay="0"
 					data-close-others="false" href="#">Job Postings <i
 						class="fa fa-angle-down"></i></a>
 					<ul class="dropdown-menu">
-						<li><a href="#">View Job Postings</a></li>
-						<li><a href="#">Create a Job Posting</a></li>
+
+						<%
+							if (currentUser != null) {
+						%>
+						<li><a href="/jobPostings">View Job Postings</a></li>
+						<li><a href="/createJobPosting">Create a Job Posting</a></li>
+						<%
+							} else {
+						%>
+						<li><a href="/jobPostings">View Public Job Postings</a></li>
+						<%
+							}
+						%>
 					</ul></li>
 			</ul>
 			<!--//nav-->

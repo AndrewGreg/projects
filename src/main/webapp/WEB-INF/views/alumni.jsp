@@ -39,7 +39,6 @@
 				<div class="page-content">
 
 					<div class="row">
-						<h3 class="has-divider text-highlight">Hover row</h3>
 						<div class="table-responsive">
 							<table class="table table-hover">
 								<thead>

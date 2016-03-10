@@ -417,7 +417,7 @@ public class HomeController extends BaseController {
 				getUserDao().addUser(register);
 
 				model.addAttribute("active", "index");
-				return "index";
+				return "indexTemplate";
 
 			} else {
 				HashMap<String, String> errors = new HashMap<String, String>();
@@ -482,7 +482,7 @@ public class HomeController extends BaseController {
 		}
 		
 		model.addAttribute("active", "index");
-		return "index";
+		return "indexTemplate";
 	}
 
 	/**
@@ -1096,7 +1096,7 @@ public class HomeController extends BaseController {
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/userHome", method = RequestMethod.GET)
 	public String userHome(Model model) {
-		return "index";
+		return "indexTemplate";
 	}
 
 	private boolean validateEdit(String password, String confirmPassword, String firstName, String lastName,

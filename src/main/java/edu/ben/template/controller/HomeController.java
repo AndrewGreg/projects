@@ -108,10 +108,11 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/createJob", method = RequestMethod.POST)
 	public String createJobPost(Model model, @RequestParam("name") String name,
 			@RequestParam("company") String company, @RequestParam("description") String description,
-			@RequestParam("location") String location, @RequestParam("salary") boolean salary, 
+			@RequestParam("location") String location, 
 			@RequestParam("startSalary") int startSalary, @RequestParam("endSalary") int endSalary,
 			@RequestParam("startWage") float startWage, @RequestParam("endWage") float endWage,
 			@RequestParam("hours") int hours) {
+		System.out.println("im here");
 		
 		Random r = new Random();
 		int min = 1;
@@ -124,7 +125,7 @@ public class HomeController extends BaseController {
 
 			User u = getCurrentUser();
 			
-			Job job = new Job(name, description, company, u, location, salary,
+			Job job = new Job(name, description, company, u, location, true,
 					startSalary, endSalary, startWage, endWage, "stuff", 1,
 					 hours, "things");
 
@@ -135,7 +136,7 @@ public class HomeController extends BaseController {
 				e.printStackTrace();
 			}
 			System.out.println("Job was created");
-			return "redirect:/jobPostings";
+			return "redirect:/jobsTemplate";
 
 		} else {
 
@@ -536,7 +537,7 @@ public class HomeController extends BaseController {
 				// e.printStackTrace();
 			}
 
-			return "redirect:/jobsTemplate";
+			return "redirect:/eventsTemplate";
 		} else {
 			HashMap<String, String> errors = new HashMap<String, String>();
 
@@ -554,7 +555,7 @@ public class HomeController extends BaseController {
 
 			model.addAttribute("errors", errors);
 
-			return "editJobTemplate";
+			return "editEventTemplate";
 		}
 		// return "jobPostings";
 	}

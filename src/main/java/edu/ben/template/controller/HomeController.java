@@ -1,11 +1,14 @@
 package edu.ben.template.controller;
 
+
+import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Random;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -83,6 +86,79 @@ public class HomeController extends BaseController {
 		model.addAttribute("active", "job");
 		return "createJobPosting";
 	}
+	
+	@RequestMapping(value = "/createJob", method = RequestMethod.GET)
+	public String createJob(Model model) {
+		return "createJobTemplate";
+	}
+	
+	/**
+	 * Form processing of the job posting creation page.
+	 * 
+	 * @param model
+	 *            of passing
+	 * @param name
+	 *            of the Job.
+	 * @param company
+	 *            that belongs to the Job.
+	 * @param description
+	 *            of the Job.
+	 * @return the Job Posting page to view all the jobs.
+	 */
+	@RequestMapping(value = "/createJob", method = RequestMethod.POST)
+	public String createJobPost(Model model, @RequestParam("name") String name,
+			@RequestParam("company") String company, @RequestParam("description") String description,
+			@RequestParam("location") String location, 
+			@RequestParam("startSalary") int startSalary, @RequestParam("endSalary") int endSalary,
+			@RequestParam("startWage") float startWage, @RequestParam("endWage") float endWage,
+			@RequestParam("hours") int hours) {
+		System.out.println("im here");
+		
+		Random r = new Random();
+		int min = 1;
+		int max = 7;
+		int ref = r.nextInt(max - min) + min;
+
+		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
+				&& description.matches(".{2,}") && location != null && location.matches(".{2,}") 
+				) {
+
+			User u = getCurrentUser();
+			
+			Job job = new Job(name, description, company, u, location, true,
+					startSalary, endSalary, startWage, endWage, "stuff", 1,
+					 hours, "things");
+
+			try {
+
+				getJobPostingDao().addJob(job);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			System.out.println("Job was created");
+			return "redirect:/jobsTemplate";
+
+		} else {
+
+			HashMap<String, String> errors = new HashMap<String, String>();
+
+			if (name == null || !name.matches(".{2,}")) {
+				errors.put("name", "Error in the input for the job name.");
+			}
+
+			if (company == null || !company.matches(".{2,}")) {
+				errors.put("company", "Error in the input for the job's company.");
+			}
+
+			if (description == null || !description.matches(".{2,}")) {
+				errors.put("description", "Error in the input for the job description.");
+			}
+
+			model.addAttribute("errors", errors);
+
+			return "createJobTemplate";
+		}
+	}
 
 	/**
 	 * Form processing of the job posting creation page.
@@ -99,10 +175,12 @@ public class HomeController extends BaseController {
 	 */
 	@RequestMapping(value = "/createJobPosting", method = RequestMethod.POST)
 	public String createJobPostingPost(Model model, @RequestParam("name") String name,
-			@RequestParam("company") String company, @RequestParam("description") String description) {
+			@RequestParam("company") String company, @RequestParam("description") String description,
+			@RequestParam("location") String location, @RequestParam("salary") String salary) {
 
 		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
-				&& description.matches(".{2,}")) {
+				&& description.matches(".{2,}") && location != null && location.matches(".{2,}") 
+						&& salary != null && salary.matches(".{2,}")) {
 
 			User u = getCurrentUser();
 
@@ -150,6 +228,15 @@ public class HomeController extends BaseController {
 		// model.addAttribute("editJobId", jobId);
 		return "editJob";
 	}
+	
+	@RequestMapping(value = "/editAJob/{id}", method = RequestMethod.GET)
+	public String editAJob(Model model, @PathVariable Long id) {
+		Job editJob = getJobPostingDao().getObjectById(id);
+		// Long jobId = editJob.getId();
+		model.addAttribute("editJob", editJob);
+		// model.addAttribute("editJobId", jobId);
+		return "editJobTemplate";
+	}
 
 	@RequestMapping(value = "/editJob", method = RequestMethod.POST)
 	public String editJobPost(Model model, @RequestParam("name") String name, @RequestParam("company") String company,
@@ -189,6 +276,46 @@ public class HomeController extends BaseController {
 		}
 		// return "jobPostings";
 	}
+	
+	@RequestMapping(value = "/editAJob", method = RequestMethod.POST)
+	public String editJobAPost(Model model, @RequestParam("name") String name, @RequestParam("company") String company,
+			@RequestParam("description") String description, @RequestParam("location") String location, @RequestParam("salary") boolean salary, 
+			@RequestParam("startSalary") int startSalary, @RequestParam("endSalary") int endSalary,
+			@RequestParam("startWage") float startWage, @RequestParam("endWage") float endWage,
+			@RequestParam("hours") int hours, @ModelAttribute("editJob") Job editJob) {
+
+		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
+				&& description.matches(".{2,}") && location != null && location.matches(".{2,}")) {
+
+			try {
+				getJobPostingDao().updateJob(editJob);
+
+			} catch (Exception e) {
+				// e.printStackTrace();
+			}
+
+			return "redirect:/jobsTemplate";
+		} else {
+			HashMap<String, String> errors = new HashMap<String, String>();
+
+			if (name == null || !name.matches(".{2,}")) {
+				errors.put("name", "Error in the input for the job name.");
+			}
+
+			if (company == null || !company.matches(".{2,}")) {
+				errors.put("company", "Error in the input for the job's company.");
+			}
+
+			if (description == null || !description.matches(".{2,}")) {
+				errors.put("description", "Error in the input for the job description.");
+			}
+
+			model.addAttribute("errors", errors);
+
+			return "editJobTemplate";
+		}
+		// return "jobPostings";
+	}
 
 	/**
 	 * Method to request the Get for creating an event.
@@ -202,6 +329,18 @@ public class HomeController extends BaseController {
 		
 		model.addAttribute("active", "event");
 		return "createEvent";
+	}
+	
+	/**
+	 * Method to request the Get for creating an event.
+	 * 
+	 * @param model
+	 *            being passed.
+	 * @return createEvent page
+	 */
+	@RequestMapping(value = "/createNewEvent", method = RequestMethod.GET)
+	public String createEventTemplate(Model model) {
+		return "createEventTemplate";
 	}
 
 	/**
@@ -287,7 +426,140 @@ public class HomeController extends BaseController {
 		}
 
 	}
+	
+	@RequestMapping(value = "/createNewEvent", method = RequestMethod.POST)
+	public String createNewEventPost(Model model, @RequestParam("name") String name, @RequestParam("date") String dateStr,
+			@RequestParam("description") String description, @RequestParam("location") String location) {
 
+		if (name != null && name.matches(".{2,}") && description != null && description.matches(".{2,}") 
+				&& location != null && location.matches(".{2,}")
+				&& dateStr != null && dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
+
+			String[] datePart = dateStr.split("/");
+
+			// Subtracted 1900 from year and 1 from month to offset the
+			// deprecated constructor
+			Date eventDate = new Date(Integer.parseInt(datePart[2]) - 1900, Integer.parseInt(datePart[0]) - 1,
+					Integer.parseInt(datePart[1]));
+			Date currentDate = new Date(System.currentTimeMillis());
+
+			User u = getCurrentUser();
+
+			Event createEvent = new Event();
+
+			createEvent.setName(name);
+			createEvent.setDescription(description);
+			createEvent.setLocation(location);
+			createEvent.setDate(eventDate);
+			createEvent.setPoster(u);
+
+			if (eventDate.compareTo(currentDate) < 0) {
+
+				HashMap<String, String> errors = new HashMap<String, String>();
+
+				errors.put("date", "Error. The event's date must be after the current date.");
+
+				model.addAttribute("errors", errors);
+				System.out.println("im here");
+
+				return "/createEventTemplate";
+			}
+
+			System.out.println("Event was created.");
+
+			try {
+				getEventDao().addEvent(createEvent);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			return "redirect:/eventsTemplate";
+
+		} else {
+
+			HashMap<String, String> errors = new HashMap<String, String>();
+
+			if (name == null || !name.matches(".{2,}")) {
+				errors.put("name", "Error in the input for the event name.");
+			}
+			
+			if (location == null || !location.matches(".{2,}")) {
+				errors.put("location", "Error in the input for the event name.");
+			}
+
+			if (description == null || !description.matches(".{2,}")) {
+				errors.put("description", "Error in the input for the event description.");
+			}
+
+			if (dateStr == null || !dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
+				errors.put("date", "Error in the input for the event's date.");
+			}
+
+			model.addAttribute("errors", errors);
+
+			return "createEventTemplate";
+		}
+
+	}
+	
+	@RequestMapping(value = "/editAnEvent/{id}", method = RequestMethod.GET)
+	public String editAnEvent(Model model, @PathVariable Long id) {
+		Event editEvent = getEventDao().getObjectById(id);
+		// Long jobId = editJob.getId();
+		model.addAttribute("editEvent", editEvent);
+		// model.addAttribute("editJobId", jobId);
+		return "editEventTemplate";
+	}
+	
+	@RequestMapping(value = "/editAnEvent", method = RequestMethod.POST)
+	public String editJobAPost(Model model, @RequestParam("name") String name, @RequestParam("company") String company,
+			@RequestParam("description") String description, @RequestParam("location") String location, 
+			@RequestParam("date") String date, @ModelAttribute("editEvent") Event editEvent) {
+
+		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
+				&& description.matches(".{2,}") && location != null && location.matches(".{2,}")) {
+			
+			String[] datePart = date.split("/");
+
+			// Subtracted 1900 from year and 1 from month to offset the
+			// deprecated constructor
+			Date eventDate = new Date(Integer.parseInt(datePart[2]) - 1900, Integer.parseInt(datePart[0]) - 1,
+					Integer.parseInt(datePart[1]));
+			Date currentDate = new Date(System.currentTimeMillis());
+			
+			editEvent.setDate(eventDate);
+
+			
+			try {
+				getEventDao().updateEvent(editEvent);
+
+			} catch (Exception e) {
+				// e.printStackTrace();
+			}
+
+			return "redirect:/eventsTemplate";
+		} else {
+			HashMap<String, String> errors = new HashMap<String, String>();
+
+			if (name == null || !name.matches(".{2,}")) {
+				errors.put("name", "Error in the input for the job name.");
+			}
+
+			if (company == null || !company.matches(".{2,}")) {
+				errors.put("company", "Error in the input for the job's company.");
+			}
+
+			if (description == null || !description.matches(".{2,}")) {
+				errors.put("description", "Error in the input for the job description.");
+			}
+
+			model.addAttribute("errors", errors);
+
+			return "editEventTemplate";
+		}
+		// return "jobPostings";
+	}
+	
 	/**
 	 * Displays all events.
 	 * 
@@ -311,6 +583,31 @@ public class HomeController extends BaseController {
 		model.addAttribute("active", "event");
 		return "events";
 	}
+	
+	/**
+	 * Displays all events.
+	 * 
+	 * @param model
+	 *            being passed in.
+	 * @return the page returning all the events being posted.
+	 */
+	@RequestMapping(value = "/eventsTemplate", method = RequestMethod.GET)
+	public String events(Model model) {
+
+		try {
+			ArrayList<Event> events = new ArrayList<Event>();
+			events = getEventDao().getAll();
+
+			model.addAttribute("events", events);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "eventsTemplate";
+	}
+	
+	
 
 	@RequestMapping(value = "/event/{id}", method = RequestMethod.GET)
 	public String eventDisplay(Model model, @PathVariable Long id) {
@@ -326,6 +623,22 @@ public class HomeController extends BaseController {
 
 		model.addAttribute("active", "event");
 		return "eventDisplay";
+
+	}
+	
+	@RequestMapping(value = "/newEvents/{id}", method = RequestMethod.GET)
+	public String eventSingle(Model model, @PathVariable Long id) {
+
+		try {
+
+			Event currentEvent = getEventDao().getObjectById(id);
+			model.addAttribute("currentEvent", currentEvent);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "eventSingle";
 
 	}
 
@@ -557,7 +870,7 @@ public class HomeController extends BaseController {
 			@RequestParam("bio") String biography, @RequestParam("experience") String experience,
 			@RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword,
 			HttpServletRequest request, HttpServletResponse response, @RequestParam CommonsMultipartFile[] fileUpload,
-			@RequestParam("file") MultipartFile[] files) throws IOException {
+			@RequestParam("file") MultipartFile[] files, @RequestParam("photo") File photo, @RequestParam("resume") File resume) throws IOException {
 
 		if (validateEdit(password, confirmPassword, firstName, lastName, personalEmail, graduationYear)) {
 
@@ -624,18 +937,23 @@ public class HomeController extends BaseController {
 			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 			MultipartFile multipartFile = multipartRequest.getFile("file");
 
-			// UploadFile file = new UploadFile();
+			 
 			// file.setFilename(multipartFile.getOriginalFilename());
 			// file.setNotes(ServletRequestUtils.getStringParameter(request,
 			// "notes"));
 			// file.setType(multipartFile.getContentType());
-			if (files[0] != null) {
-				((UploadFile) files[0]).setData(multipartFile.getBytes());
-				getFileUploadDao().addFile((UploadFile) files[0]);
+			if(resume != null){	
+			//if (files[0] != null) {
+				UploadFile resumeFile = new UploadFile();
+				(resumeFile).setData(multipartFile.getBytes());
+				getFileUploadDao().addFile(resumeFile);
 			}
-			if (files[1] != null) {
-				((UploadFile) files[1]).setData(multipartFile.getBytes());
-				getImageUploadDao().addImage((UploadFile) files[1]);
+			
+			if(photo != null){
+			//if (files[1] != null) {
+				UploadFile photoFile = new UploadFile();
+				(photoFile).setData(multipartFile.getBytes());
+				getImageUploadDao().addImage(photoFile);
 			}
 			// if (fileUpload != null && fileUpload.length > 0) {
 			// for (CommonsMultipartFile aFile : fileUpload){
@@ -792,6 +1110,22 @@ public class HomeController extends BaseController {
 		return "jobDisplay";
 
 	}
+	
+	@RequestMapping(value = "/jobs/{id}", method = RequestMethod.GET)
+	public String jobsSingle(Model model, @PathVariable Long id) {
+
+		try {
+
+			Job currentJob = getJobPostingDao().getObjectById(id);
+			model.addAttribute("currentJob", currentJob);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "jobsSingleTemplate";
+
+	}
 
 	/**
 	 * Access to the job postings page.
@@ -817,7 +1151,24 @@ public class HomeController extends BaseController {
 		model.addAttribute("active", "job");
 		return "jobList";
 	}
+	
+	
+	@RequestMapping(value = "/jobs", method = RequestMethod.GET)
+	public String jobs(Model model) {
 
+		try {
+
+			ArrayList<Job> job = new ArrayList<Job>();
+			job = getJobPostingDao().getAll();
+
+			model.addAttribute("jobs", job);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "jobsTemplate";
+	}
 	/**
 	 * Accesses the user profile page. Dynamically grabs information depending
 	 * who is logged in such as student, alumni, and faculty.

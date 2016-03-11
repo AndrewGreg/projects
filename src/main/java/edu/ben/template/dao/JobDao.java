@@ -220,7 +220,7 @@ public class JobDao extends BaseDao<Job> {
 				job.setEnd_wage(rs.getFloat("start_wage"));
 				job.setStart_salary(rs.getInt("start_salary"));
 				job.setEnd_salary(rs.getInt("end_salary"));
-				job.setHours(rs.getInt("hours"));
+				job.setHours(rs.getInt("hours_id"));
 				job.setLink(rs.getString("link"));
 				job.setReference(rs.getString("reference"));
 				job.setToPublic(rs.getInt("toPublic"));

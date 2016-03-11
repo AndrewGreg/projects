@@ -14,6 +14,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -38,7 +40,7 @@ import edu.ben.template.model.Validator;
 @Controller
 @SessionAttributes("editJob")
 public class HomeController extends BaseController {
-
+	
 	// Allows the password to be Hashed.
 	@Resource(name = "passwordEncoder")
 	private PasswordEncoder pwEncoder;
@@ -64,25 +66,12 @@ public class HomeController extends BaseController {
 	 * 
 	 * @param model
 	 *            being passed.
-	 * @return to the homepage of Alumni Tracker.
-	 */
-	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String index(Model model) {
-		return "index";
-
-	}
-
-	/**
-	 * IndexTemplate method.
-	 * 
-	 * @param model
-	 *            being passed.
 	 * @return to the homepage template of Alumni Tracker.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String indexTemplate(Model model) {
+	public String index(Model model) {
+		model.addAttribute("active", "index");
 		return "indexTemplate";
-
 	}
 
 	/**
@@ -94,6 +83,7 @@ public class HomeController extends BaseController {
 	 */
 	@RequestMapping(value = "/createJobPosting", method = RequestMethod.GET)
 	public String jobCreation(Model model) {
+		model.addAttribute("active", "job");
 		return "createJobPosting";
 	}
 	
@@ -202,6 +192,8 @@ public class HomeController extends BaseController {
 				e.printStackTrace();
 			}
 			System.out.println("Job was created");
+			
+			model.addAttribute("active", "job");
 			return "redirect:/jobPostings";
 
 		} else {
@@ -221,7 +213,8 @@ public class HomeController extends BaseController {
 			}
 
 			model.addAttribute("errors", errors);
-
+			model.addAttribute("active", "job");
+			
 			return "createJobPosting";
 		}
 	}
@@ -257,6 +250,8 @@ public class HomeController extends BaseController {
 			} catch (Exception e) {
 				// e.printStackTrace();
 			}
+			
+			model.addAttribute("active", "job");
 
 			return "redirect:/jobPostings";
 		} else {
@@ -330,6 +325,8 @@ public class HomeController extends BaseController {
 	 */
 	@RequestMapping(value = "/createEvent", method = RequestMethod.GET)
 	public String createEvent(Model model) {
+		
+		model.addAttribute("active", "event");
 		return "createEvent";
 	}
 	
@@ -402,6 +399,7 @@ public class HomeController extends BaseController {
 				e.printStackTrace();
 			}
 
+			model.addAttribute("active", "event");
 			return "redirect:/events";
 
 		} else {
@@ -422,6 +420,7 @@ public class HomeController extends BaseController {
 
 			model.addAttribute("errors", errors);
 
+			model.addAttribute("active", "event");
 			return "createEvent";
 		}
 
@@ -580,6 +579,7 @@ public class HomeController extends BaseController {
 			e.printStackTrace();
 		}
 
+		model.addAttribute("active", "event");
 		return "events";
 	}
 	
@@ -620,6 +620,7 @@ public class HomeController extends BaseController {
 			e.printStackTrace();
 		}
 
+		model.addAttribute("active", "event");
 		return "eventDisplay";
 
 	}
@@ -724,7 +725,8 @@ public class HomeController extends BaseController {
 
 				getUserDao().addUser(register);
 
-				return "index";
+				model.addAttribute("active", "index");
+				return "indexTemplate";
 
 			} else {
 				HashMap<String, String> errors = new HashMap<String, String>();
@@ -763,14 +765,12 @@ public class HomeController extends BaseController {
 				}
 
 				model.addAttribute("errors", errors);
-
+				return "register";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		return "index";
-
+		return "register";
 	}
 
 	@RequestMapping(value = "/massRegister", method = RequestMethod.POST)
@@ -789,8 +789,8 @@ public class HomeController extends BaseController {
 			file.setData(multipartFile.getBytes());
 			getUserDao().addMultiple(file.getFileName());
 		}
-
-		return "index";
+		model.addAttribute("active", "index");
+		return "indexTemplate";
 	}
 
 	/**
@@ -1105,6 +1105,7 @@ public class HomeController extends BaseController {
 			e.printStackTrace();
 		}
 
+		model.addAttribute("active", "job");
 		return "jobDisplay";
 
 	}
@@ -1146,6 +1147,7 @@ public class HomeController extends BaseController {
 			e.printStackTrace();
 		}
 
+		model.addAttribute("active", "job");
 		return "jobList";
 	}
 	
@@ -1343,7 +1345,7 @@ public class HomeController extends BaseController {
 	 *            that displays 15 users at a time.
 	 * @return the alumni Directory page.
 	 */
-	@RequestMapping(value = "/alumniDirectory", method = RequestMethod.GET)
+	@RequestMapping(value = "/alumniList", method = RequestMethod.GET)
 	public String directory(@RequestParam(required = false) Integer page, Model model) {
 
 		try {
@@ -1375,8 +1377,9 @@ public class HomeController extends BaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "alumniDirectory";
-
+		
+		model.addAttribute("active", "alumni");
+		return "alumni";
 	}
 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.POST)
@@ -1403,7 +1406,7 @@ public class HomeController extends BaseController {
 	 *            being passed in.
 	 * @return the alumni list page.
 	 */
-	@RequestMapping(value = "/alumniList", method = RequestMethod.GET)
+	@RequestMapping(value = "/alumni", method = RequestMethod.GET)
 	public String alumniList(Model model) {
 
 		try {
@@ -1425,7 +1428,8 @@ public class HomeController extends BaseController {
 			e.printStackTrace();
 		}
 
-		return "alumniList";
+		model.addAttribute("active", "alumni");
+		return "alumni";
 	}
 
 	@PreAuthorize("isAuthenticated()")
@@ -1437,7 +1441,7 @@ public class HomeController extends BaseController {
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/userHome", method = RequestMethod.GET)
 	public String userHome(Model model) {
-		return "index";
+		return "indexTemplate";
 	}
 
 	private boolean validateEdit(String password, String confirmPassword, String firstName, String lastName,

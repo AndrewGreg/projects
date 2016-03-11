@@ -22,12 +22,11 @@ public class College {
 	/**
 	 * Constructor that defines a College.
 	 * 
-	 * @param id
 	 * @param name
 	 */
-	public College(Long id, String name) {
+	public College(String name) {
 		super();
-		this.id = id;
+
 		this.name = name;
 	}
 

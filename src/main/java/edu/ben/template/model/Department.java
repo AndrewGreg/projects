@@ -23,13 +23,11 @@ public class Department {
 	/**
 	 * Constructor that consist of the all the attributes of a department.
 	 * 
-	 * @param id
 	 * @param collegeId
 	 * @param name
 	 */
-	public Department(Long id, Long collegeId, String name) {
+	public Department(Long collegeId, String name) {
 		super();
-		this.id = id;
 		this.collegeId = collegeId;
 		this.name = name;
 	}

@@ -67,7 +67,6 @@ public class Job {
 	/**
 	 * Constructor that passes in all the attributes of the job class.
 	 * 
-	 * @param id
 	 * @param name
 	 * @param description
 	 * @param company

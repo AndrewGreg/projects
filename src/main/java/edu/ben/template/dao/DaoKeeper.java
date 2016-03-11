@@ -19,7 +19,7 @@ public class DaoKeeper {
 	@Autowired
 	private EventDao eventDao;
 	@Autowired
-	private JobPostingDao jobPostingDao;
+	private JobDao jobPostingDao;
 	@Autowired
 	private MajorDao majorDao;
 	@Autowired
@@ -50,11 +50,11 @@ public class DaoKeeper {
 		this.eventDao = eventDao;
 	}
 
-	public JobPostingDao getJobPostingDao() {
+	public JobDao getJobPostingDao() {
 		return jobPostingDao;
 	}
 
-	public void setJobPostingDao(JobPostingDao jobPostingDao) {
+	public void setJobPostingDao(JobDao jobPostingDao) {
 		this.jobPostingDao = jobPostingDao;
 	}
 

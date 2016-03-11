@@ -387,19 +387,24 @@
 										id="confirmPassword" placeholder="Confirm Password" required />
 								</div>
 							</div>
-							<div style="background-color: black; margin-left: 20px"
-								class="fileUpload btn btn-primary">
-								<span>Upload Profile Picture</span> <input type="file"
-									class="upload" />
-							</div>
-							<br> <br>
-							<div style="background-color: black; margin-left: 20px"
-								class="fileUpload btn btn-primary">
-								<span>Upload Resume</span> <input type="file" class="upload" />
-							</div>
+							
+							<div class="col-sm-6">
+								<label>Upload Profile Picture:</label>
+								<input type="file" name="photo" id="" value="">
+							<br> 
 							<br>
+							</div>
+							<!--<button class="btn btn-primary" name="Upload" value="Upload"
+								type="Submit">Upload</button>-->
+							<br> 
+							<div class="col-sm-6">
+								<label>Upload Resume:</label>
+								<input type="file" name="resume" id="" value="">
 							<br>
-							<div class="col-xs-12">
+							</div>
+							<!--  <button class="btn btn-primary" name="Upload" value="Upload"
+								type="Submit">Upload</button>-->
+							<div class="col-xs-12"> 	
 								<button type="submit"
 									class="btn btn-large btn btn-danger btn-lg btn-block">
 									<b>Submit Changes</b>

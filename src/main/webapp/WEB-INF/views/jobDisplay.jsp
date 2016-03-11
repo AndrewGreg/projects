@@ -2,14 +2,14 @@
 	pageEncoding="UTF-8"%>
 
 
-<%@page import="edu.ben.template.model.JobPosting"%>
+<%@page import="edu.ben.template.model.Job"%>
 <%@page import="edu.ben.template.model.User"%>
 
 <%
 	User currentUser = (User) request.getAttribute("currentUser");
 %>
 <%
-	JobPosting currentJob = (JobPosting) request.getAttribute("currentJob");
+	Job currentJob = (Job) request.getAttribute("currentJob");
 	String id = Long.toString(currentJob.getId());
 %>
 

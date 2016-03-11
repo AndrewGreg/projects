@@ -104,13 +104,12 @@ public class JobDao extends BaseDao<Job> {
 	 */
 	public void addJob(Job job) {
 
-		String sql = "INSERT INTO job (name, description, company, reference, public, hours_id, salary,start_wage, end_wage,start_salary,end_salary, link,location, user_id) VALUES (?, ?, ?, ?,?,?,?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO job (name, description, company, reference, public, hours_id, salary,start_wage, end_wage,start_salary,end_salary, link,location) VALUES (?, ?, ?, ?,?,?,?,?,?,?,?,?)";
 
 		jdbcTemplate.update(sql,
 				new Object[] { job.getName(), job.getDescription(), job.getCompany(), job.getReference(),
 						job.isToPublic(), job.getHours(), job.getSalary(), job.getStart_wage(), job.getEnd_wage(),
-						job.getStart_salary(), job.getEnd_salary(), job.getLink(), job.getLocation(),
-						job.getPoster().getId() });
+						job.getStart_salary(), job.getEnd_salary(), job.getLink(), job.getLocation() });
 
 		return;
 	}

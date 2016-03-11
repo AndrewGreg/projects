@@ -104,13 +104,17 @@ public class JobDao extends BaseDao<Job> {
 	 */
 	public void addJob(Job job) {
 
-		String sql = "INSERT INTO job (name, description, company, reference, public, hours_id, salary,start_wage, end_wage,start_salary,end_salary, link,location) VALUES (?, ?, ?, ?,?,?,?,?,?,?,?,?)";
-
+		String sql = "INSERT INTO job (name, description, company, reference, public, hours_id, salary,start_wage, end_wage,start_salary,end_salary, link,location) VALUES (?, ?, ?, ?,?,?,?,?,?,?,?,?,?)";
+		
+		try{
 		jdbcTemplate.update(sql,
 				new Object[] { job.getName(), job.getDescription(), job.getCompany(), job.getReference(),
 						job.isToPublic(), job.getHours(), job.getSalary(), job.getStart_wage(), job.getEnd_wage(),
 						job.getStart_salary(), job.getEnd_salary(), job.getLink(), job.getLocation() });
-
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		
 		return;
 	}
 
@@ -220,7 +224,7 @@ public class JobDao extends BaseDao<Job> {
 				job.setEnd_wage(rs.getFloat("start_wage"));
 				job.setStart_salary(rs.getInt("start_salary"));
 				job.setEnd_salary(rs.getInt("end_salary"));
-				job.setHours(rs.getInt("hours"));
+				job.setHours(rs.getInt("hours_id"));
 				job.setLink(rs.getString("link"));
 				job.setReference(rs.getString("reference"));
 				job.setToPublic(rs.getInt("toPublic"));

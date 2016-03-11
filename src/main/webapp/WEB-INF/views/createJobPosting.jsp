@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 
 
-<%@ page import="edu.ben.template.model.JobPosting"%>
+<%@ page import="edu.ben.template.model.Job"%>
 <%@ page import="edu.ben.template.model.User"%>
 <%@ page import="java.util.HashMap"%>
 <%

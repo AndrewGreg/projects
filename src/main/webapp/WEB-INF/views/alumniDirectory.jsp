@@ -6,8 +6,6 @@
 <%@ page import="edu.ben.template.dao.UserDao"%>
 
 <%
-	
-
 	ArrayList<User> alumni;
 	if (request.getAttribute("alumni") != null) {
 		alumni = (ArrayList<User>) request.getAttribute("alumni");

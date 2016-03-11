@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`user` (
     REFERENCES `alumnitracker`.`title` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;A
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -109,6 +109,7 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`job` (
   `start_salary` INT NULL,
   `end_salary` INT NULL,
   `link` VARCHAR(1000) NULL,
+  `location` VARCHAR(300) NULL,
   PRIMARY KEY (`id`, `hours_id`),
   INDEX `fk_job_user_idx` (`user_id` ASC),
   INDEX `fk_job_hours1_idx` (`hours_id` ASC),

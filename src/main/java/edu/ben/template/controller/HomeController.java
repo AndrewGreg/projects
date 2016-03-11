@@ -234,6 +234,15 @@ public class HomeController extends BaseController {
 		// model.addAttribute("editJobId", jobId);
 		return "editJob";
 	}
+	
+	@RequestMapping(value = "/editAJob/{id}", method = RequestMethod.GET)
+	public String editAJob(Model model, @PathVariable Long id) {
+		Job editJob = getJobPostingDao().getObjectById(id);
+		// Long jobId = editJob.getId();
+		model.addAttribute("editJob", editJob);
+		// model.addAttribute("editJobId", jobId);
+		return "editJobTemplate";
+	}
 
 	@RequestMapping(value = "/editJob", method = RequestMethod.POST)
 	public String editJobPost(Model model, @RequestParam("name") String name, @RequestParam("company") String company,
@@ -268,6 +277,46 @@ public class HomeController extends BaseController {
 			model.addAttribute("errors", errors);
 
 			return "editJob";
+		}
+		// return "jobPostings";
+	}
+	
+	@RequestMapping(value = "/editAJob", method = RequestMethod.POST)
+	public String editJobAPost(Model model, @RequestParam("name") String name, @RequestParam("company") String company,
+			@RequestParam("description") String description, @RequestParam("location") String location, @RequestParam("salary") boolean salary, 
+			@RequestParam("startSalary") int startSalary, @RequestParam("endSalary") int endSalary,
+			@RequestParam("startWage") float startWage, @RequestParam("endWage") float endWage,
+			@RequestParam("hours") int hours, @ModelAttribute("editJob") Job editJob) {
+
+		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
+				&& description.matches(".{2,}") && location != null && location.matches(".{2,}")) {
+
+			try {
+				getJobPostingDao().updateJob(editJob);
+
+			} catch (Exception e) {
+				// e.printStackTrace();
+			}
+
+			return "redirect:/jobsTemplate";
+		} else {
+			HashMap<String, String> errors = new HashMap<String, String>();
+
+			if (name == null || !name.matches(".{2,}")) {
+				errors.put("name", "Error in the input for the job name.");
+			}
+
+			if (company == null || !company.matches(".{2,}")) {
+				errors.put("company", "Error in the input for the job's company.");
+			}
+
+			if (description == null || !description.matches(".{2,}")) {
+				errors.put("description", "Error in the input for the job description.");
+			}
+
+			model.addAttribute("errors", errors);
+
+			return "editJobTemplate";
 		}
 		// return "jobPostings";
 	}
@@ -377,7 +426,140 @@ public class HomeController extends BaseController {
 		}
 
 	}
+	
+	@RequestMapping(value = "/createNewEvent", method = RequestMethod.POST)
+	public String createNewEventPost(Model model, @RequestParam("name") String name, @RequestParam("date") String dateStr,
+			@RequestParam("description") String description, @RequestParam("location") String location) {
 
+		if (name != null && name.matches(".{2,}") && description != null && description.matches(".{2,}") 
+				&& location != null && location.matches(".{2,}")
+				&& dateStr != null && dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
+
+			String[] datePart = dateStr.split("/");
+
+			// Subtracted 1900 from year and 1 from month to offset the
+			// deprecated constructor
+			Date eventDate = new Date(Integer.parseInt(datePart[2]) - 1900, Integer.parseInt(datePart[0]) - 1,
+					Integer.parseInt(datePart[1]));
+			Date currentDate = new Date(System.currentTimeMillis());
+
+			User u = getCurrentUser();
+
+			Event createEvent = new Event();
+
+			createEvent.setName(name);
+			createEvent.setDescription(description);
+			createEvent.setLocation(location);
+			createEvent.setDate(eventDate);
+			createEvent.setPoster(u);
+
+			if (eventDate.compareTo(currentDate) < 0) {
+
+				HashMap<String, String> errors = new HashMap<String, String>();
+
+				errors.put("date", "Error. The event's date must be after the current date.");
+
+				model.addAttribute("errors", errors);
+				System.out.println("im here");
+
+				return "/createEventTemplate";
+			}
+
+			System.out.println("Event was created.");
+
+			try {
+				getEventDao().addEvent(createEvent);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			return "redirect:/eventsTemplate";
+
+		} else {
+
+			HashMap<String, String> errors = new HashMap<String, String>();
+
+			if (name == null || !name.matches(".{2,}")) {
+				errors.put("name", "Error in the input for the event name.");
+			}
+			
+			if (location == null || !location.matches(".{2,}")) {
+				errors.put("location", "Error in the input for the event name.");
+			}
+
+			if (description == null || !description.matches(".{2,}")) {
+				errors.put("description", "Error in the input for the event description.");
+			}
+
+			if (dateStr == null || !dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
+				errors.put("date", "Error in the input for the event's date.");
+			}
+
+			model.addAttribute("errors", errors);
+
+			return "createEventTemplate";
+		}
+
+	}
+	
+	@RequestMapping(value = "/editAnEvent/{id}", method = RequestMethod.GET)
+	public String editAnEvent(Model model, @PathVariable Long id) {
+		Event editEvent = getEventDao().getObjectById(id);
+		// Long jobId = editJob.getId();
+		model.addAttribute("editEvent", editEvent);
+		// model.addAttribute("editJobId", jobId);
+		return "editEventTemplate";
+	}
+	
+	@RequestMapping(value = "/editAnEvent", method = RequestMethod.POST)
+	public String editJobAPost(Model model, @RequestParam("name") String name, @RequestParam("company") String company,
+			@RequestParam("description") String description, @RequestParam("location") String location, 
+			@RequestParam("date") String date, @ModelAttribute("editEvent") Event editEvent) {
+
+		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
+				&& description.matches(".{2,}") && location != null && location.matches(".{2,}")) {
+			
+			String[] datePart = date.split("/");
+
+			// Subtracted 1900 from year and 1 from month to offset the
+			// deprecated constructor
+			Date eventDate = new Date(Integer.parseInt(datePart[2]) - 1900, Integer.parseInt(datePart[0]) - 1,
+					Integer.parseInt(datePart[1]));
+			Date currentDate = new Date(System.currentTimeMillis());
+			
+			editEvent.setDate(eventDate);
+
+			
+			try {
+				getEventDao().updateEvent(editEvent);
+
+			} catch (Exception e) {
+				// e.printStackTrace();
+			}
+
+			return "redirect:/jobsTemplate";
+		} else {
+			HashMap<String, String> errors = new HashMap<String, String>();
+
+			if (name == null || !name.matches(".{2,}")) {
+				errors.put("name", "Error in the input for the job name.");
+			}
+
+			if (company == null || !company.matches(".{2,}")) {
+				errors.put("company", "Error in the input for the job's company.");
+			}
+
+			if (description == null || !description.matches(".{2,}")) {
+				errors.put("description", "Error in the input for the job description.");
+			}
+
+			model.addAttribute("errors", errors);
+
+			return "editJobTemplate";
+		}
+		// return "jobPostings";
+	}
+	
 	/**
 	 * Displays all events.
 	 * 
@@ -400,6 +582,31 @@ public class HomeController extends BaseController {
 
 		return "events";
 	}
+	
+	/**
+	 * Displays all events.
+	 * 
+	 * @param model
+	 *            being passed in.
+	 * @return the page returning all the events being posted.
+	 */
+	@RequestMapping(value = "/eventsTemplate", method = RequestMethod.GET)
+	public String events(Model model) {
+
+		try {
+			ArrayList<Event> events = new ArrayList<Event>();
+			events = getEventDao().getAll();
+
+			model.addAttribute("events", events);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "eventsTemplate";
+	}
+	
+	
 
 	@RequestMapping(value = "/event/{id}", method = RequestMethod.GET)
 	public String eventDisplay(Model model, @PathVariable Long id) {
@@ -414,6 +621,22 @@ public class HomeController extends BaseController {
 		}
 
 		return "eventDisplay";
+
+	}
+	
+	@RequestMapping(value = "/newEvents/{id}", method = RequestMethod.GET)
+	public String eventSingle(Model model, @PathVariable Long id) {
+
+		try {
+
+			Event currentEvent = getEventDao().getObjectById(id);
+			model.addAttribute("currentEvent", currentEvent);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "eventSingle";
 
 	}
 

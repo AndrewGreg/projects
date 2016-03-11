@@ -196,13 +196,13 @@
 		<div class="content container">
             <div class="page-wrapper">
                 <header class="page-heading clearfix">
-                    <h1 class="heading-title pull-left">Jobs</h1>
+                    <h1 class="heading-title pull-left" style="color: white">Jobs</h1>
                     <div class="breadcrumbs pull-right">
                         <ul class="breadcrumbs-list">
                             <li class="breadcrumbs-label">You are here:</li>
                             <li><a href="index.html">Home</a><i class="fa fa-angle-right"></i></li>
                             <li><a href="jobs.html">Jobs</a><i class="fa fa-angle-right"></i></li>
-                            <li class="current"><%=currentJob.getName()%></li>
+                            <li class="current"  style="color: white"><%=currentJob.getName()%></li>
                         </ul>
                     </div><!--//breadcrumbs-->
                 </header> 
@@ -210,6 +210,11 @@
                     <div class="row page-row">
                         <div class="jobs-wrapper col-md-8 col-sm-7">           
                             <h3 class="title"><%=currentJob.getName()%></h3>
+                             <%if((currentUser.getId() == currentJob.getPoster().getId()) || currentUser.getRole() > 2){%>
+                            		<a href="/editAJob/<%=id%>">Edit Job</a>
+                            <%
+                            	}
+                            %>
                             <div class="box box-border page-row">
                                 <ul class="list-unstyled">
                                 <%if(currentJob.getPoster() != null && currentJob.getPoster().getFirstName() != null && currentJob.getPoster().getEmail() != null) { %>

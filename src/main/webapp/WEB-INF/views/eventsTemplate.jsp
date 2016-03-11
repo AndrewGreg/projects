@@ -1,22 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    
-<%@ page import="edu.ben.template.model.Job"%>
-<%@ page import="edu.ben.template.model.User"%>
+<%@ page import="edu.ben.template.model.Event"%>
 <%@ page import="java.util.ArrayList"%>
 <%
-	ArrayList<Job> jobs;
-	if (request.getAttribute("jobs") != null) {
-		jobs = (ArrayList<Job>) request.getAttribute("jobs");
+	ArrayList<Event> events;
+	if (request.getAttribute("events") != null) {
+		events = (ArrayList<Event>) request.getAttribute("events");
 	} else {
-		jobs = new ArrayList<Job>();
+		events = new ArrayList<Event>();
 	}
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Jobs</title>
+<title>Events</title>
+
 <!-- Meta -->
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -48,7 +47,7 @@
 </head>
 <body>
 
- <div class="wrapper">
+<div class="wrapper">
 		<!-- ******HEADER****** -->
 		<header class="header">
 		<div class="top-bar">
@@ -191,71 +190,69 @@
 		</div>
 		<!--//container--> </nav>
 		<!--//main-nav-->
-		
-          <!-- ******CONTENT****** --> 
-        <div class="content container">
+
+		<!-- ******CONTENT****** -->
+		 <div class="content container">
             <div class="page-wrapper">
                 <header class="page-heading clearfix">
-                    <h1 class="heading-title pull-left" style="color: white">Jobs</h1>
+                    <h1 class="heading-title pull-left" style="color: white">Events</h1>
                     <div class="breadcrumbs pull-right">
                         <ul class="breadcrumbs-list">
                             <li class="breadcrumbs-label">You are here:</li>
                             <li><a href="index.html">Home</a><i class="fa fa-angle-right"></i></li>
-                            <li class="current"  style="color: white">Jobs</li>
+                            <li class="current"  style="color: white">Events</li>
                         </ul>
                     </div><!--//breadcrumbs-->
                 </header> 
                 <div class="page-content">
                     <div class="row page-row">
-                        <div class="jobs-wrapper col-md-8 col-sm-7">           
-                            <%
-								for (int i = 0; i < jobs.size(); i++) {
+                        <div class="events-wrapper col-md-8 col-sm-7">   
+                        	<%
+								for (int i = 0; i < events.size(); i++) {
 
-									String name = jobs.get(i).getName() != null ? jobs.get(i).getName() : "";
-									String company = jobs.get(i).getCompany() != null ? jobs.get(i).getCompany() : "";
-									String id = Long.toString(jobs.get(i).getId());
-									String description = jobs.get(i).getDescription() != null ? jobs.get(i).getDescription() : "";
-									String location = jobs.get(i).getLocation() != null ? jobs.get(i).getLocation() : "";
-									int hours = jobs.get(i).getHours() != 0 ? jobs.get(i).getHours() : 0;
-									int startSalary = jobs.get(i).getStart_salary() != 0 ? jobs.get(i).getStart_salary() : 0;
-									int endSalary = jobs.get(i).getEnd_salary() != 0 ? jobs.get(i).getEnd_salary() : 0;
-									
-							%>
-                            <div class="panel panel-default page-row">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><a href="/jobs/<%=id%>"><%=name%></a> <span class="label label-success pull-right"><%=hours%></span></h3>
-                                    
-                                </div>
-                                <div class="panel-body">
-                                    <%=description%>
-                                </div>
-                                <ul class="list-group">
-                                    <li class="list-group-item"><strong>Location:</strong> <%=location%></li>
-                                    <li class="list-group-item"><strong>Salary:</strong> <%=startSalary%> - <%=endSalary%></li>
-                                </ul>
-                                <div class="panel-footer">
-                                    <div class="row">
-                                        <ul class="list-inline col-md-8 col-sm-6 col-xs-6">
-                                            <li><a href="/jobs/<%=id%>">More details</a></li>
-                                        </ul>
-                                        <div class="meta col-md-4 col-sm-6 col-xs-6 text-right">
-                                            <small>Posted 3 days ago</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!--//panel-->
+								String name = events.get(i).getName() != null ? events.get(i).getName() : "";
+								String location = events.get(i).getLocation() != null ? events.get(i).getLocation() : "";
+								String description = events.get(i).getDescription() != null ? events.get(i).getDescription() : "";
+								
+								String date;
+						
+								if(events.get(i).getDate() != null) {
+									String[] localeDate = events.get(i).getDate().toLocaleString().split(" ");
+									date = localeDate[0] + " " +  localeDate[1] + " " + localeDate[2];
+								}
+								else {
+									date = "";
+								}
+						
+						
+						
+								String id = Long.toString(events.get(i).getId());
+							%>                      
+                            <article class="events-item page-row has-divider clearfix">
+                                <div class="date-label-wrapper col-md-1 col-sm-2">
+                                    <p class="date-label">
+                                        <span><%=date%></span>
+                                    </p>
+                                </div><!--//date-label-wrapper-->
+                                <div class="details col-md-11 col-sm-10">
+                                    <h3 class="title"><a href="/newEvents/<%=id%>"><%=name%></a></h3>
+                                    <p class="meta"><span class="time"><i class="fa fa-clock-o"></i>10:00am - 18:00pm</span><span class="location"><i class="fa fa-map-marker"></i><a href="#"><%=location %></a></span></p>  
+                                    <p class="desc"><%=description%></p>                       
+                                </div><!--//details-->
+                            </article><!--//events-item-->
                             <%
 								}
-                            %>
+                  			%>
                         </div>
                     </div>
-                </div>
-            </div>
-         </div>
-        
-       </div>
-       
-       <!-- ******FOOTER****** -->
+                   
+                 </div>
+                  
+             </div>
+          </div>
+	
+	</div>
+	<!-- ******FOOTER****** -->
 	<footer class="footer">
 	<div class="footer-content">
 		<div class="container">

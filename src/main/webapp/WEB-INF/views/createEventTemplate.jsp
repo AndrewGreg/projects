@@ -195,13 +195,13 @@
 			<div class="page-wrapper">
 				<header class="page-heading clearfix">
 				<h1 class="heading-title pull-left" style="color: white">Create
-					a Job</h1>
+					an Event</h1>
 				<div class="breadcrumbs pull-right">
 					<ul class="breadcrumbs-list">
 						<li class="breadcrumbs-label">You are here:</li>
 						<li><a href="index.html">Home</a><i class="fa fa-angle-right"></i></li>
-						<li><a href="jobs.html">Jobs</a><i class="fa fa-angle-right"></i></li>
-						<li class="current" style="color: white">Create a Job</li>
+						<li><a href="jobs.html">Event</a><i class="fa fa-angle-right"></i></li>
+						<li class="current" style="color: white">Create an Event</li>
 					</ul>
 				</div>
 				<!--//breadcrumbs--> </header>

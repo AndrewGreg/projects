@@ -1,22 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-    
+	pageEncoding="ISO-8859-1"%>
 <%@ page import="edu.ben.template.model.Job"%>
 <%@ page import="edu.ben.template.model.User"%>
-<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.HashMap"%>
 <%
-	ArrayList<Job> jobs;
-	if (request.getAttribute("jobs") != null) {
-		jobs = (ArrayList<Job>) request.getAttribute("jobs");
+	HashMap<String, String> errors;
+	if (request.getAttribute("errors") != null) {
+		errors = (HashMap<String, String>) request.getAttribute("errors");
 	} else {
-		jobs = new ArrayList<Job>();
+		errors = new HashMap<String, String>();
 	}
+%>
+
+<%
+	User currentUser = (User) request.getAttribute("currentUser");
+%>
+<%
+	Job currentJob = (Job) request.getAttribute("currentJob");
+	String id = Long.toString(currentJob.getId());
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Jobs</title>
+<title>Edit a Job</title>
+
 <!-- Meta -->
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -48,7 +56,7 @@
 </head>
 <body>
 
- <div class="wrapper">
+	<div class="wrapper">
 		<!-- ******HEADER****** -->
 		<header class="header">
 		<div class="top-bar">
@@ -191,71 +199,236 @@
 		</div>
 		<!--//container--> </nav>
 		<!--//main-nav-->
-		
-          <!-- ******CONTENT****** --> 
-        <div class="content container">
-            <div class="page-wrapper">
-                <header class="page-heading clearfix">
-                    <h1 class="heading-title pull-left" style="color: white">Jobs</h1>
-                    <div class="breadcrumbs pull-right">
-                        <ul class="breadcrumbs-list">
-                            <li class="breadcrumbs-label">You are here:</li>
-                            <li><a href="index.html">Home</a><i class="fa fa-angle-right"></i></li>
-                            <li class="current"  style="color: white">Jobs</li>
-                        </ul>
-                    </div><!--//breadcrumbs-->
-                </header> 
-                <div class="page-content">
-                    <div class="row page-row">
-                        <div class="jobs-wrapper col-md-8 col-sm-7">           
-                            <%
-								for (int i = 0; i < jobs.size(); i++) {
 
-									String name = jobs.get(i).getName() != null ? jobs.get(i).getName() : "";
-									String company = jobs.get(i).getCompany() != null ? jobs.get(i).getCompany() : "";
-									String id = Long.toString(jobs.get(i).getId());
-									String description = jobs.get(i).getDescription() != null ? jobs.get(i).getDescription() : "";
-									String location = jobs.get(i).getLocation() != null ? jobs.get(i).getLocation() : "";
-									int hours = jobs.get(i).getHours() != 0 ? jobs.get(i).getHours() : 0;
-									int startSalary = jobs.get(i).getStart_salary() != 0 ? jobs.get(i).getStart_salary() : 0;
-									int endSalary = jobs.get(i).getEnd_salary() != 0 ? jobs.get(i).getEnd_salary() : 0;
-									
+		<!-- ******CONTENT****** -->
+		<div class="content container">
+			<div class="page-wrapper">
+				<header class="page-heading clearfix">
+				<h1 class="heading-title pull-left" style="color: white">Edit
+					a Job</h1>
+				<div class="breadcrumbs pull-right">
+					<ul class="breadcrumbs-list">
+						<li class="breadcrumbs-label">You are here:</li>
+						<li><a href="index.html">Home</a><i class="fa fa-angle-right"></i></li>
+						<li><a href="jobs.html">Jobs</a><i class="fa fa-angle-right"></i></li>
+						<li class="current" style="color: white">Edit a Job</li>
+					</ul>
+				</div>
+				<!--//breadcrumbs--> </header>
+				<div class="container">
+					<div class="row">
+						<article class="contact-form col-md-8 col-sm-7  page-row">
+						<form action="/editAJob" method="POST"
+							name="editJob">
+
+							<%
+								String name = (request.getParameter("name") == null) ? "" : (String) request.getParameter("name");
+								String company = (request.getParameter("company") == null) ? "" : (String) request.getParameter("company");
+								String description = (request.getParameter("description") == null) ? ""
+										: (String) request.getParameter("description");
+								String location = (request.getParameter("location") == null) ? "" : (String) request.getParameter("location");
+								String startSalary = (request.getParameter("startSalary") == null) ? "" : (String) request.getParameter("startSalary");
+								String endSalary = (request.getParameter("endSalary") == null) ? "" : (String) request.getParameter("endSalary");
+								String startWage = (request.getParameter("startWage") == null) ? "" : (String) request.getParameter("startWage");
+								String endWage = (request.getParameter("endWage") == null) ? "" : (String) request.getParameter("endWage");
+								String hours = (request.getParameter("hours") == null) ? "" : (String) request.getParameter("hours");
+								String startDate = (request.getParameter("startDate") == null) ? "" : (String) request.getParameter("startDate");
+								String endDate = (request.getParameter("endDate") == null) ? "" : (String) request.getParameter("endDate");
+
+
 							%>
-                            <div class="panel panel-default page-row">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><a href="/jobs/<%=id%>"><%=name%></a> <span class="label label-success pull-right"><%=hours%></span></h3>
-                                    
-                                </div>
-                                <div class="panel-body">
-                                    <%=description%>
-                                </div>
-                                <ul class="list-group">
-                                    <li class="list-group-item"><strong>Location:</strong> <%=location%></li>
-                                    <li class="list-group-item"><strong>Salary:</strong> <%=startSalary%> - <%=endSalary%></li>
-                                </ul>
-                                <div class="panel-footer">
-                                    <div class="row">
-                                        <ul class="list-inline col-md-8 col-sm-6 col-xs-6">
-                                            <li><a href="/jobs/<%=id%>">More details</a></li>
-                                        </ul>
-                                        <div class="meta col-md-4 col-sm-6 col-xs-6 text-right">
-                                            <small>Posted 3 days ago</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!--//panel-->
-                            <%
-								}
-                            %>
-                        </div>
-                    </div>
-                </div>
-            </div>
-         </div>
-        
-       </div>
-       
-       <!-- ******FOOTER****** -->
+
+
+							<div class="form-group col-sm-6">
+								<label style="color: white">Job Name </label><input type="text"
+									class="form-control" name="name" value="<%=currentJob.getName()%>" required>
+
+								<%
+									if (errors.get("name") != null) {
+								%>
+
+								<h6 style="color: red"><%=errors.get("name")%></h6>
+
+								<%
+									}
+								%>
+							</div>
+
+							<div class="form-group col-sm-6">
+								<label style="color: white">Company </label><input type="text"
+									class="form-control" name="company" value="<%=company%>"
+									required>
+
+								<%
+									if (errors.get("company") != null) {
+								%>
+
+								<h6 style="color: red"><%=errors.get("company")%></h6>
+
+								<%
+									}
+								%>
+							</div>
+
+							<div class="form-group col-sm-6">
+								<label style="color: white">Location </label><input type="text"
+									class="form-control" name="location" value="<%=location%>"
+									required>
+
+								<%
+									if (errors.get("location") != null) {
+								%>
+
+								<h6 style="color: red"><%=errors.get("location")%></h6>
+
+								<%
+									}
+								%>
+							</div>
+							
+							<div class="form-group col-sm-6">
+								<label style="color: white">Hours</label><input type="text"
+									class="form-control" name="hours" value="<%=hours%>"
+									required>
+
+								<%
+									if (errors.get("hours") != null) {
+								%>
+
+								<h6 style="color: red"><%=errors.get("hours")%></h6>
+
+								<%
+									}
+								%>
+							</div>
+							
+							<div class="form-group col-sm-3">
+								<label style="color: white">Start Salary</label><input type="text"
+									class="form-control" name="startSalary" value="<%=startSalary%>"
+									required>
+
+								<%
+									if (errors.get("startSalary") != null) {
+								%>
+
+								<h6 style="color: red"><%=errors.get("startSalary")%></h6>
+
+								<%
+									}
+								%>
+							</div>
+							
+							<div class="form-group col-sm-3">
+								<label style="color: white">End Salary</label><input type="text"
+									class="form-control" name="endSalary" value="<%=endSalary%>"
+									required>
+
+								<%
+									if (errors.get("endSalary") != null) {
+								%>
+
+								<h6 style="color: red"><%=errors.get("endSalary")%></h6>
+
+								<%
+									}
+								%>
+							</div>
+							
+							<div class="form-group col-sm-3">
+								<label style="color: white">Start Wage</label><input type="text"
+									class="form-control" name="startWage" value="<%=startWage%>"
+									required>
+
+								<%
+									if (errors.get("startWage") != null) {
+								%>
+
+								<h6 style="color: red"><%=errors.get("startWage")%></h6>
+
+								<%
+									}
+								%>
+							</div>
+							
+							<div class="form-group col-sm-3">
+								<label style="color: white">End Wage</label><input type="text"
+									class="form-control" name="endWage" value="<%=endWage%>"
+									required>
+
+								<%
+									if (errors.get("endWage") != null) {
+								%>
+
+								<h6 style="color: red"><%=errors.get("endWage")%></h6>
+
+								<%
+									}
+								%>
+							</div>
+							
+							
+							
+							<div class="form-group col-sm-3">
+								<label style="color: white">Start Date</label><input type="text"
+									class="form-control" name="startDate" value="<%=startDate%>"
+									required>
+
+								<%
+									if (errors.get("startDate") != null) {
+								%>
+
+								<h6 style="color: red"><%=errors.get("startDate")%></h6>
+
+								<%
+									}
+								%>
+							</div>
+							
+							<div class="form-group col-sm-3">
+								<label style="color: white">End Date</label><input type="text"
+									class="form-control" name="endDate" value="<%=endDate%>"
+									required>
+
+								<%
+									if (errors.get("endDate") != null) {
+								%>
+
+								<h6 style="color: red"><%=errors.get("endDate")%></h6>
+
+								<%
+									}
+								%>
+							</div>
+							
+							<div class="form-group col-sm-12">
+								<label style="color: white">Description </label>
+								<textarea class="form-control" rows="8" name="description"></textarea>
+
+								<%
+									if (errors.get("description") != null) {
+								%>
+
+								<h6 style="color: red"><%=errors.get("description")%></h6>
+
+								<%
+									}
+								%>
+
+								<br>
+								<button type="reset" class="btn btn-danger">Clear</button>
+								<button type="submit" class="btn btn-primary">Create
+									posting</button>
+							</div>
+
+						</form>
+						</article>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div><!--//wrapper-->
+	<!-- ******FOOTER****** -->
 	<footer class="footer">
 	<div class="footer-content">
 		<div class="container">

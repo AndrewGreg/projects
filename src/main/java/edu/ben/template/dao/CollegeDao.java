@@ -78,7 +78,7 @@ public class CollegeDao extends BaseDao<College> {
 	public ArrayList<College> getAll() {
 
 		List<College> colleges = new ArrayList<College>();
-		String sql = SEARCH + "college ORDER BY college";
+		String sql = SEARCH + "college ORDER BY name";
 
 		try {
 			colleges = jdbcTemplate.query(sql, getRowMapper());

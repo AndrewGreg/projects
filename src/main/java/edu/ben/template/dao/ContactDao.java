@@ -25,7 +25,7 @@ public class ContactDao extends BaseDao<Contact> {
 	public ArrayList<Contact> getAll() {
 
 		List<Contact> contacts = new ArrayList<Contact>();
-		String sql = SEARCH + "contact ORDER BY contact";
+		String sql = SEARCH + "contact ORDER BY name";
 
 		try {
 			contacts = jdbcTemplate.query(sql, getRowMapper());

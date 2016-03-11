@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     
-<%@ page import="edu.ben.template.model.JobPosting"%>
+<%@ page import="edu.ben.template.model.Job"%>
 <%@ page import="edu.ben.template.model.User"%>
 <%@ page import="java.util.HashMap"%>
 <%
@@ -14,7 +14,7 @@
 	
 	User u = (User) request.getAttribute("user");
 	
-	JobPosting editJob = (JobPosting) request.getAttribute("editJob");
+	Job editJob = (Job) request.getAttribute("editJob");
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">

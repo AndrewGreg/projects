@@ -91,7 +91,6 @@
 			<!--//nav-toggle-->
 		</div>
 
-		<!-- Get a variable from home controller indicating which one is the active page -->
 		<!--//navbar-header-->
 		<div class="navbar-collapse collapse" id="navbar-collapse">
 			<ul class="nav navbar-nav">

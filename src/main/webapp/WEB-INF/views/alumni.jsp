@@ -25,8 +25,8 @@
 		<jsp:include page="navBarTemplate.jsp" />
 		<!-- ******CONTENT****** -->
 		<div class="content container directory-container">
-			<div class="page-wrapper">
-				<header class="page-heading clearfix">
+			<div class="page-wrapper table-container">
+				<header class="page-heading clearfix" style="margin-bottom: 10px !important;">
 				<h1 class="heading-title pull-left">Alumni Directory</h1>
 				<div class="breadcrumbs pull-right">
 					<ul class="breadcrumbs-list">
@@ -36,38 +36,60 @@
 					</ul>
 				</div>
 				<!--//breadcrumbs--> </header>
-				<div class="page-content">
+				<div class="page-content table-content">
 
 					<div class="row">
 						<div class="table-responsive">
-							<table class="table table-hover">
+							<div class="form-group pull-right">
+								<input type="text" class="search form-control"
+									placeholder="Search" style="margin-top: 5px;">
+							</div>
+							<span class="counter pull-right"></span>
+							<table class="table table-hover results">
 								<thead>
 									<tr>
-										<th>#</th>
+										<th>Profile</th>
 										<th>First Name</th>
 										<th>Last Name</th>
-										<th>Status</th>
+										<th>Major</th>
+										<th>Grad Year</th>
+									</tr>
+									<tr class="warning no-result">
+										<td colspan="4"><i class="fa fa-warning"></i> No result</td>
 									</tr>
 								</thead>
 								<tbody>
+									<%
+										if (alumni.size() == 0) {
+									%>
 									<tr>
-										<td>1</td>
-										<td>Mark</td>
-										<td>Otto</td>
-										<td>@mdo</td>
+										<td colspan="4"></td>
 									</tr>
-									<tr>
-										<td>2</td>
-										<td>Jacob</td>
-										<td>Thornton</td>
-										<td>@mdo</td>
+									<tr class="warning no-result">
+										<td colspan="4"><i class="fa fa-warning"></i>There are no
+											available alumni.</td>
 									</tr>
-									<tr>
-										<td>3</td>
-										<td>Larry</td>
-										<td>the Bird</td>
-										<td>@fat</td>
+
+									<%
+										} else {
+											for (int i = 0; i < alumni.size(); i++) {
+									%>
+									<tr class='clickable-row row-link'
+										data-href='/user/<%=alumni.get(i).getId()%>'
+										<%if (i % 2 == 1) {%> style="background-color: #E8E8E8" <%}%>>
+										<td><img id="empty-profile-pic"
+											src="/content/img/empty-profile.png"
+											alt="Empty profile picture"></td>
+										<td><%=alumni.get(i).getFirstName()%></td>
+										<td><%=alumni.get(i).getLastName()%></td>
+										<td><%=alumni.get(i).getMajorAtIndex(0).getName()%></td>
+										<td><%=alumni.get(i).getGraduationYear()%></td>
 									</tr>
+
+									<%
+										}
+										}
+									%>
 								</tbody>
 							</table>
 							<!--//table-->

@@ -2364,6 +2364,43 @@ ul.custom-list-style li {
 
 .directory-container {
 	background-color: #f5f5f5;
-	margin-bottom: 20px !important;
+	margin-bottom: 30px !important;
 	margin-top: 20px !important;
+}
+
+.table-container {
+	margin-top: 20px !important;
+	margin-bottom: 10px !important;
+	margin-left: 10px !important;
+	margin-right: 10px !important;
+}
+
+.table-content {
+	margin-left: 15px !important;
+	margin-right: 15px !important;
+	margin-bottom: 10px !important;
+}
+
+#empty-profile-pic {
+	width: 35px;
+	height: 40px;
+}
+
+.row-link {
+	cursor: pointer; 
+}
+
+.results tr[visible='false'],
+.no-result{
+  display:none;
+}
+
+.results tr[visible='true']{
+  display:table-row;
+}
+
+.counter{
+  padding:8px; 
+  color:#ccc;
+  margin-top: 5px;
 }

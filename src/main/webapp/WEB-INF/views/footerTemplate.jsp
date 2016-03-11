@@ -48,7 +48,8 @@
 								<i class="fa fa-phone"></i>(630) 829-6000
 							</p>
 							<p class="email col-md-12 col-sm-4">
-								<i class="fa fa-envelope"></i><a href="#">benedictine@university.com</a>
+								<i class="fa fa-envelope"></i><a
+									href="mailto:benedictine@university.com?">benedictine@university.com</a>
 							</p>
 						</div>
 					</div>
@@ -114,3 +115,5 @@
 	src="content/templateAssets/assets/plugins/jflickrfeed/jflickrfeed.min.js"></script>
 <script type="text/javascript"
 	src="content/templateAssets/assets/js/main.js"></script>
+<script type="text/javascript" src="content/jQuery/clickable-row.js"></script>
+<script type="text/javascript" src="content/jQuery/table-search.js"></script>

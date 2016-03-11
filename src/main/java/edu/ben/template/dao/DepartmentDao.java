@@ -78,7 +78,7 @@ public class DepartmentDao extends BaseDao<Department> {
 	public ArrayList<Department> getAll() {
 
 		List<Department> departments = new ArrayList<Department>();
-		String sql = SEARCH + "Department ORDER BY Department";
+		String sql = SEARCH + "Department ORDER BY name";
 
 		try {
 			departments = jdbcTemplate.query(sql, getRowMapper());
@@ -93,7 +93,7 @@ public class DepartmentDao extends BaseDao<Department> {
 	 * Inserts the Department into the database.
 	 * 
 	 * @param Department
-	 *            entails of name, description, company, the poster, and more.
+	 *            entails of name and college id.
 	 */
 	public void addDepartment(Department Department) {
 

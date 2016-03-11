@@ -119,7 +119,7 @@ public class EventDao extends BaseDao<Event> {
 	public ArrayList<Event> getAll() {
 
 		List<Event> events = new ArrayList<Event>();
-		String sql = SEARCH + "event ORDER BY event";
+		String sql = SEARCH + "event ORDER BY name";
 
 		try {
 			events = jdbcTemplate.query(sql, getRowMapper());

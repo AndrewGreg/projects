@@ -85,7 +85,7 @@ public class JobDao extends BaseDao<Job> {
 	public ArrayList<Job> getAll() {
 
 		List<Job> jobs = new ArrayList<Job>();
-		String sql = SEARCH + "job ORDER BY job";
+		String sql = SEARCH + "job ORDER BY name";
 
 		try {
 			jobs = jdbcTemplate.query(sql, getRowMapper());

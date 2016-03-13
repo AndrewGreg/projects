@@ -710,11 +710,12 @@ public class HomeController extends BaseController {
 				register.setRole(role);
 				register.setPersonalEmail(personalEmail);
 
-				if (title == null || title.equals("")) {
-					register.setTitle(null);
-				} else {
-					register.setTitle(title);
-				}
+//				TITLE is now TitleId
+//				if (title == null || title.equals("")) {
+//					register.setTitleID(null);
+//				} else {
+//					register.setTitleID(title);
+//				}
 
 				if (suffix == null || suffix.equals("")) {
 					register.setSuffix(null);
@@ -899,7 +900,7 @@ public class HomeController extends BaseController {
 				u.setGraduationYear(Integer.parseInt(graduationYear));
 			}
 
-			u.setTitle(title);
+//			u.setTitle(title);
 			u.setFirstName(firstName);
 			u.setLastName(lastName);
 			u.setSuffix(suffix);

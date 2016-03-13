@@ -16,7 +16,6 @@ import edu.ben.template.model.User;
 
 public class UserDao extends BaseDao<User> {
 
-
 	public UserDao() {
 		super();
 	}
@@ -47,30 +46,37 @@ public class UserDao extends BaseDao<User> {
 
 	public void addUser(User user) {
 
-		String sql = "UPDATE user SET bnumber = ?, email = ?, personal_email = ?, password = ?, salt = ?, first_name= ?, last_name = ?, role = ?, graduation_year = ?, occupation = ?, title = ?, suffix = ?, bio = ?, experience = ?, hidden = 1, active = 1, created = null, last_active = null, last_modified = null, social_media = null WHERE id = ?";
+		// Created, lastModified, lastLogin, lastActive will be implemented in
+		// future sprint
+		String sql = "INSERT INTO user (`bnumber`, `email`, `personal_email`, `password`, `salt`, `title_id`, `first_name`, `last_name`, `role`, `graduation_year`, `occupation`, `company`, `suffix`, `biography`, `experience`, `hidden`, `active`, `created`, `last_active`, `last_login`, `last_modified`, `social_media`, `phone_number`, `work_number`, `user_verified`, `admin_verified`, `graduate_verified`, `current_graduate_verified`, `graduate_school`, `public`, `reference`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, null, null, null, null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
-		// TODO Change this include last last six columns
+		try {
+			jdbcTemplate.update(sql,
+					new Object[] { user.getbNumber(), user.getEmail(), user.getPersonalEmail(), user.getPassword(),
+							user.getSalt(), user.getTitleID(), user.getFirstName(), user.getLastName(), user.getRole(),
+							user.getGraduationYear(), user.getOccupation(), user.getCompany(), user.getSuffix(),
+							user.getBiography(), user.getExperience(), user.isHidden(), user.isActive(),
+							user.getSocialMedia(), user.getPhoneNumber(), user.getWorkNumber(), user.isUserVerified(),
+							user.isAdminVerified(), user.isGraduateVerified(), user.isCurrentGraduateVerified(),
+							user.getGraduateSchool(), user.getToPublic(), user.getReference() });
+		} catch (Exception e) {
+			/* Probably want to log this */
+		}
+
+	}
+
+	// TODO Not Tested in Sprint 3
+	public void addMultiple(String file) {
+
+		User user = new User();
+		String sql = "LOAD DATA INFILE '" + file + "' INTO TABLE user FIELDS TERMINATED BY ','"
+				+ "LINES TERMINATED BY '\n' (bnumber, email, personal_email, password, salt, first_name, last_name, role, graduation_year, occupation, titleID, suffix, biography, experience, hidden, active, created, last_active, last_modified, social_media) WHERE id = ?;";
 
 		jdbcTemplate.update(sql,
 				new Object[] { user.getbNumber(), user.getEmail(), user.getPersonalEmail(), user.getPassword(),
 						user.getSalt(), user.getFirstName(), user.getLastName(), user.getRole(),
-						user.getGraduationYear(), user.getOccupation(), user.getTitle(), user.getSuffix(),
-						user.getBio(), user.getExperience(), user.getId(), });
-
-	}
-	
-	//TODO Not Tested in Sprint 3
-	public void addMultiple(String file){
-		
-		
-		User user = new User();
-		String sql = "LOAD DATA INFILE '" +file+ "' INTO TABLE user FIELDS TERMINATED BY ','" + "LINES TERMINATED BY '\n' (bnumber, email, personal_email, password, salt, first_name, last_name, role, graduation_year, occupation, title, suffix, bio, experience, hidden, active, created, last_active, last_modified, social_media) WHERE id = ?;";
-		
-		jdbcTemplate.update(sql,
-				new Object[] {  user.getbNumber(), user.getEmail(), user.getPersonalEmail(),
-						user.getPassword(), user.getSalt(), user.getFirstName(), user.getLastName(), user.getRole(),
-						user.getGraduationYear(), user.getOccupation(), user.getTitle(), user.getSuffix(),
-						user.getBio(), user.getExperience(),user.getId(), });
+						user.getGraduationYear(), user.getOccupation(), user.getTitleID(), user.getSuffix(),
+						user.getBiography(), user.getExperience(), user.getId(), });
 	}
 
 	public ArrayList<User> getAll() {
@@ -96,7 +102,7 @@ public class UserDao extends BaseDao<User> {
 	public ArrayList<User> getAllStudents() {
 
 		List<User> users = new ArrayList<User>();
-		String sql = "SELECT * from alumnitracker.user WHERE role = '1'";
+		String sql = "SELECT * from user WHERE role = '10'";
 
 		try {
 			users = jdbcTemplate.query(sql, getRowMapper());
@@ -108,6 +114,22 @@ public class UserDao extends BaseDao<User> {
 		}
 	}
 
+	public int getStudentCount() {
+
+		int count = 0;
+		String sql = "SELECT COUNT(*) FROM user WHERE role = '10';";
+
+		try {
+
+			count = jdbcTemplate.queryForInt(sql, getRowMapper());
+			return count;
+
+		} catch (EmptyResultDataAccessException e) {
+			System.out.println("There are not any students in the system.");
+			return count;
+		}
+	}
+
 	/**
 	 * Method to find all the alumni in the database.
 	 * 
@@ -116,7 +138,7 @@ public class UserDao extends BaseDao<User> {
 	public ArrayList<User> getAllAlumni() {
 
 		List<User> users = new ArrayList<User>();
-		String sql = "SELECT * from alumnitracker.user WHERE role = '2'";
+		String sql = "SELECT * from user WHERE role = '20'";
 
 		try {
 			users = jdbcTemplate.query(sql, getRowMapper());
@@ -128,6 +150,22 @@ public class UserDao extends BaseDao<User> {
 		}
 	}
 
+	public int getAlumniCount() {
+
+		int count = 0;
+		String sql = "SELECT COUNT(*) FROM user WHERE role = '20';";
+
+		try {
+
+			count = jdbcTemplate.queryForInt(sql, getRowMapper());
+			return count;
+
+		} catch (EmptyResultDataAccessException e) {
+			System.out.println("There are not any alumni in the system.");
+			return count;
+		}
+	}
+
 	/**
 	 * Method to find all the faculty in the database.
 	 * 
@@ -136,7 +174,7 @@ public class UserDao extends BaseDao<User> {
 	public ArrayList<User> getAllFaculty() {
 
 		List<User> users = new ArrayList<User>();
-		String sql = "SELECT * from alumnitracker.user WHERE role = '3'";
+		String sql = "SELECT * from user WHERE role = '30'";
 
 		try {
 			users = jdbcTemplate.query(sql, getRowMapper());
@@ -145,6 +183,22 @@ public class UserDao extends BaseDao<User> {
 		} catch (EmptyResultDataAccessException e) {
 			System.out.println("There are not any faculty in the system.");
 			return null;
+		}
+	}
+
+	public int getFacultyCount() {
+
+		int count = 0;
+		String sql = "SELECT COUNT(*) FROM user WHERE role = '30';";
+
+		try {
+
+			count = jdbcTemplate.queryForInt(sql, getRowMapper());
+			return count;
+
+		} catch (EmptyResultDataAccessException e) {
+			System.out.println("There are not any faculty in the system.");
+			return count;
 		}
 	}
 
@@ -174,19 +228,22 @@ public class UserDao extends BaseDao<User> {
 		return u;
 
 	}
-	
-	//TODO GET ACCOUNT
+
+	// TODO GET ACCOUNT
 
 	public void updateUser(User user) {
-		
-		String sql = "UPDATE user SET bnumber = ?, first_name = ?, last_name = ?, email = ?, personal_email = ?, password = ?, salt = ?, role = ?, graduation_year = ?, occupation = ?, title = ?, suffix = ?, experience = ?, bio = ?, role = ? WHERE user.id = ?";
+
+		String sql = "UPDATE user SET `bnumber`=?, `email`=?, `personal_email`=?, `password`=?, `salt`=?, `title_id`=?, `first_name`=?, `last_name`=?, `role`=?, `graduation_year`=?, `occupation`=?, `company`=?, `suffix`=?, `biography`=?, `experience`=?, `hidden`=?, `active`=?, 'created' = ?, 'last_active'=?, 'last_modified'=?, 'last_login'=?, `social_media`=?, `phone_number`=?, `work_number`=?, `user_verified`=?, `admin_verified`=?, `graduate_verified`=?, `current_graduate_verified`=?, `graduate_school`=?, `public`=?, `reference`=? WHERE `id`=?;";
+
 		try {
 			jdbcTemplate.update(sql,
-					new Object[] { user.getbNumber(), user.getFirstName(), user.getLastName(), user.getEmail(),
-							user.getPersonalEmail(), user.getPassword(), user.getSalt(), user.getRole(),
-							user.getGraduationYear(), user.getOccupation(), user.getTitle(), user.getSuffix(),
-							user.getExperience(), user.getBio(), user.getRole(), user.getId(), });
-
+					new Object[] { user.getbNumber(), user.getEmail(), user.getPersonalEmail(), user.getPassword(),
+							user.getSalt(), user.getTitleID(), user.getFirstName(), user.getLastName(), user.getRole(),
+							user.getGraduationYear(), user.getOccupation(), user.getCompany(), user.getSuffix(),
+							user.getBiography(), user.getExperience(), user.isHidden(), user.isActive(),
+							user.getSocialMedia(), user.getPhoneNumber(), user.getWorkNumber(), user.isUserVerified(),
+							user.isAdminVerified(), user.isGraduateVerified(), user.isCurrentGraduateVerified(),
+							user.getGraduateSchool(), user.getToPublic(), user.getReference(), user.getId() });
 		} catch (Exception e) {
 			/* Probably want to log this */
 		}
@@ -200,21 +257,39 @@ public class UserDao extends BaseDao<User> {
 			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 				// map result set to object
 				User user = new User();
-				user.setId(rs.getLong("id"));
-				user.setFirstName(rs.getString("first_name"));
-				user.setLastName(rs.getString("last_name"));
 				user.setEmail(rs.getString("email"));
 				user.setPersonalEmail(rs.getString("personal_email"));
-				user.setPassword(rs.getString("password"));
-				user.setGraduationYear(rs.getInt("graduation_year"));
-				user.setSalt(rs.getString("salt"));
-				user.setOccupation(rs.getString("occupation"));
-				user.setTitle(rs.getString("title"));
-				user.setSuffix(rs.getString("suffix"));
+				user.setId(rs.getLong("id"));
 				user.setbNumber(rs.getInt("bnumber"));
+				user.setPassword(rs.getString("password"));
+				user.setSalt(rs.getString("salt"));
+				user.setTitleID(rs.getInt("title_id"));
+				user.setFirstName(rs.getString("first_name"));
+				user.setLastName(rs.getString("last_name"));
 				user.setRole(rs.getInt("role"));
-				user.setBio(rs.getString("bio"));
+				user.setGraduationYear(rs.getInt("graduation_year"));
+				user.setOccupation(rs.getString("occupation"));
+				user.setCompany(rs.getString("company"));
+				user.setSuffix(rs.getString("suffix"));
+				user.setBiography(rs.getString("biography"));
 				user.setExperience(rs.getString("experience"));
+				user.setHidden(rs.getBoolean("hidden"));
+				user.setActive(rs.getBoolean("active"));
+				user.setSocialMedia(rs.getString("social_media"));
+				user.setPhoneNumber(rs.getInt("phone_number"));
+				user.setWorkNumber(rs.getInt("work_number"));
+				user.setUserVerified(rs.getBoolean("user_verified"));
+				user.setAdminVerified(rs.getBoolean("admin_verified"));
+				user.setGraduateVerified(rs.getBoolean("graduate_verified"));
+				user.setCurrentGraduateVerified(rs.getBoolean("current_graduate_verified"));
+				user.setGraduateSchool(rs.getString("graduate_school"));
+				user.setToPublic(rs.getInt("public"));
+				user.setReference(rs.getString("reference"));
+
+				// user.setCreated(rs.getDateTime("created"));
+				// user.setLastActive(rs.getDateTime("lastActive"));
+				// user.setLastModified(rs.getDateTime("lastModified"));
+				// user.setLastLogin(rs.getDateTime("lastLogin"));
 
 				return user;
 			}

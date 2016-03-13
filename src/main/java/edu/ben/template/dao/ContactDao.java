@@ -81,7 +81,7 @@ public class ContactDao extends BaseDao<Contact> {
 				Contact contact = new Contact();
 				contact.setName(rs.getString("name"));
 				contact.setEmail(rs.getString("email"));
-				contact.setPhoneNumber(rs.getString("phoneNumber"));
+				contact.setPhoneNumber(rs.getInt("phoneNumber"));
 				contact.setMessage(rs.getString("message"));
 
 				return contact;

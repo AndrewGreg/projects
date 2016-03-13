@@ -70,29 +70,32 @@ public class DaoConfig {
 		// return it
 		return dao;
 	}
-	
-//	@Autowired
-//	@Bean
-//	public FileUploadDao getUserDao(SessionFactory sessionFactory) {
-//	    return new FileUploadDaoImpl(sessionFactory);
-//	}
-//	
-//	@Bean
-//	public SessionFactory sessionFactory(){
-//	    AnnotationSessionFactoryBean sessionFactoryBean = new AnnotationSessionFactoryBean();
-//	    sessionFactoryBean.setConfigLocation(new ClassPathResource("hibernate.cfg.xml"));
-//	    sessionFactoryBean.afterPropertiesSet();
-//	    return sessionFactoryBean.getObject();
-//	}
-	
+
+	// @Autowired
+	// @Bean
+	// public FileUploadDao getUserDao(SessionFactory sessionFactory) {
+	// return new FileUploadDaoImpl(sessionFactory);
+	// }
+	//
+	// @Bean
+	// public SessionFactory sessionFactory(){
+	// AnnotationSessionFactoryBean sessionFactoryBean = new
+	// AnnotationSessionFactoryBean();
+	// sessionFactoryBean.setConfigLocation(new
+	// ClassPathResource("hibernate.cfg.xml"));
+	// sessionFactoryBean.afterPropertiesSet();
+	// return sessionFactoryBean.getObject();
+	// }
+
 	@Bean(name = "multipartResolver")
 	public CommonsMultipartResolver getCommonsMultipartResolver() {
-	    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-	    multipartResolver.setMaxUploadSize(20971520);   // 20MB
-	    multipartResolver.setMaxInMemorySize(1048576);  // 1MB
-	    return multipartResolver;
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+		multipartResolver.setMaxUploadSize(20971520); // 20MB
+		multipartResolver.setMaxInMemorySize(1048576); // 1MB
+		return multipartResolver;
 	}
-//	
+
+	//
 	@Bean
 	public EventDao eventDao() throws IOException {
 		// create the dao
@@ -116,7 +119,7 @@ public class DaoConfig {
 		// return it
 		return dao;
 	}
-	
+
 	@Bean
 	public MajorDao majorDao() throws IOException {
 		// create the dao
@@ -128,7 +131,43 @@ public class DaoConfig {
 		// return it
 		return dao;
 	}
-	
+
+	@Bean
+	public TitleDao titleDao() throws IOException {
+		// create the dao
+		TitleDao dao = new TitleDao();
+		// set the specifics
+		// dao.setCache(cacheFactory());
+		dao.setDataSource(dataSource());
+		dao.setTransactionManager(transactionManager());
+		// return it
+		return dao;
+	}
+
+	@Bean
+	public TransferDao transferDao() throws IOException {
+		// create the dao
+		TransferDao dao = new TransferDao();
+		// set the specifics
+		// dao.setCache(cacheFactory());
+		dao.setDataSource(dataSource());
+		dao.setTransactionManager(transactionManager());
+		// return it
+		return dao;
+	}
+
+	@Bean
+	public ReasonDao reasonDao() throws IOException {
+		// create the dao
+		ReasonDao dao = new ReasonDao();
+		// set the specifics
+		// dao.setCache(cacheFactory());
+		dao.setDataSource(dataSource());
+		dao.setTransactionManager(transactionManager());
+		// return it
+		return dao;
+	}
+
 	@Bean
 	public FileUploadDao FileUploadDao() throws IOException {
 		// create the dao
@@ -140,7 +179,7 @@ public class DaoConfig {
 		// return it
 		return dao;
 	}
-	
+
 	@Bean
 	public ImageUploadDao ImageUploadDao() throws IOException {
 		// create the dao

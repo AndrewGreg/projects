@@ -16,7 +16,7 @@ public class Contact extends User {
 
 	private String name;
 	private String email;
-	private String phoneNumber;
+	private int phoneNumber;
 	private String message;
 
 	/**
@@ -34,7 +34,7 @@ public class Contact extends User {
 	 * @param phoneNumber
 	 * @param message
 	 */
-	public Contact(String name, String email, String phoneNumber, String message) {
+	public Contact(String name, String email, int phoneNumber, String message) {
 		super();
 		this.name = name;
 		this.email = email;
@@ -77,7 +77,7 @@ public class Contact extends User {
 	 * 
 	 * @return the phone number of the contact.
 	 */
-	public String getPhoneNumber() {
+	public int getPhoneNumber() {
 		return phoneNumber;
 	}
 
@@ -86,7 +86,7 @@ public class Contact extends User {
 	 * 
 	 * @param phoneNumber
 	 */
-	public void setPhoneNumber(String phoneNumber) {
+	public void setPhoneNumber(int phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 

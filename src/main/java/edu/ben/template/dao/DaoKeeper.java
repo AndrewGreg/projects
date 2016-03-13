@@ -23,6 +23,12 @@ public class DaoKeeper {
 	@Autowired
 	private MajorDao majorDao;
 	@Autowired
+	private TitleDao titleDao;
+	@Autowired
+	private ReasonDao reasonDao;
+	@Autowired
+	private TransferDao transferDao;
+	@Autowired
 	private InterestDao interestDao;
 	@Autowired
 	private FileUploadDao fileUploadDao;
@@ -32,7 +38,6 @@ public class DaoKeeper {
 	public ObjectMapper getObjectMapper() {
 		return objectMapper;
 	}
-
 
 	public UserDao getUserDao() {
 		return userDao;
@@ -65,7 +70,7 @@ public class DaoKeeper {
 	public void setMajorDao(MajorDao majorDao) {
 		this.majorDao = majorDao;
 	}
-	
+
 	public FileUploadDao getFileUploadDao() {
 		return fileUploadDao;
 	}
@@ -73,7 +78,7 @@ public class DaoKeeper {
 	public void setFileUploadDao(FileUploadDao fileUploadDao) {
 		this.fileUploadDao = fileUploadDao;
 	}
-	
+
 	public ImageUploadDao getImageUploadDao() {
 		return imageUploadDao;
 	}
@@ -88,6 +93,34 @@ public class DaoKeeper {
 
 	public void setInterestDao(InterestDao interestDao) {
 		this.interestDao = interestDao;
+	}
+
+	public TitleDao getTitleDao() {
+		return titleDao;
+	}
+
+	public void setTitleDao(TitleDao titleDao) {
+		this.titleDao = titleDao;
+	}
+
+	public ReasonDao getReasonDao() {
+		return reasonDao;
+	}
+
+	public void setReasonDao(ReasonDao reasonDao) {
+		this.reasonDao = reasonDao;
+	}
+
+	public TransferDao getTransferDao() {
+		return transferDao;
+	}
+
+	public void setTransferDao(TransferDao transferDao) {
+		this.transferDao = transferDao;
+	}
+
+	public void setImageUploadDao(ImageUploadDao imageUploadDao) {
+		this.imageUploadDao = imageUploadDao;
 	}
 
 }

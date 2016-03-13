@@ -57,6 +57,7 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`user` (
   `created` DATETIME(6) NULL,
   `last_active` DATETIME(6) NULL,
   `last_modified` DATETIME(6) NULL,
+  `last_login` DATETIME(6) NULL,
   `social_media` VARCHAR(200) NULL,
   `phone_number` INT NULL,
   `work_number` INT NULL,
@@ -327,7 +328,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `alumnitracker`.`reason` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `reasoncol` VARCHAR(100) NOT NULL,
+  `name` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -343,7 +344,7 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`transfer` (
   `user_id` INT NOT NULL,
   `verified_id` INT NULL,
   `hidden` TINYINT(1) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`, `reason_id`, `user_id`, `verified_id`),
+  PRIMARY KEY (`id`),
   INDEX `fk_transfer_reason1_idx` (`reason_id` ASC),
   INDEX `fk_transfer_user1_idx` (`user_id` ASC),
   INDEX `fk_transfer_user2_idx` (`verified_id` ASC),

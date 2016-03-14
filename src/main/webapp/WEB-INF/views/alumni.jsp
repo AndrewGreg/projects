@@ -24,7 +24,7 @@
 	<div class="wrapper">
 		<jsp:include page="navBarTemplate.jsp" />
 		<!-- ******CONTENT****** -->
-		<div class="content container directory-container">
+		<div class="content container content-container">
 			<div class="page-wrapper table-container">
 				<header class="page-heading clearfix" style="margin-bottom: 10px !important;">
 				<h1 class="heading-title pull-left">Alumni Directory</h1>

@@ -1185,7 +1185,7 @@ public class HomeController extends BaseController {
 		User currentUser = getUserDao().getObjectById(id);
 		model.addAttribute("profileUser", currentUser);
 
-		return "userProfile";
+		return "profile";
 	}
 
 	/**

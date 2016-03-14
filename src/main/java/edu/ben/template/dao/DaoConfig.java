@@ -5,11 +5,8 @@ import java.io.IOException;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp.BasicDataSource;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
@@ -59,18 +56,6 @@ public class DaoConfig {
 		return transactionManager;
 	}
 
-	@Bean
-	public UserDao userDao() throws IOException {
-		// create the dao
-		UserDao dao = new UserDao();
-		// set the specifics
-		// dao.setCache(cacheFactory());
-		dao.setDataSource(dataSource());
-		dao.setTransactionManager(transactionManager());
-		// return it
-		return dao;
-	}
-
 	// @Autowired
 	// @Bean
 	// public FileUploadDao getUserDao(SessionFactory sessionFactory) {
@@ -95,7 +80,54 @@ public class DaoConfig {
 		return multipartResolver;
 	}
 
-	//
+	@Bean
+	public UserDao userDao() throws IOException {
+		// create the dao
+		UserDao dao = new UserDao();
+		// set the specifics
+		// dao.setCache(cacheFactory());
+		dao.setDataSource(dataSource());
+		dao.setTransactionManager(transactionManager());
+		// return it
+		return dao;
+	}
+
+	@Bean
+	public DepartmentDao departmentDao() throws IOException {
+		// create the dao
+		DepartmentDao dao = new DepartmentDao();
+		// set the specifics
+		// dao.setCache(cacheFactory());
+		dao.setDataSource(dataSource());
+		dao.setTransactionManager(transactionManager());
+		// return it
+		return dao;
+	}
+
+	@Bean
+	public CollegeDao collegeDao() throws IOException {
+		// create the dao
+		CollegeDao dao = new CollegeDao();
+		// set the specifics
+		// dao.setCache(cacheFactory());
+		dao.setDataSource(dataSource());
+		dao.setTransactionManager(transactionManager());
+		// return it
+		return dao;
+	}
+
+	@Bean
+	public ContactDao contactDao() throws IOException {
+		// create the dao
+		ContactDao dao = new ContactDao();
+		// set the specifics
+		// dao.setCache(cacheFactory());
+		dao.setDataSource(dataSource());
+		dao.setTransactionManager(transactionManager());
+		// return it
+		return dao;
+	}
+
 	@Bean
 	public EventDao eventDao() throws IOException {
 		// create the dao
@@ -109,7 +141,7 @@ public class DaoConfig {
 	}
 
 	@Bean
-	public JobDao jobPostingDao() throws IOException {
+	public JobDao jobDao() throws IOException {
 		// create the dao
 		JobDao dao = new JobDao();
 		// set the specifics

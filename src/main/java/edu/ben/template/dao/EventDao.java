@@ -83,12 +83,12 @@ public class EventDao extends BaseDao<Event> {
 	 */
 	public void addEvent(Event event) {
 
-		String sql = "INSERT INTO event (name, description, date,user_id,hidden, longtitude, latitude,role, reference, location) VALUES (?, ?, ?, ?,0,?, ?, ?, ?,?)";
+		String sql = "INSERT INTO event (name, description, date,user_id,public, longitude, latitude,role, reference, location) VALUES (?, ?, ?, ?,?,?, ?, ?, ?,?)";
 
 		jdbcTemplate.update(sql,
 				new Object[] { event.getName(), event.getDescription(), event.getDate(), event.getPoster().getId(),
-						event.getLongitude(), event.getLatitude(), event.getRole(), event.getReference(),
-						event.getLocation() });
+						event.getToPublic(), event.getLongitude(), event.getLatitude(), event.getRole(),
+						event.getReference(), event.getLocation() });
 		return;
 	}
 
@@ -99,12 +99,12 @@ public class EventDao extends BaseDao<Event> {
 	 */
 	public void updateEvent(Event event) {
 
-		String sql = "UPDATE event SET name = ?, description = ?, date = ?, user_id = ?, public = ? longtitude = ?, latitude = ?, role = ?, reference = ?, location = ? WHERE id = ?";
+		String sql = "UPDATE event SET name = ?, description = ?, date = ?, user_id = ?, public = ? longitude = ?, latitude = ?, role = ?, reference = ?, location = ? WHERE id = ?";
 		try {
 			jdbcTemplate.update(sql,
 					new Object[] { event.getName(), event.getDescription(), event.getDate(), event.getPoster().getId(),
-							event.getLongitude(), event.getLatitude(), event.getRole(), event.getReference(),
-							event.getLocation(), event.getId() });
+							event.getToPublic(), event.getLongitude(), event.getLatitude(), event.getRole(),
+							event.getReference(), event.getLocation(), event.getId() });
 		} catch (Exception e) {
 			/* Probably want to log this */
 		}
@@ -230,7 +230,7 @@ public class EventDao extends BaseDao<Event> {
 				event.setName(rs.getString("name"));
 				event.setDate(rs.getDate("date"));
 				event.setDescription(rs.getString("description"));
-				event.setToPublic(rs.getInt("toPublic"));
+				event.setToPublic(rs.getInt("public"));
 				event.setLatitude(rs.getFloat("latitude"));
 				event.setLongitude(rs.getFloat("longitude"));
 				event.setRole(rs.getInt("role"));

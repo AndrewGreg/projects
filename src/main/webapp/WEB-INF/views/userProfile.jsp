@@ -30,10 +30,10 @@
 					 -->
 				<div style="border-color:black" class="panel panel-info">
 					<div style="background-color:#990b0b" class="panel-heading">
-						<h2 class="panel-title"><font color="White"><%=currentUser.getFirstName()%> &nbsp;<%=currentUser.getLastName()%>,&nbsp;
-						<%if(currentUser.getTitle() != null) {%>
-						<%=currentUser.getTitle()%>
+					<%if(currentUser.getTitleID() > 0) {%>
+						<h2 class="panel-title"><font color="White"><%=currentUser.getFirstName()%> &nbsp;<%=currentUser.getLastName()%>,&nbsp; <%=currentUser.getTitleID()%></font></h2>
 						<%}else{ %>
+						<h2 class="panel-title"><font color="White"><%=currentUser.getFirstName()%> &nbsp;<%=currentUser.getLastName()%>
 						&nbsp;
 						<%} %>
 						</font></h2>
@@ -91,8 +91,8 @@
 										<tr>
 										<tr>
 											<td>Biography:</td>
-											<%if(currentUser.getBio() != null){ %>
-											<td><%=currentUser.getBio()%></td>
+											<%if(currentUser.getBiography() != null){ %>
+											<td><%=currentUser.getBiography()%></td>
 											<%}else{ %>
 											<td>None</td>
 											<%} %>

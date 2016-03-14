@@ -115,12 +115,12 @@
 						<%
 							if (currentUser != null) {
 						%>
-						<li><a href="/events">View Events</a></li>
-						<li><a href="/createEvent">Create Event</a></li>
+						<li><a href="/eventsTemplate">View Events</a></li>
+						<li><a href="/createNewEvent">Create Event</a></li>
 						<%
 							} else {
 						%>
-						<li><a href="/events">View Public Events</a></li>
+						<li><a href="/eventsTemplate">View Public Events</a></li>
 						<%
 							}
 						%>
@@ -134,12 +134,12 @@
 						<%
 							if (currentUser != null) {
 						%>
-						<li><a href="/jobPostings">View Job Postings</a></li>
-						<li><a href="/createJobPosting">Create a Job Posting</a></li>
+						<li><a href="/jobs">View Job Postings</a></li>
+						<li><a href="/createJob">Create a Job Posting</a></li>
 						<%
 							} else {
 						%>
-						<li><a href="/jobPostings">View Public Job Postings</a></li>
+						<li><a href="/jobs">View Public Job Postings</a></li>
 						<%
 							}
 						%>

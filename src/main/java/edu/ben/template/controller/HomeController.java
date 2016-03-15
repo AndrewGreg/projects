@@ -218,7 +218,8 @@ public class HomeController extends BaseController {
 			@RequestParam("description") String description, @RequestParam("location") String location,
 			@RequestParam("salary") boolean salary, @RequestParam("startSalary") int startSalary,
 			@RequestParam("endSalary") int endSalary, @RequestParam("startWage") float startWage,
-			@RequestParam("endWage") float endWage, @RequestParam("hours") int hours,
+			@RequestParam("endWage") float endWage, @RequestParam("hours") int hours, @RequestParam("startDate") String startDate,
+			@RequestParam("endDate") String endDate,
 			@ModelAttribute("editJob") Job editJob) {
 
 		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
@@ -231,7 +232,7 @@ public class HomeController extends BaseController {
 				// e.printStackTrace();
 			}
 
-			return "redirect:/jobsTemplate";
+			return "redirect:/jobs";
 		} else {
 			HashMap<String, String> errors = new HashMap<String, String>();
 

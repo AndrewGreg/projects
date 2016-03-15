@@ -1193,7 +1193,7 @@ public class HomeController extends BaseController {
 	 * @return the alumni list page.
 	 */
 	@RequestMapping(value = "/alumni", method = RequestMethod.GET)
-	public String alumniList(@RequestParam(required = false) Integer page,Model model) {
+	public String alumniList(@RequestParam(required = false) Integer page, Model model) {
 
 		try {
 
@@ -1218,7 +1218,7 @@ public class HomeController extends BaseController {
 					users.add(alumni.get(i));
 				}
 			}
-			model.addAttribute("alumni", alumni);
+			model.addAttribute("alumni", users);
 
 		} catch (Exception e) {
 			e.printStackTrace();

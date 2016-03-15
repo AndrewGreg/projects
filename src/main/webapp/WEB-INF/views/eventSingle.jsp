@@ -49,10 +49,10 @@
                             <div class="box box-border page-row">
                                 <ul class="list-unstyled">
                                 <%if(currentEvent.getPoster() != null && currentEvent.getPoster().getFirstName() != null && currentEvent.getPoster().getEmail() != null) { %>
-                                	<li><strong>Posted By:</strong> <%=currentEvent.getPoster().getFirstName()%> <%=currentJob.getPoster().getLastName()%></li>
+                                	<li><strong>Posted By:</strong> <%=currentEvent.getPoster().getFirstName()%> <%=currentEvent.getPoster().getLastName()%></li>
                                     <li><strong>Location:</strong><%=currentEvent.getLocation()%> </li>
                                     <li><strong>Time:</strong> <%=//currentEvent.getStartTime()%> - <%=//currentEvent.getEndTime()%></li>
-                                    <li><strong>Contact:</strong> <%=currentJob.getPoster().getEmail()%></li>
+                                    <li><strong>Contact:</strong> <%=currentEvent.getPoster().getEmail()%></li>
                                 </ul>                                
                             </div>
                             <p> <%=currentEvent.getDescription()%></p>

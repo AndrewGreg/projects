@@ -340,6 +340,7 @@ public class HomeController extends BaseController {
 	 */
 	@RequestMapping(value = "/createNewEvent", method = RequestMethod.GET)
 	public String createEventTemplate(Model model) {
+		model.addAttribute("active", "event");
 		return "createEventTemplate";
 	}
 

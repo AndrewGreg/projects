@@ -33,7 +33,7 @@
                         <ul class="breadcrumbs-list">
                             <li class="breadcrumbs-label">You are here:</li>
                             <li><a href="index.html">Home</a><i class="fa fa-angle-right"></i></li>
-                            <li class="current"  style="color: white">Jobs</li>
+                            <li class="current" style="color: white">Jobs</li>
                         </ul>
                     </div><!--//breadcrumbs-->
                 </header> 
@@ -55,20 +55,20 @@
 							%>
                             <div class="panel panel-default page-row">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title"><a href="/jobs/<%=id%>"><%=name%></a> <span class="label label-success pull-right"><%=hours%></span></h3>
+                                    <h3 class="panel-title" style="color: white"><a href="/jobs/<%=id%>"><%=name%></a> <span class="label label-success pull-right"><%=hours%></span></h3>
                                     
                                 </div>
                                 <div class="panel-body">
                                     <%=description%>
                                 </div>
                                 <ul class="list-group">
-                                    <li class="list-group-item"><strong>Location:</strong> <%=location%></li>
-                                    <li class="list-group-item"><strong>Salary:</strong> <%=startSalary%> - <%=endSalary%></li>
+                                    <li class="list-group-item" style="color: white"><strong>Location:</strong> <%=location%></li>
+                                    <li class="list-group-item" style="color: white"><strong>Salary:</strong> <%=startSalary%> - <%=endSalary%></li>
                                 </ul>
                                 <div class="panel-footer">
                                     <div class="row">
                                         <ul class="list-inline col-md-8 col-sm-6 col-xs-6">
-                                            <li><a href="/jobs/<%=id%>">More details</a></li>
+                                            <li><a href="/jobs/<%=id%>" style="color: white">More details</a></li>
                                         </ul>
                                         <div class="meta col-md-4 col-sm-6 col-xs-6 text-right">
                                             <small>Posted 3 days ago</small>

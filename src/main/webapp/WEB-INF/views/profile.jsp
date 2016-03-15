@@ -131,7 +131,7 @@
 							<p>
 								<i class="fa fa-star"></i>Title:
 								<%
-									if (userTitle.getName() != null) {
+									if (userTitle != null && userTitle.getName() != null) {
 								%>
 								<%=userTitle.getName()%>
 								<%

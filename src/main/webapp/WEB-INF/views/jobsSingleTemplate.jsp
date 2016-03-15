@@ -53,7 +53,7 @@
                                     <li style="color: white"><strong>Location:</strong><%=currentJob.getLocation()%> </li>
                                     <li style="color: white"><strong>Salary:</strong> <%=currentJob.getStart_salary()%> - <%=currentJob.getEnd_salary()%></li>
                                     <li style="color: white"><strong>Hours:</strong> <%=currentJob.getHours()%></li>
-                                    <li style="color: white"><strong>Closing date:</strong> <%=//currentJob.getEndDate()%></li>
+                                    <%-- <li style="color: white"><strong>Closing date:</strong> <%=//currentJob.getEndDate()%></li> --%>
                                     <li style="color: white"><strong>Contact:</strong> <%=currentJob.getPoster().getEmail()%></li>
                                 </ul>                                
                             </div>

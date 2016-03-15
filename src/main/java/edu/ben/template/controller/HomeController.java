@@ -1193,7 +1193,7 @@ public class HomeController extends BaseController {
 	 * @return the alumni list page.
 	 */
 	@RequestMapping(value = "/alumni", method = RequestMethod.GET)
-	public String alumniList(Model model) {
+	public String alumniList(@RequestParam(required = false) Integer page,Model model) {
 
 		try {
 
@@ -1207,7 +1207,17 @@ public class HomeController extends BaseController {
 			}
 
 			sortUsers(alumni);
+			if (page == null) {
+				page = 0;
+			}
+			ArrayList<User> users = new ArrayList<User>();
+			for (int i = page * 15; i < page * 15 + 15; i++) {
 
+				if (i < alumni.size()) {
+
+					users.add(alumni.get(i));
+				}
+			}
 			model.addAttribute("alumni", alumni);
 
 		} catch (Exception e) {

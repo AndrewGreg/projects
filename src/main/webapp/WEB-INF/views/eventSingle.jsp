@@ -51,7 +51,7 @@
                                 <%if(currentEvent.getPoster() != null && currentEvent.getPoster().getFirstName() != null && currentEvent.getPoster().getEmail() != null) { %>
                                 	<li style="color: white"><strong>Posted By:</strong> <%=currentEvent.getPoster().getFirstName()%> <%=currentEvent.getPoster().getLastName()%></li>
                                     <li style="color: white"><strong>Location:</strong><%=currentEvent.getLocation()%> </li>
-                                    <li style="color: white"><strong>Time:</strong> <%=//currentEvent.getStartTime()%> - <%=//currentEvent.getEndTime()%></li>
+                                   <!-- <li style="color: white"><strong>Time:</strong> currentEvent.getStartTime() - currentEvent.getEndTime()%></li> -->
                                     <li style="color: white"><strong>Contact:</strong> <%=currentEvent.getPoster().getEmail()%></li>
                                 </ul>                                
                             </div>

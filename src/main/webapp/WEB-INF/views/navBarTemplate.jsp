@@ -33,8 +33,8 @@
 
 				<!-- Trigger the modal with a button -->
 				<button type="button" class="btn btn-theme top-bar-btn"
-					data-toggle="modal" data-target="#loginModal">Login</button>
-				<a href="/register" class="btn btn-theme top-bar-btn">Register</a>
+					data-toggle="modal" data-target="#loginModal"><i class="fa fa-lock"></i> Login</button>
+				<a href="/register" class="btn btn-theme top-bar-btn"><i class="fa fa-pencil"></i> Register</a>
 
 				<jsp:include page="loginModal.jsp" />
 
@@ -65,7 +65,7 @@
 	<!--//to-bar-->
 	<div class="header-main container">
 		<h1 class="logo col-md-4 col-sm-4">
-			<a href="/indexTemplate"><img id="logo"
+			<a href="/"><img id="logo"
 				src="/content/img/benu-logo.svg" alt="Benedictine University"
 				style="width: 300px"></a>
 		</h1>
@@ -94,12 +94,12 @@
 		<div class="navbar-collapse collapse" id="navbar-collapse">
 			<ul class="nav navbar-nav">
 				<li class="<% if (active.equals("index")) {%>active<% }%> nav-item"><a href="/"><i class="fa fa-home"></i> Home</a></li>
-				<li class="<% if (active.equals("faculty")) {%>active<% }%> nav-item"><a href="#"><i class="fa fa-user"></i> Faculty Directory</a></li>
+				<li class="<% if (active.equals("faculty")) {%>active<% }%> nav-item"><a href="#"><i class="fa fa-user"></i> Faculty</a></li>
 
 				<%
 					if (currentUser != null) {
 				%>
-				<li class="<% if (active.equals("alumni")) {%>active<% }%> nav-item"><a href="/alumni"><i class="fa fa-user"></i> Alumni Directory</a></li>
+				<li class="<% if (active.equals("alumni")) {%>active<% }%> nav-item"><a href="/alumni"><i class="fa fa-user"></i> Alumni</a></li>
 				<%
 					}
 					
@@ -126,7 +126,7 @@
 					</ul></li>
 				<li class="<% if (active.equals("job")) {%>active<% }%> nav-item dropdown"><a class="dropdown-toggle"
 					data-toggle="dropdown" data-hover="dropdown" data-delay="0"
-					data-close-others="false" href="#"><i class="fa fa-suitcase"></i> Job Postings <i
+					data-close-others="false" href="#"><i class="fa fa-suitcase"></i> Jobs<i
 						class="fa fa-angle-down"></i></a>
 					<ul class="dropdown-menu">
 

@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="edu.ben.template.model.User"%>
+<%@page import="edu.ben.template.model.Title"%>
 <%
 	User currentUser = (User) request.getAttribute("profileUser");
+	Title userTitle = (Title) request.getAttribute("title");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
@@ -47,41 +49,61 @@
 
 									</div>
 									<ul class="list-group">
-											<li class="list-group-item"><strong>Role:</strong>
-											<%if(currentUser.getRole() == 1) {%>Student <% } else if(currentUser.getRole() == 2) {%>Alumni <% } else if(currentUser.getRole() == 3) {%>Faculty <% } else { %>Administrator <% } %></li>
-										<li class="list-group-item"><strong>Major:</strong> <%=currentUser.getMajorAtIndex(0)%></li>
-										<li class="list-group-item"><strong>Graduation Year:</strong>
-											<%
-												if (currentUser.getGraduationYear() != 1) {
-											%><%=currentUser.getGraduationYear()%>
+										<li class="list-group-item"><strong>Role:</strong> <%
+ 	if (currentUser.getRole() == 1) {
+ %>Student <%
+ 	} else if (currentUser.getRole() == 2) {
+ %>Alumni <%
+ 	} else if (currentUser.getRole() == 3) {
+ %>Faculty <%
+ 	} else {
+ %>Administrator <%
+ 	}
+ %></li>
+										<li class="list-group-item"><strong>Major:</strong> <%
+ 	if (currentUser.getMajor() != null) {
+ %><%=currentUser.getMajor()%>
 											<%
 												} else {
-											%>No graduation year.<%
+											%>None <%
 												}
 											%></li>
+										<li class="list-group-item"><strong>Graduation
+												Year:</strong> <%
+ 	if (currentUser.getGraduationYear() != 1) {
+ %><%=currentUser.getGraduationYear()%> <%
+ 	} else {
+ %>No graduation year.<%
+ 	}
+ %></li>
 										<li class="list-group-item"><strong>Occupation:</strong>
 											<%
 												if (currentUser.getOccupation() != null) {
-											%><%=currentUser.getOccupation()%>
-											<%
-												} else {
-											%>No user occupation.<%
-												}
-											%></li>
+											%><%=currentUser.getOccupation()%> <%
+ 	} else {
+ %>No user occupation.<%
+ 	}
+ %></li>
+										<li class="list-group-item"><strong>Company:</strong> <%
+ 	if (currentUser.getCompany() != null) {
+ %><%=currentUser.getCompany()%> <%
+ 	} else {
+ %>No user company.<%
+ 	}
+ %></li>
 										<li class="list-group-item"><strong>Experience:</strong>
 											<%
 												if (currentUser.getExperience() != null) {
-											%><%=currentUser.getExperience()%>
-											<%
-												} else {
-											%>No user experience.<%
-												}
-											%></li>
+											%><%=currentUser.getExperience()%> <%
+ 	} else {
+ %>No user experience.<%
+ 	}
+ %></li>
 									</ul>
 									<div class="panel-body">
 										<%
-											if (currentUser.getBio() != null) {
-										%><%=currentUser.getBio()%>
+											if (currentUser.getBiography() != null) {
+										%><%=currentUser.getBiography()%>
 										<%
 											} else {
 										%>No user bio.<%
@@ -104,6 +126,18 @@
 								class="page-sidebar  col-md-3 col-md-offset-1 col-sm-4 col-sm-offset-1">
 							<section class="widget">
 							<h3 class="title">Contact</h3>
+							<p>
+								<i class="fa fa-star"></i>Title:
+								<%
+									if (userTitle.getName() != null) {
+								%>
+								<%=userTitle.getName()%>
+								<%
+									} else {
+								%>None<%
+									}
+								%>
+							</p>
 							<p>
 								<i class="fa fa-user"></i>First Name:
 								<%
@@ -140,19 +174,6 @@
 									}
 								%>
 							</p>
-							<p>
-								<i class="fa fa-star"></i>Title:
-								<%
-									if (currentUser.getTitle() != null) {
-								%>
-								<%=currentUser.getTitle()%>
-								<%
-									} else {
-								%>None<%
-									}
-								%>
-							</p>
-
 							<p class="tel">
 								<i class="fa fa-phone"></i>Tel: None
 							</p>

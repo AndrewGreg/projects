@@ -30,6 +30,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import edu.ben.template.model.Event;
 import edu.ben.template.model.Job;
 import edu.ben.template.model.Major;
+import edu.ben.template.model.Title;
 import edu.ben.template.model.UploadFile;
 import edu.ben.template.model.User;
 import edu.ben.template.model.Validator;
@@ -976,7 +977,9 @@ public class HomeController extends BaseController {
 	public String userProfile(Model model, @PathVariable Long id) {
 
 		User currentUser = getUserDao().getObjectById(id);
+		Title currentUserTitle = getTitleDao().getObjectById(currentUser.getTitleID());
 		model.addAttribute("profileUser", currentUser);
+		model.addAttribute("title", currentUserTitle);
 
 		return "profile";
 	}

@@ -59,6 +59,7 @@
                             </div>
                             <p> <%=currentJob.getDescription()%></p>
                             <%
+                                
                                 }
                             %>
                          </div>

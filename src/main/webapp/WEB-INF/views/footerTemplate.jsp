@@ -48,7 +48,8 @@
 								<i class="fa fa-phone"></i>(630) 829-6000
 							</p>
 							<p class="email col-md-12 col-sm-4">
-								<i class="fa fa-envelope"></i><a href="#">benedictine@university.com</a>
+								<i class="fa fa-envelope"></i><a
+									href="mailto:benedictine@university.com?">benedictine@university.com</a>
 							</p>
 						</div>
 					</div>
@@ -95,22 +96,24 @@
 
 <!-- Javascript -->
 <script type="text/javascript"
-	src="content/templateAssets/assets/plugins/jquery-1.11.2.min.js"></script>
+	src="/content/templateAssets/assets/plugins/jquery-1.11.2.min.js"></script>
 <script type="text/javascript"
-	src="content/templateAssets/assets/plugins/jquery-migrate-1.2.1.min.js"></script>
+	src="/content/templateAssets/assets/plugins/jquery-migrate-1.2.1.min.js"></script>
 <script type="text/javascript"
-	src="content/templateAssets/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+	src="/content/templateAssets/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript"
-	src="content/templateAssets/assets/plugins/bootstrap-hover-dropdown.min.js"></script>
+	src="/content/templateAssets/assets/plugins/bootstrap-hover-dropdown.min.js"></script>
 <script type="text/javascript"
-	src="content/templateAssets/assets/plugins/back-to-top.js"></script>
+	src="/content/templateAssets/assets/plugins/back-to-top.js"></script>
 <script type="text/javascript"
-	src="content/templateAssets/assets/plugins/jquery-placeholder/jquery.placeholder.js"></script>
+	src="/content/templateAssets/assets/plugins/jquery-placeholder/jquery.placeholder.js"></script>
 <script type="text/javascript"
-	src="content/templateAssets/assets/plugins/pretty-photo/js/jquery.prettyPhoto.js"></script>
+	src="/content/templateAssets/assets/plugins/pretty-photo/js/jquery.prettyPhoto.js"></script>
 <script type="text/javascript"
-	src="content/templateAssets/assets/plugins/flexslider/jquery.flexslider-min.js"></script>
+	src="/content/templateAssets/assets/plugins/flexslider/jquery.flexslider-min.js"></script>
 <script type="text/javascript"
-	src="content/templateAssets/assets/plugins/jflickrfeed/jflickrfeed.min.js"></script>
+	src="/content/templateAssets/assets/plugins/jflickrfeed/jflickrfeed.min.js"></script>
 <script type="text/javascript"
-	src="content/templateAssets/assets/js/main.js"></script>
+	src="/content/templateAssets/assets/js/main.js"></script>
+<script type="text/javascript" src="/content/jQuery/clickable-row.js"></script>
+<script type="text/javascript" src="/content/jQuery/table-search.js"></script>

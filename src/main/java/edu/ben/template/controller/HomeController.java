@@ -1,6 +1,5 @@
 package edu.ben.template.controller;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
@@ -14,8 +13,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -40,7 +37,7 @@ import edu.ben.template.model.Validator;
 @Controller
 @SessionAttributes("editJob")
 public class HomeController extends BaseController {
-	
+
 	// Allows the password to be Hashed.
 	@Resource(name = "passwordEncoder")
 	private PasswordEncoder pwEncoder;
@@ -56,7 +53,7 @@ public class HomeController extends BaseController {
 		Collections.sort(user, new Comparator<User>() {
 			@Override
 			public int compare(User o1, User o2) {
-				return o1.getLastName().compareTo(o2.getLastName());
+				return o1.getFirstName().compareTo(o2.getFirstName());
 			}
 		});
 	}
@@ -74,24 +71,12 @@ public class HomeController extends BaseController {
 		return "indexTemplate";
 	}
 
-	/**
-	 * Access to the Job Creation page.
-	 * 
-	 * @param model
-	 *            is being passed in
-	 * @return the job creation page.
-	 */
-	@RequestMapping(value = "/createJobPosting", method = RequestMethod.GET)
-	public String jobCreation(Model model) {
-		model.addAttribute("active", "job");
-		return "createJobPosting";
-	}
-	
 	@RequestMapping(value = "/createJob", method = RequestMethod.GET)
 	public String createJob(Model model) {
+
 		return "createJobTemplate";
 	}
-	
+
 	/**
 	 * Form processing of the job posting creation page.
 	 * 
@@ -106,37 +91,36 @@ public class HomeController extends BaseController {
 	 * @return the Job Posting page to view all the jobs.
 	 */
 	@RequestMapping(value = "/createJob", method = RequestMethod.POST)
-	public String createJobPost(Model model, @RequestParam("name") String name,
-			@RequestParam("company") String company, @RequestParam("description") String description,
-			@RequestParam("location") String location, 
+	public String createJobPost(Model model, @RequestParam("name") String name, @RequestParam("company") String company,
+			@RequestParam("description") String description, @RequestParam("location") String location,
 			@RequestParam("startSalary") int startSalary, @RequestParam("endSalary") int endSalary,
 			@RequestParam("startWage") float startWage, @RequestParam("endWage") float endWage,
-			@RequestParam("hours") int hours) {
+			@RequestParam("hours") int hours, @RequestParam("startDate") String startDate,
+			@RequestParam("endDate") String endDate) {
 		System.out.println("im here");
-		
+
 		Random r = new Random();
 		int min = 1;
 		int max = 7;
 		int ref = r.nextInt(max - min) + min;
 
 		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
-				&& description.matches(".{2,}") && location != null && location.matches(".{2,}") 
-				) {
+				&& description.matches(".{2,}") && location != null && location.matches(".{2,}")) {
 
 			User u = getCurrentUser();
-			
-			Job job = new Job(name, description, company, u, location, true,
-					startSalary, endSalary, startWage, endWage, "stuff", 1,
-					 hours, "things");
+
+			Job job = new Job(name, description, company, u, location, true, startSalary, endSalary, startWage, endWage,
+					"stuff", 1, hours, "things");
 
 			try {
 
-				getJobPostingDao().addJob(job);
+				getJobDao().addJob(job);
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			System.out.println("Job was created");
-			return "redirect:/jobsTemplate";
+			return "redirect:/jobs";
 
 		} else {
 
@@ -179,8 +163,8 @@ public class HomeController extends BaseController {
 			@RequestParam("location") String location, @RequestParam("salary") String salary) {
 
 		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
-				&& description.matches(".{2,}") && location != null && location.matches(".{2,}") 
-						&& salary != null && salary.matches(".{2,}")) {
+				&& description.matches(".{2,}") && location != null && location.matches(".{2,}") && salary != null
+				&& salary.matches(".{2,}")) {
 
 			User u = getCurrentUser();
 
@@ -188,12 +172,12 @@ public class HomeController extends BaseController {
 
 			try {
 
-				getJobPostingDao().addJob(job);
+				getJobDao().addJob(job);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			System.out.println("Job was created");
-			
+
 			model.addAttribute("active", "job");
 			return "redirect:/jobPostings";
 
@@ -215,80 +199,33 @@ public class HomeController extends BaseController {
 
 			model.addAttribute("errors", errors);
 			model.addAttribute("active", "job");
-			
+
 			return "createJobPosting";
 		}
 	}
 
-	@RequestMapping(value = "/editJob/{id}", method = RequestMethod.GET)
-	public String editJob(Model model, @PathVariable Long id) {
-		Job editJob = getJobPostingDao().getObjectById(id);
-		// Long jobId = editJob.getId();
-		model.addAttribute("editJob", editJob);
-		// model.addAttribute("editJobId", jobId);
-		return "editJob";
-	}
-	
 	@RequestMapping(value = "/editAJob/{id}", method = RequestMethod.GET)
 	public String editAJob(Model model, @PathVariable Long id) {
-		Job editJob = getJobPostingDao().getObjectById(id);
+		Job editJob = getJobDao().getObjectById(id);
 		// Long jobId = editJob.getId();
 		model.addAttribute("editJob", editJob);
 		// model.addAttribute("editJobId", jobId);
 		return "editJobTemplate";
 	}
 
-	@RequestMapping(value = "/editJob", method = RequestMethod.POST)
-	public String editJobPost(Model model, @RequestParam("name") String name, @RequestParam("company") String company,
-			@RequestParam("description") String description, @ModelAttribute("editJob") Job editJob) {
-
-		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
-				&& description.matches(".{2,}")) {
-
-			try {
-				getJobPostingDao().updateJob(editJob);
-
-			} catch (Exception e) {
-				// e.printStackTrace();
-			}
-			
-			model.addAttribute("active", "job");
-
-			return "redirect:/jobPostings";
-		} else {
-			HashMap<String, String> errors = new HashMap<String, String>();
-
-			if (name == null || !name.matches(".{2,}")) {
-				errors.put("name", "Error in the input for the job name.");
-			}
-
-			if (company == null || !company.matches(".{2,}")) {
-				errors.put("company", "Error in the input for the job's company.");
-			}
-
-			if (description == null || !description.matches(".{2,}")) {
-				errors.put("description", "Error in the input for the job description.");
-			}
-
-			model.addAttribute("errors", errors);
-
-			return "editJob";
-		}
-		// return "jobPostings";
-	}
-	
 	@RequestMapping(value = "/editAJob", method = RequestMethod.POST)
 	public String editJobAPost(Model model, @RequestParam("name") String name, @RequestParam("company") String company,
-			@RequestParam("description") String description, @RequestParam("location") String location, @RequestParam("salary") boolean salary, 
-			@RequestParam("startSalary") int startSalary, @RequestParam("endSalary") int endSalary,
-			@RequestParam("startWage") float startWage, @RequestParam("endWage") float endWage,
-			@RequestParam("hours") int hours, @ModelAttribute("editJob") Job editJob) {
+			@RequestParam("description") String description, @RequestParam("location") String location,
+			@RequestParam("salary") boolean salary, @RequestParam("startSalary") int startSalary,
+			@RequestParam("endSalary") int endSalary, @RequestParam("startWage") float startWage,
+			@RequestParam("endWage") float endWage, @RequestParam("hours") int hours,
+			@ModelAttribute("editJob") Job editJob) {
 
 		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
 				&& description.matches(".{2,}") && location != null && location.matches(".{2,}")) {
 
 			try {
-				getJobPostingDao().updateJob(editJob);
+				getJobDao().updateJob(editJob);
 
 			} catch (Exception e) {
 				// e.printStackTrace();
@@ -326,11 +263,11 @@ public class HomeController extends BaseController {
 	 */
 	@RequestMapping(value = "/createEvent", method = RequestMethod.GET)
 	public String createEvent(Model model) {
-		
+
 		model.addAttribute("active", "event");
 		return "createEvent";
 	}
-	
+
 	/**
 	 * Method to request the Get for creating an event.
 	 * 
@@ -344,97 +281,14 @@ public class HomeController extends BaseController {
 		return "createEventTemplate";
 	}
 
-	/**
-	 * Form processing the event creation page.
-	 * 
-	 * @param model
-	 *            being passed.
-	 * @param name
-	 *            of the event.
-	 * @param dateStr
-	 *            date of the event.
-	 * @param description
-	 *            of the event.
-	 * @return to the event posting page to view the created on and the rest of
-	 *         them.
-	 */
-	@RequestMapping(value = "/createEvent", method = RequestMethod.POST)
-	public String createEventPost(Model model, @RequestParam("name") String name, @RequestParam("date") String dateStr,
-			@RequestParam("description") String description) {
+	@RequestMapping(value = "/createNewEvent", method = RequestMethod.POST)
+	public String createNewEventPost(Model model, @RequestParam("name") String name,
+			@RequestParam("date") String dateStr, @RequestParam("description") String description,
+			@RequestParam("location") String location) {
 
 		if (name != null && name.matches(".{2,}") && description != null && description.matches(".{2,}")
-				&& dateStr != null && dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
-
-			String[] datePart = dateStr.split("/");
-
-			// Subtracted 1900 from year and 1 from month to offset the
-			// deprecated constructor
-			Date eventDate = new Date(Integer.parseInt(datePart[2]) - 1900, Integer.parseInt(datePart[0]) - 1,
-					Integer.parseInt(datePart[1]));
-			Date currentDate = new Date(System.currentTimeMillis());
-
-			User u = getCurrentUser();
-
-			Event createEvent = new Event();
-
-			createEvent.setName(name);
-			createEvent.setDescription(description);
-			createEvent.setDate(eventDate);
-			createEvent.setPoster(u);
-
-			if (eventDate.compareTo(currentDate) < 0) {
-
-				HashMap<String, String> errors = new HashMap<String, String>();
-
-				errors.put("date", "Error. The event's date must be after the current date.");
-
-				model.addAttribute("errors", errors);
-
-				return "/createEvent";
-			}
-
-			System.out.println("Event was created.");
-
-			try {
-				getEventDao().addEvent(createEvent);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			model.addAttribute("active", "event");
-			return "redirect:/events";
-
-		} else {
-
-			HashMap<String, String> errors = new HashMap<String, String>();
-
-			if (name == null || !name.matches(".{2,}")) {
-				errors.put("name", "Error in the input for the event name.");
-			}
-
-			if (description == null || !description.matches(".{2,}")) {
-				errors.put("description", "Error in the input for the event description.");
-			}
-
-			if (dateStr == null || !dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
-				errors.put("date", "Error in the input for the event's date.");
-			}
-
-			model.addAttribute("errors", errors);
-
-			model.addAttribute("active", "event");
-			return "createEvent";
-		}
-
-	}
-	
-	@RequestMapping(value = "/createNewEvent", method = RequestMethod.POST)
-	public String createNewEventPost(Model model, @RequestParam("name") String name, @RequestParam("date") String dateStr,
-			@RequestParam("description") String description, @RequestParam("location") String location) {
-
-		if (name != null && name.matches(".{2,}") && description != null && description.matches(".{2,}") 
-				&& location != null && location.matches(".{2,}")
-				&& dateStr != null && dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
+				&& location != null && location.matches(".{2,}") && dateStr != null
+				&& dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
 
 			String[] datePart = dateStr.split("/");
 
@@ -483,7 +337,7 @@ public class HomeController extends BaseController {
 			if (name == null || !name.matches(".{2,}")) {
 				errors.put("name", "Error in the input for the event name.");
 			}
-			
+
 			if (location == null || !location.matches(".{2,}")) {
 				errors.put("location", "Error in the input for the event name.");
 			}
@@ -502,7 +356,7 @@ public class HomeController extends BaseController {
 		}
 
 	}
-	
+
 	@RequestMapping(value = "/editAnEvent/{id}", method = RequestMethod.GET)
 	public String editAnEvent(Model model, @PathVariable Long id) {
 		Event editEvent = getEventDao().getObjectById(id);
@@ -511,15 +365,15 @@ public class HomeController extends BaseController {
 		// model.addAttribute("editJobId", jobId);
 		return "editEventTemplate";
 	}
-	
+
 	@RequestMapping(value = "/editAnEvent", method = RequestMethod.POST)
 	public String editJobAPost(Model model, @RequestParam("name") String name, @RequestParam("company") String company,
-			@RequestParam("description") String description, @RequestParam("location") String location, 
+			@RequestParam("description") String description, @RequestParam("location") String location,
 			@RequestParam("date") String date, @ModelAttribute("editEvent") Event editEvent) {
 
 		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
 				&& description.matches(".{2,}") && location != null && location.matches(".{2,}")) {
-			
+
 			String[] datePart = date.split("/");
 
 			// Subtracted 1900 from year and 1 from month to offset the
@@ -527,10 +381,9 @@ public class HomeController extends BaseController {
 			Date eventDate = new Date(Integer.parseInt(datePart[2]) - 1900, Integer.parseInt(datePart[0]) - 1,
 					Integer.parseInt(datePart[1]));
 			Date currentDate = new Date(System.currentTimeMillis());
-			
+
 			editEvent.setDate(eventDate);
 
-			
 			try {
 				getEventDao().updateEvent(editEvent);
 
@@ -560,7 +413,7 @@ public class HomeController extends BaseController {
 		}
 		// return "jobPostings";
 	}
-	
+
 	/**
 	 * Displays all events.
 	 * 
@@ -584,7 +437,7 @@ public class HomeController extends BaseController {
 		model.addAttribute("active", "event");
 		return "events";
 	}
-	
+
 	/**
 	 * Displays all events.
 	 * 
@@ -607,26 +460,7 @@ public class HomeController extends BaseController {
 
 		return "eventsTemplate";
 	}
-	
-	
 
-	@RequestMapping(value = "/event/{id}", method = RequestMethod.GET)
-	public String eventDisplay(Model model, @PathVariable Long id) {
-
-		try {
-
-			Event currentEvent = getEventDao().getObjectById(id);
-			model.addAttribute("currentEvent", currentEvent);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		model.addAttribute("active", "event");
-		return "eventDisplay";
-
-	}
-	
 	@RequestMapping(value = "/newEvents/{id}", method = RequestMethod.GET)
 	public String eventSingle(Model model, @PathVariable Long id) {
 
@@ -711,11 +545,12 @@ public class HomeController extends BaseController {
 				register.setRole(role);
 				register.setPersonalEmail(personalEmail);
 
-				if (title == null || title.equals("")) {
-					register.setTitle(null);
-				} else {
-					register.setTitle(title);
-				}
+				// TITLE is now TitleId
+				// if (title == null || title.equals("")) {
+				// register.setTitleID(null);
+				// } else {
+				// register.setTitleID(title);
+				// }
 
 				if (suffix == null || suffix.equals("")) {
 					register.setSuffix(null);
@@ -871,7 +706,8 @@ public class HomeController extends BaseController {
 			@RequestParam("bio") String biography, @RequestParam("experience") String experience,
 			@RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword,
 			HttpServletRequest request, HttpServletResponse response, @RequestParam CommonsMultipartFile[] fileUpload,
-			@RequestParam("file") MultipartFile[] files, @RequestParam("photo") File photo, @RequestParam("resume") File resume) throws IOException {
+			@RequestParam("file") MultipartFile[] files, @RequestParam("photo") File photo,
+			@RequestParam("resume") File resume) throws IOException {
 
 		if (validateEdit(password, confirmPassword, firstName, lastName, personalEmail, graduationYear)) {
 
@@ -900,7 +736,7 @@ public class HomeController extends BaseController {
 				u.setGraduationYear(Integer.parseInt(graduationYear));
 			}
 
-			u.setTitle(title);
+			// u.setTitle(title);
 			u.setFirstName(firstName);
 			u.setLastName(lastName);
 			u.setSuffix(suffix);
@@ -938,20 +774,19 @@ public class HomeController extends BaseController {
 			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 			MultipartFile multipartFile = multipartRequest.getFile("file");
 
-			 
 			// file.setFilename(multipartFile.getOriginalFilename());
 			// file.setNotes(ServletRequestUtils.getStringParameter(request,
 			// "notes"));
 			// file.setType(multipartFile.getContentType());
-			if(resume != null){	
-			//if (files[0] != null) {
+			if (resume != null) {
+				// if (files[0] != null) {
 				UploadFile resumeFile = new UploadFile();
 				(resumeFile).setData(multipartFile.getBytes());
 				getFileUploadDao().addFile(resumeFile);
 			}
-			
-			if(photo != null){
-			//if (files[1] != null) {
+
+			if (photo != null) {
+				// if (files[1] != null) {
 				UploadFile photoFile = new UploadFile();
 				(photoFile).setData(multipartFile.getBytes());
 				getImageUploadDao().addImage(photoFile);
@@ -1095,29 +930,12 @@ public class HomeController extends BaseController {
 	// }
 	//
 
-	@RequestMapping(value = "/job/{id}", method = RequestMethod.GET)
-	public String jobDisplay(Model model, @PathVariable Long id) {
-
-		try {
-
-			Job currentJob = getJobPostingDao().getObjectById(id);
-			model.addAttribute("currentJob", currentJob);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		model.addAttribute("active", "job");
-		return "jobDisplay";
-
-	}
-	
 	@RequestMapping(value = "/jobs/{id}", method = RequestMethod.GET)
 	public String jobsSingle(Model model, @PathVariable Long id) {
 
 		try {
 
-			Job currentJob = getJobPostingDao().getObjectById(id);
+			Job currentJob = getJobDao().getObjectById(id);
 			model.addAttribute("currentJob", currentJob);
 
 		} catch (Exception e) {
@@ -1128,39 +946,13 @@ public class HomeController extends BaseController {
 
 	}
 
-	/**
-	 * Access to the job postings page.
-	 * 
-	 * @param model
-	 *            is being passed in
-	 * @return the job postings page.
-	 */
-	@RequestMapping(value = "/jobPostings", method = RequestMethod.GET)
-	public String jobPostings(Model model) {
-
-		try {
-
-			ArrayList<Job> job = new ArrayList<Job>();
-			job = getJobPostingDao().getAll();
-
-			model.addAttribute("jobPostings", job);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		model.addAttribute("active", "job");
-		return "jobList";
-	}
-	
-	
 	@RequestMapping(value = "/jobs", method = RequestMethod.GET)
 	public String jobs(Model model) {
 
 		try {
 
 			ArrayList<Job> job = new ArrayList<Job>();
-			job = getJobPostingDao().getAll();
+			job = getJobDao().getAll();
 
 			model.addAttribute("jobs", job);
 
@@ -1170,6 +962,7 @@ public class HomeController extends BaseController {
 
 		return "jobsTemplate";
 	}
+
 	/**
 	 * Accesses the user profile page. Dynamically grabs information depending
 	 * who is logged in such as student, alumni, and faculty.
@@ -1186,7 +979,7 @@ public class HomeController extends BaseController {
 		User currentUser = getUserDao().getObjectById(id);
 		model.addAttribute("profileUser", currentUser);
 
-		return "userProfile";
+		return "profile";
 	}
 
 	/**
@@ -1379,7 +1172,7 @@ public class HomeController extends BaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		model.addAttribute("active", "alumni");
 		return "alumni";
 	}

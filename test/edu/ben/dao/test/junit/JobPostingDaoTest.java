@@ -12,11 +12,11 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.ben.template.dao.InterestDao;
-import edu.ben.template.dao.jobDao;
+import edu.ben.template.dao.JobDao;
 import edu.ben.template.dao.UserDao;
 import edu.ben.template.model.Event;
 import edu.ben.template.model.Interest;
-import edu.ben.template.model.job;
+import edu.ben.template.model.Job;
 import edu.ben.template.model.User;
 import junit.framework.AssertionFailedError;
 
@@ -47,7 +47,7 @@ public class JobPostingDaoTest {
 		Date d = new Date(6);
 		User user = new User();
 		user.setId((long) 1);
-		job job = new job("Developer", "Code Monkey", "BU", user);
+		Job job = new Job("Developer", "Code Monkey", "BU", user);
 		Interest interest = new Interest();
 		interest.setId((long) 1);
 		User u = new User();
@@ -56,7 +56,7 @@ public class JobPostingDaoTest {
 		interestDao.addInterestToJobPosting(job, interest);
 
 		try {
-			jobDao.addJobPosting(job);
+			jobDao.addJob(job);
 
 		} catch (Exception e) {
 			throw new AssertionFailedError("addJobPosting() failed");
@@ -104,10 +104,10 @@ public class JobPostingDaoTest {
 
 		User user = new User();
 		user.setId((long) 1);
-		job job = new job("Developer", "Code Monkey", "BU", user);
+		Job job = new Job("Developer", "Code Monkey", "BU", user);
 
 		try {
-			jobDao.addJobPosting(job);
+			jobDao.addJob(job);
 
 		} catch (Exception e) {
 			throw new AssertionFailedError("addJob() failed");
@@ -135,10 +135,10 @@ public class JobPostingDaoTest {
 
 		User user = new User();
 		user.setId((long) 1);
-		job job = new job("Developer", "Code Monkey", "BU", user);
+		Job job = new Job("Developer", "Code Monkey", "BU", user);
 
 		try {
-			jobDao.addJobPosting(job);
+			jobDao.addJob(job);
 
 		} catch (Exception e) {
 			throw new AssertionFailedError("addJob() failed");
@@ -157,10 +157,10 @@ public class JobPostingDaoTest {
 
 		User user = new User();
 		user.setId((long) 1);
-		job job = new job("Developer", "Code Monkey", "BU", user);
+		Job job = new Job("Developer", "Code Monkey", "BU", user);
 
 		try {
-			jobDao.addJobPosting(job);
+			jobDao.addJob(job);
 
 		} catch (Exception e) {
 			throw new AssertionFailedError("addJob() failed");
@@ -173,7 +173,7 @@ public class JobPostingDaoTest {
 
 		try {
 
-			jobDao.updateJobPosting(job);
+			jobDao.updateJob(job);
 
 			if (jobDao.getByPoster(user2) == null) {
 				throw new AssertionFailedError("updateJob() Failed");

@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.ben.template.dao.InterestDao;
 import edu.ben.template.model.Event;
 import edu.ben.template.model.Interest;
-import edu.ben.template.model.JobPosting;
+import edu.ben.template.model.Job;
 import edu.ben.template.model.User;
 import junit.framework.AssertionFailedError;
 
@@ -66,7 +66,7 @@ public class InterestDaoTest {
 			throw new AssertionFailedError("addInterestToEvent() failed");
 		}
 
-		JobPosting job = new JobPosting();
+		Job job = new Job();
 		job.setId((long) 1);
 		try {
 			interestDao.addInterestToJobPosting(job, interest);
@@ -127,7 +127,7 @@ public class InterestDaoTest {
 		event.setId((long) 1);
 		interestDao.addInterestToEvent(event, interest);
 
-		JobPosting job = new JobPosting();
+		Job job = new Job();
 		job.setId((long) 1);
 		interestDao.addInterestToJobPosting(job, interest);
 		

@@ -109,8 +109,8 @@
 										</tr>
 										<tr>
 											<td>Biography:</td>
-											<%if(currentUser.getBio() != null){ %>
-											<td><%=currentUser.getBio()%></td>
+											<%if(currentUser.getBiography() != null){ %>
+											<td><%=currentUser.getBiography()%></td>
 											<%}else{ %>
 											<td>None</td>
 											<%} %>

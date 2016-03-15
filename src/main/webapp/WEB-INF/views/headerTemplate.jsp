@@ -10,17 +10,17 @@
 	rel='stylesheet' type='text/css'>
 <!-- Global CSS -->
 <link rel="stylesheet"
-	href="content/templateAssets/assets/plugins/bootstrap/css/bootstrap.min.css">
+	href="/content/templateAssets/assets/plugins/bootstrap/css/bootstrap.min.css">
 <!-- Plugins CSS -->
 <link rel="stylesheet"
-	href="content/templateAssets/assets/plugins/font-awesome/css/font-awesome.css">
+	href="/content/templateAssets/assets/plugins/font-awesome/css/font-awesome.css">
 <link rel="stylesheet"
-	href="content/templateAssets/assets/plugins/flexslider/flexslider.css">
+	href="/content/templateAssets/assets/plugins/flexslider/flexslider.css">
 <link rel="stylesheet"
-	href="content/templateAssets/assets/plugins/pretty-photo/css/prettyPhoto.css">
+	href="/content/templateAssets/assets/plugins/pretty-photo/css/prettyPhoto.css">
 <!-- Theme CSS -->
 <link id="theme-style" rel="stylesheet"
-	href="content/templateAssets/assets/css/styles-ben.css">
+	href="/content/templateAssets/assets/css/styles-ben.css">
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>

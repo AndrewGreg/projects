@@ -4,11 +4,14 @@
 <%@ page import="java.util.HashMap"%>
 <%@ page import="edu.ben.template.model.User"%>
 <%@ page import="edu.ben.template.model.Major"%>
+<%@ page import="edu.ben.template.model.Title"%>
 <%@ page import="java.util.ArrayList"%>
 <%
 	//User u = (User) request.getSession().getAttribute("user");
 	User u = (User) request.getAttribute("user");
 	ArrayList<Major> m = (ArrayList<Major>) request.getAttribute("majors");
+	Title t = (Title) request.getAttribute("title");
+	
 	HashMap<String, String> errors = (HashMap<String, String>) request.getAttribute("errors");
 %>
 
@@ -44,8 +47,8 @@
 								<div class="form-group">
 									<label class="control-label">Title:</label> <input type="text"
 										class="form-control" name="title" id="title"
-										placeholder="Enter Title" <%if (u.getTitle() != null) {%>
-										value="<%=u.getTitle()%>" <%}%> />
+										placeholder="Enter Title" <%if (t.getName() != null) {%>
+										value="<%=t.getName()%>" <%}%> />
 								</div>
 							</div>
 
@@ -333,8 +336,8 @@
 									<textarea type="text" class="form-control" name="bio" id="bio"
 										placeholder="Enter Biography" rows="5">
 										<%
-											if (u.getBio() != null) {
-										%><%=u.getBio()%>
+											if (u.getBiography() != null) {
+										%><%=u.getBiography()%>
 										<%
 											}
 										%>

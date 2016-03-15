@@ -30,6 +30,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import edu.ben.template.model.Event;
 import edu.ben.template.model.Job;
 import edu.ben.template.model.Major;
+import edu.ben.template.model.Title;
 import edu.ben.template.model.UploadFile;
 import edu.ben.template.model.User;
 import edu.ben.template.model.Validator;
@@ -252,20 +253,6 @@ public class HomeController extends BaseController {
 			return "editJobTemplate";
 		}
 		// return "jobPostings";
-	}
-
-	/**
-	 * Method to request the Get for creating an event.
-	 * 
-	 * @param model
-	 *            being passed.
-	 * @return createEvent page
-	 */
-	@RequestMapping(value = "/createEvent", method = RequestMethod.GET)
-	public String createEvent(Model model) {
-
-		model.addAttribute("active", "event");
-		return "createEvent";
 	}
 
 	/**
@@ -976,7 +963,12 @@ public class HomeController extends BaseController {
 	public String userProfile(Model model, @PathVariable Long id) {
 
 		User currentUser = getUserDao().getObjectById(id);
+		currentUser.setMajor(getMajorDao().getMajorByUser(currentUser));
+		currentUser.setConcentration(getMajorDao().getConcentrationByUser(currentUser));
+		currentUser.setMinor(getMajorDao().getMinorByUser(currentUser));
+		Title currentUserTitle = getTitleDao().getObjectById(currentUser.getTitleID());
 		model.addAttribute("profileUser", currentUser);
+		model.addAttribute("title", currentUserTitle);
 
 		return "profile";
 	}

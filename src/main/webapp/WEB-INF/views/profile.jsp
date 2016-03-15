@@ -61,13 +61,15 @@
  	}
  %></li>
 										<li class="list-group-item"><strong>Major:</strong> <%
- 	if (currentUser.getMajor() != null) {
- %><%=currentUser.getMajor()%>
-											<%
-												} else {
-											%>None <%
-												}
-											%></li>
+ 	if (currentUser.getMajorAtIndex(0) != null && currentUser.getMajorAtIndex(0).getName() != null) {
+ %><%=currentUser.getMajorAtIndex(0).getName()%> <%
+ 	} else {
+ %>None <%
+ 	}
+ %></li>
+ 
+ <!-- ADD MINOR AND CONCENTRATION -->
+ 
 										<li class="list-group-item"><strong>Graduation
 												Year:</strong> <%
  	if (currentUser.getGraduationYear() != 1) {

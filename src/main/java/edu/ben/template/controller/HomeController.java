@@ -262,20 +262,6 @@ public class HomeController extends BaseController {
 	 *            being passed.
 	 * @return createEvent page
 	 */
-	@RequestMapping(value = "/createEvent", method = RequestMethod.GET)
-	public String createEvent(Model model) {
-
-		model.addAttribute("active", "event");
-		return "createEvent";
-	}
-
-	/**
-	 * Method to request the Get for creating an event.
-	 * 
-	 * @param model
-	 *            being passed.
-	 * @return createEvent page
-	 */
 	@RequestMapping(value = "/createNewEvent", method = RequestMethod.GET)
 	public String createEventTemplate(Model model) {
 		return "createEventTemplate";
@@ -977,6 +963,9 @@ public class HomeController extends BaseController {
 	public String userProfile(Model model, @PathVariable Long id) {
 
 		User currentUser = getUserDao().getObjectById(id);
+		currentUser.setMajor(getMajorDao().getMajorByUser(currentUser));
+		currentUser.setConcentration(getMajorDao().getConcentrationByUser(currentUser));
+		currentUser.setMinor(getMajorDao().getMinorByUser(currentUser));
 		Title currentUserTitle = getTitleDao().getObjectById(currentUser.getTitleID());
 		model.addAttribute("profileUser", currentUser);
 		model.addAttribute("title", currentUserTitle);

@@ -59,8 +59,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf()
 				.disable()
 				.authorizeRequests().antMatchers("/").permitAll().antMatchers("/register").permitAll()
-				.antMatchers("/jobs").permitAll().antMatchers("/createJob").permitAll()
-				.antMatchers("/eventsTemplate").permitAll().antMatchers("/createNewEvent").permitAll()
+				.antMatchers("/jobs").permitAll()
+				.antMatchers("/eventsTemplate").permitAll()
 				/* TODO Add any additional open links here */
 				.anyRequest().authenticated()
 				.and()

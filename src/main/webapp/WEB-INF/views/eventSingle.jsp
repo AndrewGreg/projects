@@ -33,29 +33,29 @@
                             <li class="breadcrumbs-label">You are here:</li>
                             <li><a href="index.html">Home</a><i class="fa fa-angle-right"></i></li>
                             <li><a href="jobs.html">Jobs</a><i class="fa fa-angle-right"></i></li>
-                            <li class="current"><%=currentEvent.getName()%></li>
+                            <li class="current" style="color: white"><%=currentEvent.getName()%></li>
                         </ul>
                     </div><!--//breadcrumbs-->
                 </header> 
                  <div class="page-content">
                     <div class="row page-row">
                         <div class="jobs-wrapper col-md-8 col-sm-7">           
-                            <h3 class="title"><%=currentEvent.getName()%></h3>
+                            <h3 class="title" style="color: white"><%=currentEvent.getName()%></h3>
                             <%if(currentUser.getId() == currentEvent.getPoster().getId()){%>
-                            	<a href="/editAnEvent/<%=id%>">Edit Event</a>
+                            	<a href="/editAnEvent/<%=id%>" style="color: white">Edit Event</a>
                             <%	
                             	}
                             %>
                             <div class="box box-border page-row">
                                 <ul class="list-unstyled">
                                 <%if(currentEvent.getPoster() != null && currentEvent.getPoster().getFirstName() != null && currentEvent.getPoster().getEmail() != null) { %>
-                                	<li><strong>Posted By:</strong> <%=currentEvent.getPoster().getFirstName()%> <%=currentEvent.getPoster().getLastName()%></li>
-                                    <li><strong>Location:</strong><%=currentEvent.getLocation()%> </li>
-                                    <li><strong>Time:</strong> <%=//currentEvent.getStartTime()%> - <%=//currentEvent.getEndTime()%></li>
-                                    <li><strong>Contact:</strong> <%=currentEvent.getPoster().getEmail()%></li>
+                                	<li style="color: white"><strong>Posted By:</strong> <%=currentEvent.getPoster().getFirstName()%> <%=currentEvent.getPoster().getLastName()%></li>
+                                    <li style="color: white"><strong>Location:</strong><%=currentEvent.getLocation()%> </li>
+                                    <li style="color: white"><strong>Time:</strong> <%=//currentEvent.getStartTime()%> - <%=//currentEvent.getEndTime()%></li>
+                                    <li style="color: white"><strong>Contact:</strong> <%=currentEvent.getPoster().getEmail()%></li>
                                 </ul>                                
                             </div>
-                            <p> <%=currentEvent.getDescription()%></p>
+                            <p style="color: white"> <%=currentEvent.getDescription()%></p>
                             <%
                                 }
                             %>

@@ -109,6 +109,11 @@ VALUES
 	(28, 2, 0),
 	(29, 1, 0),
 	(31, 3, 0);
+	
+	
+	
+INSERT INTO hours (id,classification) values (1, "part time");
+INSERT INTO hours (id,classification) values (2, "full time");
 
 
 INSERT INTO `user_interest` (`user_id`, `interest_id`)

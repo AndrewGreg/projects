@@ -61,13 +61,17 @@
 							%>                      
                             <article class="events-item page-row has-divider clearfix">
                                 <div class="date-label-wrapper col-md-1 col-sm-2">
-                                    <p class="date-label">
+                                    <p class="date-label" style="color: white">
                                         <span><%=date%></span>
                                     </p>
                                 </div><!--//date-label-wrapper-->
                                 <div class="details col-md-11 col-sm-10">
                                     <h3 class="title" style="color: white"><a href="/newEvents/<%=id%>"><%=name%></a></h3>
+<<<<<<< HEAD
                                     <p class="meta" style="color: white"><span class="time"><i class="fa fa-clock-o"></i>10:00am - 18:00pm</span><span class="location"><i class="fa fa-map-marker"></i><a href="#"><%=location %></a></span></p>  
+=======
+                                    <p class="meta"style="color: white"><span class="time"><i class="fa fa-clock-o"></i>10:00am - 18:00pm</span><span class="location"><i class="fa fa-map-marker"></i><a href="#"><%=location %></a></span></p>  
+>>>>>>> 52526a3a8a5a6a265286107712442f2252daec1a
                                     <p class="desc" style="color: white"><%=description%></p>                       
                                 </div><!--//details-->
                             </article><!--//events-item-->

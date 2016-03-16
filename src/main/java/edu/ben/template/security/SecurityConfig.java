@@ -58,9 +58,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf()
 				.disable()
-				.authorizeRequests().antMatchers("/index").permitAll().antMatchers("/register").permitAll().antMatchers("/").permitAll()
-				.antMatchers("/jobs").permitAll().antMatchers("/createJob").permitAll()
-				.antMatchers("/eventsTemplate").permitAll().antMatchers("/createNewEvent").permitAll()
+				.authorizeRequests().antMatchers("/").permitAll().antMatchers("/register").permitAll()
+				.antMatchers("/jobs").permitAll()
+				.antMatchers("/eventsTemplate").permitAll()
 				/* TODO Add any additional open links here */
 				.anyRequest().authenticated()
 				.and()
@@ -71,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.permitAll()
 				.and()
 					.formLogin()
-					.successHandler(new SimpleUrlAuthenticationSuccessHandler("/index"))
+					.successHandler(new SimpleUrlAuthenticationSuccessHandler("/"))
 					.loginPage("/login").permitAll()
 					.loginProcessingUrl("/login")
 					.usernameParameter("email")

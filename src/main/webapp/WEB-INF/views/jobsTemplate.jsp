@@ -58,7 +58,7 @@
                                     <h3 class="panel-title" style="color: white"><a href="/jobs/<%=id%>"><%=name%></a> <span class="label label-success pull-right"><%=hours%></span></h3>
                                     
                                 </div>
-                                <div class="panel-body">
+                                <div class="panel-body" style="color: white">
                                     <%=description%>
                                 </div>
                                 <ul class="list-group">
@@ -70,7 +70,7 @@
                                         <ul class="list-inline col-md-8 col-sm-6 col-xs-6">
                                             <li><a href="/jobs/<%=id%>" style="color: white">More details</a></li>
                                         </ul>
-                                        <div class="meta col-md-4 col-sm-6 col-xs-6 text-right">
+                                        <div class="meta col-md-4 col-sm-6 col-xs-6 text-right" style="color: white">
                                             <small>Posted 3 days ago</small>
                                         </div>
                                     </div>

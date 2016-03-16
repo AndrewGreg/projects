@@ -225,7 +225,7 @@ public class JobDao extends BaseDao<Job> {
 				job.setHours(rs.getInt("hours_id"));
 				job.setLink(rs.getString("link"));
 				job.setReference(rs.getString("reference"));
-				job.setToPublic(rs.getInt("toPublic"));
+				job.setToPublic(rs.getInt("public"));
 
 				// Grabs the id of the user that created the job.
 				// Displays who posted the job.

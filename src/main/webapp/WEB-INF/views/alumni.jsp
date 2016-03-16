@@ -88,11 +88,21 @@
 
 									<%
 										}
-										}
+									}
 									%>
 								</tbody>
 							</table>
 							<!--//table-->
+							<div class = "col-md-4" style = "width: 1215px; padding-left: 550px;">
+						<ul class="pagination">
+						<%int i = 0; %>
+						<%while(i < alumni.size() /15 + 1) {%>
+   					 		<li><a href="/alumni?page=<%=i%>"><%=++i%></a></li>
+   					 		<li><a href="/alumni?page=<%=i++%>"><%=i++%></a></li>
+    					<%} %>
+   
+  				</ul>
+  				</div>
 						</div>
 						<!--//table-responsive-->
 					</div>

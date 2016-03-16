@@ -42,22 +42,22 @@
                         <div class="jobs-wrapper col-md-8 col-sm-7">           
                             <h3 class="title"><%=currentJob.getName()%></h3>
                              <%if((currentUser.getId() == currentJob.getPoster().getId()) || currentUser.getRole() > 2){%>
-                            		<a href="/editAJob/<%=id%>">Edit Job</a>
+                            		<a href="/editAJob/<%=id%>" style="color: white">Edit Job</a>
                             <%
                             	}
                             %>
                             <div class="box box-border page-row">
                                 <ul class="list-unstyled">
                                 <%if(currentJob.getPoster() != null && currentJob.getPoster().getFirstName() != null && currentJob.getPoster().getEmail() != null) { %>
-                                	<li><strong>Posted By:</strong> <%=currentJob.getPoster().getFirstName()%> <%=currentJob.getPoster().getLastName()%></li>
-                                    <li><strong>Location:</strong><%=currentJob.getLocation()%> </li>
-                                    <li><strong>Salary:</strong> <%=currentJob.getStart_salary()%> - <%=currentJob.getEnd_salary()%></li>
-                                    <li><strong>Hours:</strong> <%=currentJob.getHours()%></li>
-                                    <li><strong>Closing date:</strong> <%=//currentJob.getEndDate()%></li>
-                                    <li><strong>Contact:</strong> <%=currentJob.getPoster().getEmail()%></li>
+                                	<li style="color: white"><strong>Posted By:</strong> <%=currentJob.getPoster().getFirstName()%> <%=currentJob.getPoster().getLastName()%></li>
+                                    <li style="color: white"><strong>Location:</strong><%=currentJob.getLocation()%> </li>
+                                    <li style="color: white"><strong>Salary:</strong> <%=currentJob.getStart_salary()%> - <%=currentJob.getEnd_salary()%></li>
+                                    <li style="color: white"><strong>Hours:</strong> <%=currentJob.getHours()%></li>
+                                    <%-- <li style="color: white"><strong>Closing date:</strong> <%=//currentJob.getEndDate()%></li> --%>
+                                    <li style="color: white"><strong>Contact:</strong> <%=currentJob.getPoster().getEmail()%></li>
                                 </ul>                                
                             </div>
-                            <p> <%=currentJob.getDescription()%></p>
+                            <p style="color: white"> <%=currentJob.getDescription()%></p>
                             <%
                                 
                                 }

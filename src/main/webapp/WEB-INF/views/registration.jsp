@@ -6,7 +6,7 @@
 	if (request.getAttribute("errors") != null) {
 		errors = (HashMap<String, String>) request.getAttribute("errors");
 	} else {
-		errors = new HashMap<String, String>();
+		errors = new HashMap<String, String>(); 
 	}
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">

@@ -3,7 +3,8 @@
 <%@page import="edu.ben.template.model.User"%>
 <%@page import="edu.ben.template.model.Title"%>
 <%
-	User currentUser = (User) request.getAttribute("profileUser");
+	User currentUser = (User) request.getAttribute("currentUser");
+	User profileUser = (User) request.getAttribute("profileUser");
 	Title userTitle = (Title) request.getAttribute("title");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -28,12 +29,15 @@
 						id="profile-pic" src="/content/img/empty-profile.png"
 						alt="Profile Picture">
 					<h1 class="heading-title">
-						<%=currentUser.getFirstName()%>
-						<%=currentUser.getLastName()%></h1>
+						<%=profileUser.getFirstName()%>
+						<%=profileUser.getLastName()%></h1>
 					<div class="breadcrumbs pull-right" id="breadcrumbs-profile">
 						<ul class="breadcrumbs-list">
 							<li class="breadcrumbs-label">You are here:</li>
 							<li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
+							<% if (currentUser.getId() != profileUser.getId()) { %>
+								<li><a href="/alumni">Alumni</a><i class="fa fa-angle-right"></i></li>
+							<% } %>
 							<li class="current">Profile</li>
 						</ul>
 					</div>
@@ -50,53 +54,53 @@
 									</div>
 									<ul class="list-group">
 										<li class="list-group-item"><strong>Role:</strong> <%
- 	if (currentUser.getRole() == 1) {
+ 	if (profileUser.getRole() == 1) {
  %>Student <%
- 	} else if (currentUser.getRole() == 2) {
+ 	} else if (profileUser.getRole() == 2) {
  %>Alumni <%
- 	} else if (currentUser.getRole() == 3) {
+ 	} else if (profileUser.getRole() == 3) {
  %>Faculty <%
  	} else {
  %>Administrator <%
  	}
  %></li>
 										<li class="list-group-item"><strong>Major:</strong> <%
- 	if (currentUser.getMajorAtIndex(0) != null && currentUser.getMajorAtIndex(0).getName() != null) {
- %><%=currentUser.getMajorAtIndex(0).getName()%> <%
+ 	if (profileUser.getMajorAtIndex(0) != null && profileUser.getMajorAtIndex(0).getName() != null) {
+ %><%=profileUser.getMajorAtIndex(0).getName()%> <%
  	} else {
  %>None <%
  	}
  %></li>
- 
- <!-- ADD MINOR AND CONCENTRATION -->
- 
+
+										<!-- ADD MINOR AND CONCENTRATION -->
+
 										<li class="list-group-item"><strong>Graduation
 												Year:</strong> <%
- 	if (currentUser.getGraduationYear() != 1) {
- %><%=currentUser.getGraduationYear()%> <%
+ 	if (profileUser.getGraduationYear() != 1) {
+ %><%=profileUser.getGraduationYear()%> <%
  	} else {
  %>No graduation year.<%
  	}
  %></li>
 										<li class="list-group-item"><strong>Occupation:</strong>
 											<%
-												if (currentUser.getOccupation() != null) {
-											%><%=currentUser.getOccupation()%> <%
+												if (profileUser.getOccupation() != null) {
+											%><%=profileUser.getOccupation()%> <%
  	} else {
  %>No user occupation.<%
  	}
  %></li>
 										<li class="list-group-item"><strong>Company:</strong> <%
- 	if (currentUser.getCompany() != null) {
- %><%=currentUser.getCompany()%> <%
+ 	if (profileUser.getCompany() != null) {
+ %><%=profileUser.getCompany()%> <%
  	} else {
  %>No user company.<%
  	}
  %></li>
 										<li class="list-group-item"><strong>Experience:</strong>
 											<%
-												if (currentUser.getExperience() != null) {
-											%><%=currentUser.getExperience()%> <%
+												if (profileUser.getExperience() != null) {
+											%><%=profileUser.getExperience()%> <%
  	} else {
  %>No user experience.<%
  	}
@@ -104,8 +108,8 @@
 									</ul>
 									<div class="panel-body">
 										<%
-											if (currentUser.getBiography() != null) {
-										%><%=currentUser.getBiography()%>
+											if (profileUser.getBiography() != null) {
+										%><%=profileUser.getBiography()%>
 										<%
 											} else {
 										%>No user bio.<%
@@ -116,7 +120,17 @@
 										<div class="row">
 											<div
 												class="meta col-md-4 col-sm-6 col-xs-6 text-right pull-right">
+												<%
+													if (currentUser.getId() == profileUser.getId()) {
+												%>
 												<a href="/edit"><small>Edit Information</small></a>
+												<%
+													} else {
+												%>
+												<p></p>
+												<%
+													}
+												%>
 											</div>
 										</div>
 									</div>
@@ -143,9 +157,9 @@
 							<p>
 								<i class="fa fa-user"></i>First Name:
 								<%
-									if (currentUser.getFirstName() != null) {
+									if (profileUser.getFirstName() != null) {
 								%>
-								<%=currentUser.getFirstName()%>
+								<%=profileUser.getFirstName()%>
 								<%
 									} else {
 								%>None<%
@@ -155,9 +169,9 @@
 							<p>
 								<i class="fa fa-user"></i>Last Name:
 								<%
-									if (currentUser.getLastName() != null) {
+									if (profileUser.getLastName() != null) {
 								%>
-								<%=currentUser.getLastName()%>
+								<%=profileUser.getLastName()%>
 								<%
 									} else {
 								%>None<%
@@ -167,9 +181,9 @@
 							<p>
 								<i class="fa fa-certificate"></i>Suffix:
 								<%
-									if (currentUser.getSuffix() != null) {
+									if (profileUser.getSuffix() != null) {
 								%>
-								<%=currentUser.getSuffix()%>
+								<%=profileUser.getSuffix()%>
 								<%
 									} else {
 								%>None<%
@@ -182,10 +196,10 @@
 
 							<p class="email">
 								<i class="fa fa-envelope"></i>Ben E-Mail: <a
-									href="<%if (currentUser.getEmail() != null) {%>mailto:<%=currentUser.getEmail()%>? <%} else {%> # <%}%>">
+									href="<%if (profileUser.getEmail() != null) {%>mailto:<%=profileUser.getEmail()%>? <%} else {%> # <%}%>">
 									<%
-										if (currentUser.getEmail() != null) {
-									%> <%=currentUser.getEmail()%> <%
+										if (profileUser.getEmail() != null) {
+									%> <%=profileUser.getEmail()%> <%
  	} else {
  %> None <%
  	}
@@ -194,10 +208,10 @@
 							</p>
 							<p class="email">
 								<i class="fa fa-envelope"></i> Personal E-mail: <a
-									href="<%if (currentUser.getPersonalEmail() != null) {%>mailto:<%=currentUser.getPersonalEmail()%>? <%} else {%> # <%}%>">
+									href="<%if (profileUser.getPersonalEmail() != null) {%>mailto:<%=profileUser.getPersonalEmail()%>? <%} else {%> # <%}%>">
 									<%
-										if (currentUser.getPersonalEmail() != null) {
-									%> <%=currentUser.getPersonalEmail()%> <%
+										if (profileUser.getPersonalEmail() != null) {
+									%> <%=profileUser.getPersonalEmail()%> <%
  	} else {
  %> None <%
  	}

@@ -1,3 +1,9 @@
+
+<%
+	String loginAttempt = request.getAttribute("loginAttempt") != null
+			? (String) request.getAttribute("loginAttempt") : "";
+%>
+
 <!-- Modal -->
 <div class="modal fade" id="loginModal" role="dialog">
 	<div class="modal-dialog">
@@ -11,6 +17,14 @@
 				</h4>
 			</div>
 			<div class="modal-body" style="padding: 40px 50px;">
+				<%
+					if (loginAttempt.equals("failure")) {
+				%>
+				<small id="loginErrorMsg">Invalid login. Please try again.</small>
+
+				<%
+					}
+				%>
 				<form role="form" action="/login" method="POST" name="loginForm">
 					<div class="form-group">
 						<label for="usrname"><span
@@ -22,8 +36,7 @@
 						<label for="psw"><span
 							class="glyphicon glyphicon-eye-open"></span> Password</label> <input
 							type="password" class="form-control" id="psw"
-							placeholder="Enter password" name="password"><br>
-						<br>
+							placeholder="Enter password" name="password"><br> <br>
 					</div>
 					<button type="submit" class="btn btn-theme btn-block">
 						<span class="glyphicon glyphicon-off"></span> Login

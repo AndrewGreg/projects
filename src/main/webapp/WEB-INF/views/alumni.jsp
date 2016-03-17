@@ -26,7 +26,8 @@
 		<!-- ******CONTENT****** -->
 		<div class="content container content-container">
 			<div class="page-wrapper table-container">
-				<header class="page-heading clearfix" style="margin-bottom: 10px !important;">
+				<header class="page-heading clearfix"
+					style="margin-bottom: 10px !important;">
 				<h1 class="heading-title pull-left">Alumni Directory</h1>
 				<div class="breadcrumbs pull-right">
 					<ul class="breadcrumbs-list">
@@ -88,21 +89,27 @@
 
 									<%
 										}
-									}
+										}
 									%>
 								</tbody>
 							</table>
 							<!--//table-->
-							<div class = "col-md-4" style = "width: 1215px; padding-left: 550px;">
-						<ul class="pagination">
-						<%int i = 0; %>
-						<%while(i < alumni.size() /15 + 1) {%>
-   					 		<li><a href="/alumni?page=<%=i%>"><%=++i%></a></li>
-   					 		<li><a href="/alumni?page=<%=i++%>"><%=i++%></a></li>
-    					<%} %>
-   
-  				</ul>
-  				</div>
+							<div class="col-md-4" style="width: 1215px; padding-left: 500px;">
+								<ul class="pagination">
+									<%
+										int i = 0;
+									%>
+									<%
+										while (i < alumni.size() / 15 + 1) {
+									%>
+									<li><a href="/alumni?page=<%=i%>"><%=++i%></a></li>
+									<li><a href="/alumni?page=<%=i++%>"><%=i++%></a></li>
+									<%
+										}
+									%>
+
+								</ul>
+							</div>
 						</div>
 						<!--//table-responsive-->
 					</div>
@@ -110,8 +117,8 @@
 				</div>
 			</div>
 		</div>
-
-		<!--//wrapper-->
-		<jsp:include page="footerTemplate.jsp" />
+	</div>
+	<!--//wrapper-->
+	<jsp:include page="footerTemplate.jsp" />
 </body>
 </html>

@@ -510,7 +510,7 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String registration(Model model) {
 
-		return "register";
+		return "registration";
 	}
 
 	/**
@@ -520,7 +520,7 @@ public class HomeController extends BaseController {
 	 *            information passed in
 	 * @return to be determined.
 	 */
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@RequestMapping(value = "/registration", method = RequestMethod.POST)
 	public String registrationPost(Model model, @RequestParam("firstName") String firstName,
 			@RequestParam("lastName") String lastName, @RequestParam("benEmail") String benEmail,
 			@RequestParam("personalEmail") String personalEmail, @RequestParam("gradYear") String gradYear,
@@ -625,12 +625,12 @@ public class HomeController extends BaseController {
 				}
 
 				model.addAttribute("errors", errors);
-				return "register";
+				return "registration";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "register";
+		return "registration";
 	}
 
 	@RequestMapping(value = "/massRegister", method = RequestMethod.POST)
@@ -999,12 +999,12 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
 	public String userProfile(Model model, @PathVariable Long id) {
 
-		User currentUser = getUserDao().getObjectById(id);
-		currentUser.setMajor(getMajorDao().getMajorByUser(currentUser));
-		currentUser.setConcentration(getMajorDao().getConcentrationByUser(currentUser));
-		currentUser.setMinor(getMajorDao().getMinorByUser(currentUser));
-		Title currentUserTitle = getTitleDao().getObjectById(currentUser.getTitleID());
-		model.addAttribute("profileUser", currentUser);
+		User profileUser = getUserDao().getObjectById(id);
+		profileUser.setMajor(getMajorDao().getMajorByUser(profileUser));
+		profileUser.setConcentration(getMajorDao().getConcentrationByUser(profileUser));
+		profileUser.setMinor(getMajorDao().getMinorByUser(profileUser));
+		Title currentUserTitle = getTitleDao().getObjectById(profileUser.getTitleID());
+		model.addAttribute("profileUser", profileUser);
 		model.addAttribute("title", currentUserTitle);
 
 		return "profile";

@@ -182,23 +182,47 @@ public class JobDao extends BaseDao<Job> {
 	}
 
 	/**
-	 * Retrieve the top 5 newest job postings.
+	 * Retrieve the top 5 Highest Paid jobs.
 	 * 
 	 * @param user
 	 *            of job.
-	 * @return the 5 of the newest job postings.
+	 * @return the 5 of the highest paid jobs by wage.
 	 */
-	public ArrayList<Job> getByNewestJob(User user) {
+	public ArrayList<Job> getByHighestPaidWage(int start_wage) {
 
 		List<Job> jobs = new ArrayList<Job>();
-		String sql = "SELECT user_id FROM job LEFT OUTER JOIN user ON (job.id = user_id AND job.id < job.id) GROUP BY user_id HAVING COUNT(*) < 5 ORDER BY job.user_id";
+		String sql = SEARCH
+				+ "job where job.start_wage is NOT NULL AND job.end_wage is NOT NULL order by job.start_wage asc Limit 5";
 
 		try {
-			jobs = jdbcTemplate.query(sql, new Object[] { user.getId() }, getRowMapper());
+			jobs = jdbcTemplate.query(sql, new Object[] { start_wage }, getRowMapper());
 
 			return (ArrayList<Job>) jobs;
 		} catch (EmptyResultDataAccessException e) {
-			/* Probably want to log this */
+			System.out.println("There are no jobs.");
+			return null;
+		}
+	}
+
+	/**
+	 * Retrieve the top 5 Highest Paid jobs.
+	 * 
+	 * @param user
+	 *            of job.
+	 * @return the 5 of the highest paid jobs by salary.
+	 */
+	public ArrayList<Job> getByHighestPaidSalary(int start_salary) {
+
+		List<Job> jobs = new ArrayList<Job>();
+		String sql = SEARCH
+				+ "job where job.start_salary is NOT NULL AND job.end_salary is NOT NULL order by job.start_salary asc Limit 5";
+
+		try {
+			jobs = jdbcTemplate.query(sql, new Object[] { start_salary }, getRowMapper());
+
+			return (ArrayList<Job>) jobs;
+		} catch (EmptyResultDataAccessException e) {
+			System.out.println("There are no jobs.");
 			return null;
 		}
 	}

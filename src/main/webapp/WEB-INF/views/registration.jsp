@@ -6,7 +6,7 @@
 	if (request.getAttribute("errors") != null) {
 		errors = (HashMap<String, String>) request.getAttribute("errors");
 	} else {
-		errors = new HashMap<String, String>();
+		errors = new HashMap<String, String>(); 
 	}
 
 	String firstName = (request.getParameter("firstName") == null) ? ""

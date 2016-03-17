@@ -531,7 +531,7 @@ public class HomeController extends BaseController {
 	 *            information passed in
 	 * @return to be determined.
 	 */
-	@RequestMapping(value = "/registration", method = RequestMethod.POST)
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String registrationPost(Model model, @RequestParam("firstName") String firstName,
 			@RequestParam("lastName") String lastName, @RequestParam("benEmail") String benEmail,
 			@RequestParam("personalEmail") String personalEmail, @RequestParam("gradYear") String gradYear,

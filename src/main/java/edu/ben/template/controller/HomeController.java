@@ -279,6 +279,13 @@ public class HomeController extends BaseController {
 			if (company == null || !company.matches(".{2,}")) {
 				errors.put("company", "Error in the input for the job's company.");
 			}
+			
+			if (location == null || !location.matches(".{2,}")) {
+				errors.put("location", "Error in the input for the job location.");
+			}
+			if (hours != 1 || hours != 2) {
+				errors.put("hours", "Error in the input for the job hours.");
+			}
 
 			if (description == null || !description.matches(".{2,}")) {
 				errors.put("description", "Error in the input for the job description.");
@@ -424,6 +431,10 @@ public class HomeController extends BaseController {
 
 			if (company == null || !company.matches(".{2,}")) {
 				errors.put("company", "Error in the input for the job's company.");
+			}
+			
+			if (location == null || !location.matches(".{2,}")) {
+				errors.put("location", "Error in the input for the event name.");
 			}
 
 			if (description == null || !description.matches(".{2,}")) {

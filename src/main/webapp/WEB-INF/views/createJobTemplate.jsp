@@ -369,11 +369,11 @@
 	<!--//footer-->
 
 	<!-- Javascript -->
-	<!--  <script type="text/javascript"
+	 <script type="text/javascript"
 		src="content/templateAssets/assets/plugins/jquery-1.11.2.min.js"></script>
 	<script type="text/javascript"
-		src="content/templateAssets/assets/plugins/jquery-migrate-1.2.1.min.js"></script>-->
-	<!--  <script type="text/javascript"
+		src="content/templateAssets/assets/plugins/jquery-migrate-1.2.1.min.js"></script>
+	<script type="text/javascript"
 		src="content/templateAssets/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript"
 		src="content/templateAssets/assets/plugins/bootstrap-hover-dropdown.min.js"></script>
@@ -386,8 +386,8 @@
 	<script type="text/javascript"
 		src="content/templateAssets/assets/plugins/flexslider/jquery.flexslider-min.js"></script>
 	<script type="text/javascript"
-		src="content/templateAssets/assets/plugins/jflickrfeed/jflickrfeed.min.js"></script> -->
-	<!-- <script type="text/javascript"
-		src="content/templateAssets/assets/js/main.js"></script> -->
+		src="content/templateAssets/assets/plugins/jflickrfeed/jflickrfeed.min.js"></script> 
+    <script type="text/javascript"
+		src="content/templateAssets/assets/js/main.js"></script> 
 </body>
 </html>

@@ -45,14 +45,27 @@
                             		<a href="/editAJob/<%=id%>" style="color: white">Edit Job</a>
                             <%
                             	}
+                            
+                            %>
+                            <% 
+                               String hoursDisplay = "";
+                                if(currentJob.getHours() == 1){
+                            	   hoursDisplay = "Full-time";
+                                }else{
+                            	    hoursDisplay = "Part-time";
+                                }
                             %>
                             <div class="box box-border page-row">
                                 <ul class="list-unstyled">
                                 <%if(currentJob.getPoster() != null && currentJob.getPoster().getFirstName() != null && currentJob.getPoster().getEmail() != null) { %>
                                 	<li><strong>Posted By:</strong> <%=currentJob.getPoster().getFirstName()%> <%=currentJob.getPoster().getLastName()%></li>
-                                    <li><strong>Location:</strong><%=currentJob.getLocation()%> </li>
-                                    <li><strong>Salary:</strong> <%=currentJob.getStart_salary()%> - <%=currentJob.getEnd_salary()%></li>
-                                    <li><strong>Hours:</strong> <%=currentJob.getHours()%></li>
+                                    <li><strong>Location: </strong><%=currentJob.getLocation()%> </li>
+                                   <%if(currentJob.getHours()==1){ %>
+                                    	<li><strong>Salary:</strong> <%=currentJob.getStart_salary()%> - <%=currentJob.getEnd_salary()%></li>
+                                    <%}else{%>
+                                    	<li><strong>Wage:</strong> <%=currentJob.getStart_wage()%> - <%=currentJob.getEnd_wage()%></li>
+                                    <%} %>
+                                    <li><strong>Hours:</strong> <%=hoursDisplay%></li>
                                     <%-- <li style="color: white"><strong>Closing date:</strong> <%=//currentJob.getEndDate()%></li> --%>
                                     <li><strong>Contact:</strong> <%=currentJob.getPoster().getEmail()%></li>
                                 </ul>                                

@@ -51,11 +51,16 @@
 									int hours = jobs.get(i).getHours() != 0 ? jobs.get(i).getHours() : 0;
 									int startSalary = jobs.get(i).getStart_salary() != 0 ? jobs.get(i).getStart_salary() : 0;
 									int endSalary = jobs.get(i).getEnd_salary() != 0 ? jobs.get(i).getEnd_salary() : 0;
+									float startWage = jobs.get(i).getStart_wage() != 0 ? jobs.get(i).getStart_wage() : 0;
+									float endWage = jobs.get(i).getEnd_wage() != 0 ? jobs.get(i).getEnd_wage() : 0;
 									String hoursDisplay = "";
+									String payDisplay = "";
 									if(hours == 1){
 										hoursDisplay = "Full-time";
+										//payDisplay = "Salary";
 									}else{
 										hoursDisplay = "Part-time";
+										//payDisplay = "Wage";
 									}
 							%>
                             <div class="panel panel-default page-row">
@@ -68,7 +73,11 @@
                                 </div>
                                 <ul class="list-group">
                                     <li class="list-group-item"><strong>Location:</strong> <%=location%></li>
-                                    <li class="list-group-item"><strong>Salary:</strong> <%=startSalary%> - <%=endSalary%></li>
+                                    <%if(hours==1){ %>
+                                    	<li class="list-group-item"><strong>Salary:</strong> <%=startSalary%> - <%=endSalary%></li>
+                                    <%}else{%>
+                                    	<li class="list-group-item"><strong>Wage:</strong> <%=startWage%> - <%=endWage%></li>
+                                    <%} %>
                                 </ul>
                                 <div class="panel-footer">
                                     <div class="row">

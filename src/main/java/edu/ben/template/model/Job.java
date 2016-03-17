@@ -82,8 +82,8 @@ public class Job {
 	 * @param hours
 	 * @param link
 	 */
-	public Job(String name, String description, String company, User poster, String location, boolean salary,
-			int start_salary, int end_salary, float start_wage, float end_wage, String reference, int toPublic,
+	public Job(String name, String description, String company, User poster, String location, 
+			String reference, int toPublic,
 			int hours, String link) {
 		super();
 		this.name = name;
@@ -91,11 +91,11 @@ public class Job {
 		this.company = company;
 		this.poster = poster;
 		this.location = location;
-		this.salary = salary;
-		this.start_salary = start_salary;
-		this.end_salary = end_salary;
-		this.start_wage = start_wage;
-		this.end_wage = end_wage;
+//		this.salary = salary;
+//		this.start_salary = start_salary;
+//		this.end_salary = end_salary;
+//		this.start_wage = start_wage;
+//		this.end_wage = end_wage;
 		this.reference = reference;
 		this.toPublic = toPublic;
 		this.hours = hours;

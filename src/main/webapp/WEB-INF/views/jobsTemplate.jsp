@@ -32,8 +32,8 @@
                     <div class="breadcrumbs pull-right">
                         <ul class="breadcrumbs-list">
                             <li class="breadcrumbs-label">You are here:</li>
-                            <li><a href="index.html">Home</a><i class="fa fa-angle-right"></i></li>
-                            <li class="current"  style="color: white">Jobs</li>
+                            <li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
+                            <li class="current" style="color: white">Jobs</li>
                         </ul>
                     </div><!--//breadcrumbs-->
                 </header> 
@@ -51,24 +51,29 @@
 									int hours = jobs.get(i).getHours() != 0 ? jobs.get(i).getHours() : 0;
 									int startSalary = jobs.get(i).getStart_salary() != 0 ? jobs.get(i).getStart_salary() : 0;
 									int endSalary = jobs.get(i).getEnd_salary() != 0 ? jobs.get(i).getEnd_salary() : 0;
-									
+									String hoursDisplay = "";
+									if(hours == 1){
+										hoursDisplay = "Full-time";
+									}else{
+										hoursDisplay = "Part-time";
+									}
 							%>
                             <div class="panel panel-default page-row">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title" style="color: white"><a href="/jobs/<%=id%>"><%=name%></a> <span class="label label-success pull-right"><%=hours%></span></h3>
+                                    <h3 class="panel-title"><a href="/jobs/<%=id%>"><%=name%></a> <span class="label label-success pull-right"><%=hoursDisplay%></span></h3>
                                     
                                 </div>
-                                <div class="panel-body" style="color: white">
+                                <div class="panel-body">
                                     <%=description%>
                                 </div>
                                 <ul class="list-group">
-                                    <li class="list-group-item" style="color: white"><strong>Location:</strong> <%=location%></li>
-                                    <li class="list-group-item" style="color: white"><strong>Salary:</strong> <%=startSalary%> - <%=endSalary%></li>
+                                    <li class="list-group-item"><strong>Location:</strong> <%=location%></li>
+                                    <li class="list-group-item"><strong>Salary:</strong> <%=startSalary%> - <%=endSalary%></li>
                                 </ul>
                                 <div class="panel-footer">
                                     <div class="row">
                                         <ul class="list-inline col-md-8 col-sm-6 col-xs-6">
-                                            <li><a href="/jobs/<%=id%>" style="color: white">More details</a></li>
+                                            <li><a href="/jobs/<%=id%>">More details</a></li>
                                         </ul>
                                         <div class="meta col-md-4 col-sm-6 col-xs-6 text-right" style="color: white">
                                             <small>Posted 3 days ago</small>

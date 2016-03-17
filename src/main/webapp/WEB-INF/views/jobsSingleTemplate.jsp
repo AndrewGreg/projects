@@ -31,8 +31,8 @@
                     <div class="breadcrumbs pull-right">
                         <ul class="breadcrumbs-list">
                             <li class="breadcrumbs-label">You are here:</li>
-                            <li><a href="index.html">Home</a><i class="fa fa-angle-right"></i></li>
-                            <li><a href="jobs.html">Jobs</a><i class="fa fa-angle-right"></i></li>
+                            <li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
+                            <li><a href="/jobs">Jobs</a><i class="fa fa-angle-right"></i></li>
                             <li class="current"  style="color: white"><%=currentJob.getName()%></li>
                         </ul>
                     </div><!--//breadcrumbs-->
@@ -40,7 +40,7 @@
                  <div class="page-content">
                     <div class="row page-row">
                         <div class="jobs-wrapper col-md-8 col-sm-7">           
-                            <h3 class="title"><%=currentJob.getName()%></h3>
+                            <h3 class="title" style="color: white"><%=currentJob.getName()%></h3>
                              <%if((currentUser.getId() == currentJob.getPoster().getId()) || currentUser.getRole() > 2){%>
                             		<a href="/editAJob/<%=id%>" style="color: white">Edit Job</a>
                             <%
@@ -49,12 +49,12 @@
                             <div class="box box-border page-row">
                                 <ul class="list-unstyled">
                                 <%if(currentJob.getPoster() != null && currentJob.getPoster().getFirstName() != null && currentJob.getPoster().getEmail() != null) { %>
-                                	<li style="color: white"><strong>Posted By:</strong> <%=currentJob.getPoster().getFirstName()%> <%=currentJob.getPoster().getLastName()%></li>
-                                    <li style="color: white"><strong>Location:</strong><%=currentJob.getLocation()%> </li>
-                                    <li style="color: white"><strong>Salary:</strong> <%=currentJob.getStart_salary()%> - <%=currentJob.getEnd_salary()%></li>
-                                    <li style="color: white"><strong>Hours:</strong> <%=currentJob.getHours()%></li>
+                                	<li><strong>Posted By:</strong> <%=currentJob.getPoster().getFirstName()%> <%=currentJob.getPoster().getLastName()%></li>
+                                    <li><strong>Location:</strong><%=currentJob.getLocation()%> </li>
+                                    <li><strong>Salary:</strong> <%=currentJob.getStart_salary()%> - <%=currentJob.getEnd_salary()%></li>
+                                    <li><strong>Hours:</strong> <%=currentJob.getHours()%></li>
                                     <%-- <li style="color: white"><strong>Closing date:</strong> <%=//currentJob.getEndDate()%></li> --%>
-                                    <li style="color: white"><strong>Contact:</strong> <%=currentJob.getPoster().getEmail()%></li>
+                                    <li><strong>Contact:</strong> <%=currentJob.getPoster().getEmail()%></li>
                                 </ul>                                
                             </div>
                             <p style="color: white"> <%=currentJob.getDescription()%></p>

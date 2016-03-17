@@ -30,8 +30,8 @@
 				<div class="breadcrumbs pull-right">
 					<ul class="breadcrumbs-list">
 						<li class="breadcrumbs-label">You are here:</li>
-						<li><a href="index.html">Home</a><i class="fa fa-angle-right"></i></li>
-						<li><a href="jobs.html">Event</a><i class="fa fa-angle-right"></i></li>
+						<li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
+						<li><a href="/eventsTemplate">Events</a><i class="fa fa-angle-right"></i></li>
 						<li class="current" style="color: white">Create an Event</li>
 					</ul>
 				</div>

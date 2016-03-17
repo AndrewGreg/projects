@@ -122,7 +122,7 @@ public class JobDao extends BaseDao<Job> {
 	 */
 	public void updateJob(Job job) {
 
-		String sql = "UPDATE job SET name = ?, description = ?, company = ?, start_wage = ?,end_wage = ?, start_salary = ?, end_salary = ?, location = ?, salary = ?, reference = ?, public = ?, hours = ?, link = ?, user_id = ? WHERE job.id = ?";
+		String sql = "UPDATE job SET name = ?, description = ?, company = ?, start_wage = ?,end_wage = ?, start_salary = ?, end_salary = ?, location = ?, salary = ?, reference = ?, public = ?, hours_id = ?, link = ?, user_id = ? WHERE job.id = ?";
 		try {
 			jdbcTemplate.update(sql,
 					new Object[] { job.getName(), job.getDescription(), job.getCompany(), job.getStart_wage(),
@@ -174,6 +174,28 @@ public class JobDao extends BaseDao<Job> {
 		try {
 			jobs = jdbcTemplate.query(sql, new Object[] { user.getId() }, getRowMapper());// TEST
 																							// THIS
+			return (ArrayList<Job>) jobs;
+		} catch (EmptyResultDataAccessException e) {
+			/* Probably want to log this */
+			return null;
+		}
+	}
+
+	/**
+	 * Retrieve the top 5 newest job postings.
+	 * 
+	 * @param user
+	 *            of job.
+	 * @return the 5 of the newest job postings.
+	 */
+	public ArrayList<Job> getByNewestJob(User user) {
+
+		List<Job> jobs = new ArrayList<Job>();
+		String sql = "SELECT user_id FROM job LEFT OUTER JOIN user ON (job.id = user_id AND job.id < job.id) GROUP BY user_id HAVING COUNT(*) < 5 ORDER BY job.user_id";
+
+		try {
+			jobs = jdbcTemplate.query(sql, new Object[] { user.getId() }, getRowMapper());
+
 			return (ArrayList<Job>) jobs;
 		} catch (EmptyResultDataAccessException e) {
 			/* Probably want to log this */

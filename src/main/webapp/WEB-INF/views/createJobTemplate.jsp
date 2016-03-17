@@ -32,15 +32,15 @@
 				<div class="breadcrumbs pull-right">
 					<ul class="breadcrumbs-list">
 						<li class="breadcrumbs-label">You are here:</li>
-						<li><a href="index.html">Home</a><i class="fa fa-angle-right"></i></li>
-						<li><a href="jobs.html">Jobs</a><i class="fa fa-angle-right"></i></li>
+						<li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
+						<li><a href="/jobs">Jobs</a><i class="fa fa-angle-right"></i></li>
 						<li class="current" style="color: white">Create a Job</li>
 					</ul>
 				</div>
 				<!--//breadcrumbs--> </header>
 				<div class="container">
 					<div class="row">
-						<article class="contact-form col-md-8 col-sm-7  page-row">
+						<article class="contact-form col-md-8 col-sm-7 page-row">
 						<form action="/createJob" method="POST"
 							name="createJob">
 
@@ -57,13 +57,11 @@
 								String hours = (request.getParameter("hours") == null) ? "" : (String) request.getParameter("hours");
 								String startDate = (request.getParameter("startDate") == null) ? "" : (String) request.getParameter("startDate");
 								String endDate = (request.getParameter("endDate") == null) ? "" : (String) request.getParameter("endDate");
-
-
 							%>
 
 
 							<div class="form-group col-sm-6">
-								<label style="color: white">Job Name </label><input type="text"
+								<label style="color: white">Job Name*</label><input type="text"
 									class="form-control" name="name" value="<%=name%>" required>
 
 								<%
@@ -78,7 +76,7 @@
 							</div>
 
 							<div class="form-group col-sm-6">
-								<label style="color: white">Company </label><input type="text"
+								<label style="color: white">Company* </label><input type="text"
 									class="form-control" name="company" value="<%=company%>"
 									required>
 
@@ -94,7 +92,7 @@
 							</div>
 
 							<div class="form-group col-sm-6">
-								<label style="color: white">Location </label><input type="text"
+								<label style="color: white">Location* </label><input type="text"
 									class="form-control" name="location" value="<%=location%>"
 									required>
 
@@ -110,7 +108,7 @@
 							</div>
 							
 							<div class="form-group col-sm-6">
-								<label style="color: white">Hours</label><input type="text"
+								<label style="color: white">Hours*(Enter Full Time as 1, Part Time as 2)</label><input type="text"
 									class="form-control" name="hours" value="<%=hours%>"
 									required>
 
@@ -131,12 +129,17 @@
 									required>
 
 								<%
-									if (errors.get("startSalary") != null) {
+									if(request.getParameter("hours") != null){
+										if(request.getParameter("hours").equals("1")){
+											if (errors.get("startSalary") != null) {
+	
 								%>
 
 								<h6 style="color: red"><%=errors.get("startSalary")%></h6>
 
 								<%
+											}
+										}
 									}
 								%>
 							</div>
@@ -147,12 +150,16 @@
 									required>
 
 								<%
-									if (errors.get("endSalary") != null) {
+									if(request.getParameter("hours") != null){
+										if(request.getParameter("hours").equals("1")){
+											if (errors.get("endSalary") != null) {
 								%>
 
 								<h6 style="color: red"><%=errors.get("endSalary")%></h6>
 
 								<%
+											}
+										}
 									}
 								%>
 							</div>
@@ -163,12 +170,16 @@
 									required>
 
 								<%
-									if (errors.get("startWage") != null) {
+									if(request.getParameter("hours") != null){
+										if(request.getParameter("hours").equals("2")){
+											if (errors.get("startWage") != null) {
 								%>
 
 								<h6 style="color: red"><%=errors.get("startWage")%></h6>
 
 								<%
+											}
+										}
 									}
 								%>
 							</div>
@@ -179,12 +190,16 @@
 									required>
 
 								<%
-									if (errors.get("endWage") != null) {
+									if(request.getParameter("hours") != null){
+										if(request.getParameter("hours").equals("2")){
+											if (errors.get("endWage") != null) {
 								%>
 
 								<h6 style="color: red"><%=errors.get("endWage")%></h6>
 
 								<%
+											}
+										}
 									}
 								%>
 							</div>
@@ -192,7 +207,7 @@
 							
 							
 							<div class="form-group col-sm-3">
-								<label style="color: white">Start Date</label><input type="text"
+								<label style="color: white">Start Date*</label><input type="text"
 									class="form-control" name="startDate" value="<%=startDate%>"
 									required>
 
@@ -208,7 +223,7 @@
 							</div>
 							
 							<div class="form-group col-sm-3">
-								<label style="color: white">End Date</label><input type="text"
+								<label style="color: white">End Date*</label><input type="text"
 									class="form-control" name="endDate" value="<%=endDate%>"
 									required>
 
@@ -224,7 +239,7 @@
 							</div>
 							
 							<div class="form-group col-sm-12">
-								<label style="color: white">Description </label>
+								<label style="color: white">Description* </label>
 								<textarea class="form-control" rows="8" name="description"></textarea>
 
 								<%
@@ -354,7 +369,7 @@
 	<!--//footer-->
 
 	<!-- Javascript -->
-	<script type="text/javascript"
+	 <script type="text/javascript"
 		src="content/templateAssets/assets/plugins/jquery-1.11.2.min.js"></script>
 	<script type="text/javascript"
 		src="content/templateAssets/assets/plugins/jquery-migrate-1.2.1.min.js"></script>
@@ -365,14 +380,14 @@
 	<script type="text/javascript"
 		src="content/templateAssets/assets/plugins/back-to-top.js"></script>
 	<script type="text/javascript"
-		src="content/templateAssets/assets/plugins/jquery-placeholder/jquery.placeholder.js"></script>
-	<script type="text/javascript"
+		src="content/templateAssets/assets/plugins/jquery-placeholder/jquery.placeholder.js"></script> 
+	 <script type="text/javascript"
 		src="content/templateAssets/assets/plugins/pretty-photo/js/jquery.prettyPhoto.js"></script>
 	<script type="text/javascript"
 		src="content/templateAssets/assets/plugins/flexslider/jquery.flexslider-min.js"></script>
 	<script type="text/javascript"
-		src="content/templateAssets/assets/plugins/jflickrfeed/jflickrfeed.min.js"></script>
-	<script type="text/javascript"
-		src="content/templateAssets/assets/js/main.js"></script>
+		src="content/templateAssets/assets/plugins/jflickrfeed/jflickrfeed.min.js"></script> 
+    <script type="text/javascript"
+		src="content/templateAssets/assets/js/main.js"></script> 
 </body>
 </html>

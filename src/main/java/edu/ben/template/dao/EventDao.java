@@ -152,6 +152,28 @@ public class EventDao extends BaseDao<Event> {
 	}
 
 	/**
+	 * Retrieve the 5 upcoming events.
+	 * 
+	 * @param user
+	 *            of event.
+	 * @return the 5 of upcoming events.
+	 */
+	public ArrayList<Event> getByUpComingEvent(Date date) {
+
+		List<Event> event = new ArrayList<Event>();
+		String sql = SEARCH + "event WHERE event.date is NOT NULL order by event.date ASC Limit 5;";
+
+		try {
+			event = jdbcTemplate.query(sql,new Object[] { date }, getRowMapper());
+
+			return (ArrayList<Event>) event;
+		} catch (EmptyResultDataAccessException e) {
+			System.out.println("There are no upcoming events.");
+			return null;
+		}
+	}
+
+	/**
 	 * Grabs the Event by the date it was created.
 	 * 
 	 * @param date

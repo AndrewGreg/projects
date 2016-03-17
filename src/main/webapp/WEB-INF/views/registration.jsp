@@ -523,7 +523,8 @@
 
 							<div class="row setup-content" id="step-3">
 
-								<!-- /Input control group -->
+								<h3>Employment Information</h3>
+								<br>
 
 								<!-- Input control group -->
 								<div class="control-group">

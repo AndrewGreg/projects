@@ -31,8 +31,8 @@
                     <div class="breadcrumbs pull-right">
                         <ul class="breadcrumbs-list">
                             <li class="breadcrumbs-label">You are here:</li>
-                            <li><a href="index.html">Home</a><i class="fa fa-angle-right"></i></li>
-                            <li><a href="jobs.html">Jobs</a><i class="fa fa-angle-right"></i></li>
+                            <li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
+                            <li><a href="/eventsTemplate">Events</a><i class="fa fa-angle-right"></i></li>
                             <li class="current" style="color: white"><%=currentEvent.getName()%></li>
                         </ul>
                     </div><!--//breadcrumbs-->
@@ -49,10 +49,10 @@
                             <div class="box box-border page-row">
                                 <ul class="list-unstyled">
                                 <%if(currentEvent.getPoster() != null && currentEvent.getPoster().getFirstName() != null && currentEvent.getPoster().getEmail() != null) { %>
-                                	<li style="color: white"><strong>Posted By:</strong> <%=currentEvent.getPoster().getFirstName()%> <%=currentEvent.getPoster().getLastName()%></li>
-                                    <li style="color: white"><strong>Location:</strong><%=currentEvent.getLocation()%> </li>
+                                	<li><strong>Posted By:</strong> <%=currentEvent.getPoster().getFirstName()%> <%=currentEvent.getPoster().getLastName()%></li>
+                                    <li><strong>Location:</strong><%=currentEvent.getLocation()%> </li>
                                    <!-- <li style="color: white"><strong>Time:</strong> currentEvent.getStartTime() - currentEvent.getEndTime()%></li> -->
-                                    <li style="color: white"><strong>Contact:</strong> <%=currentEvent.getPoster().getEmail()%></li>
+                                    <li><strong>Contact:</strong> <%=currentEvent.getPoster().getEmail()%></li>
                                 </ul>                                
                             </div>
                             <p style="color: white"> <%=currentEvent.getDescription()%></p>

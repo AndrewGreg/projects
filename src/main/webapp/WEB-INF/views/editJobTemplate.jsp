@@ -16,8 +16,7 @@
 	User currentUser = (User) request.getAttribute("currentUser");
 %>
 <%
-	Job currentJob = (Job) request.getAttribute("currentJob");
-	String id = Long.toString(currentJob.getId());
+	Job editJob = (Job) request.getAttribute("editJob");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -41,8 +40,8 @@
 				<div class="breadcrumbs pull-right">
 					<ul class="breadcrumbs-list">
 						<li class="breadcrumbs-label">You are here:</li>
-						<li><a href="index.html">Home</a><i class="fa fa-angle-right"></i></li>
-						<li><a href="jobs.html">Jobs</a><i class="fa fa-angle-right"></i></li>
+						<li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
+						<li><a href="/jobs">Jobs</a><i class="fa fa-angle-right"></i></li>
 						<li class="current" style="color: white">Edit a Job</li>
 					</ul>
 				</div>
@@ -51,7 +50,7 @@
 					<div class="row">
 						<article class="contact-form col-md-8 col-sm-7  page-row">
 						<form action="/editAJob" method="POST"
-							name="editJob">
+							name="editAJob">
 
 							<%
 								String name = (request.getParameter("name") == null) ? "" : (String) request.getParameter("name");
@@ -66,14 +65,12 @@
 								String hours = (request.getParameter("hours") == null) ? "" : (String) request.getParameter("hours");
 								String startDate = (request.getParameter("startDate") == null) ? "" : (String) request.getParameter("startDate");
 								String endDate = (request.getParameter("endDate") == null) ? "" : (String) request.getParameter("endDate");
-
-
 							%>
 
 
 							<div class="form-group col-sm-6">
-								<label style="color: white">Job Name </label><input type="text"
-									class="form-control" name="name" value="<%=currentJob.getName()%>" required>
+								<label style="color: white">Job Name* </label><input type="text"
+									class="form-control" name="name" value="<%=editJob.getName()%>" required>
 
 								<%
 									if (errors.get("name") != null) {
@@ -87,8 +84,8 @@
 							</div>
 
 							<div class="form-group col-sm-6">
-								<label style="color: white">Company </label><input type="text"
-									class="form-control" name="company" value="<%=company%>"
+								<label style="color: white">Company* </label><input type="text"
+									class="form-control" name="company" value="<%=editJob.getCompany()%>"
 									required>
 
 								<%
@@ -103,7 +100,7 @@
 							</div>
 
 							<div class="form-group col-sm-6">
-								<label style="color: white">Location </label><input type="text"
+								<label style="color: white">Location* </label><input type="text"
 									class="form-control" name="location" value="<%=location%>"
 									required>
 
@@ -119,7 +116,7 @@
 							</div>
 							
 							<div class="form-group col-sm-6">
-								<label style="color: white">Hours</label><input type="text"
+								<label style="color: white">Hours*(Enter Full Time as 1, Part Time as 2) </label><input type="text"
 									class="form-control" name="hours" value="<%=hours%>"
 									required>
 
@@ -140,12 +137,17 @@
 									required>
 
 								<%
-									if (errors.get("startSalary") != null) {
+									if(request.getParameter("hours") != null){
+										if(request.getParameter("hours").equals("1")){
+											if (errors.get("startSalary") != null) {
+	
 								%>
 
 								<h6 style="color: red"><%=errors.get("startSalary")%></h6>
 
 								<%
+											}
+										}
 									}
 								%>
 							</div>
@@ -154,14 +156,17 @@
 								<label style="color: white">End Salary</label><input type="text"
 									class="form-control" name="endSalary" value="<%=endSalary%>"
 									required>
-
 								<%
-									if (errors.get("endSalary") != null) {
+									if(request.getParameter("hours") != null){
+										if(request.getParameter("hours").equals("1")){
+											if (errors.get("endSalary") != null) {
 								%>
 
 								<h6 style="color: red"><%=errors.get("endSalary")%></h6>
 
 								<%
+											}
+										}
 									}
 								%>
 							</div>
@@ -172,12 +177,16 @@
 									required>
 
 								<%
-									if (errors.get("startWage") != null) {
+									if(request.getParameter("hours") != null){
+										if(request.getParameter("hours").equals("2")){
+											if (errors.get("startWage") != null) {
 								%>
 
 								<h6 style="color: red"><%=errors.get("startWage")%></h6>
 
 								<%
+											}
+										}
 									}
 								%>
 							</div>
@@ -188,12 +197,16 @@
 									required>
 
 								<%
-									if (errors.get("endWage") != null) {
+									if(request.getParameter("hours") != null){
+										if(request.getParameter("hours").equals("2")){
+											if (errors.get("endWage") != null) {
 								%>
 
 								<h6 style="color: red"><%=errors.get("endWage")%></h6>
 
 								<%
+											}
+										}
 									}
 								%>
 							</div>
@@ -201,7 +214,7 @@
 							
 							
 							<div class="form-group col-sm-3">
-								<label style="color: white">Start Date</label><input type="text"
+								<label style="color: white">Start Date*</label><input type="text"
 									class="form-control" name="startDate" value="<%=startDate%>"
 									required>
 
@@ -217,7 +230,7 @@
 							</div>
 							
 							<div class="form-group col-sm-3">
-								<label style="color: white">End Date</label><input type="text"
+								<label style="color: white">End Date*</label><input type="text"
 									class="form-control" name="endDate" value="<%=endDate%>"
 									required>
 
@@ -248,7 +261,7 @@
 
 								<br>
 								<button type="reset" class="btn btn-danger">Clear</button>
-								<button type="submit" class="btn btn-primary">Create
+								<button type="submit" class="btn btn-primary">Edit
 									posting</button>
 							</div>
 

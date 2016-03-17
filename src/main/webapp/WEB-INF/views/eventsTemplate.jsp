@@ -30,7 +30,7 @@
                     <div class="breadcrumbs pull-right">
                         <ul class="breadcrumbs-list">
                             <li class="breadcrumbs-label">You are here:</li>
-                            <li><a href="index.html">Home</a><i class="fa fa-angle-right"></i></li>
+                            <li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
                             <li class="current" style="color: white">Events</li>
                         </ul>
                     </div><!--//breadcrumbs-->
@@ -61,17 +61,13 @@
 							%>                      
                             <article class="events-item page-row has-divider clearfix">
                                 <div class="date-label-wrapper col-md-1 col-sm-2">
-                                    <p class="date-label" style="color: white">
+                                    <p class="date-label">
                                         <span><%=date%></span>
                                     </p>
                                 </div><!--//date-label-wrapper-->
                                 <div class="details col-md-11 col-sm-10">
-                                    <h3 class="title" style="color: white"><a href="/newEvents/<%=id%>"><%=name%></a></h3>
-<<<<<<< HEAD
-                                    <p class="meta" style="color: white"><span class="time"><i class="fa fa-clock-o"></i>10:00am - 18:00pm</span><span class="location"><i class="fa fa-map-marker"></i><a href="#"><%=location %></a></span></p>  
-=======
-                                    <p class="meta"style="color: white"><span class="time"><i class="fa fa-clock-o"></i>10:00am - 18:00pm</span><span class="location"><i class="fa fa-map-marker"></i><a href="#"><%=location %></a></span></p>  
->>>>>>> 52526a3a8a5a6a265286107712442f2252daec1a
+                                    <h3 class="title" style="color: white"><a href="/newEvents/<%=id%>" style="color: white"><%=name%></a></h3>
+                                    <p class="meta" style="color: white"><span class="time"><i class="fa fa-clock-o"></i>10:00am - 18:00pm</span><span class="location"><i class="fa fa-map-marker"></i><a href="#"><%=location %></a></span></p>   
                                     <p class="desc" style="color: white"><%=description%></p>                       
                                 </div><!--//details-->
                             </article><!--//events-item-->

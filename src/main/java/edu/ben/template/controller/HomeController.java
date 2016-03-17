@@ -36,7 +36,7 @@ import edu.ben.template.model.User;
 import edu.ben.template.model.Validator;
 
 @Controller
-@SessionAttributes("editJob")
+@SessionAttributes({"editJob", "editEvent"})
 public class HomeController extends BaseController {
 
 	// Allows the password to be Hashed.
@@ -98,7 +98,6 @@ public class HomeController extends BaseController {
 			@RequestParam("startWage") float startWage, @RequestParam("endWage") float endWage,
 			@RequestParam("hours") int hours, @RequestParam("startDate") String startDate,
 			@RequestParam("endDate") String endDate) {
-		System.out.println("im here");
 
 		Random r = new Random();
 		int min = 1;
@@ -109,9 +108,23 @@ public class HomeController extends BaseController {
 				&& description.matches(".{2,}") && location != null && location.matches(".{2,}")) {
 
 			User u = getCurrentUser();
-
-			Job job = new Job(name, description, company, u, location, true, startSalary, endSalary, startWage, endWage,
+			
+			Job job = new Job(name, description, company, u, location, 
 					"stuff", 1, hours, "things");
+			
+			if(startSalary > 0 && endSalary > 0){
+				job.setSalary(true);
+				job.setStart_salary(startSalary);
+				job.setEnd_salary(endSalary);
+				job.setStart_wage(0);
+				job.setEnd_wage(0);
+			}else{
+				job.setSalary(false);
+				job.setStart_wage(startWage);
+				job.setEnd_wage(endWage);
+				job.setStart_salary(0);
+				job.setEnd_salary(0);
+			}
 
 			try {
 
@@ -130,9 +143,17 @@ public class HomeController extends BaseController {
 			if (name == null || !name.matches(".{2,}")) {
 				errors.put("name", "Error in the input for the job name.");
 			}
+	
 
 			if (company == null || !company.matches(".{2,}")) {
 				errors.put("company", "Error in the input for the job's company.");
+			}
+			
+			if (location == null || !location.matches(".{2,}")) {
+				errors.put("location", "Error in the input for the job location.");
+			}
+			if (hours != 1 || hours != 2) {
+				errors.put("hours", "Error in the input for the job hours.");
 			}
 
 			if (description == null || !description.matches(".{2,}")) {
@@ -215,22 +236,36 @@ public class HomeController extends BaseController {
 	}
 
 	@RequestMapping(value = "/editAJob", method = RequestMethod.POST)
-	public String editJobAPost(Model model, @RequestParam("name") String name, @RequestParam("company") String company,
+	public String editAJobPost(Model model, @RequestParam("name") String name, @RequestParam("company") String company,
 			@RequestParam("description") String description, @RequestParam("location") String location,
-			@RequestParam("salary") boolean salary, @RequestParam("startSalary") int startSalary,
-			@RequestParam("endSalary") int endSalary, @RequestParam("startWage") float startWage,
-			@RequestParam("endWage") float endWage, @RequestParam("hours") int hours, @RequestParam("startDate") String startDate,
-			@RequestParam("endDate") String endDate,
-			@ModelAttribute("editJob") Job editJob) {
+			@RequestParam("startSalary") int startSalary, @RequestParam("endSalary") int endSalary, 
+			@RequestParam("startWage") float startWage, @RequestParam("endWage") float endWage, 
+			@RequestParam("hours") int hours, @RequestParam("startDate") String startDate,
+			@RequestParam("endDate") String endDate, @ModelAttribute("editJob") Job editJob) {
+		
+		System.out.println("im here");
 
 		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
 				&& description.matches(".{2,}") && location != null && location.matches(".{2,}")) {
 
+			if(startSalary > 0 && endSalary > 0){
+				editJob.setSalary(true);
+				editJob.setStart_salary(startSalary);
+				editJob.setEnd_salary(endSalary);
+				editJob.setStart_wage(0);
+				editJob.setEnd_wage(0);
+			}else{
+				editJob.setSalary(false);
+				editJob.setStart_wage(startWage);
+				editJob.setEnd_wage(endWage);
+				editJob.setStart_salary(0);
+				editJob.setEnd_salary(0);
+			}
 			try {
 				getJobDao().updateJob(editJob);
 
 			} catch (Exception e) {
-				// e.printStackTrace();
+				e.printStackTrace();
 			}
 
 			return "redirect:/jobs";

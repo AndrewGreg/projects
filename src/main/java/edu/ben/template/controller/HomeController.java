@@ -1036,6 +1036,49 @@ public class HomeController extends BaseController {
 		model.addAttribute("active", "alumni");
 		return "alumni";
 	}
+	
+	/**
+	 * Displays all the users in the system.
+	 * 
+	 * @param model
+	 *            being passed in.
+	 * @return the alumni list page.
+	 */
+	@RequestMapping(value = "/allUsers", method = RequestMethod.GET)
+	public String userList(@RequestParam(required = false) Integer page, Model model) {
+
+		try {
+
+			ArrayList<User> allUser = new ArrayList<User>();
+			allUser = getUserDao().getAll();
+
+			for (User users : allUser) {
+				users.setMajor(getMajorDao().getMajorByUser(users));
+				users.setConcentration(getMajorDao().getConcentrationByUser(users));
+				users.setMinor(getMajorDao().getMinorByUser(users));
+			}
+
+			sortUsers(allUser);
+			if (page == null) {
+				page = 0;
+			}
+			ArrayList<User> users = new ArrayList<User>();
+			for (int i = page * 15; i < page * 15 + 15; i++) {
+
+				if (i < users.size()) {
+
+					users.add(users.get(i));
+				}
+			}
+			model.addAttribute("users", users);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		model.addAttribute("active", "users");
+		return "admin";
+	}
 
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/somethingSecret", method = RequestMethod.GET)

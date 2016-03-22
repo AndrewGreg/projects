@@ -246,6 +246,7 @@ public class UserDao extends BaseDao<User> {
 							user.getGraduateSchool(), user.getToPublic(), user.getReference(), user.getId() });
 		} catch (Exception e) {
 			/* Probably want to log this */
+			e.printStackTrace();
 		}
 		return;
 

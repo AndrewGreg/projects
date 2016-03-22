@@ -36,7 +36,7 @@ import edu.ben.template.model.User;
 import edu.ben.template.model.Validator;
 
 @Controller
-@SessionAttributes({ "editJob", "editEvent" })
+@SessionAttributes({ "editJob", "editEvent", "profileUser"})
 public class HomeController extends BaseController {
 
 	// Allows the password to be Hashed.
@@ -241,7 +241,7 @@ public class HomeController extends BaseController {
 			@RequestParam("hours") int hours, @RequestParam("startDate") String startDate,
 			@RequestParam("endDate") String endDate, @ModelAttribute("editJob") Job editJob) {
 
-		System.out.println("im here");
+		
 
 		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
 				&& description.matches(".{2,}") && location != null && location.matches(".{2,}")) {
@@ -1077,6 +1077,22 @@ public class HomeController extends BaseController {
 		}
 
 		model.addAttribute("active", "users");
+		return "admin";
+	}
+	
+	/**
+	 * Displays all the users in the system.
+	 * 
+	 * @param model
+	 *            being passed in.
+	 * @return the alumni list page.
+	 */
+	@RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
+	public String deleteUser(Model model, @ModelAttribute("profileUser") User profileUser) {
+		profileUser.setActive(false);
+		profileUser.setHidden(true);
+		//System.out.println(profileUser.getId());
+		getUserDao().updateUser(profileUser);
 		return "admin";
 	}
 

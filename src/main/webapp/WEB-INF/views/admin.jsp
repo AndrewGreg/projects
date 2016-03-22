@@ -83,6 +83,7 @@
 												}else{
 													role = "Admin";
 												}
+												
 									%>
 									
 									<tr class='clickable-row row-link'

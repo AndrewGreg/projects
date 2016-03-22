@@ -31,6 +31,16 @@
 					<h1 class="heading-title">
 						<%=profileUser.getFirstName()%>
 						<%=profileUser.getLastName()%></h1>
+					<div class="pull-right">
+						<%if(currentUser.getRole() == 4){%>
+							<form action="/deleteUser" method="POST"
+							name="deleteUser">
+								<button type="submit" class="btn btn-primary">Delete User</button>
+							</form>
+							
+						<%}	%>
+					</div>
+					
 					<div class="breadcrumbs pull-right" id="breadcrumbs-profile">
 						<ul class="breadcrumbs-list">
 							<li class="breadcrumbs-label">You are here:</li>

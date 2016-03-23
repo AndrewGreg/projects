@@ -16,11 +16,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Events</title>
-<jsp:include page="header.jsp" />
+<jsp:include page="headerTemplate.jsp" />
 <link rel="stylesheet" type="text/css" href="/content/css/lists.css">
 </head>
 <body>
-	<jsp:include page="navBar.jsp" />
+	<jsp:include page="navBarTemplate.jsp" />
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col col-xs-12">
@@ -72,6 +72,6 @@
 		<script src="/content/jQuery/list.js"></script>
 		<script src="/content/jQuery/listSearch.js"></script>
 	</div>
-	<jsp:include page="footer.jsp" />
+	<jsp:include page="footerTemplate.jsp" />
 </body>
 </html>

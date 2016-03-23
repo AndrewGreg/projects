@@ -1008,6 +1008,8 @@ public class HomeController extends BaseController {
 
 			ArrayList<User> alumni = new ArrayList<User>();
 			alumni = getUserDao().getAll();
+			
+			
 
 			for (User users : alumni) {
 				users.setMajor(getMajorDao().getMajorByUser(users));

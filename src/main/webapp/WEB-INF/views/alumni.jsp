@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="edu.ben.template.model.User"%>
+<%@ page import="edu.ben.template.dao.UserDao" %>
 <%@ page import="java.util.ArrayList"%>
 <%
 	ArrayList<User> alumni;
@@ -9,6 +10,11 @@
 	} else {
 		alumni = new ArrayList<User>();
 	}
+	
+	/* UserDao first = (UserDao) request.getAttribute("first");
+	UserDao last = (UserDao) request.getAttribute("last");
+	UserDao year = (UserDao) request.getAttribute("year");
+	UserDao major = (UserDao) request.getAttribute("major"); */
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
@@ -16,9 +22,13 @@
 <!--[if !IE]><!-->
 <html lang="en">
 <!--<![endif]-->
+
+
 <head>
 <title>Alumni Directory</title>
+
 <jsp:include page="headerTemplate.jsp" />
+
 </head>
 <body>
 	<div class="wrapper">
@@ -46,14 +56,14 @@
 									placeholder="Search" style="margin-top: 5px;">
 							</div>
 							<span class="counter pull-right"></span>
-							<table class="table table-hover results">
+							<table id= indextable class="table table-hover results">
 								<thead>
 									<tr>
-										<th>Profile</th>
-										<th>First Name</th>
-										<th>Last Name</th>
-										<th>Major</th>
-										<th>Grad Year</th>
+										<th><a href="javascript:SortTable(1,'T');">Profile</a></th>
+										<th><a href="javascript:SortTable(1,'T');">First Name</a></th>
+										<th><a href="javascript:SortTable(2,'T');">Last Name</a></th>
+										<th><a href="javascript:SortTable(3,'T');">Major</a></th>
+										<th><a href="javascript:SortTable(4,'N');">Grad Year</a></th>
 									</tr>
 									<tr class="warning no-result">
 										<td colspan="4"><i class="fa fa-warning"></i> No result</td>
@@ -120,5 +130,9 @@
 	</div>
 	<!--//wrapper-->
 	<jsp:include page="footerTemplate.jsp" />
+	
+	<script type="text/javascript" src="/content/jQuery/sortColumns.js"></script>
+	
 </body>
+
 </html>

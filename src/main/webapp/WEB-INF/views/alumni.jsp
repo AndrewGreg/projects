@@ -10,20 +10,9 @@
 	} else {
 		alumni = new ArrayList<User>();
 	}
-	
-	/* UserDao first = (UserDao) request.getAttribute("first");
-	UserDao last = (UserDao) request.getAttribute("last");
-	UserDao year = (UserDao) request.getAttribute("year");
-	UserDao major = (UserDao) request.getAttribute("major"); */
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if !IE]><!-->
+<!DOCTYPE html>
 <html lang="en">
-<!--<![endif]-->
-
-
 <head>
 <title>Alumni Directory</title>
 
@@ -88,13 +77,13 @@
 									<tr class='clickable-row row-link'
 										data-href='/user/<%=alumni.get(i).getId()%>'
 										<%if (i % 2 == 1) {%> style="background-color: #E8E8E8" <%}%>>
-										<td><img id="empty-profile-pic"
+										<td align="center"><img id="empty-profile-pic"
 											src="/content/img/empty-profile.png"
 											alt="Empty profile picture"></td>
-										<td><%=alumni.get(i).getFirstName()%></td>
-										<td><%=alumni.get(i).getLastName()%></td>
-										<td><%=alumni.get(i).getMajorAtIndex(0).getName()%></td>
-										<td><%=alumni.get(i).getGraduationYear()%></td>
+										<td align="center"><%=alumni.get(i).getFirstName()%></td>
+										<td align="center"><%=alumni.get(i).getLastName()%></td>
+										<td align="center"><%=alumni.get(i).getMajorAtIndex(0).getName()%></td>
+										<td align="center"><%=alumni.get(i).getGraduationYear()%></td>
 									</tr>
 
 									<%

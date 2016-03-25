@@ -161,10 +161,10 @@ public class EventDao extends BaseDao<Event> {
 	public ArrayList<Event> getByUpComingEvent(Date date) {
 
 		List<Event> event = new ArrayList<Event>();
-		String sql = SEARCH + "event WHERE event.date is NOT NULL order by event.date ASC Limit 5;";
+		String sql = SEARCH + "event WHERE event.date is NOT NULL order by event.date ASC Limit 4;";
 
 		try {
-			event = jdbcTemplate.query(sql,new Object[] { date }, getRowMapper());
+			event = jdbcTemplate.query(sql, new Object[] { date }, getRowMapper());
 
 			return (ArrayList<Event>) event;
 		} catch (EmptyResultDataAccessException e) {

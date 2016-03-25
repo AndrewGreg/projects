@@ -11,10 +11,13 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 
+import edu.ben.template.model.Job;
 import edu.ben.template.model.UploadFile;
 import edu.ben.template.model.User;
 
 public class UserDao extends BaseDao<User> {
+
+	static final String SEARCH = "SELECT * FROM ";
 
 	public UserDao() {
 		super();
@@ -214,6 +217,87 @@ public class UserDao extends BaseDao<User> {
 		}
 		return u;
 
+	}
+
+	/**
+	 * Sort by the year that user Graduated.
+	 * 
+	 * @return the graduation year of the user in ascending order.
+	 */
+	public ArrayList<User> sortByGradYear() {
+
+		List<User> alumni = new ArrayList<User>();
+		String sql = SEARCH + "user where graduation_year IS NOT NULL ORDER BY graduation_year ASC";
+
+		try {
+			alumni = jdbcTemplate.query(sql, getRowMapper());
+
+			return (ArrayList<User>) alumni;
+		} catch (EmptyResultDataAccessException e) {
+
+			return null;
+		}
+	}
+
+	/**
+	 * Sort by the first name that user.
+	 * 
+	 * @return the first name of the user in ascending order.
+	 */
+	public ArrayList<User> sortByFirstName() {
+
+		List<User> alumni = new ArrayList<User>();
+		String sql = SEARCH + "user where first_name IS NOT NULL ORDER BY first_name ASC";
+
+		try {
+			alumni = jdbcTemplate.query(sql, getRowMapper());
+
+			return (ArrayList<User>) alumni;
+		} catch (EmptyResultDataAccessException e) {
+
+			return null;
+		}
+	}
+
+	/**
+	 * Sort by the last name that user.
+	 * 
+	 * @return the last name of the user in ascending order.
+	 */
+	public ArrayList<User> sortByLastName() {
+
+		List<User> alumni = new ArrayList<User>();
+		String sql = SEARCH + "user where last_name IS NOT NULL ORDER BY last_name ASC";
+
+		try {
+			alumni = jdbcTemplate.query(sql, getRowMapper());
+
+			return (ArrayList<User>) alumni;
+		} catch (EmptyResultDataAccessException e) {
+
+			return null;
+		}
+	}
+
+	/**
+	 * Sort by the major that user.
+	 * 
+	 * @return the major of the user in ascending order.
+	 */
+	public ArrayList<User> sortByMajor() {
+
+		List<User> alumni = new ArrayList<User>();
+		String sql = SEARCH
+				+ "major JOIN user on major.name = concentration where name IS NOT NULL ORDER BY major.name ASC";
+
+		try {
+			alumni = jdbcTemplate.query(sql, getRowMapper());
+
+			return (ArrayList<User>) alumni;
+		} catch (EmptyResultDataAccessException e) {
+
+			return null;
+		}
 	}
 
 	public User getByPersonalEmail(String email) {

@@ -19,11 +19,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title><%=currentJob.getName()%></title>
 
-<jsp:include page="header.jsp" />
+<jsp:include page="headerTemplate.jsp" />
 </head>
 <body>
 
-	<jsp:include page="navBar.jsp"/>
+	<jsp:include page="navBarTemplate.jsp"/>
 	<div class = "container">
 	<div align="center" style="padding-center: 100px;">
 		<div class="well well-lg">
@@ -59,7 +59,7 @@
 	</div>
 	</div>
 	<footer>
-		<jsp:include page="footer.jsp" />
+		<jsp:include page="footerTemplate.jsp" />
 	</footer>
 </body>
 </html>

@@ -14,10 +14,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Register Now!</title>
-<jsp:include page="header.jsp" />
+<jsp:include page="headerTemplate.jsp" />
 </head>
 <body>
-	<jsp:include page="navBar.jsp" />
+	<jsp:include page="navBarTemplate.jsp" />
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col col-xs-12">
@@ -209,7 +209,7 @@
 		</div>
 	</div>
 
-	<jsp:include page="footer.jsp" />
+	<jsp:include page="footerTemplate.jsp" />
 
 </body>
 </html>

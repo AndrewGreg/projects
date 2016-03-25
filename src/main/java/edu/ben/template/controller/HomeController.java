@@ -36,7 +36,7 @@ import edu.ben.template.model.User;
 import edu.ben.template.model.Validator;
 
 @Controller
-@SessionAttributes({"editJob", "editEvent"})
+@SessionAttributes({ "editJob", "editEvent" })
 public class HomeController extends BaseController {
 
 	// Allows the password to be Hashed.
@@ -108,17 +108,16 @@ public class HomeController extends BaseController {
 				&& description.matches(".{2,}") && location != null && location.matches(".{2,}")) {
 
 			User u = getCurrentUser();
-			
-			Job job = new Job(name, description, company, u, location, 
-					"stuff", 1, hours, "things");
-			
-			if(startSalary > 0 && endSalary > 0){
+
+			Job job = new Job(name, description, company, u, location, "stuff", 1, hours, "things");
+
+			if (startSalary > 0 && endSalary > 0) {
 				job.setSalary(true);
 				job.setStart_salary(startSalary);
 				job.setEnd_salary(endSalary);
 				job.setStart_wage(0);
 				job.setEnd_wage(0);
-			}else{
+			} else {
 				job.setSalary(false);
 				job.setStart_wage(startWage);
 				job.setEnd_wage(endWage);
@@ -143,12 +142,11 @@ public class HomeController extends BaseController {
 			if (name == null || !name.matches(".{2,}")) {
 				errors.put("name", "Error in the input for the job name.");
 			}
-	
 
 			if (company == null || !company.matches(".{2,}")) {
 				errors.put("company", "Error in the input for the job's company.");
 			}
-			
+
 			if (location == null || !location.matches(".{2,}")) {
 				errors.put("location", "Error in the input for the job location.");
 			}
@@ -238,23 +236,23 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/editAJob", method = RequestMethod.POST)
 	public String editAJobPost(Model model, @RequestParam("name") String name, @RequestParam("company") String company,
 			@RequestParam("description") String description, @RequestParam("location") String location,
-			@RequestParam("startSalary") int startSalary, @RequestParam("endSalary") int endSalary, 
-			@RequestParam("startWage") float startWage, @RequestParam("endWage") float endWage, 
+			@RequestParam("startSalary") int startSalary, @RequestParam("endSalary") int endSalary,
+			@RequestParam("startWage") float startWage, @RequestParam("endWage") float endWage,
 			@RequestParam("hours") int hours, @RequestParam("startDate") String startDate,
 			@RequestParam("endDate") String endDate, @ModelAttribute("editJob") Job editJob) {
-		
+
 		System.out.println("im here");
 
 		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
 				&& description.matches(".{2,}") && location != null && location.matches(".{2,}")) {
 
-			if(startSalary > 0 && endSalary > 0){
+			if (startSalary > 0 && endSalary > 0) {
 				editJob.setSalary(true);
 				editJob.setStart_salary(startSalary);
 				editJob.setEnd_salary(endSalary);
 				editJob.setStart_wage(0);
 				editJob.setEnd_wage(0);
-			}else{
+			} else {
 				editJob.setSalary(false);
 				editJob.setStart_wage(startWage);
 				editJob.setEnd_wage(endWage);
@@ -279,7 +277,7 @@ public class HomeController extends BaseController {
 			if (company == null || !company.matches(".{2,}")) {
 				errors.put("company", "Error in the input for the job's company.");
 			}
-			
+
 			if (location == null || !location.matches(".{2,}")) {
 				errors.put("location", "Error in the input for the job location.");
 			}
@@ -432,7 +430,7 @@ public class HomeController extends BaseController {
 			if (company == null || !company.matches(".{2,}")) {
 				errors.put("company", "Error in the input for the job's company.");
 			}
-			
+
 			if (location == null || !location.matches(".{2,}")) {
 				errors.put("location", "Error in the input for the event name.");
 			}
@@ -868,102 +866,6 @@ public class HomeController extends BaseController {
 
 	}
 
-	// @RequestMapping(value = "/edit", method = RequestMethod.POST)
-	// public String edit(Model model, @RequestParam("title") String title,
-	// @RequestParam("fName") String firstName,
-	// @RequestParam("lName") String lastName, @RequestParam("suffix") String
-	// suffix,
-	// @RequestParam("personalEmail") String personalEmail,
-	// @RequestParam("occupation") String occupation,
-	// @RequestParam("bio") String biography, @RequestParam("experience") String
-	// experience,
-	// @RequestParam("password") String password,
-	// @RequestParam("confirmPassword") String confirmPassword) {
-	//
-	// if (validateEdit(password, confirmPassword, firstName, lastName,
-	// personalEmail)) {
-	//
-	// // TODO GET USER FROM SESSION
-	// //
-	// // DUMMY User
-	// //
-	// User u = getUserDao().getObjectById(DUMMY_ID);
-	//
-	// u.setMajor(getMajorDao().findMajorByUser(u));
-	// u.setConcentration(getMajorDao().findConcentrationByUser(u));
-	// u.setMinor(getMajorDao().findMinorByUser(u));
-	//
-	// if (Validator.isNull(title))
-	// title = null;
-	// if (Validator.isNull(suffix))
-	// suffix = null;
-	// if (Validator.isNull(personalEmail))
-	// personalEmail = null;
-	// if (Validator.isNull(occupation))
-	// occupation = null;
-	// if (Validator.isNull(biography))
-	// biography = null;
-	// if (Validator.isNull(experience))
-	// experience = null;
-	//
-	//
-	// u.setTitle(title);
-	// u.setFirstName(firstName);
-	// u.setLastName(lastName);
-	// u.setSuffix(suffix);
-	// u.setPersonalEmail(personalEmail);
-	// u.setOccupation(occupation);
-	// u.setBio(biography);
-	// u.setExperience(experience);
-	//
-	// // TODO Hash the password before saving to the user
-	// u.setPassword(password);
-	//
-	// try {
-	// getUserDao().updateUser(u);
-	// getMajorDao().updateMajorByUser(u);
-	// } catch (Exception e) {
-	// /* Probably should log this */
-	// System.out.println("Oops");
-	//
-	// }
-	//
-	// return "userProfile";
-	// }
-	//
-	// HashMap<String, String> e = new HashMap<String, String>();// TODO
-	//
-	// ArrayList<Major> m = getMajorDao().findAllMajors();
-	//
-	// // TODO GET USER FROM SESSION
-	// //
-	// // DUMMY User
-	// //
-	// User u = getUserDao().getObjectById(DUMMY_ID);
-	//
-	// u.setMajor(getMajorDao().findMajorByUser(u));
-	// u.setConcentration(getMajorDao().findConcentrationByUser(u));
-	// u.setMinor(getMajorDao().findMinorByUser(u));
-	//
-	// if (!Validator.validatePassword(password) ||
-	// !Validator.validatePasswordsMatch(password, confirmPassword))
-	// e.put("password", "Invalid Password");
-	// if (!Validator.validateName(firstName))
-	// e.put("fName", "Invalid First Name Entry");
-	// if (!Validator.validateName(lastName))
-	// e.put("fName", "Invalid Last Name Entry");
-	// if (!Validator.validateEmail(personalEmail, false))
-	// e.put("fName", "Invalid Email Entry");
-	//
-	// model.addAttribute("user", u);
-	// model.addAttribute("majors", m);
-	// model.addAttribute("errors", e);
-	//
-	// return "edit";
-	//
-	// }
-	//
-
 	@RequestMapping(value = "/jobs/{id}", method = RequestMethod.GET)
 	public String jobsSingle(Model model, @PathVariable Long id) {
 
@@ -1075,147 +977,6 @@ public class HomeController extends BaseController {
 	// return "userProfile";
 	// }
 
-	/**
-	 * Access to the Faculty Profile page.
-	 * 
-	 * @param model
-	 *            is being passed in
-	 * @return the faculty page.
-	 */
-	@RequestMapping(value = "/faculty/{id}", method = RequestMethod.GET)
-	public String faculty(Model model, @PathVariable Long id) {
-
-		User currentUser = getUserDao().getObjectById(id);
-		model.addAttribute("facultyUser", currentUser);
-
-		try {
-			ArrayList<User> student = new ArrayList<User>();
-			student = getUserDao().getAllStudents();
-
-			model.addAttribute("student", student);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		// Return all Alumni
-		try {
-			ArrayList<User> alumni = new ArrayList<User>();
-			alumni = getUserDao().getAllAlumni();
-
-			model.addAttribute("alumni", alumni);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		// Return all Alumni
-		try {
-			ArrayList<User> faculty = new ArrayList<User>();
-			faculty = getUserDao().getAllFaculty();
-
-			model.addAttribute("faculty", faculty);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return "facultyProfile";
-
-	}
-
-	/**
-	 * Post method that faculty page.
-	 * 
-	 * @param model
-	 *            being passed.
-	 * @param request
-	 * @param response
-	 * @param fileUpload
-	 * @return the faculty page after the user uploads their information.
-	 * @throws Exception
-	 *             is the file is invalid.
-	 */
-	@RequestMapping(value = "/facultyProfile", method = RequestMethod.POST)
-	public String facultyUpload(Model model, HttpServletRequest request, HttpServletResponse response,
-			@RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
-
-		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		MultipartFile multipartFile = multipartRequest.getFile("file");
-
-		UploadFile image = new UploadFile();
-		// file.setFilename(multipartFile.getOriginalFilename());
-		// file.setNotes(ServletRequestUtils.getStringParameter(request,
-		// "notes"));
-		// file.setType(multipartFile.getContentType());
-		if (image != null) {
-			image.setData(multipartFile.getBytes());
-			getImageUploadDao().addImage(image);
-		}
-
-		// if (fileUpload != null && fileUpload.length > 0) {
-		// for (CommonsMultipartFile aFile : fileUpload){
-		//
-		// System.out.println("Saving file: " + aFile.getOriginalFilename());
-
-		// UploadFile file = new UploadFile();
-		// getFileUploadDao().addFile(file);
-
-		// uploadFile.setFileName(aFile.getOriginalFilename());
-		// uploadFile.setData(aFile.getBytes());
-		// fileUploadDao.save(uploadFile);
-		// }
-		// }
-
-		return "facultyProfile";
-	}
-
-	/**
-	 * Displays all the alumni users in the system.
-	 * 
-	 * @param model
-	 *            being passed in.
-	 * @param page
-	 *            that displays 15 users at a time.
-	 * @return the alumni Directory page.
-	 */
-	@RequestMapping(value = "/alumniList", method = RequestMethod.GET)
-	public String directory(@RequestParam(required = false) Integer page, Model model) {
-
-		try {
-
-			ArrayList<User> alumni = new ArrayList<User>();
-			alumni = getUserDao().getAll();
-
-			for (User users : alumni) {
-				users.setMajor(getMajorDao().getMajorByUser(users));
-				users.setConcentration(getMajorDao().getConcentrationByUser(users));
-				users.setMinor(getMajorDao().getMinorByUser(users));
-
-			}
-
-			sortUsers(alumni);
-			if (page == null) {
-				page = 0;
-			}
-			ArrayList<User> users = new ArrayList<User>();
-			for (int i = page * 15; i < page * 15 + 15; i++) {
-
-				if (i < alumni.size()) {
-
-					users.add(alumni.get(i));
-				}
-			}
-			model.addAttribute("alumni", users);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		model.addAttribute("active", "alumni");
-		return "alumni";
-	}
-
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.POST)
 	public String userProfileUpload(Model model, @RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
 
@@ -1247,6 +1008,8 @@ public class HomeController extends BaseController {
 
 			ArrayList<User> alumni = new ArrayList<User>();
 			alumni = getUserDao().getAll();
+			
+			
 
 			for (User users : alumni) {
 				users.setMajor(getMajorDao().getMajorByUser(users));

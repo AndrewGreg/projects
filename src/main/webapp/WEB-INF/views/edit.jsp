@@ -20,10 +20,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Edit My Account!</title>
-<jsp:include page="header.jsp" />
+<jsp:include page="headerTemplate.jsp" />
 </head>
 <body>
-	<jsp:include page="navBar.jsp" />
+	<jsp:include page="navBarTemplate.jsp" />
 	<div class="container">
 
 		<div class="row">
@@ -45,10 +45,10 @@
 							%>
 							<div class="col-xs-12 col-sm-2">
 								<div class="form-group">
-									<label class="control-label">Title:</label> <input type="text"
+									<%-- <label class="control-label">Title:</label> <input type="text"
 										class="form-control" name="title" id="title"
 										placeholder="Enter Title" <%if (t.getName() != null) {%>
-										value="<%=t.getName()%>" <%}%> />
+										value="<%=t.getName()%>" <%}%> /> --%>
 								</div>
 							</div>
 
@@ -145,7 +145,7 @@
 									<jsp:useBean id="today" class="java.util.Date" />
 									<fmt:formatDate pattern="yyyy" value="${today}"
 										var="current_year" />
-									<select class="" name="graduationYear" id="graduationYear">
+									<select class="form-control" name="graduationYear" id="graduationYear">
 										<option>Select</option>
 										<%
 											for (int r = 1960; r <= 2025; r++) {
@@ -190,7 +190,7 @@
 									<label class="control-label">Major:<%
 										if (5 > u.getRole() && u.getRole() >= 2) {
 									%> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-									</label> <select class="" name="major" id="major">
+									</label> <select class="form-control" name="major" id="major">
 										<option>Select</option>
 										<%
 											if (m != null && m.size() != 0) {
@@ -232,7 +232,7 @@
 									<label class="control-label">Double Major:<%
 										if (5 > u.getRole() && u.getRole() >= 2) {
 									%> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-									</label> <select class="" name="doubleMajor" id="doubleMajor">
+									</label> <select class="form-control" name="doubleMajor" id="doubleMajor">
 										<option>Select</option>
 										<%
 											if (m != null && m.size() != 0) {
@@ -271,10 +271,10 @@
 
 							<div class="col-xs-12 col-sm-3">
 								<div class="form-group">
-									<label class="control-label">Third Major:<%
+									<label class="select-label">Third Major:<%
 										if (5 > u.getRole() && u.getRole() >= 2) {
 									%> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-									</label> <select class="" name="thirdMajor" id="thirdMajor">
+									</label> <select class="form-control" name="thirdMajor" id="thirdMajor">
 										<option>Select</option>
 										<%
 											if (m != null && m.size() != 0) {
@@ -330,7 +330,7 @@
 							<%
 								}
 							%>
-							<div class="col-xs-12">
+							<div class="col-xs-6">
 								<div class="form-group">
 									<label class="control-label">Biography:</label>
 									<textarea type="text" class="form-control" name="bio" id="bio"
@@ -344,6 +344,15 @@
 									</textarea>
 								</div>
 							</div>
+							
+							<div class="text-center">
+								<div class="col-sm-6" align= "center">
+       							 <img src="/content/img/empty-profile.png" class="avatar img-circle img-thumbnail" alt="profilePic">	
+									<input type="file" name="profile" id="" value="" >
+									<br>
+									</div>
+     						 </div>
+     						 <br>
 							<%
 								if (errors != null && errors.get("experience") != null) {
 							%>
@@ -353,7 +362,7 @@
 							<%
 								}
 							%>
-							<div class="col-xs-12">
+							<div class="col-xs-6">
 								<div class="form-group">
 									<label class="control-label">Experience:</label>
 									<textarea type="text" class="form-control" name="experience"
@@ -376,6 +385,7 @@
 							<%
 								}
 							%>
+							<br>
 							<div class="col-xs-12 col-sm-6">
 								<div class="form-group">
 									<label class="control-label">Password:</label> <input
@@ -391,16 +401,8 @@
 								</div>
 							</div>
 							
-							<div class="col-sm-6">
-								<label>Upload Profile Picture:</label>
-								<input type="file" name="photo" id="" value="">
 							<br> 
-							<br>
-							</div>
-							<!--<button class="btn btn-primary" name="Upload" value="Upload"
-								type="Submit">Upload</button>-->
-							<br> 
-							<div class="col-sm-6">
+							<div class="col-sm-6" align="left">
 								<label>Upload Resume:</label>
 								<input type="file" name="resume" id="" value="">
 							<br>
@@ -426,6 +428,6 @@
 
 
 
-	<jsp:include page="footer.jsp" />
+	<jsp:include page="footerTemplate.jsp" />
 </body>
 </html>

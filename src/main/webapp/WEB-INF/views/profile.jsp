@@ -45,9 +45,13 @@
 						<ul class="breadcrumbs-list">
 							<li class="breadcrumbs-label">You are here:</li>
 							<li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
-							<% if (currentUser.getId() != profileUser.getId()) { %>
-								<li><a href="/alumni">Alumni</a><i class="fa fa-angle-right"></i></li>
-							<% } %>
+							<%
+								if (currentUser.getId() != profileUser.getId()) {
+							%>
+							<li><a href="/alumni">Alumni</a><i class="fa fa-angle-right"></i></li>
+							<%
+								}
+							%>
 							<li class="current">Profile</li>
 						</ul>
 					</div>
@@ -57,6 +61,19 @@
 							<div class="jobs-wrapper col-md-8 col-sm-7">
 								<div class="panel panel-default page-row">
 									<div class="panel-heading">
+										<div
+											class="meta col-md-4 col-sm-6 col-xs-6 text-right pull-right"
+											id="editLink">
+											<%
+												if (currentUser.getId() == profileUser.getId()) {
+											%>
+											<a href="/edit"><span class="label label-info"><small><i
+														class="fa fa-pencil"></i> Edit Information</small></span></a>
+											<%
+												}
+											%>
+
+										</div>
 										<h3 class="panel-title">
 											<a>Profile Information</a>
 										</h3>
@@ -117,6 +134,7 @@
  %></li>
 									</ul>
 									<div class="panel-body">
+										<strong>Biography:</strong>
 										<%
 											if (profileUser.getBiography() != null) {
 										%><%=profileUser.getBiography()%>
@@ -126,24 +144,7 @@
 											}
 										%>
 									</div>
-									<div class="panel-footer">
-										<div class="row">
-											<div
-												class="meta col-md-4 col-sm-6 col-xs-6 text-right pull-right">
-												<%
-													if (currentUser.getId() == profileUser.getId()) {
-												%>
-												<a href="/edit"><small>Edit Information</small></a>
-												<%
-													} else {
-												%>
-												<p></p>
-												<%
-													}
-												%>
-											</div>
-										</div>
-									</div>
+									<div class="panel-footer"></div>
 								</div>
 								<!--//panel-->
 							</div>
@@ -217,7 +218,7 @@
 								</a>
 							</p>
 							<p class="email">
-								<i class="fa fa-envelope"></i> Personal E-mail: <a
+								<i class="fa fa-envelope"></i>Personal E-mail: <a
 									href="<%if (profileUser.getPersonalEmail() != null) {%>mailto:<%=profileUser.getPersonalEmail()%>? <%} else {%> # <%}%>">
 									<%
 										if (profileUser.getPersonalEmail() != null) {
@@ -239,7 +240,7 @@
 			</div>
 		</div>
 	</div>
-	</div>
+
 	<!--//wrapper-->
 	<jsp:include page="footerTemplate.jsp" />
 </body>

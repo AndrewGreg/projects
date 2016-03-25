@@ -2418,5 +2418,8 @@ ul.custom-list-style li {
 #loginErrorMsg {
 color: #e60000;
 margin-left: 170px;
+}
 
+#editLink {
+	margin-top: 3px !important;
 }

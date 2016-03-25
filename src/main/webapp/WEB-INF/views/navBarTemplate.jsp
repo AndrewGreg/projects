@@ -104,6 +104,16 @@
 					}
 					
 				%>
+				
+				<%
+					if (currentUser != null) {
+						if(currentUser.getRole() == 4){
+				%>
+					<li class="<% if (active.equals("users")) {%>active<% }%> nav-item"><a href="/allUsers"><i class="fa fa-user"></i>Manage Users</a></li>
+				<%
+						}
+					}
+				%>
 
 				<li class="<% if (active.equals("event")) {%>active<% }%> nav-item dropdown"><a class="dropdown-toggle"
 					data-toggle="dropdown" data-hover="dropdown" data-delay="0"

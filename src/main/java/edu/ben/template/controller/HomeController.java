@@ -1067,9 +1067,9 @@ public class HomeController extends BaseController {
 			ArrayList<User> users = new ArrayList<User>();
 			for (int i = page * 15; i < page * 15 + 15; i++) {
 
-				if (i < users.size()) {
+				if (i < allUser.size()) {
 
-					users.add(users.get(i));
+					users.add(allUser.get(i));
 				}
 			}
 			model.addAttribute("users", users);

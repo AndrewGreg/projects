@@ -94,7 +94,7 @@
 											alt="Empty profile picture"></td>
 										<td><%=users.get(i).getFirstName()%></td>
 										<td><%=users.get(i).getLastName()%></td>
-										<td><%=role%><span class="glyphicon glyphicon-trash" aria-hidden=true></span></td>
+										<td><%=role%></td>
 									</tr>
 
 									<%
@@ -112,8 +112,8 @@
 									<%
 										while (i < users.size() / 15 + 1) {
 									%>
-									<li><a href="/alumni?page=<%=i%>"><%=++i%></a></li>
-									<li><a href="/alumni?page=<%=i++%>"><%=i++%></a></li>
+									<li><a href="/allUsers?page=<%=i%>"><%=++i%></a></li>
+									<li><a href="/allUsers?page=<%=++i%>"><%=i++%></a></li>
 									<%
 										}
 									%>
@@ -123,8 +123,10 @@
 						</div>
 						<!--//table-responsive-->
 					</div>
+				</div>
 			</div>
 		</div>
 	</div>
+	<jsp:include page="footerTemplate.jsp" />
 </body>
 </html>

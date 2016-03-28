@@ -86,7 +86,7 @@
 						<section class="widget has-divider video">
 
 						<div class="row">
-							<h1 class="section-heading text-highlight col-md-10">
+							<h3 class="section-heading text-highlight col-md-10">
 								<span class="line">Past Events</span>
 								<div class="carousel-controls pull-right">
 									<a class="prev" href="#videos-carousel" data-slide="prev"><i
@@ -94,7 +94,7 @@
 										href="#videos-carousel" data-slide="next"><i
 										class="fa fa-caret-right"></i></a>
 								</div>
-							</h1>
+							</h3>
 
 						</div>
 						<div class="section-content">
@@ -126,7 +126,7 @@
 								University organized by student groups or faculty.</p>
 						</div>
 						</section> <section class="widget has-divider">
-						<h3 class="title">Create your own event!</h3>
+						<h3 class="section-heading text-highlight">Create your own event!</h3>
 
 						<%
 							if (user != null) {

@@ -15,6 +15,9 @@
 	String location = (request.getParameter("location") == null) ? ""
 			: (String) request.getParameter("location");
 	String date = (request.getParameter("date") == null) ? "" : (String) request.getParameter("date");
+	String startTime = (request.getParameter("startTime") == null) ? ""
+			: (String) request.getParameter("startTime");
+	String endTime = (request.getParameter("endTime") == null) ? "" : (String) request.getParameter("endTime");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -24,131 +27,250 @@
 <jsp:include page="headerTemplate.jsp" />
 </head>
 <body>
-
 	<div class="wrapper">
 		<jsp:include page="navBarTemplate.jsp" />
-
 		<!-- ******CONTENT****** -->
 		<div class="content container content-container">
-			<div class="page-wrapper">
-				<header class="page-heading clearfix">
-				<h1 class="heading-title pull-left" style="color: white">Create
-					an Event</h1>
+			<div class="page-wrapper ben-container">
+				<header class="page-heading clearfix pageHeading">
+				<h1 class="heading-title pull-left">Create an Event</h1>
 				<div class="breadcrumbs pull-right">
 					<ul class="breadcrumbs-list">
 						<li class="breadcrumbs-label">You are here:</li>
 						<li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
 						<li><a href="/eventsTemplate">Events</a><i
 							class="fa fa-angle-right"></i></li>
-						<li class="current" style="color: white">Create an Event</li>
+						<li class="current">Create Event</li>
 					</ul>
 				</div>
 				<!--//breadcrumbs--> </header>
-				<div class="container">
-					<div class="row">
-						<article class="contact-form col-md-8 col-sm-7  page-row">
+				<br>
+				<div class="row">
+					<div class="col-xs-6 col-xs-offset-3">
+
 						<form action="/createNewEvent" method="POST" name="createNewEvent">
 
+							<div class="row">
+								<!-- Input control group -->
+								<div class="control-group col-sm-12">
+									<!-- Title -->
+									<label class="control-label" for="name">*Event Name:</label>
+									<div class="controls">
+										<input type="text" id="name" name="name" placeholder="Event"
+											class="form-control" value="<%=name%>" autofocus>
+
+										<%
+											if (errors.get("name") != null) {
+										%>
+
+										<span class="help-block" style="color: #e60000"> <%=errors.get("name")%></span>
+
+										<%
+											}
+										%>
+
+									</div>
+								</div>
+								<!-- /Input control group -->
+							</div>
+							<br>
+
+							<div class="row">
+								<!-- Input control group -->
+								<div class="control-group col-sm-6">
+									<!-- Title -->
+									<label class="control-label" for="location">*Event
+										Date:</label>
+									<div class="controls">
+										<input type="text" id="location" name="location"
+											placeholder="mm/dd/yyyy" class="form-control"
+											value="<%=location%>">
+
+										<%
+											if (errors.get("location") != null) {
+										%>
+
+										<span class="help-block" style="color: #e60000"> <%=errors.get("location")%></span>
+
+										<%
+											}
+										%>
+
+									</div>
+								</div>
+								<!-- /Input control group -->
+
+								<!-- Input control group -->
+								<div class="control-group col-sm-6">
+									<!-- Title -->
+									<label class="control-label" for="location">*Event
+										Location:</label>
+									<div class="controls">
+										<input type="text" id="location" name="location"
+											placeholder="Location" class="form-control"
+											value="<%=location%>">
+
+										<%
+											if (errors.get("location") != null) {
+										%>
+
+										<span class="help-block" style="color: #e60000"> <%=errors.get("location")%></span>
+
+										<%
+											}
+										%>
+
+									</div>
+								</div>
+								<!-- /Input control group -->
+							</div>
+							<br>
+
+							<div class="row">
+								<!-- Input control group -->
+								<div class="control-group col-sm-6">
+									<!-- Title -->
+									<label class="control-label" for="startTime">*Start
+										Time:</label>
+									<div class="controls">
+										<input type="text" id="startTime" name="startTime"
+											placeholder="hh : mm" class="form-control"
+											value="<%=startTime%>">
+
+										<%
+											if (errors.get("startTime") != null) {
+										%>
+
+										<span class="help-block" style="color: #e60000"> <%=errors.get("startTime")%></span>
+
+										<%
+											}
+										%>
+
+									</div>
+								</div>
+								<!-- /Input control group -->
+
+								<!-- Input control group -->
+								<div class="control-group col-sm-6">
+									<!-- Title -->
+									<label class="control-label" for="endTime">*End Time:</label>
+									<div class="controls">
+										<input type="text" id="endTime" name="endTime"
+											placeholder="hh : mm" class="form-control"
+											value="<%=endTime%>">
+
+										<%
+											if (errors.get("endTime") != null) {
+										%>
+
+										<span class="help-block" style="color: #e60000"> <%=errors.get("endTime")%></span>
+
+										<%
+											}
+										%>
+
+									</div>
+								</div>
+								<!-- /Input control group -->
+							</div>
+							<br>
 
 
+							<div class="row">
+								<!-- Input control group -->
+								<div class="control-group col-sm-12">
+									<!-- Title -->
+									<label class="control-label" for="description">*Description:</label>
+									<div class="controls">
+										<textarea rows="5" id="description" name="description"
+											placeholder="This is the event description."
+											class="form-control" value="<%=description%>"></textarea>
 
-							<div class="form-group col-sm-6">
-								<label style="color: white">Event Name </label><input
-									type="text" class="form-control" name="name" value="<%=name%>"
-									required>
+										<%
+											if (errors.get("description") != null) {
+										%>
 
-								<%
-									if (errors.get("name") != null) {
-								%>
+										<span class="help-block" style="color: #e60000"> <%=errors.get("description")%></span>
 
-								<h6 style="color: red"><%=errors.get("name")%></h6>
+										<%
+											}
+										%>
 
-								<%
-									}
-								%>
+									</div>
+								</div>
+								<!-- /Input control group -->
+							</div>
+							<br>
+
+							<div class="row">
+								<div class="bfh-datepicker col-sm-5" data-format="m/d/y">
+									<div class="input-prepend bfh-datepicker-toggle"
+										data-toggle="bfh-datepicker">
+										<span class="add-on"><i class="icon-calendar"></i></span> <input
+											type="text" class="input-medium" readonly>
+									</div>
+									<div class="bfh-datepicker-calendar">
+										<table class="calendar table table-bordered">
+											<thead>
+												<tr class="months-header">
+													<th class="month" colspan="4"><a class="previous"
+														href="#"><i class="icon-chevron-left"></i></a> <span></span>
+														<a class="next" href="#"><i class="icon-chevron-right"></i></a>
+													</th>
+													<th class="year" colspan="3"><a class="previous"
+														href="#"><i class="icon-chevron-left"></i></a> <span></span>
+														<a class="next" href="#"><i class="icon-chevron-right"></i></a>
+													</th>
+												</tr>
+												<tr class="days-header">
+												</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							<br>
+							<div class="row">
+								<div class="bfh-timepicker col-sm-5" data-time="08:00">
+									<div class="input-prepend bfh-timepicker-toggle"
+										data-toggle="bfh-timepicker">
+										<span class="add-on"><i class="icon-time"></i></span> <input
+											type="text" class="input-medium" readonly>
+									</div>
+									<div class="bfh-timepicker-popover">
+										<table class="table">
+											<tbody>
+												<tr>
+													<td class="hour"><a class="next" href="#"><i
+															class="icon-chevron-up"></i></a><br> <input type="text"
+														class="input-mini" readonly><br> <a
+														class="previous" href="#"><i class="icon-chevron-down"></i></a>
+													</td>
+													<td class="separator">:</td>
+													<td class="minute"><a class="next" href="#"><i
+															class="icon-chevron-up"></i></a><br> <input type="text"
+														class="input-mini" readonly><br> <a
+														class="previous" href="#"><i class="icon-chevron-down"></i></a>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
 							</div>
 
-							<div class="form-group col-sm-3">
-								<label style="color: white">Location </label><input type="text"
-									class="form-control" name="location" value="<%=location%>"
-									required>
-
-								<%
-									if (errors.get("location") != null) {
-								%>
-
-								<h6 style="color: red"><%=errors.get("location")%></h6>
-
-								<%
-									}
-								%>
+							<div>
+								<p>* denotes required field.</p>
 							</div>
-
-							<div class="form-group col-sm-3">
-								<label style="color: white">Date </label><input type="text"
-									class="form-control" name=date value="<%=date%>" required>
-
-								<%
-									if (errors.get("date") != null) {
-								%>
-
-								<h6 style="color: red"><%=errors.get("date")%></h6>
-
-								<%
-									}
-								%>
-							</div>
-
-							<div class="form-group col-sm-12">
-								<label style="color: white">Description </label>
-								<textarea class="form-control" rows="8" name="description"></textarea>
-
-								<%
-									if (errors.get("description") != null) {
-								%>
-
-								<h6 style="color: red"><%=errors.get("description")%></h6>
-
-								<%
-									}
-								%>
-
-								<br>
+							<div class="pull-right">
 								<button type="reset" class="btn btn-danger">Clear</button>
 								<button type="submit" class="btn btn-primary">Create
-									posting</button>
+									Event</button>
 							</div>
-
-							<div class="bfh-datepicker">
-								<div class="input-prepend bfh-datepicker-toggle"
-									data-toggle="bfh-datepicker">
-									<span class="add-on"><i class="icon-calendar"></i></span> <input
-										type="text" class="input-medium" readonly>
-								</div>
-								<div class="bfh-datepicker-calendar">
-									<table class="calendar table table-bordered">
-										<thead>
-											<tr class="months-header">
-												<th class="month" colspan="4"><a class="previous"
-													href="#"><i class="icon-chevron-left"></i></a> <span></span>
-													<a class="next" href="#"><i class="icon-chevron-right"></i></a>
-												</th>
-												<th class="year" colspan="3"><a class="previous"
-													href="#"><i class="icon-chevron-left"></i></a> <span></span>
-													<a class="next" href="#"><i class="icon-chevron-right"></i></a>
-												</th>
-											</tr>
-											<tr class="days-header">
-											</tr>
-										</thead>
-										<tbody>
-										</tbody>
-									</table>
-								</div>
-							</div>
-
 						</form>
-						</article>
 					</div>
 				</div>
 
@@ -158,8 +280,16 @@
 	<!--//wrapper-->
 	<jsp:include page="footerTemplate.jsp" />
 	<script type="text/javascript"
+		src="/content/BootstrapFormHelpers/dist/js/bootstrap-formhelpers.js"></script>
+	<script type="text/javascript"
 		src="/content/BootstrapFormHelpers/js/lang/en_US/bootstrap-formhelpers-datepicker.en_US.js"></script>
 	<script type="text/javascript"
 		src="/content/BootstrapFormHelpers/js/bootstrap-formhelpers-datepicker.js"></script>
+	<script type="text/javascript"
+		src="/content/BootstrapFormHelpers/js/lang/en_US/bootstrap-formhelpers-timepicker.en_US.js"></script>
+	<script type="text/javascript"
+		src="/content/BootstrapFormHelpers/js/bootstrap-formhelpers-timepicker.js"></script>
+
+
 </body>
 </html>

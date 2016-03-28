@@ -118,6 +118,7 @@
 <script type="text/javascript" src="/content/jQuery/clickable-row.js"></script>
 <script type="text/javascript" src="/content/jQuery/table-search.js"></script>
 
+
 <%
 	String loginAttempt = request.getAttribute("loginAttempt") != null ? (String) request.getAttribute("loginAttempt") : "";
 	

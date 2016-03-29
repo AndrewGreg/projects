@@ -45,7 +45,7 @@
 									placeholder="Search" style="margin-top: 5px;">
 							</div>
 							<span class="counter pull-right"></span>
-							<table class="table table-hover results">
+							<table id= indextable class="table table-hover results">
 								<thead>
 									<tr>
 										<th><a href="javascript:SortTable(1,'T');">Profile</a></th>

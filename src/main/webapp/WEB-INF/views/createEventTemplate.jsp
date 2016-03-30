@@ -25,6 +25,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Create Event</title>
 <jsp:include page="headerTemplate.jsp" />
+
 </head>
 <body>
 	<div class="wrapper">
@@ -79,24 +80,49 @@
 								<!-- Input control group -->
 								<div class="control-group col-sm-6">
 									<!-- Title -->
-									<label class="control-label" for="location">*Event
+									<label class="control-label" for="eventDate">*Event
 										Date:</label>
-									<div class="controls">
-										<input type="text" id="location" name="location"
-											placeholder="mm/dd/yyyy" class="form-control"
-											value="<%=location%>">
-
-										<%
-											if (errors.get("location") != null) {
-										%>
-
-										<span class="help-block" style="color: #e60000"> <%=errors.get("location")%></span>
-
-										<%
-											}
-										%>
-
+									<div class="bfh-datepicker" data-format="m/d/y" id="eventDate">
+										<div class="input-prepend bfh-datepicker-toggle"
+											data-toggle="bfh-datepicker">
+											<span class="add-on"><i class="icon-calendar"></i></span> <input
+												type="text" class="input-medium" name="date"
+												value="<%=date%>" readonly>
+										</div>
+										<div class="bfh-datepicker-calendar">
+											<table class="calendar table table-bordered">
+												<thead>
+													<tr class="months-header">
+														<th class="month" colspan="4"><a class="previous"
+															href="#"><i class="icon-chevron-left"></i></a> <span></span>
+															<a class="next" href="#"><i
+																class="icon-chevron-right"></i></a></th>
+														<th class="year" colspan="3"><a class="previous"
+															href="#"><i class="icon-chevron-left"></i></a> <span></span>
+															<a class="next" href="#"><i
+																class="icon-chevron-right"></i></a></th>
+													</tr>
+													<tr class="days-header">
+													</tr>
+												</thead>
+												<tbody>
+												</tbody>
+											</table>
+										</div>
 									</div>
+
+
+									<%
+										if (errors.get("date") != null) {
+									%>
+
+									<span class="help-block" style="color: #e60000"> <%=errors.get("date")%></span>
+
+									<%
+										}
+									%>
+
+
 								</div>
 								<!-- /Input control group -->
 
@@ -130,12 +156,36 @@
 								<!-- Input control group -->
 								<div class="control-group col-sm-6">
 									<!-- Title -->
-									<label class="control-label" for="startTime">*Start
+									<label class="control-label" for="eventStartTime">*Start
 										Time:</label>
 									<div class="controls">
-										<input type="text" id="startTime" name="startTime"
-											placeholder="hh : mm" class="form-control"
-											value="<%=startTime%>">
+										<div class="bfh-timepicker" id="eventStartTime"
+											data-time="08:00">
+											<div class="input-prepend bfh-timepicker-toggle"
+												data-toggle="bfh-timepicker">
+												<span class="add-on"><i class="icon-time"></i></span> <input
+													type="text" class="input-medium" readonly>
+											</div>
+											<div class="bfh-timepicker-popover">
+												<table class="table">
+													<tbody>
+														<tr>
+															<td class="hour"><a class="next" href="#"><i
+																	class="icon-chevron-up"></i></a><br> <input
+																type="text" class="input-mini" readonly><br>
+																<a class="previous" href="#"><i
+																	class="icon-chevron-down"></i></a></td>
+															<td class="separator">:</td>
+															<td class="minute"><a class="next" href="#"><i
+																	class="icon-chevron-up"></i></a><br> <input
+																type="text" class="input-mini" readonly><br>
+																<a class="previous" href="#"><i
+																	class="icon-chevron-down"></i></a></td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
 
 										<%
 											if (errors.get("startTime") != null) {
@@ -154,11 +204,35 @@
 								<!-- Input control group -->
 								<div class="control-group col-sm-6">
 									<!-- Title -->
-									<label class="control-label" for="endTime">*End Time:</label>
+									<label class="control-label" for="eventEndTime">*End Time:</label>
 									<div class="controls">
-										<input type="text" id="endTime" name="endTime"
-											placeholder="hh : mm" class="form-control"
-											value="<%=endTime%>">
+										<div class="bfh-timepicker" id="eventEndTime"
+											data-time="08:00">
+											<div class="input-prepend bfh-timepicker-toggle"
+												data-toggle="bfh-timepicker">
+												<span class="add-on"><i class="icon-time"></i></span> <input
+													type="text" class="input-medium" readonly>
+											</div>
+											<div class="bfh-timepicker-popover">
+												<table class="table">
+													<tbody>
+														<tr>
+															<td class="hour"><a class="next" href="#"><i
+																	class="icon-chevron-up"></i></a><br> <input
+																type="text" class="input-mini" readonly><br>
+																<a class="previous" href="#"><i
+																	class="icon-chevron-down"></i></a></td>
+															<td class="separator">:</td>
+															<td class="minute"><a class="next" href="#"><i
+																	class="icon-chevron-up"></i></a><br> <input
+																type="text" class="input-mini" readonly><br>
+																<a class="previous" href="#"><i
+																	class="icon-chevron-down"></i></a></td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
 
 										<%
 											if (errors.get("endTime") != null) {
@@ -202,66 +276,6 @@
 								<!-- /Input control group -->
 							</div>
 							<br>
-
-							<div class="row">
-								<div class="bfh-datepicker col-sm-5" data-format="m/d/y">
-									<div class="input-prepend bfh-datepicker-toggle"
-										data-toggle="bfh-datepicker">
-										<span class="add-on"><i class="icon-calendar"></i></span> <input
-											type="text" class="input-medium" readonly>
-									</div>
-									<div class="bfh-datepicker-calendar">
-										<table class="calendar table table-bordered">
-											<thead>
-												<tr class="months-header">
-													<th class="month" colspan="4"><a class="previous"
-														href="#"><i class="icon-chevron-left"></i></a> <span></span>
-														<a class="next" href="#"><i class="icon-chevron-right"></i></a>
-													</th>
-													<th class="year" colspan="3"><a class="previous"
-														href="#"><i class="icon-chevron-left"></i></a> <span></span>
-														<a class="next" href="#"><i class="icon-chevron-right"></i></a>
-													</th>
-												</tr>
-												<tr class="days-header">
-												</tr>
-											</thead>
-											<tbody>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-							<br>
-							<div class="row">
-								<div class="bfh-timepicker col-sm-5" data-time="08:00">
-									<div class="input-prepend bfh-timepicker-toggle"
-										data-toggle="bfh-timepicker">
-										<span class="add-on"><i class="icon-time"></i></span> <input
-											type="text" class="input-medium" readonly>
-									</div>
-									<div class="bfh-timepicker-popover">
-										<table class="table">
-											<tbody>
-												<tr>
-													<td class="hour"><a class="next" href="#"><i
-															class="icon-chevron-up"></i></a><br> <input type="text"
-														class="input-mini" readonly><br> <a
-														class="previous" href="#"><i class="icon-chevron-down"></i></a>
-													</td>
-													<td class="separator">:</td>
-													<td class="minute"><a class="next" href="#"><i
-															class="icon-chevron-up"></i></a><br> <input type="text"
-														class="input-mini" readonly><br> <a
-														class="previous" href="#"><i class="icon-chevron-down"></i></a>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-
 							<div>
 								<p>* denotes required field.</p>
 							</div>

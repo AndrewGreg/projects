@@ -2439,3 +2439,15 @@ margin-left: 170px;
 .profile-dropdown-link {
 	color: #f2f2f2 !important;
 }
+
+#eventDate {
+	background-color: white;
+}
+
+#eventStartTime {
+	background-color: white;
+}
+
+#eventEndTime {
+	background-color: white;
+}

@@ -1,4 +1,4 @@
-package edu.ben.dao.test.junit;
+package edu.ben.template.test;
 
 import java.sql.Date;
 
@@ -13,14 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.ben.template.dao.InterestDao;
 import edu.ben.template.dao.JobDao;
-import edu.ben.template.dao.UserDao;
-import edu.ben.template.model.Event;
 import edu.ben.template.model.Interest;
 import edu.ben.template.model.Job;
 import edu.ben.template.model.User;
 import junit.framework.AssertionFailedError;
 
-public class JobPostingDaoTest {
+public class JobTest {
 
 	@Autowired
 	private JobDao jobDao = new JobDao();
@@ -150,7 +148,7 @@ public class JobPostingDaoTest {
 	@org.junit.Test
 	@Transactional
 	@Rollback(true)
-	public void testUpdateJobPosting() {
+	public void testUpdateJob() {
 
 		jobDao.setDataSource(getDataSource());
 		jobDao.setTransactionManager(getTransactionManager());

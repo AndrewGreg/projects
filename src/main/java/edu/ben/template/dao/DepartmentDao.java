@@ -71,9 +71,9 @@ public class DepartmentDao extends BaseDao<Department> {
 	}
 
 	/**
-	 * Retrieves all Jobs from database.
+	 * Retrieves all Departments from database.
 	 * 
-	 * @return all jobs.
+	 * @return all departments.
 	 */
 	public ArrayList<Department> getAll() {
 
@@ -107,7 +107,7 @@ public class DepartmentDao extends BaseDao<Department> {
 	/**
 	 * Enables the user to edit the following attributes.
 	 * 
-	 * @param Department
+	 * @param Department being updated.
 	 */
 	public void updateDepartment(Department Department) {
 

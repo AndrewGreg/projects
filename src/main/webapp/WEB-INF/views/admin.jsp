@@ -45,13 +45,13 @@
 									placeholder="Search" style="margin-top: 5px;">
 							</div>
 							<span class="counter pull-right"></span>
-							<table class="table table-hover results">
+							<table id= indextable class="table table-hover results">
 								<thead>
 									<tr>
-										<th>Profile</th>
-										<th>First Name</th>
-										<th>Last Name</th>
-										<th>Role</th>
+										<th><a href="javascript:SortTable(1,'T');">Profile</a></th>
+										<th><a href="javascript:SortTable(1,'T');">First Name</a></th>
+										<th><a href="javascript:SortTable(2,'T');">Last Name</a></th>
+										<th><a href="javascript:SortTable(3,'T');">Role</a></th>
 									</tr>
 									<tr class="warning no-result">
 										<td colspan="4"><i class="fa fa-warning"></i> No result</td>
@@ -113,7 +113,7 @@
 										while (i < users.size() / 15 + 1) {
 									%>
 									<li><a href="/allUsers?page=<%=i%>"><%=++i%></a></li>
-									<li><a href="/allUsers?page=<%=++i%>"><%=i++%></a></li>
+									<li><a href="/allUsers?page=<%=i++%>"><%=i++%></a></li>
 									<%
 										}
 									%>
@@ -128,5 +128,8 @@
 		</div>
 	</div>
 	<jsp:include page="footerTemplate.jsp" />
+	
+	<script type="text/javascript" src="/content/jQuery/sortColumns.js"></script>
+	
 </body>
 </html>

@@ -36,7 +36,7 @@ import edu.ben.template.model.User;
 import edu.ben.template.model.Validator;
 
 @Controller
-@SessionAttributes({ "editJob", "editEvent", "profileUser"})
+@SessionAttributes({ "editJob", "editEvent", "profileUser" })
 public class HomeController extends BaseController {
 
 	// Allows the password to be Hashed.
@@ -97,8 +97,10 @@ public class HomeController extends BaseController {
 			@RequestParam("startSalary") int startSalary, @RequestParam("endSalary") int endSalary,
 			@RequestParam("startWage") float startWage, @RequestParam("endWage") float endWage,
 			@RequestParam("hours") int hours, @RequestParam("startDate") String startDate,
-			@RequestParam("endDate") String endDate) {
+			@RequestParam("endDate") String endDate, @RequestParam("public") boolean isPublic) {
 
+		//TODO FOR HOURS 0 IS PART TIME AND 1 IS FULL TIME
+		
 		Random r = new Random();
 		int min = 1;
 		int max = 7;
@@ -111,13 +113,15 @@ public class HomeController extends BaseController {
 
 			Job job = new Job(name, description, company, u, location, "stuff", 1, hours, "things");
 
-			if (startSalary > 0 && endSalary > 0) {
+			if (startSalary > 0 && endSalary > 0 && startSalary < endSalary) {
 				job.setSalary(true);
 				job.setStart_salary(startSalary);
 				job.setEnd_salary(endSalary);
 				job.setStart_wage(0);
 				job.setEnd_wage(0);
 			} else {
+				//TODO IF START SALARY OR END SALARY ARE NULL OR 0 JUST CREATE IT...ELSE 
+				//TODO DISPLAY ERROR (START SALARY MUST BE LESS THAN END SALARY)
 				job.setSalary(false);
 				job.setStart_wage(startWage);
 				job.setEnd_wage(endWage);
@@ -241,8 +245,6 @@ public class HomeController extends BaseController {
 			@RequestParam("hours") int hours, @RequestParam("startDate") String startDate,
 			@RequestParam("endDate") String endDate, @ModelAttribute("editJob") Job editJob) {
 
-		
-
 		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
 				&& description.matches(".{2,}") && location != null && location.matches(".{2,}")) {
 
@@ -312,7 +314,8 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/createNewEvent", method = RequestMethod.POST)
 	public String createNewEventPost(Model model, @RequestParam("name") String name,
 			@RequestParam("date") String dateStr, @RequestParam("description") String description,
-			@RequestParam("location") String location, @RequestParam("startTime") String startTime, @RequestParam("endTime") String endTime) {
+			@RequestParam("location") String location, @RequestParam("startTime") String startTime,
+			@RequestParam("endTime") String endTime, @RequestParam("public") Boolean isPublic) {
 
 		if (name != null && name.matches(".{2,}") && description != null && description.matches(".{2,}")
 				&& location != null && location.matches(".{2,}") && dateStr != null
@@ -1008,8 +1011,6 @@ public class HomeController extends BaseController {
 
 			ArrayList<User> alumni = new ArrayList<User>();
 			alumni = getUserDao().getAll();
-			
-			
 
 			for (User users : alumni) {
 				users.setMajor(getMajorDao().getMajorByUser(users));
@@ -1038,7 +1039,7 @@ public class HomeController extends BaseController {
 		model.addAttribute("active", "alumni");
 		return "alumni";
 	}
-	
+
 	/**
 	 * Displays all the users in the system.
 	 * 
@@ -1081,7 +1082,7 @@ public class HomeController extends BaseController {
 		model.addAttribute("active", "users");
 		return "admin";
 	}
-	
+
 	/**
 	 * Displays all the users in the system.
 	 * 
@@ -1093,7 +1094,7 @@ public class HomeController extends BaseController {
 	public String deleteUser(Model model, @ModelAttribute("profileUser") User profileUser) {
 		profileUser.setActive(false);
 		profileUser.setHidden(true);
-		//System.out.println(profileUser.getId());
+		// System.out.println(profileUser.getId());
 		getUserDao().updateUser(profileUser);
 		return "admin";
 	}

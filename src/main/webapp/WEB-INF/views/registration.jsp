@@ -362,7 +362,7 @@
 								<!-- Input control group -->
 								<div class="control-group">
 									<!-- Title -->
-									<label class="control-label" for="gradYear">*Standing:</label>
+									<label class="control-label" for="standing">*Standing:</label>
 									<div class="controls">
 										<select name="standing" class="form-control" required>
 											<option value="1">Student</option>

@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	
-<%@page import= "edu.ben.template.model.User"%>
 
-<%User user = (User) request.getAttribute("currentUser"); %>
+<%@page import="edu.ben.template.model.User"%>
+
+<%
+	User user = (User) request.getAttribute("currentUser");
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -56,29 +58,39 @@
 				<!--//slides-->
 			</div>
 			<!--//flexslider-->
-			<section class="promo box box-dark">
-			
-			<% if(user == null) { %>
+			<section class="promo box box-dark"> <%
+ 	if (user == null) {
+ %>
 			<div class="col-md-9">
-			
-			<%} else { %>
-			<div class="col-md-12">
-			<% } %>
-			
-				<h1 class="section-heading">Alumni Tracker</h1>
-				<p>Join a community of fellow alumni, students and faculty who
-					are a part of Benedictine University. This web site will let you
-					keep in touch with current students, old classmates, and faculty.
-					You can organize or keep track of events related to the University.
-					You'll also be able to post job openings which other alumni might
-					be able to apply for, or check out opportunities posted by other users.</p>
-			</div>
-			
-			<%  if(user == null) { %>
-			<div class="col-md-3">
-				<a class="btn btn-cta" href="/register"><i class="fa fa-pencil"></i>Register
-					Now</a>
-			</div> <% } %>
+
+				<%
+					} else {
+				%>
+				<div class="col-md-12">
+					<%
+						}
+					%>
+
+					<h1 class="section-heading">Alumni Tracker</h1>
+					<p>Join a community of fellow alumni, students and faculty who
+						are a part of Benedictine University. This web site will let you
+						keep in touch with current students, old classmates, and faculty.
+						You can organize or keep track of events related to the
+						University. You'll also be able to post job openings which other
+						alumni might be able to apply for, or check out opportunities
+						posted by other users.</p>
+				</div>
+
+				<%
+					if (user == null) {
+				%>
+				<div class="col-md-3">
+					<a class="btn btn-cta" href="/register"><i class="fa fa-pencil"></i>Register
+						Now</a>
+				</div>
+				<%
+					}
+				%>
 			
 			</section>
 			<!--//promo-->
@@ -274,15 +286,15 @@
 					<div class="section-content">
 						<form class="course-finder-form" action="#" method="POST">
 							<div class="row">
-								
-								<div class="col-md-12 col-sm-12 col-md-offset-3 form-group keywords">
-									<input class="form-control pull-left" type="text"
-										placeholder="Search keywords" />
-									<button type="submit" class="btn btn-theme">
-										<i class="fa fa-search"></i>
-									</button>
+								<div class="form-group col-md-8 col-md-offset-2">
+									<input type="text" id="jobSearch" name="jobSearch"
+										placeholder="Search keywords..." class="form-control">
 								</div>
+								
 							</div>
+							<button type="submit" class="btn btn-theme pull-right">
+									<i class="fa fa-search"></i>Search
+								</button>
 						</form>
 						<!--//course-finder-form-->
 						<a class="read-more" href="/jobs">View all job postings<i
@@ -340,10 +352,12 @@
 					</h1>
 					<div class="section-content">
 						<p>
-							<a href="#"><i class="fa fa-caret-right"></i>Faculty Directory</a>
+							<a href="#"><i class="fa fa-caret-right"></i>Faculty
+								Directory</a>
 						</p>
 						<p>
-							<a href="/alumni"><i class="fa fa-caret-right"></i>Alumni Directory</a>
+							<a href="/alumni"><i class="fa fa-caret-right"></i>Alumni
+								Directory</a>
 						</p>
 						<p>
 							<a href="/eventsTemplate"><i class="fa fa-caret-right"></i>Events</a>

@@ -424,6 +424,37 @@ public class Event {
 	}
 
 	/**
+	 * Returns a shortened description for display on the front page.
+	 * 
+	 * @return shortDescription shortened description
+	 */
+	public String getShortDescription() {
+		String shortDescription = "";
+
+		if (description.length() > 60 && description.length() > 0) {
+			shortDescription = description.substring(0, 60) + "...";
+			return shortDescription;
+		} else {
+			return description;
+		}
+	}
+
+	/**
+	 * Returns a link that takes you to the search in google maps for the
+	 * location.
+	 * 
+	 * @return link search in google maps
+	 */
+	public String getGoogleMapsLink() {
+		// https://maps.google.com/?q=term
+		if (location != null) {
+			return "https://maps.google.com/?q=" + location.trim().replace(" ", "+");
+		} else {
+			return "#";
+		}
+	}
+
+	/**
 	 * Prints the Event in String Form.
 	 */
 	@Override

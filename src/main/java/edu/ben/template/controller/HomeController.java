@@ -68,7 +68,42 @@ public class HomeController extends BaseController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Model model) {
+		
+		ArrayList<Event> events;
+
+		try {
+			events = getEventDao().getAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+			events = new ArrayList<Event>();
+		}
+
+		ArrayList<Job> jobs;
+		try {
+			jobs = getJobDao().getAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+			jobs = new ArrayList<Job>();
+		}
+		
+		ArrayList<Event> eventDisplay = new ArrayList<Event>();
+		int countEvent = 0;
+		for(int i = events.size() - 1; i >= 0 && countEvent < 4; i--) {
+			eventDisplay.add(events.get(i));
+			countEvent++;
+		}
+		
+		ArrayList<Job> jobDisplay = new ArrayList<Job>();
+		int countJob = 0;
+		for(int i = jobs.size() - 1; i >= 0 && countJob < 6; i--) {
+			jobDisplay.add(jobs.get(i));
+			countJob++;
+		}
+
+		model.addAttribute("events", eventDisplay);
+		model.addAttribute("jobs", jobDisplay);
 		model.addAttribute("active", "index");
+
 		return "indexTemplate";
 	}
 
@@ -99,8 +134,8 @@ public class HomeController extends BaseController {
 			@RequestParam("hours") int hours, @RequestParam("startDate") String startDate,
 			@RequestParam("endDate") String endDate, @RequestParam("public") boolean isPublic) {
 
-		//TODO FOR HOURS 0 IS PART TIME AND 1 IS FULL TIME
-		
+		// TODO FOR HOURS 0 IS PART TIME AND 1 IS FULL TIME
+
 		Random r = new Random();
 		int min = 1;
 		int max = 7;
@@ -120,8 +155,10 @@ public class HomeController extends BaseController {
 				job.setStart_wage(0);
 				job.setEnd_wage(0);
 			} else {
-				//TODO IF START SALARY OR END SALARY ARE NULL OR 0 JUST CREATE IT...ELSE 
-				//TODO DISPLAY ERROR (START SALARY MUST BE LESS THAN END SALARY)
+				// TODO IF START SALARY OR END SALARY ARE NULL OR 0 JUST CREATE
+				// IT...ELSE
+				// TODO DISPLAY ERROR (START SALARY MUST BE LESS THAN END
+				// SALARY)
 				job.setSalary(false);
 				job.setStart_wage(startWage);
 				job.setEnd_wage(endWage);
@@ -1038,6 +1075,59 @@ public class HomeController extends BaseController {
 
 		model.addAttribute("active", "alumni");
 		return "alumni";
+	}
+
+	/**
+	 * Displays all the faculty users in the system.
+	 * 
+	 * @param model
+	 *            being passed in.
+	 * @return the faculty list page.
+	 */
+	@RequestMapping(value = "/faculty", method = RequestMethod.GET)
+	public String facultyList(@RequestParam(required = false) Integer page, Model model) {
+
+		try {
+
+			ArrayList<User> userList = new ArrayList<User>();
+			userList = getUserDao().getAll();
+
+			for (User users : userList) {
+				users.setMajor(getMajorDao().getMajorByUser(users));
+				users.setConcentration(getMajorDao().getConcentrationByUser(users));
+				users.setMinor(getMajorDao().getMinorByUser(users));
+			}
+
+			ArrayList<User> faculty = new ArrayList<User>();
+
+			for (User users : userList) {
+				if (users.getRole() == 3) {
+					faculty.add(users);
+				}
+			}
+
+			sortUsers(faculty);
+
+			if (page == null) {
+				page = 0;
+			}
+
+			ArrayList<User> facultyList = new ArrayList<User>();
+			for (int i = page * 15; i < page * 15 + 15; i++) {
+
+				if (i < faculty.size()) {
+
+					facultyList.add(faculty.get(i));
+				}
+			}
+			model.addAttribute("faculty", facultyList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		model.addAttribute("active", "faculty");
+		return "faculty";
 	}
 
 	/**

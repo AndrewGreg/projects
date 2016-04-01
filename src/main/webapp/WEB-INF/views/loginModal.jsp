@@ -30,7 +30,7 @@
 						<label for="usrname"><span
 							class="glyphicon glyphicon-user"></span> Username</label> <input
 							type="text" class="form-control" id="usrname"
-							placeholder="Enter email" name="email"><br>
+							placeholder="Enter email" name="email" autofocus><br>
 					</div>
 					<div class="form-group">
 						<label for="psw"><span

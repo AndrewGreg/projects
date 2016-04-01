@@ -22,6 +22,8 @@ public class Event {
 	private int role;
 	private String reference;
 	private String location;
+	private String startTime;
+	private String endTime;
 	// private int startTime;
 	// private int endTime;
 
@@ -63,6 +65,26 @@ public class Event {
 	}
 
 	/**
+	 * Constructor with basic info of an event along with the poster and times.
+	 * 
+	 * @param name
+	 * @param date
+	 * @param description
+	 * @param poster
+	 * @param startTime
+	 * @param endTime
+	 */
+	public Event(String name, Date date, String description, User poster, String startTime, String endTime) {
+		super();
+		this.name = name;
+		this.date = date;
+		this.description = description;
+		this.poster = poster;
+		this.startTime = startTime;
+		this.endTime = endTime;
+	}
+
+	/**
 	 * Constructor with all variables that are used with an Event.
 	 * 
 	 * @param name
@@ -91,6 +113,7 @@ public class Event {
 	}
 
 	/**
+	 * Gets the id of the event
 	 * 
 	 * @return the id of event.
 	 */
@@ -108,6 +131,7 @@ public class Event {
 	}
 
 	/**
+	 * Gets the name of the event
 	 * 
 	 * @return the name of the event.
 	 */
@@ -125,6 +149,7 @@ public class Event {
 	}
 
 	/**
+	 * Gets the date of the event
 	 * 
 	 * @return the date of the event.
 	 */
@@ -142,7 +167,7 @@ public class Event {
 	}
 
 	/**
-	 * 
+	 * Gets the description of the event
 	 * 
 	 * @return the description of the event.
 	 */
@@ -160,6 +185,7 @@ public class Event {
 	}
 
 	/**
+	 * Gets the poster of the event
 	 * 
 	 * @return the user who posted the event.
 	 */
@@ -231,10 +257,7 @@ public class Event {
 	}
 
 	/**
-	 * ToString Method of the Event class.
-	 */
-
-	/**
+	 * Returns 1 if it is a public event
 	 * 
 	 * @return 1, if the event is displayed to everyone.
 	 */
@@ -252,6 +275,7 @@ public class Event {
 	}
 
 	/**
+	 * Returns the reference number to the event
 	 * 
 	 * @return reference number to the event.
 	 */
@@ -269,6 +293,7 @@ public class Event {
 	}
 
 	/**
+	 * Gets the location of the event
 	 * 
 	 * @return the location of the Event.
 	 */
@@ -283,6 +308,119 @@ public class Event {
 	 */
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	/**
+	 * Returns the event start time
+	 * 
+	 * @return startTime of the event
+	 */
+	public String getStartTime() {
+		return startTime;
+	}
+
+	/**
+	 * Sets the start time for the event
+	 * 
+	 * @param startTime
+	 *            of the event
+	 */
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+
+	/**
+	 * Returns the end time of the event
+	 * 
+	 * @return endTime of the event
+	 */
+	public String getEndTime() {
+		return endTime;
+	}
+
+	/**
+	 * Sets the end time for the event
+	 * 
+	 * @param endTime
+	 *            of the event
+	 */
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
+	/**
+	 * Returns the time range for the event
+	 * 
+	 * @return range between start time and end time (startTime - endTime)
+	 */
+	public String getTimeRange() {
+		return startTime + " - " + endTime;
+	}
+
+	/**
+	 * Returns the month that the event is taking place on
+	 * 
+	 * @return month
+	 */
+	public String getEventMonth() {
+		String month = "";
+		if (date != null) {
+			int monthSpot = 1;
+
+			String[] dateParts = date.toString().split("-");
+
+			switch (dateParts[monthSpot]) {
+			case "00":
+				month = "JAN";
+				break;
+			case "01":
+				month = "FEB";
+				break;
+			case "02":
+				month = "MAR";
+				break;
+			case "03":
+				month = "APR";
+				break;
+			case "04":
+				month = "MAY";
+				break;
+			case "05":
+				month = "JUN";
+				break;
+			case "06":
+				month = "JUL";
+				break;
+			case "07":
+				month = "AUG";
+				break;
+			case "08":
+				month = "SEP";
+				break;
+			case "09":
+				month = "OCT";
+				break;
+			case "10":
+				month = "NOV";
+				break;
+			case "11":
+				month = "DEC";
+				break;
+			default:
+				month = "";
+				break;
+			}
+		}
+		return month;
+	}
+
+	/**
+	 * Returns the day the event will take place on
+	 * 
+	 * @return event day
+	 */
+	public String getEventDay() {
+		return date != null && date.toString().split("-")[2] != null ? date.toString().split("-")[2] : null;
 	}
 
 	/**

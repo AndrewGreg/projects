@@ -192,7 +192,7 @@ public class JobDao extends BaseDao<Job> {
 
 		List<Job> jobs = new ArrayList<Job>();
 		String sql = SEARCH
-				+ "job where job.start_wage is NOT NULL AND job.end_wage is NOT NULL order by job.start_wage asc Limit 4";
+				+ "job WHERE job.start_wage is NOT NULL AND job.end_wage is NOT NULL order by job.start_wage desc Limit 6";
 
 		try {
 			jobs = jdbcTemplate.query(sql, getRowMapper());
@@ -215,7 +215,7 @@ public class JobDao extends BaseDao<Job> {
 
 		List<Job> jobs = new ArrayList<Job>();
 		String sql = SEARCH
-				+ "job where job.start_salary is NOT NULL AND job.end_salary is NOT NULL order by job.start_salary asc Limit 4";
+				+ "job WHERE job.start_salary is NOT NULL AND job.end_salary is NOT NULL order by job.start_salary desc Limit 6";
 
 		try {
 			jobs = jdbcTemplate.query(sql, getRowMapper());

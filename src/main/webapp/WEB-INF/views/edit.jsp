@@ -5,9 +5,14 @@
 <%@ page import="edu.ben.template.model.User"%>
 <%@ page import="edu.ben.template.model.Major"%>
 <%@ page import="edu.ben.template.model.Title"%>
+<%@ page import="edu.ben.template.model.UploadFile"%>
 <%@ page import="java.util.ArrayList"%>
 <%
 	//User u = (User) request.getSession().getAttribute("user");
+	UploadFile photo;
+	//if(request.getAttribute("photo") != null){
+		 photo = (UploadFile) request.getAttribute("photo");
+	//}
 	User u = (User) request.getAttribute("user");
 	ArrayList<Major> m = (ArrayList<Major>) request.getAttribute("majors");
 	Title t = (Title) request.getAttribute("title");
@@ -347,8 +352,18 @@
 							
 							<div class="text-center">
 								<div class="col-sm-6" align= "center">
-       							 <img src="/content/img/empty-profile.png" class="avatar img-circle img-thumbnail" alt="profilePic">	
-									<input type="file" name="profile" id="" value="" >
+								<%
+									if(request.getAttribute("photo") == null){
+										//if(photo.getData() == null){
+								%>
+       							 <img src="/content/img/empty-profile.png" class="avatar img-circle img-thumbnail" alt="profilePic">
+       							<%}else{%>	
+       								<img src="/getImage/<%=photo.getId()%>.jpeg" class="avatar img-circle img-thumbnail" alt="profilePic">
+       							<%        							
+       									}
+									//}
+       							%>
+									<input type="file" accept="image/jpeg" name="profile" id="" value="" >
 									<br>
 									</div>
      						 </div>

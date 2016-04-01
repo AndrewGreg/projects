@@ -13,9 +13,24 @@ import com.mysql.jdbc.Blob;
 public class UploadFile {
     private long id;
     private String fileName;
-    private byte[] data;
+    private Blob data;
+    private User profile;
+
+	
+
+	public UploadFile(){
+    	super();
+    }
  
-    @Id
+    public UploadFile(long id, String fileName, Blob data, User profile) {
+		super();
+		this.id = id;
+		this.fileName = fileName;
+		this.data = data;
+		this.profile = profile;
+	}
+
+	@Id
     @GeneratedValue
     @Column(name = "FILE_ID")
     public long getId() {
@@ -36,11 +51,19 @@ public class UploadFile {
     }
  
     @Column(name = "FILE_DATA")
-    public byte[] getData() {
+    public Blob getData() {
         return data;
     }
  
-    public void setData(byte[] data) {
+    public void setData(Blob data) {
         this.data = data;
     }
+    
+    public User getProfile() {
+		return profile;
+	}
+
+	public void setProfile(User profile) {
+		this.profile = profile;
+	}
 }

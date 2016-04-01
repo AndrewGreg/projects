@@ -1,8 +1,15 @@
 package edu.ben.template.controller;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -12,6 +19,7 @@ import java.util.Random;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.rowset.serial.SerialException;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,7 +44,7 @@ import edu.ben.template.model.User;
 import edu.ben.template.model.Validator;
 
 @Controller
-@SessionAttributes({ "editJob", "editEvent", "profileUser"})
+@SessionAttributes({ "editJob", "editEvent", "profileUser" })
 public class HomeController extends BaseController {
 
 	// Allows the password to be Hashed.
@@ -240,8 +248,6 @@ public class HomeController extends BaseController {
 			@RequestParam("startWage") float startWage, @RequestParam("endWage") float endWage,
 			@RequestParam("hours") int hours, @RequestParam("startDate") String startDate,
 			@RequestParam("endDate") String endDate, @ModelAttribute("editJob") Job editJob) {
-
-		
 
 		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
 				&& description.matches(".{2,}") && location != null && location.matches(".{2,}")) {
@@ -644,10 +650,10 @@ public class HomeController extends BaseController {
 
 	@RequestMapping(value = "/massRegister", method = RequestMethod.POST)
 	public String massRegistration(Model model, HttpServletRequest request, HttpServletResponse response,
-			@RequestParam CommonsMultipartFile[] fileUpload) throws IOException {
+			@RequestParam CommonsMultipartFile[] multiple) throws IOException, SerialException, SQLException {
 
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		MultipartFile multipartFile = multipartRequest.getFile("file");
+		MultipartFile multipartFile = multipartRequest.getFile("multiple");
 
 		UploadFile file = new UploadFile();
 		file.setFileName(multipartFile.getOriginalFilename());
@@ -655,12 +661,37 @@ public class HomeController extends BaseController {
 		// "notes"));
 		// file.setType(multipartFile.getContentType());
 		if (file != null) {
-			file.setData(multipartFile.getBytes());
+			byte[] bytes = multipartFile.getBytes();
+			Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+			file.setData((com.mysql.jdbc.Blob) blob);
 			getUserDao().addMultiple(file.getFileName());
 		}
-		model.addAttribute("active", "index");
-		return "indexTemplate";
+		// model.addAttribute("active", "index");
+		return "admin";
 	}
+	
+	@RequestMapping(value = "/getImage/{id}", method = RequestMethod.GET)
+		public void image(Model model, @PathVariable Long id) throws SQLException, IOException{
+			User profileUser = getUserDao().getObjectById(id);
+			// gets the image object based on the image id
+			if (profileUser.getImageId() != null) {
+				UploadFile userPhoto = getImageUploadDao().getObjectById(profileUser.getImageId());
+				// User userProfile = userPhoto.getProfile();
+				byte buff[] = new byte[1024];
+				Blob profilePic = userPhoto.getData();
+				// response.setContentType("image/jpeg, image/jpg, image/png,
+				// image/gif");
+				File newPic = new File("image.jpeg");
+				InputStream is = profilePic.getBinaryStream();
+				FileOutputStream fos = new FileOutputStream(newPic);
+				for (int i = is.read(buff); i != -1; i = is.read(buff)) {
+					fos.write(buff, 0, i);
+				}
+				is.close();
+				fos.close();
+				//model.addAttribute("photo", userPhoto);
+			}
+		}
 
 	/**
 	 * Method to request for the edit page.
@@ -668,22 +699,42 @@ public class HomeController extends BaseController {
 	 * @param model
 	 *            being passed.
 	 * @return the edit page before post.
+	 * @throws SQLException
+	 * @throws IOException
 	 */
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String editPost(Model model) {
+	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+	public String editPost(Model model, @PathVariable Long id) throws SQLException, IOException {
 
 		// User in session.
 		User u = getCurrentUser();
-
-		u.setMajor(getMajorDao().getMajorByUser(u));
-		u.setConcentration(getMajorDao().getConcentrationByUser(u));
-		u.setMinor(getMajorDao().getMinorByUser(u));
+		User profileUser = getUserDao().getObjectById(id);
+		// gets the image object based on the image id
+		if (profileUser.getImageId() != null) {
+			UploadFile userPhoto = getImageUploadDao().getObjectById(profileUser.getImageId());
+			// User userProfile = userPhoto.getProfile();
+			byte buff[] = new byte[1024];
+			Blob profilePic = userPhoto.getData();
+			// response.setContentType("image/jpeg, image/jpg, image/png,
+			// image/gif");
+			File newPic = new File("image.jpeg");
+			InputStream is = profilePic.getBinaryStream();
+			FileOutputStream fos = new FileOutputStream(newPic);
+			for (int i = is.read(buff); i != -1; i = is.read(buff)) {
+				fos.write(buff, 0, i);
+			}
+			is.close();
+			fos.close();
+			model.addAttribute("photo", userPhoto);
+		}
+		profileUser.setMajor(getMajorDao().getMajorByUser(profileUser));
+		profileUser.setConcentration(getMajorDao().getConcentrationByUser(profileUser));
+		profileUser.setMinor(getMajorDao().getMinorByUser(profileUser));
 
 		ArrayList<Major> m = getMajorDao().getAllMajors();
 
 		System.out.println(u.toString());
 
-		model.addAttribute("user", u);
+		model.addAttribute("user", profileUser);
 		model.addAttribute("majors", m);
 
 		HashMap<String, String> e = new HashMap<String, String>();
@@ -728,8 +779,10 @@ public class HomeController extends BaseController {
 	 *            of user.
 	 * @return The new information of the user.
 	 * @throws IOException
+	 * @throws SQLException
+	 * @throws SerialException
 	 */
-	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
 	public String edit(Model model, @RequestParam("title") String title, @RequestParam("fName") String firstName,
 			@RequestParam("lName") String lastName, @RequestParam("suffix") String suffix,
 			@RequestParam("personalEmail") String personalEmail, @RequestParam("graduationYear") String graduationYear,
@@ -737,17 +790,18 @@ public class HomeController extends BaseController {
 			@RequestParam("thirdMajor") String thirdMajor, @RequestParam("occupation") String occupation,
 			@RequestParam("bio") String biography, @RequestParam("experience") String experience,
 			@RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword,
-			HttpServletRequest request, HttpServletResponse response, @RequestParam CommonsMultipartFile[] fileUpload,
-			@RequestParam("file") MultipartFile[] files, @RequestParam("photo") File photo,
-			@RequestParam("resume") File resume) throws IOException {
+			HttpServletRequest request, HttpServletResponse response,
+			@RequestParam("profile") CommonsMultipartFile[] profileUpload,
+			@RequestParam("resume") CommonsMultipartFile[] resumeUpload,
+			@ModelAttribute("profileUser") User profileUser) throws IOException, SerialException, SQLException {
 
 		if (validateEdit(password, confirmPassword, firstName, lastName, personalEmail, graduationYear)) {
 
 			User u = getCurrentUser();
 
-			u.setMajor(getMajorDao().getMajorByUser(u));
-			u.setConcentration(getMajorDao().getConcentrationByUser(u));
-			u.setMinor(getMajorDao().getMinorByUser(u));
+			profileUser.setMajor(getMajorDao().getMajorByUser(profileUser));
+			profileUser.setConcentration(getMajorDao().getConcentrationByUser(profileUser));
+			profileUser.setMinor(getMajorDao().getMinorByUser(profileUser));
 
 			if (Validator.isNull(title))
 				title = null;
@@ -763,65 +817,78 @@ public class HomeController extends BaseController {
 				experience = null;
 
 			if (!Validator.validateSelect(graduationYear)) {
-				u.setGraduationYear(0);
+				profileUser.setGraduationYear(0);
 			} else {
-				u.setGraduationYear(Integer.parseInt(graduationYear));
+				profileUser.setGraduationYear(Integer.parseInt(graduationYear));
 			}
 
 			// u.setTitle(title);
-			u.setFirstName(firstName);
-			u.setLastName(lastName);
-			u.setSuffix(suffix);
-			u.setPersonalEmail(personalEmail);
-			u.setOccupation(occupation);
-			u.setBio(biography);
-			u.setExperience(experience);
+			profileUser.setFirstName(firstName);
+			profileUser.setLastName(lastName);
+			profileUser.setSuffix(suffix);
+			profileUser.setPersonalEmail(personalEmail);
+			profileUser.setOccupation(occupation);
+			profileUser.setBio(biography);
+			profileUser.setExperience(experience);
 
 			Major m = getMajorDao().getByName(major);
 			Major m2 = getMajorDao().getByName(doubleMajor);
 			Major m3 = getMajorDao().getByName(thirdMajor);
 
-			u.clearMajors();
+			profileUser.clearMajors();
 			if (m != null) {
-				u.addMajor(m);
+				profileUser.addMajor(m);
 			}
 			if (m2 != null) {
-				u.addMajor(m2);
+				profileUser.addMajor(m2);
 			}
 			if (m2 != null) {
-				u.addMajor(m3);
+				profileUser.addMajor(m3);
 			}
 
-			u.setPassword(pwEncoder.encode(password));
+			profileUser.setPassword(pwEncoder.encode(password));
 
 			try {
-				getUserDao().updateUser(u);
-				getMajorDao().updateMajorAndConcentrationByUser(u);
+				getUserDao().updateUser(profileUser);
+				getMajorDao().updateMajorAndConcentrationByUser(profileUser);
 			} catch (Exception e) {
 				/* Probably should log this */
 				System.out.println("Oops");
 
 			}
 
-			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-			MultipartFile multipartFile = multipartRequest.getFile("file");
+			// MultipartHttpServletRequest multipartRequest =
+			// (MultipartHttpServletRequest) request;
+			// MultipartFile multipartFile = multipartRequest.getFile("file");
 
 			// file.setFilename(multipartFile.getOriginalFilename());
 			// file.setNotes(ServletRequestUtils.getStringParameter(request,
 			// "notes"));
 			// file.setType(multipartFile.getContentType());
-			if (resume != null) {
+			if (resumeUpload != null) {
+				MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+				MultipartFile multipartFile = multipartRequest.getFile("resume");
 				// if (files[0] != null) {
 				UploadFile resumeFile = new UploadFile();
-				(resumeFile).setData(multipartFile.getBytes());
+				byte[] bytes = multipartFile.getBytes();
+				Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+				resumeFile.setData((com.mysql.jdbc.Blob) blob);
 				getFileUploadDao().addFile(resumeFile);
 			}
 
-			if (photo != null) {
+			if (profileUpload != null) {
+				MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+				MultipartFile multipartFile = multipartRequest.getFile("profile");
 				// if (files[1] != null) {
 				UploadFile photoFile = new UploadFile();
-				(photoFile).setData(multipartFile.getBytes());
+				byte[] bytes = multipartFile.getBytes();
+				Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+				photoFile.setData((com.mysql.jdbc.Blob) blob);
 				getImageUploadDao().addImage(photoFile);
+				// gets the right photo from the user that uploaded it
+				UploadFile photoFileObj = getImageUploadDao().getObjectByUserId(profileUser.getId());
+				// sets the image id to the user
+				profileUser.setImageId(photoFileObj.getId());
 			}
 			// if (fileUpload != null && fileUpload.length > 0) {
 			// for (CommonsMultipartFile aFile : fileUpload){
@@ -832,7 +899,7 @@ public class HomeController extends BaseController {
 			// UploadFile uploadFile = new UploadFile();
 			// uploadFile.setFileName(aFile.getOriginalFilename());
 			// uploadFile.setData(aFile.getBytes());
-			// fileUploadDao.save(uploadFile);
+			// getFileUploadDao().addFile(uploadFile);
 			// }
 			// }
 
@@ -908,11 +975,35 @@ public class HomeController extends BaseController {
 	 * @param id
 	 *            that belongs to that user.
 	 * @return the profile page that belongs to the user.
+	 * @throws IOException 
+	 * @throws SQLException 
 	 */
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-	public String userProfile(Model model, @PathVariable Long id) {
+	public String userProfile(Model model, @PathVariable Long id) throws IOException, SQLException {
 
 		User profileUser = getUserDao().getObjectById(id);
+		
+		//User profileUser = getUserDao().getObjectById(id);
+		// gets the image object based on the image id
+		if (profileUser.getImageId() != null) {
+			UploadFile userPhoto = getImageUploadDao().getObjectById(profileUser.getImageId());
+			// User userProfile = userPhoto.getProfile();
+			byte buff[] = new byte[1024];
+			Blob profilePic = userPhoto.getData();
+			// response.setContentType("image/jpeg, image/jpg, image/png,
+			// image/gif");
+			File newPic = new File("image.jpeg");
+			InputStream is = profilePic.getBinaryStream();
+			FileOutputStream fos = new FileOutputStream(newPic);
+			for (int i = is.read(buff); i != -1; i = is.read(buff)) {
+				fos.write(buff, 0, i);
+			}
+			is.close();
+			fos.close();
+			model.addAttribute("photo", userPhoto);
+		}
+			
+		
 		profileUser.setMajor(getMajorDao().getMajorByUser(profileUser));
 		profileUser.setConcentration(getMajorDao().getConcentrationByUser(profileUser));
 		profileUser.setMinor(getMajorDao().getMinorByUser(profileUser));
@@ -1008,8 +1099,6 @@ public class HomeController extends BaseController {
 
 			ArrayList<User> alumni = new ArrayList<User>();
 			alumni = getUserDao().getAll();
-			
-			
 
 			for (User users : alumni) {
 				users.setMajor(getMajorDao().getMajorByUser(users));
@@ -1038,7 +1127,7 @@ public class HomeController extends BaseController {
 		model.addAttribute("active", "alumni");
 		return "alumni";
 	}
-	
+
 	/**
 	 * Displays all the users in the system.
 	 * 
@@ -1081,7 +1170,7 @@ public class HomeController extends BaseController {
 		model.addAttribute("active", "users");
 		return "admin";
 	}
-	
+
 	/**
 	 * Displays all the users in the system.
 	 * 
@@ -1093,7 +1182,7 @@ public class HomeController extends BaseController {
 	public String deleteUser(Model model, @ModelAttribute("profileUser") User profileUser) {
 		profileUser.setActive(false);
 		profileUser.setHidden(true);
-		//System.out.println(profileUser.getId());
+		// System.out.println(profileUser.getId());
 		getUserDao().updateUser(profileUser);
 		return "admin";
 	}

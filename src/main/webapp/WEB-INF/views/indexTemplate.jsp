@@ -259,7 +259,7 @@
 							<!--//details-->
 						</div>
 						<!--event-item-->
-						<a class="read-more" href="events.html">All events<i
+						<a class="read-more" href="/eventsTemplate">All events<i
 							class="fa fa-chevron-right"></i></a>
 					</div>
 					<!--//section-content--> </section>
@@ -285,7 +285,7 @@
 							</div>
 						</form>
 						<!--//course-finder-form-->
-						<a class="read-more" href="courses.html">View all job postings<i
+						<a class="read-more" href="/jobs">View all job postings<i
 							class="fa fa-chevron-right"></i></a>
 					</div>
 					<!--//section-content--> </section>
@@ -343,13 +343,13 @@
 							<a href="#"><i class="fa fa-caret-right"></i>Faculty Directory</a>
 						</p>
 						<p>
-							<a href="/alumniList"><i class="fa fa-caret-right"></i>Alumni Directory</a>
+							<a href="/alumni"><i class="fa fa-caret-right"></i>Alumni Directory</a>
 						</p>
 						<p>
-							<a href="/events"><i class="fa fa-caret-right"></i>Events</a>
+							<a href="/eventsTemplate"><i class="fa fa-caret-right"></i>Events</a>
 						</p>
 						<p>
-							<a href="/jobPostings"><i class="fa fa-caret-right"></i>Job Postings</a>
+							<a href="/jobs"><i class="fa fa-caret-right"></i>Job Postings</a>
 						</p>
 					</div>
 					<!--//section-content--> </section>

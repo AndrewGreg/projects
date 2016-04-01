@@ -48,10 +48,9 @@
 						Welcome back
 						<%=currentUser.getFirstName()%>! &nbsp<i class="fa fa-angle-down"></i>
 					</button>
-					<ul class="dropdown-menu">
-						<li><a href="/user/<%=currentUser.getId()%>">My Profile</a></li>
-						<li role="separator" class="divider"></li>
-						<li><a href="/logout">Logout</a></li>
+					<ul class="dropdown-menu profile-dropdown">
+						<li><a class="profile-dropdown-link" href="/user/<%=currentUser.getId()%>">My Profile</a></li>
+						<li><a class="profile-dropdown-link" href="/logout">Logout</a></li>
 					</ul>
 				</div>
 				<%

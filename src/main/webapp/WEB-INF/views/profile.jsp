@@ -27,6 +27,7 @@
 		<!-- ******CONTENT****** -->
 		<div class="content container">
 			<div class="content container content-container">
+<<<<<<< HEAD
 				<div class="page-wrapper table-container">
 					<header class="page-heading clearfix">
 					<%
@@ -36,6 +37,11 @@
 						alt="Profile Picture">
 					<%}else{ %>
 						<img id="profile-pic" src="/getImage/<%=photo.getId()%>.jpeg"
+=======
+				<div class="page-wrapper table-container ben-container">
+					<header class="page-heading clearfix"> <img
+						id="profile-pic" src="/content/img/empty-profile.png"
+>>>>>>> f948cccb16d1ba526b36ef730ceab7c3eef7b98d
 						alt="Profile Picture">
 					<% }%>
 					<h1 class="heading-title">

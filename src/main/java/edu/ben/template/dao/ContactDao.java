@@ -44,10 +44,10 @@ public class ContactDao extends BaseDao<Contact> {
 	 */
 	public void addContact(Contact contact) {
 
-		String sql = "INSERT INTO contact (name, email, phone_number, message) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO contact (name, email, phone_number, message,user_id,recipient_id) VALUES (?, ?, ?, ?,?,?)";
 
-		jdbcTemplate.update(sql,
-				new Object[] { contact.getName(), contact.getEmail(), contact.getPhoneNumber(), contact.getMessage() });
+		jdbcTemplate.update(sql, new Object[] { contact.getName(), contact.getEmail(), contact.getPhoneNumber(),
+				contact.getMessage(), contact.getUserId(), contact.getRecipientId() });
 
 		return;
 	}
@@ -59,10 +59,10 @@ public class ContactDao extends BaseDao<Contact> {
 	 */
 	public void updateContact(Contact contact) {
 
-		String sql = "UPDATE contact SET name = ?, email = ?, phone_number = ?, message = ?  WHERE user.id = ?";
+		String sql = "UPDATE contact SET name = ?, email = ?, phone_number = ?, message = ?,user_id = ?, recipient_id = ?  WHERE user_id = ?";
 		try {
 			jdbcTemplate.update(sql, contact.getName(), contact.getEmail(), contact.getPhoneNumber(),
-					contact.getMessage(), contact.getId());
+					contact.getMessage(), contact.getUserId(), contact.getRecipientId(), contact.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -83,6 +83,8 @@ public class ContactDao extends BaseDao<Contact> {
 				contact.setEmail(rs.getString("email"));
 				contact.setPhoneNumber(rs.getInt("phoneNumber"));
 				contact.setMessage(rs.getString("message"));
+				contact.setUserId(rs.getInt("userId"));
+				contact.setRecipientId(rs.getInt("recipientId"));
 
 				return contact;
 			}

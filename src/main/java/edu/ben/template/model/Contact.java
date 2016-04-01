@@ -18,6 +18,8 @@ public class Contact extends User {
 	private String email;
 	private int phoneNumber;
 	private String message;
+	private int userId;
+	private int recipientId;
 
 	/**
 	 * Empty constructor
@@ -34,12 +36,14 @@ public class Contact extends User {
 	 * @param phoneNumber
 	 * @param message
 	 */
-	public Contact(String name, String email, int phoneNumber, String message) {
+	public Contact(String name, String email, int phoneNumber, String message, int userId, int recipientId) {
 		super();
 		this.name = name;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.message = message;
+		this.userId = userId;
+		this.recipientId = recipientId;
 	}
 
 	/**
@@ -108,12 +112,46 @@ public class Contact extends User {
 	}
 
 	/**
+	 * 
+	 * @return the user Id associated with the contact
+	 */
+	public int getUserId() {
+		return userId;
+	}
+
+	/**
+	 * Set the user Id.
+	 * 
+	 * @param userId
+	 */
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	/**
+	 * 
+	 * @return the recipient Id.
+	 */
+	public int getRecipientId() {
+		return recipientId;
+	}
+
+	/**
+	 * Set the recipient Id.
+	 * 
+	 * @param recipientId
+	 */
+	public void setRecipientId(int recipientId) {
+		this.recipientId = recipientId;
+	}
+
+	/**
 	 * Displays the contact information in String form.
 	 */
 	@Override
 	public String toString() {
 		return "Contact [name=" + name + ", email=" + email + ", phoneNumber=" + phoneNumber + ", message=" + message
-				+ "]";
+				+ ", userId=" + userId + ", recipientId=" + recipientId + "]";
 	}
 
 }

@@ -318,7 +318,7 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/createNewEvent", method = RequestMethod.POST)
 	public String createNewEventPost(Model model, @RequestParam("name") String name,
 			@RequestParam("date") String dateStr, @RequestParam("description") String description,
-			@RequestParam("location") String location) {
+			@RequestParam("location") String location, @RequestParam("startTime") String startTime, @RequestParam("endTime") String endTime) {
 
 		if (name != null && name.matches(".{2,}") && description != null && description.matches(".{2,}")
 				&& location != null && location.matches(".{2,}") && dateStr != null

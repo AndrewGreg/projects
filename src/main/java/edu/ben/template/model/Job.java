@@ -82,20 +82,57 @@ public class Job {
 	 * @param hours
 	 * @param link
 	 */
-	public Job(String name, String description, String company, User poster, String location, 
-			String reference, int toPublic,
-			int hours, String link) {
+	public Job(String name, String description, String company, User poster, String location, String reference,
+			int toPublic, int hours, String link) {
 		super();
 		this.name = name;
 		this.description = description;
 		this.company = company;
 		this.poster = poster;
 		this.location = location;
-//		this.salary = salary;
-//		this.start_salary = start_salary;
-//		this.end_salary = end_salary;
-//		this.start_wage = start_wage;
-//		this.end_wage = end_wage;
+		// this.salary = salary;
+		// this.start_salary = start_salary;
+		// this.end_salary = end_salary;
+		// this.start_wage = start_wage;
+		// this.end_wage = end_wage;
+		this.reference = reference;
+		this.toPublic = toPublic;
+		this.hours = hours;
+		this.link = link;
+	}
+
+	/**
+	 * Constructor that passes in all the attributes of the job class.
+	 * 
+	 * @param name
+	 * @param description
+	 * @param company
+	 * @param poster
+	 * @param location
+	 * @param reference
+	 * @param toPublic
+	 * @param hours
+	 * @param link
+	 * @param salary
+	 * @param start_salary
+	 * @param end_salary
+	 * @param start_wage
+	 * @param end_wage
+	 */
+	public Job(String name, String description, String company, User poster, String location, String reference,
+			int toPublic, int hours, String link, boolean salary, int start_salary, int end_salary, float start_wage,
+			float end_wage) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.company = company;
+		this.poster = poster;
+		this.location = location;
+		this.salary = salary;
+		this.start_salary = start_salary;
+		this.end_salary = end_salary;
+		this.start_wage = start_wage;
+		this.end_wage = end_wage;
 		this.reference = reference;
 		this.toPublic = toPublic;
 		this.hours = hours;

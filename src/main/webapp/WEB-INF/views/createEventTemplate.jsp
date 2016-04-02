@@ -80,13 +80,14 @@
 								<div class="form-group col-sm-6">
 									<!-- Title -->
 									<label class="control-label" for="eventDate">*Event
-										Date:</label>
-									<div class="bfh-datepicker" data-format="m/d/y" id="eventDate">
+										Date (mm/dd/yyyy):</label>
+									<div class="bfh-datepicker" data-format="m/d/y"
+										data-name="date" id="eventDate">
 										<div class="input-prepend bfh-datepicker-toggle"
 											data-toggle="bfh-datepicker">
 											<span class="add-on"><i class="icon-calendar"></i></span> <input
 												type="text" class="input-medium" name="date"
-												value="<%=date%>" readonly value="01/01/2016">
+												value="<%=date%>">
 										</div>
 										<div class="bfh-datepicker-calendar">
 											<table class="calendar table table-bordered">
@@ -159,11 +160,12 @@
 										Time:</label>
 									<div class="controls">
 										<div class="bfh-timepicker" id="eventStartTime"
-											data-time="08:00">
+											data-time="08:00" data-name="startTime">
 											<div class="input-prepend bfh-timepicker-toggle"
 												data-toggle="bfh-timepicker">
 												<span class="add-on"><i class="icon-time"></i></span> <input
-													name="startTime" type="text" class="input-medium">
+													name="startTime" type="text" class="input-medium"
+													value="08:00">
 											</div>
 											<div class="bfh-timepicker-popover">
 												<table class="table">
@@ -171,7 +173,7 @@
 														<tr>
 															<td class="hour"><a class="next" href="#"><i
 																	class="icon-chevron-up"></i></a><br> <input
-																type="text" class="input-mini" readonly value="08:00"><br>
+																type="text" class="input-mini" readonly><br>
 																<a class="previous" href="#"><i
 																	class="icon-chevron-down"></i></a></td>
 															<td class="separator">:</td>
@@ -186,15 +188,7 @@
 											</div>
 										</div>
 
-										<%
-											if (errors.get("startTime") != null) {
-										%>
-
-										<span class="help-block" style="color: #e60000"> <%=errors.get("startTime")%></span>
-
-										<%
-											}
-										%>
+										
 
 									</div>
 								</div>
@@ -207,11 +201,11 @@
 										Time:</label>
 									<div class="controls">
 										<div class="bfh-timepicker" id="eventEndTime"
-											data-time="08:00">
+											data-time="08:00" data-name="endTime">
 											<div class="input-prepend bfh-timepicker-toggle"
 												data-toggle="bfh-timepicker">
 												<span class="add-on"><i class="icon-time"></i></span> <input
-													name="endTime" type="text" class="input-medium" readonly value="08:00">
+													name="endTime" type="text" class="input-medium">
 											</div>
 											<div class="bfh-timepicker-popover">
 												<table class="table">
@@ -233,21 +227,19 @@
 												</table>
 											</div>
 										</div>
-
-										<%
-											if (errors.get("endTime") != null) {
-										%>
-
-										<span class="help-block" style="color: #e60000"> <%=errors.get("endTime")%></span>
-
-										<%
-											}
-										%>
-
 									</div>
 								</div>
 								<!-- /Input control group -->
 							</div>
+							<%
+											if (errors.get("times") != null) {
+										%>
+
+										<span class="help-block" style="color: #e60000"> <%=errors.get("times")%></span>
+
+										<%
+											}
+										%>
 							<br>
 
 

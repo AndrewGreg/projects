@@ -210,7 +210,7 @@
 									<i class="fa fa-clock-o"></i><%=timeRange%>
 								</p>
 								<p class="location">
-									<i class="fa fa-map-marker"></i><a href="<%=googleLink%>"><%=location%></a>
+									<i class="fa fa-map-marker"></i><a href="<%=googleLink%>" target="_blank"><%=location%></a>
 								</p>
 							</div>
 							<!--//details-->

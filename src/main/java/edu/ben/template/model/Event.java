@@ -354,7 +354,7 @@ public class Event {
 	 * @return range between start time and end time (startTime - endTime)
 	 */
 	public String getTimeRange() {
-		return startTime + " - " + endTime;
+		return getStartTime() + " - " + getEndTime();
 	}
 
 	/**
@@ -370,40 +370,40 @@ public class Event {
 			String[] dateParts = date.toString().split("-");
 
 			switch (dateParts[monthSpot]) {
-			case "00":
+			case "01":
 				month = "JAN";
 				break;
-			case "01":
+			case "02":
 				month = "FEB";
 				break;
-			case "02":
+			case "03":
 				month = "MAR";
 				break;
-			case "03":
+			case "04":
 				month = "APR";
 				break;
-			case "04":
+			case "05":
 				month = "MAY";
 				break;
-			case "05":
+			case "06":
 				month = "JUN";
 				break;
-			case "06":
+			case "07":
 				month = "JUL";
 				break;
-			case "07":
+			case "08":
 				month = "AUG";
 				break;
-			case "08":
+			case "09":
 				month = "SEP";
 				break;
-			case "09":
+			case "10":
 				month = "OCT";
 				break;
-			case "10":
+			case "11":
 				month = "NOV";
 				break;
-			case "11":
+			case "12":
 				month = "DEC";
 				break;
 			default:

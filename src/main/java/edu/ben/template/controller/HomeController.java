@@ -152,7 +152,7 @@ public class HomeController extends BaseController {
 			} else {
 				job.setToPublic(0);
 			}
-			
+
 			job.setHours(hours);
 
 			if (startingSalary != -1 && endingSalary != -1 && startingSalary < endingSalary) {
@@ -350,107 +350,203 @@ public class HomeController extends BaseController {
 	 */
 	@RequestMapping(value = "/createNewEvent", method = RequestMethod.POST)
 	public String createNewEventPost(Model model, @RequestParam("name") String name,
-			@RequestParam(value = "date", required = false) String dateStr,
-			@RequestParam("description") String description, @RequestParam("location") String location,
-			@RequestParam(value = "startTime", required = false) String startTime,
-			@RequestParam(value = "endTime", required = false) String endTime,
+			@RequestParam("date") String dateStr, @RequestParam("description") String description,
+			@RequestParam("location") String location, @RequestParam("startTime") String startTime,
+			@RequestParam("endTime") String endTime,
 			@RequestParam(value = "public", required = false) boolean isPublic) {
 
-		/*
-		 * // TODO FINISH THIS METHOD Date currentDate = new
-		 * Date(System.currentTimeMillis());
-		 * 
-		 * if (name != null && name.matches(".{2,}") && description != null &&
-		 * description.matches(".{2,}") && location != null &&
-		 * location.matches(".{2,}") && dateStr != null &&
-		 * dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}") &&
-		 * startTime.matches("[0-9]{2}:[0-9]{2}") &&
-		 * endTime.matches("[0-9]{2}:[0-9]{2}")) {
-		 * 
-		 * String[] datePart = dateStr.split("/");
-		 * 
-		 * // Subtracted 1900 from year and 1 from month to offset the //
-		 * deprecated constructor Date eventDate = new
-		 * Date(Integer.parseInt(datePart[2]) - 1900,
-		 * Integer.parseInt(datePart[0]) - 1, Integer.parseInt(datePart[1]));
-		 * 
-		 * User u = getCurrentUser();
-		 * 
-		 * Event createEvent = new Event();
-		 * 
-		 * createEvent.setName(name); createEvent.setDescription(description);
-		 * createEvent.setLocation(location); createEvent.setDate(eventDate);
-		 * createEvent.setPoster(u);
-		 * 
-		 * if (eventDate.compareTo(currentDate) < 0) {
-		 * 
-		 * HashMap<String, String> errors = new HashMap<String, String>();
-		 * 
-		 * errors.put("date",
-		 * "Error. The event's date must be after the current date.");
-		 * 
-		 * if (name == null || !name.matches(".{2,}")) { errors.put("name",
-		 * "Error in the input for the event name."); }
-		 * 
-		 * if (location == null || !location.matches(".{2,}")) {
-		 * errors.put("location", "Error in the input for the event name."); }
-		 * 
-		 * if (description == null || !description.matches(".{2,}")) {
-		 * errors.put("description",
-		 * "Error in the input for the event description."); }
-		 * 
-		 * model.addAttribute("errors", errors); System.out.println("im here");
-		 * 
-		 * return "/createEventTemplate"; }
-		 * 
-		 * model.addAttribute("eventCreation", true); System.out.println(
-		 * "Event was created.");
-		 * 
-		 * try { getEventDao().addEvent(createEvent); } catch (Exception e) {
-		 * e.printStackTrace(); }
-		 * 
-		 * return "redirect:/events";
-		 * 
-		 * } else {
-		 * 
-		 * HashMap<String, String> errors = new HashMap<String, String>();
-		 * 
-		 * if (name == null || !name.matches(".{2,}")) { errors.put("name",
-		 * "Error in the input for the event name."); }
-		 * 
-		 * if (location == null || !location.matches(".{2,}")) {
-		 * errors.put("location", "Error in the input for the event name."); }
-		 * 
-		 * if (description == null || !description.matches(".{2,}")) {
-		 * errors.put("description",
-		 * "Error in the input for the event description."); }
-		 * 
-		 * boolean nullDate = false; if (dateStr == null ||
-		 * !dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) { errors.put("date",
-		 * "Error in the input for the event's date."); nullDate = true; } if
-		 * (!nullDate) { String[] datePart = dateStr.split("/");
-		 * 
-		 * Date eventDate = new Date(Integer.parseInt(datePart[2]) - 1900,
-		 * Integer.parseInt(datePart[0]) - 1, Integer.parseInt(datePart[1]));
-		 * 
-		 * if (eventDate.compareTo(currentDate) < 0) { errors.put("date",
-		 * "Error. The event's date must be after the current date."); } }
-		 * 
-		 * if (startTime.matches("[0-9]{2}:[0-9]{2}") &&
-		 * endTime.matches("[0-9]{2}:[0-9]{2}")) { errors.put("times",
-		 * "Invalid input for start time and/or end time."); }
-		 * 
-		 * model.addAttribute("errors", errors);
-		 * 
-		 * return "createEventTemplate"; }
-		 */
-		System.out.println(dateStr);
-		System.out.println(startTime);
-		System.out.println(endTime);
-		System.out.println(isPublic);
+		// TODO FINISH THIS METHOD
+		Date currentDate = new Date(System.currentTimeMillis());
 
-		System.out.println("Inside the event method");
-		return "indexTemplate";
+		if (name != null && name.matches(".{2,}") && description != null && description.matches(".{2,}")
+				&& location != null && location.matches(".{2,}") && dateStr != null
+				&& dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}") && startTime.matches("[0-9]{2}:[0-9]{2}")
+				&& endTime.matches("[0-9]{2}:[0-9]{2}")) {
+
+			int hour = 0;
+			int min = 1;
+
+			String[] startTDiv = startTime.split(":");
+			String[] endTDiv = endTime.split(":");
+
+			int startHour = Integer.parseInt(startTDiv[hour]);
+			int startMin = Integer.parseInt(startTDiv[min]);
+
+			int endHour = Integer.parseInt(endTDiv[hour]);
+			int endMin = Integer.parseInt(endTDiv[min]);
+
+			String[] datePart = dateStr.split("/");
+
+			// Subtracted 1900 from year and 1 from month to offset the //
+			// deprecated constructor
+			Date eventDate = new Date(Integer.parseInt(datePart[2]) - 1900, Integer.parseInt(datePart[0]) - 1,
+					Integer.parseInt(datePart[1]));
+
+			User u = getCurrentUser();
+
+			Event createEvent = new Event();
+
+			createEvent.setName(name);
+			createEvent.setDescription(description);
+			createEvent.setLocation(location);
+			createEvent.setDate(eventDate);
+			createEvent.setPoster(u);
+
+			// ERROR CHECK AFTER DATE FAILED
+			if (eventDate.compareTo(currentDate) <= 0) {
+
+				HashMap<String, String> errors = new HashMap<String, String>();
+
+				errors.put("date", "Error. The event's date must be after the current date.");
+
+				if (name == null || !name.matches(".{2,}")) {
+					errors.put("name", "Error in the input for the event name.");
+				}
+
+				if (location == null || !location.matches(".{2,}")) {
+					errors.put("location", "Error in the input for the events' location.");
+				}
+
+				if (description == null || !description.matches(".{2,}")) {
+					errors.put("description", "Error in the input for the event description.");
+				}
+
+				if ((startHour > endHour) || (startHour == endHour && startMin >= endMin)) {
+					errors.put("times", "Error. The event's starting time must happen before the ending time.");
+				}
+
+				model.addAttribute("errors", errors);
+				System.out.println("Event date is earlier than the current date.");
+
+				return "/createEventTemplate";
+			}
+
+			// TODO ERROR CHECK AFTER TIMES FAILED
+			if ((startHour > endHour) || (startHour == endHour && startMin >= endMin)) {
+
+				HashMap<String, String> errors = new HashMap<String, String>();
+
+				errors.put("times", "Error. The event's starting time must happen before the ending time.");
+
+				if (name == null || !name.matches(".{2,}")) {
+					errors.put("name", "Error in the input for the event name.");
+				}
+
+				if (location == null || !location.matches(".{2,}")) {
+					errors.put("location", "Error in the input for the event's location.");
+				}
+
+				if (description == null || !description.matches(".{2,}")) {
+					errors.put("description", "Error in the input for the event description.");
+				}
+
+				if (dateStr == null || !dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
+					errors.put("date", "Error in the input for the event's date.");
+				} else if (eventDate.compareTo(currentDate) <= 0) {
+					errors.put("date", "Error. The event's date must be after the current date.");
+				}
+
+				model.addAttribute("errors", errors);
+				System.out.println("Start time is less than end time.");
+
+				return "/createEventTemplate";
+
+			}
+
+			createEvent.setDate(eventDate);
+			createEvent.setStartTime(startTime);
+			createEvent.setEndTime(endTime);
+			
+			System.out.println(createEvent.getTimeRange());
+
+			if (isPublic) {
+				createEvent.setToPublic(1);
+			}
+
+			model.addAttribute("eventCreation", true);
+			System.out.println("Event was created.");
+
+			try {
+				getEventDao().addEvent(createEvent);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			try {
+				ArrayList<Event> events = new ArrayList<Event>();
+				events = getEventDao().getAll();
+
+				model.addAttribute("events", events);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			return "eventsTemplate";
+
+		} else {
+
+			HashMap<String, String> errors = new HashMap<String, String>();
+
+			if (name == null || !name.matches(".{2,}")) {
+				errors.put("name", "Error in the input for the event name.");
+			}
+
+			if (location == null || !location.matches(".{2,}")) {
+				errors.put("location", "Error in the input for the events' location.");
+			}
+
+			if (description == null || !description.matches(".{2,}")) {
+				errors.put("description", "Error in the input for the event description.");
+			}
+
+			boolean nullDate = false;
+			if (dateStr == null || !dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
+				errors.put("date", "Error in the input for the event's date.");
+				nullDate = true;
+			}
+			if (!nullDate) {
+				String[] datePart = dateStr.split("/");
+				Date eventDate = null;
+				try {
+					eventDate = new Date(Integer.parseInt(datePart[2]) - 1900, Integer.parseInt(datePart[0]) - 1,
+							Integer.parseInt(datePart[1]));
+				} catch (Exception e) {
+					e.printStackTrace();
+
+					errors.put("date", "Invalid input for the event's date.");
+				}
+
+				if (eventDate == null || eventDate.compareTo(currentDate) <= 0) {
+					errors.put("date", "Error. The event's date must be after the current date.");
+				}
+			}
+
+			if (startTime == null || endTime == null || !startTime.matches("[0-9]{2}:[0-9]{2}")
+					|| !endTime.matches("[0-9]{2}:[0-9]{2}")) {
+				errors.put("times", "Invalid input for start time and/or end time.");
+			} else {
+				int hour = 0;
+				int min = 1;
+
+				String[] startTDiv = startTime.split(":");
+				String[] endTDiv = endTime.split(":");
+
+				int startHour = Integer.parseInt(startTDiv[hour]);
+				int startMin = Integer.parseInt(startTDiv[min]);
+
+				int endHour = Integer.parseInt(endTDiv[hour]);
+				int endMin = Integer.parseInt(endTDiv[min]);
+
+				if ((startHour > endHour) || (startHour == endHour && startMin >= endMin)) {
+					errors.put("times", "Error. The event's starting time must happen before the ending time.");
+				}
+			}
+
+			model.addAttribute("errors", errors);
+
+			return "createEventTemplate";
+		}
 	}
 
 	@RequestMapping(value = "/editAnEvent/{id}", method = RequestMethod.GET)

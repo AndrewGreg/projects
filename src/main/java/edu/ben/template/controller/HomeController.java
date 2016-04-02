@@ -152,6 +152,8 @@ public class HomeController extends BaseController {
 			} else {
 				job.setToPublic(0);
 			}
+			
+			job.setHours(hours);
 
 			if (startingSalary != -1 && endingSalary != -1 && startingSalary < endingSalary) {
 				job.setStart_salary(startingSalary);

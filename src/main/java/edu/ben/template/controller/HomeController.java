@@ -389,7 +389,6 @@ public class HomeController extends BaseController {
 			createEvent.setName(name);
 			createEvent.setDescription(description);
 			createEvent.setLocation(location);
-			createEvent.setDate(eventDate);
 			createEvent.setPoster(u);
 
 			// ERROR CHECK AFTER DATE FAILED

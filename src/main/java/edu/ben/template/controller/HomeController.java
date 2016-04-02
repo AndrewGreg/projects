@@ -107,102 +107,10 @@ public class HomeController extends BaseController {
 		return "indexTemplate";
 	}
 
-	@RequestMapping(value = "/createJob", method = RequestMethod.GET)
+	@RequestMapping(value = "/createJobPosting", method = RequestMethod.GET)
 	public String createJob(Model model) {
-
+		model.addAttribute("active", "job");
 		return "createJobTemplate";
-	}
-
-	/**
-	 * Form processing of the job posting creation page.
-	 * 
-	 * @param model
-	 *            of passing
-	 * @param name
-	 *            of the Job.
-	 * @param company
-	 *            that belongs to the Job.
-	 * @param description
-	 *            of the Job.
-	 * @return the Job Posting page to view all the jobs.
-	 */
-	@RequestMapping(value = "/createJob", method = RequestMethod.POST)
-	public String createJobPost(Model model, @RequestParam("name") String name, @RequestParam("company") String company,
-			@RequestParam("description") String description, @RequestParam("location") String location,
-			@RequestParam("startSalary") int startSalary, @RequestParam("endSalary") int endSalary,
-			@RequestParam("startWage") float startWage, @RequestParam("endWage") float endWage,
-			@RequestParam("hours") int hours, @RequestParam("startDate") String startDate,
-			@RequestParam("endDate") String endDate, @RequestParam("public") boolean isPublic) {
-
-		// TODO FOR HOURS 0 IS PART TIME AND 1 IS FULL TIME
-
-		Random r = new Random();
-		int min = 1;
-		int max = 7;
-		int ref = r.nextInt(max - min) + min;
-
-		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
-				&& description.matches(".{2,}") && location != null && location.matches(".{2,}")) {
-
-			User u = getCurrentUser();
-
-			Job job = new Job(name, description, company, u, location, "stuff", 1, hours, "things");
-
-			if (startSalary > 0 && endSalary > 0 && startSalary < endSalary) {
-				job.setSalary(true);
-				job.setStart_salary(startSalary);
-				job.setEnd_salary(endSalary);
-				job.setStart_wage(0);
-				job.setEnd_wage(0);
-			} else {
-				// TODO IF START SALARY OR END SALARY ARE NULL OR 0 JUST CREATE
-				// IT...ELSE
-				// TODO DISPLAY ERROR (START SALARY MUST BE LESS THAN END
-				// SALARY)
-				job.setSalary(false);
-				job.setStart_wage(startWage);
-				job.setEnd_wage(endWage);
-				job.setStart_salary(0);
-				job.setEnd_salary(0);
-			}
-
-			try {
-
-				getJobDao().addJob(job);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			System.out.println("Job was created");
-			return "redirect:/jobs";
-
-		} else {
-
-			HashMap<String, String> errors = new HashMap<String, String>();
-
-			if (name == null || !name.matches(".{2,}")) {
-				errors.put("name", "Error in the input for the job name.");
-			}
-
-			if (company == null || !company.matches(".{2,}")) {
-				errors.put("company", "Error in the input for the job's company.");
-			}
-
-			if (location == null || !location.matches(".{2,}")) {
-				errors.put("location", "Error in the input for the job location.");
-			}
-			if (hours != 1 || hours != 2) {
-				errors.put("hours", "Error in the input for the job hours.");
-			}
-
-			if (description == null || !description.matches(".{2,}")) {
-				errors.put("description", "Error in the input for the job description.");
-			}
-
-			model.addAttribute("errors", errors);
-
-			return "createJobTemplate";
-		}
 	}
 
 	/**
@@ -220,48 +128,131 @@ public class HomeController extends BaseController {
 	 */
 	@RequestMapping(value = "/createJobPosting", method = RequestMethod.POST)
 	public String createJobPostingPost(Model model, @RequestParam("name") String name,
-			@RequestParam("company") String company, @RequestParam("description") String description,
-			@RequestParam("location") String location, @RequestParam("salary") String salary) {
+			@RequestParam("company") String company, @RequestParam("location") String location,
+			@RequestParam("hours") int hours, @RequestParam("startSalary") String startSalary,
+			@RequestParam("endSalary") String endSalary, @RequestParam("description") String description,
+			@RequestParam(value = "public", required = false) boolean isPublic) {
+
+		// HOURS 1 for part time, 2 for full time
+		// -1 for empty, -2 for error
+		int startingSalary = startSalary == null ? -1
+				: (startSalary.matches("[0-9]{1,}") ? Integer.parseInt(startSalary) : -2);
+		int endingSalary = endSalary == null ? -1 : (endSalary.matches("[0-9]{1,}") ? Integer.parseInt(endSalary) : -2);
 
 		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
-				&& description.matches(".{2,}") && location != null && location.matches(".{2,}") && salary != null
-				&& salary.matches(".{2,}")) {
+				&& description.matches(".{2,}") && location != null && location.matches(".{2,}")
+				&& (hours == 1 || hours == 2) && startingSalary != -2 && endingSalary != -2) {
 
-			User u = getCurrentUser();
+			User currentUser = getCurrentUser();
 
-			Job job = new Job(name, description, company, u);
+			Job job = new Job(name, description, company, currentUser);
+
+			if (isPublic) {
+				job.setToPublic(1);
+			} else {
+				job.setToPublic(0);
+			}
+
+			if (startingSalary != -1 && endingSalary != -1 && startingSalary < endingSalary) {
+				job.setStart_salary(startingSalary);
+				job.setEnd_salary(endingSalary);
+			} else if (!(startingSalary < endingSalary)) {
+
+				System.out.println("Error in salary");
+
+				HashMap<String, String> errors = new HashMap<String, String>();
+
+				if (name == null || !name.matches(".{2,}")) {
+					errors.put("name", "Input error on the job's name.");
+				}
+
+				if (company == null || !company.matches(".{2,}")) {
+					errors.put("company", "Input error on the job's company.");
+				}
+
+				if (description == null || !description.matches(".{2,}")) {
+					errors.put("description", "Input error on the job description.");
+				}
+
+				if (location == null || !location.matches(".{2,}")) {
+					errors.put("location", "Input error on the job's location.");
+				}
+
+				if (hours != 1 && hours != 2) {
+					errors.put("hours", "Input error on the job's work hours type.");
+				}
+
+				// -2 means error in the input
+				if (startingSalary == -2 || endingSalary == -2) {
+					errors.put("salary", "Input error on salaries.");
+				} else if (endingSalary < startingSalary) {
+					errors.put("salary", "Start salary must be less than the end salary.");
+				}
+
+				model.addAttribute("errors", errors);
+				model.addAttribute("active", "job");
+
+				return "createJobTemplate";
+			}
 
 			try {
-
 				getJobDao().addJob(job);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+
+			model.addAttribute("jobCreation", true);
 			System.out.println("Job was created");
 
 			model.addAttribute("active", "job");
-			return "redirect:/jobPostings";
+
+			try {
+				ArrayList<Job> jobs = new ArrayList<Job>();
+				jobs = getJobDao().getAll();
+
+				model.addAttribute("jobs", jobs);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			model.addAttribute("active", "job");
+			return "jobsTemplate";
 
 		} else {
 
 			HashMap<String, String> errors = new HashMap<String, String>();
 
 			if (name == null || !name.matches(".{2,}")) {
-				errors.put("name", "Error in the input for the job name.");
+				errors.put("name", "Input error on the job's name.");
 			}
 
 			if (company == null || !company.matches(".{2,}")) {
-				errors.put("company", "Error in the input for the job's company.");
+				errors.put("company", "Input error on the job's company.");
 			}
 
 			if (description == null || !description.matches(".{2,}")) {
-				errors.put("description", "Error in the input for the job description.");
+				errors.put("description", "Input error on the job description.");
+			}
+
+			if (location == null || !location.matches(".{2,}")) {
+				errors.put("location", "Input error on the job's location.");
+			}
+
+			if (hours != 1 && hours != 2) {
+				errors.put("hours", "Input error on the job's work hours type.");
+			}
+
+			// -2 means error in the input
+			if (startingSalary == -2 || endingSalary == -2) {
+				errors.put("salary", "Input error on salaries.");
+			} else if (endingSalary < startingSalary) {
+				errors.put("salary", "Start salary must be less than the end salary.");
 			}
 
 			model.addAttribute("errors", errors);
 			model.addAttribute("active", "job");
 
-			return "createJobPosting";
+			return "createJobTemplate";
 		}
 	}
 
@@ -348,81 +339,116 @@ public class HomeController extends BaseController {
 		return "createEventTemplate";
 	}
 
+	/**
+	 * Method to request the Post for creating an event.
+	 * 
+	 * @param model
+	 *            being passed.
+	 * @return createEvent page
+	 */
 	@RequestMapping(value = "/createNewEvent", method = RequestMethod.POST)
 	public String createNewEventPost(Model model, @RequestParam("name") String name,
-			@RequestParam("date") String dateStr, @RequestParam("description") String description,
-			@RequestParam("location") String location, @RequestParam("startTime") String startTime,
-			@RequestParam("endTime") String endTime, @RequestParam("public") Boolean isPublic) {
+			@RequestParam(value = "date", required = false) String dateStr,
+			@RequestParam("description") String description, @RequestParam("location") String location,
+			@RequestParam(value = "startTime", required = false) String startTime,
+			@RequestParam(value = "endTime", required = false) String endTime,
+			@RequestParam(value = "public", required = false) boolean isPublic) {
 
-		if (name != null && name.matches(".{2,}") && description != null && description.matches(".{2,}")
-				&& location != null && location.matches(".{2,}") && dateStr != null
-				&& dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
+		/*
+		 * // TODO FINISH THIS METHOD Date currentDate = new
+		 * Date(System.currentTimeMillis());
+		 * 
+		 * if (name != null && name.matches(".{2,}") && description != null &&
+		 * description.matches(".{2,}") && location != null &&
+		 * location.matches(".{2,}") && dateStr != null &&
+		 * dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}") &&
+		 * startTime.matches("[0-9]{2}:[0-9]{2}") &&
+		 * endTime.matches("[0-9]{2}:[0-9]{2}")) {
+		 * 
+		 * String[] datePart = dateStr.split("/");
+		 * 
+		 * // Subtracted 1900 from year and 1 from month to offset the //
+		 * deprecated constructor Date eventDate = new
+		 * Date(Integer.parseInt(datePart[2]) - 1900,
+		 * Integer.parseInt(datePart[0]) - 1, Integer.parseInt(datePart[1]));
+		 * 
+		 * User u = getCurrentUser();
+		 * 
+		 * Event createEvent = new Event();
+		 * 
+		 * createEvent.setName(name); createEvent.setDescription(description);
+		 * createEvent.setLocation(location); createEvent.setDate(eventDate);
+		 * createEvent.setPoster(u);
+		 * 
+		 * if (eventDate.compareTo(currentDate) < 0) {
+		 * 
+		 * HashMap<String, String> errors = new HashMap<String, String>();
+		 * 
+		 * errors.put("date",
+		 * "Error. The event's date must be after the current date.");
+		 * 
+		 * if (name == null || !name.matches(".{2,}")) { errors.put("name",
+		 * "Error in the input for the event name."); }
+		 * 
+		 * if (location == null || !location.matches(".{2,}")) {
+		 * errors.put("location", "Error in the input for the event name."); }
+		 * 
+		 * if (description == null || !description.matches(".{2,}")) {
+		 * errors.put("description",
+		 * "Error in the input for the event description."); }
+		 * 
+		 * model.addAttribute("errors", errors); System.out.println("im here");
+		 * 
+		 * return "/createEventTemplate"; }
+		 * 
+		 * model.addAttribute("eventCreation", true); System.out.println(
+		 * "Event was created.");
+		 * 
+		 * try { getEventDao().addEvent(createEvent); } catch (Exception e) {
+		 * e.printStackTrace(); }
+		 * 
+		 * return "redirect:/events";
+		 * 
+		 * } else {
+		 * 
+		 * HashMap<String, String> errors = new HashMap<String, String>();
+		 * 
+		 * if (name == null || !name.matches(".{2,}")) { errors.put("name",
+		 * "Error in the input for the event name."); }
+		 * 
+		 * if (location == null || !location.matches(".{2,}")) {
+		 * errors.put("location", "Error in the input for the event name."); }
+		 * 
+		 * if (description == null || !description.matches(".{2,}")) {
+		 * errors.put("description",
+		 * "Error in the input for the event description."); }
+		 * 
+		 * boolean nullDate = false; if (dateStr == null ||
+		 * !dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) { errors.put("date",
+		 * "Error in the input for the event's date."); nullDate = true; } if
+		 * (!nullDate) { String[] datePart = dateStr.split("/");
+		 * 
+		 * Date eventDate = new Date(Integer.parseInt(datePart[2]) - 1900,
+		 * Integer.parseInt(datePart[0]) - 1, Integer.parseInt(datePart[1]));
+		 * 
+		 * if (eventDate.compareTo(currentDate) < 0) { errors.put("date",
+		 * "Error. The event's date must be after the current date."); } }
+		 * 
+		 * if (startTime.matches("[0-9]{2}:[0-9]{2}") &&
+		 * endTime.matches("[0-9]{2}:[0-9]{2}")) { errors.put("times",
+		 * "Invalid input for start time and/or end time."); }
+		 * 
+		 * model.addAttribute("errors", errors);
+		 * 
+		 * return "createEventTemplate"; }
+		 */
+		System.out.println(dateStr);
+		System.out.println(startTime);
+		System.out.println(endTime);
+		System.out.println(isPublic);
 
-			String[] datePart = dateStr.split("/");
-
-			// Subtracted 1900 from year and 1 from month to offset the
-			// deprecated constructor
-			Date eventDate = new Date(Integer.parseInt(datePart[2]) - 1900, Integer.parseInt(datePart[0]) - 1,
-					Integer.parseInt(datePart[1]));
-			Date currentDate = new Date(System.currentTimeMillis());
-
-			User u = getCurrentUser();
-
-			Event createEvent = new Event();
-
-			createEvent.setName(name);
-			createEvent.setDescription(description);
-			createEvent.setLocation(location);
-			createEvent.setDate(eventDate);
-			createEvent.setPoster(u);
-
-			if (eventDate.compareTo(currentDate) < 0) {
-
-				HashMap<String, String> errors = new HashMap<String, String>();
-
-				errors.put("date", "Error. The event's date must be after the current date.");
-
-				model.addAttribute("errors", errors);
-				System.out.println("im here");
-
-				return "/createEventTemplate";
-			}
-
-			System.out.println("Event was created.");
-
-			try {
-				getEventDao().addEvent(createEvent);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			return "redirect:/eventsTemplate";
-
-		} else {
-
-			HashMap<String, String> errors = new HashMap<String, String>();
-
-			if (name == null || !name.matches(".{2,}")) {
-				errors.put("name", "Error in the input for the event name.");
-			}
-
-			if (location == null || !location.matches(".{2,}")) {
-				errors.put("location", "Error in the input for the event name.");
-			}
-
-			if (description == null || !description.matches(".{2,}")) {
-				errors.put("description", "Error in the input for the event description.");
-			}
-
-			if (dateStr == null || !dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
-				errors.put("date", "Error in the input for the event's date.");
-			}
-
-			model.addAttribute("errors", errors);
-
-			return "createEventTemplate";
-		}
-
+		System.out.println("Inside the event method");
+		return "indexTemplate";
 	}
 
 	@RequestMapping(value = "/editAnEvent/{id}", method = RequestMethod.GET)
@@ -459,7 +485,7 @@ public class HomeController extends BaseController {
 				// e.printStackTrace();
 			}
 
-			return "redirect:/eventsTemplate";
+			return "redirect:/events";
 		} else {
 			HashMap<String, String> errors = new HashMap<String, String>();
 
@@ -924,9 +950,7 @@ public class HomeController extends BaseController {
 
 	@RequestMapping(value = "/jobs", method = RequestMethod.GET)
 	public String jobs(Model model) {
-
 		try {
-
 			ArrayList<Job> job = new ArrayList<Job>();
 			job = getJobDao().getAll();
 
@@ -935,7 +959,7 @@ public class HomeController extends BaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		model.addAttribute("active", "job");
 		return "jobsTemplate";
 	}
 

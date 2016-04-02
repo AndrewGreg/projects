@@ -120,8 +120,10 @@
 
 
 <%
-	String loginAttempt = request.getAttribute("loginAttempt") != null ? (String) request.getAttribute("loginAttempt") : "";
-	
+	String loginAttempt = request.getAttribute("loginAttempt") != null
+			? (String) request.getAttribute("loginAttempt")
+			: "";
+
 	if (loginAttempt.equals("failure")) {
 %>
 <script type="text/javascript">
@@ -132,4 +134,46 @@
 	});
 </script>
 
-<% } %>
+<%
+	}
+%>
+
+<%
+	boolean eventCreation = request.getAttribute("eventCreation") != null
+			? (boolean) request.getAttribute("eventCreation")
+			: false;
+
+	if (eventCreation) {
+%>
+<jsp:include page="eventCreationModal.jsp" />
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('#eventCreation').modal('show');
+
+	});
+</script>
+
+<%
+	}
+%>
+
+<%
+	boolean jobCreation = request.getAttribute("jobCreation") != null
+			? (boolean) request.getAttribute("jobCreation")
+			: false;
+
+	if (jobCreation) {
+%>
+<jsp:include page="jobCreationModal.jsp" />
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('#jobCreation').modal('show');
+
+	});
+</script>
+
+<%
+	}
+%>

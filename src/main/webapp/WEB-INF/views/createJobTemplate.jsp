@@ -51,7 +51,7 @@
 				<br>
 				<div class="row">
 					<div class="col-md-6 col-md-offset-3">
-						<form action="/createJob" method="POST" name="createJob">
+						<form action="/createJobPosting" method="POST" name="createJob">
 
 							<div class="row">
 								<!-- Input control group -->
@@ -133,8 +133,8 @@
 									<label class="control-label" for="hours">*Hours:</label>
 									<div class="controls">
 										<select name="hours" class="form-control" required>
-											<option value="0">Part-time</option>
-											<option value="1">Full-time</option>
+											<option value="1">Part-time</option>
+											<option value="2">Full-time</option>
 										</select>
 										<%
 											if (errors.get("hours") != null) {
@@ -220,8 +220,7 @@
 										</label>
 										<div class="pull-right">
 											<button type="reset" class="btn btn-danger">Clear</button>
-											<button type="submit" class="btn btn-primary">Create
-												Event</button>
+											<button type="submit" class="btn btn-primary">Post Job</button>
 										</div>
 									</div>
 								</div>

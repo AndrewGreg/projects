@@ -143,7 +143,7 @@
 							if (currentUser != null) {
 						%>
 						<li><a href="/jobs">View Job Postings</a></li>
-						<li><a href="/createJob">Create a Job Posting</a></li>
+						<li><a href="/createJobPosting">Create a Job Posting</a></li>
 						<%
 							} else {
 						%>

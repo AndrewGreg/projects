@@ -86,7 +86,7 @@
 											data-toggle="bfh-datepicker">
 											<span class="add-on"><i class="icon-calendar"></i></span> <input
 												type="text" class="input-medium" name="date"
-												value="<%=date%>" readonly>
+												value="<%=date%>" readonly value="01/01/2016">
 										</div>
 										<div class="bfh-datepicker-calendar">
 											<table class="calendar table table-bordered">
@@ -163,7 +163,7 @@
 											<div class="input-prepend bfh-timepicker-toggle"
 												data-toggle="bfh-timepicker">
 												<span class="add-on"><i class="icon-time"></i></span> <input
-													type="text" class="input-medium" readonly>
+													name="startTime" type="text" class="input-medium">
 											</div>
 											<div class="bfh-timepicker-popover">
 												<table class="table">
@@ -171,7 +171,7 @@
 														<tr>
 															<td class="hour"><a class="next" href="#"><i
 																	class="icon-chevron-up"></i></a><br> <input
-																type="text" class="input-mini" readonly><br>
+																type="text" class="input-mini" readonly value="08:00"><br>
 																<a class="previous" href="#"><i
 																	class="icon-chevron-down"></i></a></td>
 															<td class="separator">:</td>
@@ -211,7 +211,7 @@
 											<div class="input-prepend bfh-timepicker-toggle"
 												data-toggle="bfh-timepicker">
 												<span class="add-on"><i class="icon-time"></i></span> <input
-													type="text" class="input-medium" readonly>
+													name="endTime" type="text" class="input-medium" readonly value="08:00">
 											</div>
 											<div class="bfh-timepicker-popover">
 												<table class="table">
@@ -298,6 +298,7 @@
 									<span>* denotes required field.</span>
 								</div>
 							</div>
+							<br>
 						</form>
 
 					</div>
@@ -318,7 +319,5 @@
 		src="/content/BootstrapFormHelpers/js/lang/en_US/bootstrap-formhelpers-timepicker.en_US.js"></script>
 	<script type="text/javascript"
 		src="/content/BootstrapFormHelpers/js/bootstrap-formhelpers-timepicker.js"></script>
-
-
 </body>
 </html>

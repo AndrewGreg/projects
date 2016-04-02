@@ -456,8 +456,6 @@ public class HomeController extends BaseController {
 			createEvent.setDate(eventDate);
 			createEvent.setStartTime(startTime);
 			createEvent.setEndTime(endTime);
-			
-			System.out.println(createEvent.getTimeRange());
 
 			if (isPublic) {
 				createEvent.setToPublic(1);

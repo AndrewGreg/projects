@@ -14,7 +14,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Alumni Directory</title>
+<title>Faculty Directory</title>
 
 <jsp:include page="headerTemplate.jsp" />
 
@@ -48,11 +48,11 @@
 							<table id=indextable class="table table-hover results">
 								<thead>
 									<tr>
-										<th><a href="javascript:SortTable(1,'T');">Profile</a></th>
-										<th><a href="javascript:SortTable(1,'T');">First Name</a></th>
-										<th><a href="javascript:SortTable(2,'T');">Last Name</a></th>
-										<th><a href="javascript:SortTable(3,'T');">Occupation</a></th>
-										<th><a href="javascript:SortTable(4,'N');">Major</a></th>
+										<th class="text-center" style="color: black;">Profile</th>
+										<th class="text-center"><a href="javascript:SortTable(1,'T');">First Name <i class="fa fa-retweet"></i></a></th>
+										<th class="text-center"><a href="javascript:SortTable(2,'T');">Last Name <i class="fa fa-retweet"></i></a></th>
+										<th class="text-center"><a href="javascript:SortTable(3,'T');">Occupation <i class="fa fa-retweet"></i></a></th>
+										<th class="text-center"><a href="javascript:SortTable(4,'N');">Major <i class="fa fa-retweet"></i></a></th>
 									</tr>
 									<tr class="warning no-result">
 										<td colspan="4"><i class="fa fa-warning"></i> No result</td>
@@ -73,6 +73,7 @@
 									<%
 										} else {
 											for (int i = 0; i < faculty.size(); i++) {
+												if (faculty.get(i).getRole() == 3) {
 									%>
 									<tr class='clickable-row row-link'
 										data-href='/user/<%=faculty.get(i).getId()%>'>
@@ -87,6 +88,7 @@
 
 									<%
 										}
+											}
 										}
 									%>
 								</tbody>
@@ -96,12 +98,14 @@
 								<ul class="pagination">
 									<%
 										int i = 0;
+										int count = (int) request.getAttribute("facultyCount");
+										int pages = (count - 1) / 15;
 									%>
 									<%
-										while (i < faculty.size() / 15 + 1) {
+										while (i <= pages) {
 									%>
-									<li><a href="/alumni?page=<%=i%>"><%=++i%></a></li>
-									<li><a href="/alumni?page=<%=i++%>"><%=i++%></a></li>
+									<li><a href="/faculty?page=<%=i%>"><%=++i%></a></li>
+
 									<%
 										}
 									%>

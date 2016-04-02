@@ -251,7 +251,7 @@
 
 							</div>
 							<button type="submit" class="btn btn-theme pull-right">
-								<i class="fa fa-search"></i>Search
+								<i class="fa fa-search"></i> Search
 							</button>
 						</form>
 						<!--//course-finder-form-->

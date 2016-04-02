@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="edu.ben.template.model.User"%>
-<%@ page import="edu.ben.template.dao.UserDao" %>
+<%@ page import="edu.ben.template.dao.UserDao"%>
 <%@ page import="java.util.ArrayList"%>
 <%
 	ArrayList<User> alumni;
@@ -26,15 +26,16 @@
 		<div class="content container content-container">
 			<div class="page-wrapper ben-container">
 				<header class="page-heading clearfix pageHeading">
-				<h1 class="heading-title pull-left">Alumni Directory</h1>
-				<div class="breadcrumbs pull-right">
-					<ul class="breadcrumbs-list">
-						<li class="breadcrumbs-label">You are here:</li>
-						<li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
-						<li class="current">Alumni Directory</li>
-					</ul>
-				</div>
-				<!--//breadcrumbs--> </header>
+					<h1 class="heading-title pull-left">Alumni Directory</h1>
+					<div class="breadcrumbs pull-right">
+						<ul class="breadcrumbs-list">
+							<li class="breadcrumbs-label">You are here:</li>
+							<li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
+							<li class="current">Alumni Directory</li>
+						</ul>
+					</div>
+					<!--//breadcrumbs-->
+				</header>
 				<div class="page-content table-content">
 
 					<div class="row">
@@ -44,14 +45,14 @@
 									placeholder="Search" style="margin-top: 5px;">
 							</div>
 							<span class="counter pull-right"></span>
-							<table id= indextable class="table table-hover results">
+							<table id=indextable class="table table-hover results">
 								<thead>
 									<tr>
-										<th><a href="javascript:SortTable(1,'T');">Profile</a></th>
-										<th><a href="javascript:SortTable(1,'T');">First Name</a></th>
-										<th><a href="javascript:SortTable(2,'T');">Last Name</a></th>
-										<th><a href="javascript:SortTable(3,'T');">Major</a></th>
-										<th><a href="javascript:SortTable(4,'N');">Grad Year</a></th>
+										<th class="text-center" style="color: black;">Profile</th>
+										<th class="text-center"><a href="javascript:SortTable(1,'T');">First Name <i class="fa fa-retweet"></i></a></th>
+										<th class="text-center"><a href="javascript:SortTable(2,'T');">Last Name <i class="fa fa-retweet"></i></a></th>
+										<th class="text-center"><a href="javascript:SortTable(3,'T');">Major <i class="fa fa-retweet"></i></a></th>
+										<th class="text-center"><a href="javascript:SortTable(4,'N');">Grad Year <i class="fa fa-retweet"></i></a></th>
 									</tr>
 									<tr class="warning no-result">
 										<td colspan="4"><i class="fa fa-warning"></i> No result</td>
@@ -100,8 +101,12 @@
 										while (i < alumni.size() / 15 + 1) {
 									%>
 									<li><a href="/alumni?page=<%=i%>"><%=++i%></a></li>
+									<%
+										if (alumni.size() > 15) {
+									%>
 									<li><a href="/alumni?page=<%=i++%>"><%=i++%></a></li>
 									<%
+										}
 										}
 									%>
 
@@ -117,9 +122,9 @@
 	</div>
 	<!--//wrapper-->
 	<jsp:include page="footerTemplate.jsp" />
-	
+
 	<script type="text/javascript" src="/content/jQuery/sortColumns.js"></script>
-	
+
 </body>
 
 </html>

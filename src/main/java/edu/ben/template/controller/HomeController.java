@@ -68,7 +68,7 @@ public class HomeController extends BaseController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Model model) {
-		
+
 		ArrayList<Event> events;
 
 		try {
@@ -80,22 +80,22 @@ public class HomeController extends BaseController {
 
 		ArrayList<Job> jobs;
 		try {
-			jobs = getJobDao().getAll();
+			jobs = getJobDao().getByHighestPaidSalary();
 		} catch (Exception e) {
 			e.printStackTrace();
 			jobs = new ArrayList<Job>();
 		}
-		
+
 		ArrayList<Event> eventDisplay = new ArrayList<Event>();
 		int countEvent = 0;
-		for(int i = events.size() - 1; i >= 0 && countEvent < 4; i--) {
+		for (int i = events.size() - 1; i >= 0 && countEvent < 4; i--) {
 			eventDisplay.add(events.get(i));
 			countEvent++;
 		}
-		
+
 		ArrayList<Job> jobDisplay = new ArrayList<Job>();
 		int countJob = 0;
-		for(int i = jobs.size() - 1; i >= 0 && countJob < 6; i--) {
+		for (int i = jobs.size() - 1; i >= 0 && countJob < 6; i--) {
 			jobDisplay.add(jobs.get(i));
 			countJob++;
 		}
@@ -1089,21 +1089,13 @@ public class HomeController extends BaseController {
 
 		try {
 
-			ArrayList<User> userList = new ArrayList<User>();
-			userList = getUserDao().getAll();
+			ArrayList<User> faculty = new ArrayList<User>();
+			faculty = getUserDao().getAll();
 
-			for (User users : userList) {
+			for (User users : faculty) {
 				users.setMajor(getMajorDao().getMajorByUser(users));
 				users.setConcentration(getMajorDao().getConcentrationByUser(users));
 				users.setMinor(getMajorDao().getMinorByUser(users));
-			}
-
-			ArrayList<User> faculty = new ArrayList<User>();
-
-			for (User users : userList) {
-				if (users.getRole() == 3) {
-					faculty.add(users);
-				}
 			}
 
 			sortUsers(faculty);
@@ -1112,16 +1104,23 @@ public class HomeController extends BaseController {
 				page = 0;
 			}
 
-			ArrayList<User> facultyList = new ArrayList<User>();
-			for (int i = page * 15; i < page * 15 + 15; i++) {
+			ArrayList<User> facTemp = new ArrayList<User>();
 
-				if (i < faculty.size()) {
-
-					facultyList.add(faculty.get(i));
+			for (int i = 0; i < faculty.size(); i++) {
+				if (faculty.get(i).getRole() == 3) {
+					facTemp.add(faculty.get(i));
 				}
 			}
-			model.addAttribute("faculty", facultyList);
 
+			ArrayList<User> facultyList = new ArrayList<User>();
+
+			for (int i = page * 15; i < page * 15 + 15; i++) {
+				if (i < facTemp.size()) {
+					facultyList.add(facTemp.get(i));
+				}
+			}
+			model.addAttribute("facultyCount", facTemp.size());
+			model.addAttribute("faculty", facultyList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

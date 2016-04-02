@@ -196,6 +196,8 @@ public class HomeController extends BaseController {
 
 				return "createJobTemplate";
 			}
+			
+			job.setLocation(location);
 
 			try {
 				getJobDao().addJob(job);

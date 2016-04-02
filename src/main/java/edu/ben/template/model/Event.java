@@ -24,8 +24,6 @@ public class Event {
 	private String location;
 	private String startTime;
 	private String endTime;
-	// private int startTime;
-	// private int endTime;
 
 	/**
 	 * An empty constructor.

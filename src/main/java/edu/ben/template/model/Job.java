@@ -90,11 +90,6 @@ public class Job {
 		this.company = company;
 		this.poster = poster;
 		this.location = location;
-		// this.salary = salary;
-		// this.start_salary = start_salary;
-		// this.end_salary = end_salary;
-		// this.start_wage = start_wage;
-		// this.end_wage = end_wage;
 		this.reference = reference;
 		this.toPublic = toPublic;
 		this.hours = hours;
@@ -401,7 +396,7 @@ public class Job {
 	public int getToPublic() {
 		return toPublic;
 	}
-	
+
 	/**
 	 * Returns a shortened description for display on the front page.
 	 * 
@@ -417,13 +412,15 @@ public class Job {
 			return description;
 		}
 	}
-	
+
 	/**
-	 * Returns a link that takes you to the search in google maps for the location.
+	 * Returns a link that takes you to the search in google maps for the
+	 * location.
+	 * 
 	 * @return link search in google maps
 	 */
 	public String getGoogleMapsLink() {
-		//https://maps.google.com/?q=term
+		// https://maps.google.com/?q=term
 		return "https://maps.google.com/?q=" + location.trim().replace(" ", "+");
 	}
 

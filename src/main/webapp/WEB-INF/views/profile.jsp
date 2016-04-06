@@ -2,7 +2,10 @@
 	pageEncoding="UTF-8"%>
 <%@page import="edu.ben.template.model.User"%>
 <%@page import="edu.ben.template.model.Title"%>
+<%@page import="edu.ben.template.model.UploadFile"%>
 <%
+
+	UploadFile photo = (UploadFile) request.getAttribute("photo");
 	User currentUser = (User) request.getAttribute("currentUser");
 	User profileUser = (User) request.getAttribute("profileUser");
 	Title userTitle = (Title) request.getAttribute("title");
@@ -24,10 +27,19 @@
 		<!-- ******CONTENT****** -->
 		<div class="content container">
 			<div class="content container content-container">
+				<div class="page-wrapper table-container">
+					<header class="page-heading clearfix">
+					<%
+						if(request.getAttribute("photo") == null){
+					%>
+					<img id="profile-pic" src="/content/img/empty-profile.png"
+						alt="Profile Picture">
+					<%}else{ %>
+						<img id="profile-pic" src="/getImage/<%=photo.getId()%>.jpeg">
 				<div class="page-wrapper table-container ben-container">
 					<header class="page-heading clearfix"> <img
-						id="profile-pic" src="/content/img/empty-profile.png"
-						alt="Profile Picture">
+						id="profile-pic" src="/content/img/empty-profile.png">
+					<% }%>
 					<h1 class="heading-title">
 						<%=profileUser.getFirstName()%>
 						<%=profileUser.getLastName()%></h1>
@@ -36,11 +48,11 @@
 							<form action="/deleteUser" method="POST"
 							name="deleteUser">
 								<button type="submit" class="btn btn-primary">Delete User</button>
-							</form>
+							</form>							
 							
 						<%}	%>
 					</div>
-					
+						
 					<div class="breadcrumbs pull-right" id="breadcrumbs-profile">
 						<ul class="breadcrumbs-list">
 							<li class="breadcrumbs-label">You are here:</li>
@@ -65,9 +77,9 @@
 											class="meta col-md-4 col-sm-6 col-xs-6 text-right pull-right"
 											id="editLink">
 											<%
-												if (currentUser.getId() == profileUser.getId()) {
+												if (currentUser.getId() == profileUser.getId() || currentUser.getRole() == 4) {
 											%>
-											<a href="/edit"><span class="label label-info"><small><i
+											<a href="/edit/<%=profileUser.getId()%>"><span class="label label-info"><small><i
 														class="fa fa-pencil"></i> Edit Information</small></span></a>
 											<%
 												}

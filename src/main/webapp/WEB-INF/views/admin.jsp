@@ -26,7 +26,7 @@
 			<div class="page-wrapper table-container">
 				<header class="page-heading clearfix"
 					style="margin-bottom: 10px !important;">
-				<h1 class="heading-title pull-left">Manage Users</h1>
+				<h1 class="heading-title pull-left">Manage Users </h1>
 				<div class="breadcrumbs pull-right">
 					<ul class="breadcrumbs-list">
 						<li class="breadcrumbs-label">You are here:</li>
@@ -35,7 +35,14 @@
 					</ul>
 				</div>
 				<!--//breadcrumbs--> </header>
-				
+				<a href=/register><button type="button" class="btn btn-primary">Add User</button></a>
+				<div style="margin-top: 20px">
+					<form action="/massRegister" method="post" enctype="multipart/form-data">
+						<label>Upload Multiple Users:</label>
+						<input type="file" name="multiple" id="" value="">
+						<button type="submit" class="btn btn-primary">Upload</button>
+					</form>
+				</div>
 				<div class="page-content table-content">
 
 					<div class="row">

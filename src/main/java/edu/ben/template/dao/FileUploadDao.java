@@ -47,6 +47,7 @@ public class FileUploadDao extends BaseDao<UploadFile>{
 
 	}
 	
+	
 	@Override
 	public RowMapper<UploadFile> getRowMapper() {
 		return new RowMapper<UploadFile>() {
@@ -54,7 +55,7 @@ public class FileUploadDao extends BaseDao<UploadFile>{
 				// map result set to object
 				UploadFile file = new UploadFile();
 				file.setId(rs.getLong("id"));
-				file.setData( rs.getBytes("file"));
+				file.setData((Blob) rs.getBlob("file"));
 				
 				return file;
 			}
@@ -70,7 +71,7 @@ public class FileUploadDao extends BaseDao<UploadFile>{
 								+ "on duplicate key update file = values(file)",
 						new String[] { "id" });
 				ps.setLong(1, file.getId());
-				ps.setBytes(2, file.getData());
+				ps.setBlob(2, file.getData());
 				return ps;
 			}
 		};

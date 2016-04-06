@@ -1234,7 +1234,7 @@ public class HomeController extends BaseController {
 			}
 
 			ArrayList<User> facultyList = new ArrayList<User>();
-
+			
 			for (int i = page * 15; i < page * 15 + 15; i++) {
 				if (i < facTemp.size()) {
 					facultyList.add(facTemp.get(i));

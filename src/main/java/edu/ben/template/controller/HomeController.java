@@ -1142,6 +1142,26 @@ public class HomeController extends BaseController {
 
 			ArrayList<User> allUser = new ArrayList<User>();
 			allUser = getUserDao().getAll();
+//			
+//			User profileUser = getUserDao().getObjectById(id);
+//			// gets the image object based on the image id
+//			if (profileUser.getImageId() != null) {
+//				UploadFile userPhoto = getImageUploadDao().getObjectById(profileUser.getImageId());
+//				// User userProfile = userPhoto.getProfile();
+//				byte buff[] = new byte[1024];
+//				Blob profilePic = userPhoto.getData();
+//				// response.setContentType("image/jpeg, image/jpg, image/png,
+//				// image/gif");
+//				File newPic = new File("image.jpeg");
+//				InputStream is = profilePic.getBinaryStream();
+//				FileOutputStream fos = new FileOutputStream(newPic);
+//				for (int i = is.read(buff); i != -1; i = is.read(buff)) {
+//					fos.write(buff, 0, i);
+//				}
+//				is.close();
+//				fos.close();
+//				//model.addAttribute("photo", userPhoto);
+//			}
 
 			for (User users : allUser) {
 				users.setMajor(getMajorDao().getMajorByUser(users));

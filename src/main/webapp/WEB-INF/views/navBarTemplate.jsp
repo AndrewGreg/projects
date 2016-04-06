@@ -93,7 +93,7 @@
 		<div class="navbar-collapse collapse" id="navbar-collapse">
 			<ul class="nav navbar-nav">
 				<li class="<% if (active.equals("index")) {%>active<% }%> nav-item"><a href="/"><i class="fa fa-home"></i> Home</a></li>
-				<li class="<% if (active.equals("faculty")) {%>active<% }%> nav-item"><a href="#"><i class="fa fa-user"></i> Faculty</a></li>
+				<li class="<% if (active.equals("faculty")) {%>active<% }%> nav-item"><a href="/faculty"><i class="fa fa-user"></i> Faculty</a></li>
 
 				<%
 					if (currentUser != null) {
@@ -143,7 +143,7 @@
 							if (currentUser != null) {
 						%>
 						<li><a href="/jobs">View Job Postings</a></li>
-						<li><a href="/createJob">Create a Job Posting</a></li>
+						<li><a href="/createJobPosting">Create a Job Posting</a></li>
 						<%
 							} else {
 						%>

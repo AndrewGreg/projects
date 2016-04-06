@@ -60,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.disable()
 				.authorizeRequests().antMatchers("/").permitAll().antMatchers("/register").permitAll()
 				.antMatchers("/jobs").permitAll()
-				.antMatchers("/eventsTemplate").permitAll()
+				.antMatchers("/eventsTemplate").permitAll().antMatchers("/faculty").permitAll()
 				/* TODO Add any additional open links here */
 				.anyRequest().authenticated()
 				.and()

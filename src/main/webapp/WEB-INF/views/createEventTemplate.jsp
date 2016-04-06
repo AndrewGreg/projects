@@ -25,7 +25,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Create Event</title>
 <jsp:include page="headerTemplate.jsp" />
-
 </head>
 <body>
 	<div class="wrapper">
@@ -47,13 +46,13 @@
 				<!--//breadcrumbs--> </header>
 				<br>
 				<div class="row">
-					<div class="col-xs-6 col-xs-offset-3">
+					<div class="col-md-6 col-md-offset-3">
 
 						<form action="/createNewEvent" method="POST" name="createNewEvent">
 
 							<div class="row">
 								<!-- Input control group -->
-								<div class="control-group col-sm-12">
+								<div class="form-group col-sm-12">
 									<!-- Title -->
 									<label class="control-label" for="name">*Event Name:</label>
 									<div class="controls">
@@ -78,16 +77,17 @@
 
 							<div class="row">
 								<!-- Input control group -->
-								<div class="control-group col-sm-6">
+								<div class="form-group col-sm-6">
 									<!-- Title -->
 									<label class="control-label" for="eventDate">*Event
-										Date:</label>
-									<div class="bfh-datepicker" data-format="m/d/y" id="eventDate">
+										Date (mm/dd/yyyy):</label>
+									<div class="bfh-datepicker" data-format="m/d/y"
+										data-name="date" id="eventDate">
 										<div class="input-prepend bfh-datepicker-toggle"
 											data-toggle="bfh-datepicker">
 											<span class="add-on"><i class="icon-calendar"></i></span> <input
 												type="text" class="input-medium" name="date"
-												value="<%=date%>" readonly>
+												value="<%=date%>">
 										</div>
 										<div class="bfh-datepicker-calendar">
 											<table class="calendar table table-bordered">
@@ -127,7 +127,7 @@
 								<!-- /Input control group -->
 
 								<!-- Input control group -->
-								<div class="control-group col-sm-6">
+								<div class="form-group col-sm-6">
 									<!-- Title -->
 									<label class="control-label" for="location">*Event
 										Location:</label>
@@ -154,17 +154,18 @@
 
 							<div class="row">
 								<!-- Input control group -->
-								<div class="control-group col-sm-6">
+								<div class="form-group col-sm-6">
 									<!-- Title -->
 									<label class="control-label" for="eventStartTime">*Start
 										Time:</label>
 									<div class="controls">
 										<div class="bfh-timepicker" id="eventStartTime"
-											data-time="08:00">
+											data-time="08:00" data-name="startTime">
 											<div class="input-prepend bfh-timepicker-toggle"
 												data-toggle="bfh-timepicker">
 												<span class="add-on"><i class="icon-time"></i></span> <input
-													type="text" class="input-medium" readonly>
+													name="startTime" type="text" class="input-medium"
+													value="08:00">
 											</div>
 											<div class="bfh-timepicker-popover">
 												<table class="table">
@@ -187,31 +188,24 @@
 											</div>
 										</div>
 
-										<%
-											if (errors.get("startTime") != null) {
-										%>
-
-										<span class="help-block" style="color: #e60000"> <%=errors.get("startTime")%></span>
-
-										<%
-											}
-										%>
+										
 
 									</div>
 								</div>
 								<!-- /Input control group -->
 
 								<!-- Input control group -->
-								<div class="control-group col-sm-6">
+								<div class="form-group col-sm-6">
 									<!-- Title -->
-									<label class="control-label" for="eventEndTime">*End Time:</label>
+									<label class="control-label" for="eventEndTime">*End
+										Time:</label>
 									<div class="controls">
 										<div class="bfh-timepicker" id="eventEndTime"
-											data-time="08:00">
+											data-time="08:00" data-name="endTime">
 											<div class="input-prepend bfh-timepicker-toggle"
 												data-toggle="bfh-timepicker">
 												<span class="add-on"><i class="icon-time"></i></span> <input
-													type="text" class="input-medium" readonly>
+													name="endTime" type="text" class="input-medium">
 											</div>
 											<div class="bfh-timepicker-popover">
 												<table class="table">
@@ -233,27 +227,25 @@
 												</table>
 											</div>
 										</div>
-
-										<%
-											if (errors.get("endTime") != null) {
-										%>
-
-										<span class="help-block" style="color: #e60000"> <%=errors.get("endTime")%></span>
-
-										<%
-											}
-										%>
-
 									</div>
 								</div>
 								<!-- /Input control group -->
 							</div>
+							<%
+											if (errors.get("times") != null) {
+										%>
+
+										<span class="help-block" style="color: #e60000"> <%=errors.get("times")%></span>
+
+										<%
+											}
+										%>
 							<br>
 
 
 							<div class="row">
 								<!-- Input control group -->
-								<div class="control-group col-sm-12">
+								<div class="form-group col-sm-12">
 									<!-- Title -->
 									<label class="control-label" for="description">*Description:</label>
 									<div class="controls">
@@ -276,15 +268,31 @@
 								<!-- /Input control group -->
 							</div>
 							<br>
-							<div>
-								<p>* denotes required field.</p>
+
+							<div class="row">
+								<!-- Input control group -->
+								<div class="form-group col-sm-12">
+									<div class="checkbox">
+										<label> <input type="checkbox" name="public">
+											This is a public event.
+										</label>
+										<div class="pull-right">
+											<button type="reset" class="btn btn-danger">Clear</button>
+											<button type="submit" class="btn btn-primary">Create
+												Event</button>
+										</div>
+									</div>
+								</div>
 							</div>
-							<div class="pull-right">
-								<button type="reset" class="btn btn-danger">Clear</button>
-								<button type="submit" class="btn btn-primary">Create
-									Event</button>
+							<br>
+							<div class="row">
+								<div class="col-md-4">
+									<span>* denotes required field.</span>
+								</div>
 							</div>
+							<br>
 						</form>
+
 					</div>
 				</div>
 
@@ -303,7 +311,5 @@
 		src="/content/BootstrapFormHelpers/js/lang/en_US/bootstrap-formhelpers-timepicker.en_US.js"></script>
 	<script type="text/javascript"
 		src="/content/BootstrapFormHelpers/js/bootstrap-formhelpers-timepicker.js"></script>
-
-
 </body>
 </html>

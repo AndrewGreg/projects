@@ -100,7 +100,7 @@
 									<%
 										while (i < alumni.size() / 15 + 1) {
 									%>
-									<li><a href="/alumni?page=<%=i%>"><%=++i%></a></li>
+									<li><a href="/Alumni-Tracker/alumni?page=<%=i%>"><%=++i%></a></li>
 									<%
 										if (alumni.size() > 15) {
 									%>

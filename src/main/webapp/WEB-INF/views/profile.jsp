@@ -32,13 +32,13 @@
 					<%
 						if(request.getAttribute("photo") == null){
 					%>
-					<img id="profile-pic" src="/content/img/empty-profile.png"
+					<img id="profile-pic" src="/Alumni-Tracker/content/img/empty-profile.png"
 						alt="Profile Picture">
 					<%}else{ %>
-						<img id="profile-pic" src="/getImage/<%=photo.getId()%>.jpeg">
+						<img id="profile-pic" src="/Alumni-Tracker/getImage/<%=photo.getId()%>.jpeg">
 				<div class="page-wrapper table-container ben-container">
 					<header class="page-heading clearfix"> <img
-						id="profile-pic" src="/content/img/empty-profile.png">
+						id="profile-pic" src="/Alumni-Tracker/content/img/empty-profile.png">
 					<% }%>
 					<h1 class="heading-title">
 						<%=profileUser.getFirstName()%>
@@ -79,7 +79,7 @@
 											<%
 												if (currentUser.getId() == profileUser.getId() || currentUser.getRole() == 4) {
 											%>
-											<a href="/edit/<%=profileUser.getId()%>"><span class="label label-info"><small><i
+											<a href="/Alumni-Tracker/edit/<%=profileUser.getId()%>"><span class="label label-info"><small><i
 														class="fa fa-pencil"></i> Edit Information</small></span></a>
 											<%
 												}

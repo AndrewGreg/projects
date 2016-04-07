@@ -64,7 +64,7 @@
 	<!--//to-bar-->
 	<div class="header-main container">
 		<h1 class="logo col-md-4 col-sm-4">
-			<a href="/"><img id="logo"
+			<a href="/Alumni-Tracker/"><img id="logo"
 				src="/Alumni-Tracker/content/img/benu-logo.svg" alt="Benedictine University"
 				style="width: 300px"></a>
 		</h1>
@@ -93,12 +93,12 @@
 		<div class="navbar-collapse collapse" id="navbar-collapse">
 			<ul class="nav navbar-nav">
 				<li class="<% if (active.equals("index")) {%>active<% }%> nav-item"><a href="/"><i class="fa fa-home"></i> Home</a></li>
-				<li class="<% if (active.equals("faculty")) {%>active<% }%> nav-item"><a href="/faculty"><i class="fa fa-user"></i> Faculty</a></li>
+				<li class="<% if (active.equals("faculty")) {%>active<% }%> nav-item"><a href="/Alumni-Tracker/faculty"><i class="fa fa-user"></i> Faculty</a></li>
 
 				<%
 					if (currentUser != null) {
 				%>
-				<li class="<% if (active.equals("alumni")) {%>active<% }%> nav-item"><a href="/alumni"><i class="fa fa-user"></i> Alumni</a></li>
+				<li class="<% if (active.equals("alumni")) {%>active<% }%> nav-item"><a href="/Alumni-Tracker/alumni"><i class="fa fa-user"></i> Alumni</a></li>
 				<%
 					}
 					
@@ -108,7 +108,7 @@
 					if (currentUser != null) {
 						if(currentUser.getRole() == 4){
 				%>
-					<li class="<% if (active.equals("users")) {%>active<% }%> nav-item"><a href="/allUsers"><i class="fa fa-user"></i>Manage Users</a></li>
+					<li class="<% if (active.equals("users")) {%>active<% }%> nav-item"><a href="/Alumni-Tracker/allUsers"><i class="fa fa-user"></i>Manage Users</a></li>
 				<%
 						}
 					}
@@ -123,12 +123,12 @@
 						<%
 							if (currentUser != null) {
 						%>
-						<li><a href="/eventsTemplate">View Events</a></li>
-						<li><a href="/createNewEvent">Create Event</a></li>
+						<li><a href="/Alumni-Tracker/eventsTemplate">View Events</a></li>
+						<li><a href="/Alumni-Tracker/createNewEvent">Create Event</a></li>
 						<%
 							} else {
 						%>
-						<li><a href="/eventsTemplate">View Public Events</a></li>
+						<li><a href="/Alumni-Tracker/eventsTemplate">View Public Events</a></li>
 						<%
 							}
 						%>
@@ -142,12 +142,12 @@
 						<%
 							if (currentUser != null) {
 						%>
-						<li><a href="/jobs">View Job Postings</a></li>
-						<li><a href="/createJobPosting">Create a Job Posting</a></li>
+						<li><a href="/Alumni-Tracker/jobs">View Job Postings</a></li>
+						<li><a href="/Alumni-Tracker/createJobPosting">Create a Job Posting</a></li>
 						<%
 							} else {
 						%>
-						<li><a href="/jobs">View Public Job Postings</a></li>
+						<li><a href="/Alumni-Tracker/jobs">View Public Job Postings</a></li>
 						<%
 							}
 						%>

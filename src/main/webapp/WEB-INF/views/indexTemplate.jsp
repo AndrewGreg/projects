@@ -424,6 +424,6 @@
 		<!--//content-->
 	</div>
 	<!--//wrapper-->
-	<jsp:include page="footerTemplate.jsp" />
+	<!-- <jsp:include page="footerTemplate.jsp" /> -->
 </body>
 </html>

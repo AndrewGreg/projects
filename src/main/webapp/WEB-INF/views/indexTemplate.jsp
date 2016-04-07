@@ -42,29 +42,29 @@
 		<div class="content container">
 			<div id="promo-slider" class="slider flexslider">
 				<ul class="slides">
-					<li><img class="schoolImg" src="content/img/schoolCrop1.jpg"
-						alt="" />
+					<li><img class="schoolImg"
+						src="/Alumni-Tracker/content/img/schoolCrop1.jpg" alt="" />
 						<p class="flex-caption">
 							<span class="main">Stay in touch.</span> <br /> <span
 								class="secondary clearfix">Connect with fellow alumni,
 								students, and faculty.</span>
 						</p></li>
-					<li><img class="schoolImg" src="content/img/schoolCrop2.jpg"
-						alt="" />
+					<li><img class="schoolImg"
+						src="/Alumni-Tracker/content/img/schoolCrop2.jpg" alt="" />
 						<p class="flex-caption">
 							<span class="main">Socialize</span> <br /> <span
 								class="secondary clearfix">Keep track of events related
 								to Benedictine and its alumni.</span>
 						</p></li>
-					<li><img class="schoolImg" src="content/img/schoolCrop3.jpg"
-						alt="" />
+					<li><img class="schoolImg"
+						src="/Alumni-Tracker/content/img/schoolCrop3.jpg" alt="" />
 						<p class="flex-caption">
 							<span class="main">What are they up to?</span> <br /> <span
 								class="secondary clearfix">Look at alumni or faculty
 								profiles to see where they're working at or what they're doing.</span>
 						</p></li>
-					<li><img class="schoolImg" src="content/img/schoolCrop4.jpg"
-						alt="" />
+					<li><img class="schoolImg"
+						src="/Alumni-Tracker/content/img/schoolCrop4.jpg" alt="" />
 						<p class="flex-caption">
 							<span class="main">Find a path</span> <br /> <span
 								class="secondary clearfix">Search for job opportunities
@@ -101,7 +101,7 @@
 					if (user == null) {
 				%>
 				<div class="col-md-3">
-					<a class="btn btn-cta" href="/register"><i class="fa fa-pencil"></i>Register
+					<a class="btn btn-cta" href="/Alumni-Tracker/register"><i class="fa fa-pencil"></i>Register
 						Now</a>
 				</div>
 				<%
@@ -145,11 +145,11 @@
 
 							<div class="col-md-4 ">
 								<h2 class="title">
-									<a href="/jobs/<%=jobId%>"><%=jobName%></a>
+									<a href="/Alumni-Tracker/jobs/<%=jobId%>"><%=jobName%></a>
 								</h2>
 
 								<p><%=shortDescription%></p>
-								<a class="read-more" href="/jobs/<%=jobId%>">Read more<i
+								<a class="read-more" href="/Alumni-Tracker/jobs/<%=jobId%>">Read more<i
 									class="fa fa-chevron-right"></i></a>
 							</div>
 							<!--//news-item-->
@@ -160,8 +160,10 @@
 								if (jobs.size() == 0) {
 							%>
 							<div class="row">
-								<span class="col-md-8 col-md-offset-5">No current job postings.</span>
-							</div><br>
+								<span class="col-md-8 col-md-offset-5">No current job
+									postings.</span>
+							</div>
+							<br>
 							<%
 								}
 							%>
@@ -210,7 +212,8 @@
 									<i class="fa fa-clock-o"></i><%=timeRange%>
 								</p>
 								<p class="location">
-									<i class="fa fa-map-marker"></i><a href="<%=googleLink%>" target="_blank"><%=location%></a>
+									<i class="fa fa-map-marker"></i><a href="<%=googleLink%>"
+										target="_blank"><%=location%></a>
 								</p>
 							</div>
 							<!--//details-->
@@ -229,7 +232,7 @@
 							}
 						%>
 
-						<a class="read-more" href="/eventsTemplate">All events<i
+						<a class="read-more" href="/Alumni-Tracker/eventsTemplate">All events<i
 							class="fa fa-chevron-right"></i></a>
 					</div>
 					<!--//section-content--> </section>
@@ -255,7 +258,7 @@
 							</button>
 						</form>
 						<!--//course-finder-form-->
-						<a class="read-more" href="/jobs">View all job postings<i
+						<a class="read-more" href="/Alumni-Tracker/jobs">View all job postings<i
 							class="fa fa-chevron-right"></i></a>
 					</div>
 					<!--//section-content--> </section>
@@ -310,18 +313,18 @@
 					</h1>
 					<div class="section-content">
 						<p>
-							<a href="/faculty"><i class="fa fa-caret-right"></i>Faculty
+							<a href="/Alumni-Tracker/faculty"><i class="fa fa-caret-right"></i>Faculty
 								Directory</a>
 						</p>
 						<p>
-							<a href="/alumni"><i class="fa fa-caret-right"></i>Alumni
+							<a href="/Alumni-Tracker/alumni"><i class="fa fa-caret-right"></i>Alumni
 								Directory</a>
 						</p>
 						<p>
-							<a href="/eventsTemplate"><i class="fa fa-caret-right"></i>Events</a>
+							<a href="/Alumni-Tracker/eventsTemplate"><i class="fa fa-caret-right"></i>Events</a>
 						</p>
 						<p>
-							<a href="/jobs"><i class="fa fa-caret-right"></i>Job Postings</a>
+							<a href="/Alumni-Tracker/jobs"><i class="fa fa-caret-right"></i>Job Postings</a>
 						</p>
 					</div>
 					<!--//section-content--> </section>
@@ -357,7 +360,7 @@
 												class="title">Curabitur commodo</span>
 										</p>
 										<img class="profile col-md-4 pull-right"
-											src="content/templateAssets/assets/images/testimonials/profile-1.png"
+											src="/Alumni-Tracker/content/templateAssets/assets/images/testimonials/profile-1.png"
 											alt="" />
 									</div>
 								</div>
@@ -378,7 +381,7 @@
 												class="title"> Gravida ultrices</span>
 										</p>
 										<img class="profile col-md-4 pull-right"
-											src="content/templateAssets/assets/images/testimonials/profile-2.png"
+											src="/Alumni-Tracker/content/templateAssets/assets/images/testimonials/profile-2.png"
 											alt="" />
 									</div>
 								</div>
@@ -399,7 +402,7 @@
 												class="title"> Gravida ultrices</span>
 										</p>
 										<img class="profile col-md-4 pull-right"
-											src="content/templateAssets/assets/images/testimonials/profile-3.png"
+											src="/Alumni-Tracker/content/templateAssets/assets/images/testimonials/profile-3.png"
 											alt="" />
 									</div>
 								</div>

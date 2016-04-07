@@ -40,7 +40,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-4 col-xs-offset-4">
-				<form action="/editJob" method="POST"
+				<form action="/Alumni-Tracker/editJob" method="POST"
 					name="editJobPost">
 
 					<%

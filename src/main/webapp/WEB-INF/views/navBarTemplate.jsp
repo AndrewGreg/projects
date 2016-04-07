@@ -34,7 +34,7 @@
 				<!-- Trigger the modal with a button -->
 				<button type="button" class="btn btn-theme top-bar-btn"
 					data-toggle="modal" data-target="#loginModal"><i class="fa fa-lock"></i> Login</button>
-				<a href="/register" class="btn btn-theme top-bar-btn"><i class="fa fa-pencil"></i> Register</a>
+				<a href="/Alumni-Tracker/register" class="btn btn-theme top-bar-btn"><i class="fa fa-pencil"></i> Register</a>
 
 				<jsp:include page="loginModal.jsp" />
 
@@ -49,8 +49,8 @@
 						<%=currentUser.getFirstName()%>! &nbsp<i class="fa fa-angle-down"></i>
 					</button>
 					<ul class="dropdown-menu profile-dropdown">
-						<li><a class="profile-dropdown-link" href="/user/<%=currentUser.getId()%>">My Profile</a></li>
-						<li><a class="profile-dropdown-link" href="/logout">Logout</a></li>
+						<li><a class="profile-dropdown-link" href="/Alumni-Tracker/user/<%=currentUser.getId()%>">My Profile</a></li>
+						<li><a class="profile-dropdown-link" href="/Alumni-Tracker/logout">Logout</a></li>
 					</ul>
 				</div>
 				<%
@@ -65,7 +65,7 @@
 	<div class="header-main container">
 		<h1 class="logo col-md-4 col-sm-4">
 			<a href="/"><img id="logo"
-				src="/content/img/benu-logo.svg" alt="Benedictine University"
+				src="/Alumni-Tracker/content/img/benu-logo.svg" alt="Benedictine University"
 				style="width: 300px"></a>
 		</h1>
 		<!--//logo-->

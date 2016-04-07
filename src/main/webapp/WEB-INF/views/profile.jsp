@@ -33,7 +33,7 @@
 						<%=profileUser.getLastName()%></h1>
 					<div class="pull-right">
 						<%if(currentUser.getRole() == 4){%>
-							<form action="/deleteUser" method="POST"
+							<form action="/Alumni-Tracker/deleteUser" method="POST"
 							name="deleteUser">
 								<button type="submit" class="btn btn-primary">Delete User</button>
 							</form>
@@ -44,11 +44,11 @@
 					<div class="breadcrumbs pull-right" id="breadcrumbs-profile">
 						<ul class="breadcrumbs-list">
 							<li class="breadcrumbs-label">You are here:</li>
-							<li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
+							<li><a href="/Alumni-Tracker/">Home</a><i class="fa fa-angle-right"></i></li>
 							<%
 								if (currentUser.getId() != profileUser.getId()) {
 							%>
-							<li><a href="/alumni">Alumni</a><i class="fa fa-angle-right"></i></li>
+							<li><a href="/Alumni-Tracker/alumni">Alumni</a><i class="fa fa-angle-right"></i></li>
 							<%
 								}
 							%>

@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 public class FileUploadController {
 
-    @RequestMapping(value="/upload", method=RequestMethod.GET)
+    @RequestMapping(value="/Alumni-Tracker/upload", method=RequestMethod.GET)
     public @ResponseBody String provideUploadInfo() {
         return "You can upload a file by posting to this same URL.";
     }
@@ -21,7 +21,7 @@ public class FileUploadController {
     /**
      * Upload single file
      */
-    @RequestMapping(value="/upload", method=RequestMethod.POST)
+    @RequestMapping(value="/Alumni-Tracker/upload", method=RequestMethod.POST)
     public @ResponseBody String handleFileUpload(@RequestParam("name") String name,
             @RequestParam("file") MultipartFile file){
         if (!file.isEmpty()) {
@@ -56,7 +56,7 @@ public class FileUploadController {
     /**
      * Upload multiple file using Spring Controller
      */
-    @RequestMapping(value = "/uploadMultiple", method = RequestMethod.POST)
+    @RequestMapping(value = "/Alumni-Tracker/uploadMultiple", method = RequestMethod.POST)
     public @ResponseBody
     String uploadMultipleFileHandler(@RequestParam("name") String[] names,
             @RequestParam("file") MultipartFile[] files) {

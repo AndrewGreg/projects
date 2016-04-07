@@ -33,7 +33,7 @@
 					<div class="panel-body">
 						<h3 class="text-center text-danger">Edit My Account</h3>
 						<h4 class="text-center"><%=u.getEmail()%></h4>
-						<form action="/edit" method="post" enctype="multipart/form-data">
+						<form action="/Alumni-Tracker/edit" method="post" enctype="multipart/form-data">
 							<%
 								if (errors != null && errors.get("title") != null) {
 							%>
@@ -347,7 +347,7 @@
 							
 							<div class="text-center">
 								<div class="col-sm-6" align= "center">
-       							 <img src="/content/img/empty-profile.png" class="avatar img-circle img-thumbnail" alt="profilePic">	
+       							 <img src="/Alumni-Tracker/content/img/empty-profile.png" class="avatar img-circle img-thumbnail" alt="profilePic">	
 									<input type="file" name="profile" id="" value="" >
 									<br>
 									</div>

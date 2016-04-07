@@ -9,9 +9,10 @@
 <%
 	//User u = (User) request.getSession().getAttribute("user");
 	User u = (User) request.getAttribute("user");
+	Title title = (Title) request.getAttribute("title");
 	ArrayList<Major> m = (ArrayList<Major>) request.getAttribute("majors");
-	Title t = (Title) request.getAttribute("title");
-	
+	ArrayList<Title> t = (ArrayList<Title>) request.getAttribute("titles");
+
 	HashMap<String, String> errors = (HashMap<String, String>) request.getAttribute("errors");
 %>
 
@@ -27,6 +28,7 @@
 	<div class="container">
 
 		<div class="row">
+
 			<div class="col-xs-12 col-sm-10 col-sm-offset-1 well">
 				<div class="panel panel-success">
 
@@ -45,10 +47,22 @@
 							%>
 							<div class="col-xs-12 col-sm-2">
 								<div class="form-group">
-									<%-- <label class="control-label">Title:</label> <input type="text"
-										class="form-control" name="title" id="title"
-										placeholder="Enter Title" <%if (t.getName() != null) {%>
-										value="<%=t.getName()%>" <%}%> /> --%>
+									<label class="control-label">Title: &nbsp &nbsp &nbsp
+										&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp </label> <select
+										class="form-control" name="title" id="title">
+										<option>Select</option>
+										<%
+											if (t != null && t.size() != 0) {
+												for (Title e : t) {
+										%>
+										<option
+											<%if (!title.equals(null) && title.getName().equals(e.getName())) {%>
+											selected <%}%>><%=e.getName()%></option>
+										<%
+											}
+											}
+										%>
+									</select>
 								</div>
 							</div>
 
@@ -128,6 +142,15 @@
 							</div>
 
 							<%
+								if (u.getRole() == 4) {
+							%>
+							<!-- DOES THIS WORK?? -->
+							<div visibility="hidden">
+
+							<%
+								}
+							%>
+							<%
 								if (errors != null && errors.get("graduationYear") != null) {
 							%>
 							<div class="col-xs-12">
@@ -139,13 +162,14 @@
 							<div class="ccol-xs-12 col-sm-3">
 								<div class="form-group">
 									<label class="control-label">Graduation Year:<%
-										if (5 > u.getRole() && u.getRole() >= 2) {
+										if (u.getRole()== 1) {
 									%>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
 									</label>
 									<jsp:useBean id="today" class="java.util.Date" />
 									<fmt:formatDate pattern="yyyy" value="${today}"
 										var="current_year" />
-									<select class="form-control" name="graduationYear" id="graduationYear">
+									<select class="form-control" name="graduationYear"
+										id="graduationYear">
 										<option>Select</option>
 										<%
 											for (int r = 1960; r <= 2025; r++) {
@@ -158,9 +182,9 @@
 										%>
 									</select>
 									<%
-										} else if (u.getRole() == 5) {
+										} else if (u.getRole() == 2) {
 									%>
-									<div class="" name="graduationYear" id="graduationYear">
+									<div class="" ><input type="hidden" name="graduationYear" id="graduationYear">
 										<%
 											if (u.getGraduationYear() != 0) {
 										%>
@@ -172,7 +196,7 @@
 									<%
 										}
 									%>
-								</div>
+							</div>
 							</div>
 
 							<%
@@ -188,27 +212,34 @@
 							<div class="col-xs-12 col-sm-3">
 								<div class="form-group">
 									<label class="control-label">Major:<%
-										if (5 > u.getRole() && u.getRole() >= 2) {
+											if (u.getRole()== 1) {
 									%> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
 									</label> <select class="form-control" name="major" id="major">
 										<option>Select</option>
 										<%
 											if (m != null && m.size() != 0) {
-													for (Major major : m) {
+														for (Major major : m) {
 										%>
 										<option
 											<%if (u.getMajor() != null && u.getMajor().size() > 0 && u.getMajor().get(0) != null
-								&& u.getMajor().get(0).getName().equals(major.getName())) {%>
+									&& u.getMajor().get(0).getName().equals(major.getName())) {%>
 											selected <%}%>><%=major.getName()%></option>
 										<%
 											}
-												}
+													}
 										%>
 									</select>
 									<%
-										} else if (u.getRole() == 5 && u.getMajor().size() > 0 && u.getMajor().get(0) != null) {
-									%><div class="" name="major" id="major">
+										} else if (u.getRole() == 2) {
+									%>
+									<div class="" ><input type="hidden" name="major" id="major">
+										<%
+											if (u.getRole() == 2 && u.getMajor().size() > 0 && u.getMajor().get(0) != null) {
+												%>
 										<h3><%=u.getMajor().get(0).getName()%></h3>
+										<%
+											}
+										%>
 									</div>
 									<%
 										}
@@ -230,27 +261,35 @@
 							<div class="col-xs-12 col-sm-3">
 								<div class="form-group">
 									<label class="control-label">Double Major:<%
-										if (5 > u.getRole() && u.getRole() >= 2) {
+											if (u.getRole()== 1) {
 									%> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-									</label> <select class="form-control" name="doubleMajor" id="doubleMajor">
+									</label> <select class="form-control" name="doubleMajor"
+										id="doubleMajor">
 										<option>Select</option>
 										<%
 											if (m != null && m.size() != 0) {
-													for (Major major : m) {
+														for (Major major : m) {
 										%>
 										<option
 											<%if (u.getMajor() != null && u.getMajor().size() > 1 && u.getMajor().get(1) != null
-								&& u.getMajor().get(1).getName().equals(major.getName())) {%>
+									&& u.getMajor().get(1).getName().equals(major.getName())) {%>
 											selected <%}%>><%=major.getName()%></option>
 										<%
 											}
-												}
+													}
 										%>
 									</select>
 									<%
-										} else if (u.getRole() == 5 && u.getMajor().size() > 1 && u.getMajor().get(1) != null) {
-									%><div class="" name="doubleMajor" id="doubleMajor">
+										} else if (u.getRole() == 2) {
+									%>
+									<div class="" ><input type="hidden" name="doubleMajor" id="doubleMajor">
+										<%
+											if (u.getRole() == 2 && u.getMajor().size() > 1 && u.getMajor().get(1) != null) {
+												%>
 										<h3><%=u.getMajor().get(1).getName()%></h3>
+										<%
+											}
+										%>
 									</div>
 									<%
 										}
@@ -272,27 +311,34 @@
 							<div class="col-xs-12 col-sm-3">
 								<div class="form-group">
 									<label class="select-label">Third Major:<%
-										if (5 > u.getRole() && u.getRole() >= 2) {
+											if (u.getRole()== 1) {
 									%> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
 									</label> <select class="form-control" name="thirdMajor" id="thirdMajor">
 										<option>Select</option>
 										<%
 											if (m != null && m.size() != 0) {
-													for (Major major : m) {
+														for (Major major : m) {
 										%>
 										<option
 											<%if (u.getMajor() != null && u.getMajor().size() > 2 && u.getMajor().get(2) != null
-								&& u.getMajor().get(2).getName().equals(major.getName())) {%>
+									&& u.getMajor().get(2).getName().equals(major.getName())) {%>
 											selected <%}%>><%=major.getName()%></option>
 										<%
 											}
-												}
+													}
 										%>
 									</select>
 									<%
-										} else if (u.getRole() == 5 && u.getMajor().size() > 2 && u.getMajor().get(2) != null) {
-									%><div class="" name="thirdMajor" id="thirdMajor">
+										} else if (u.getRole() == 2) {
+									%>
+									<div class="" ><input type="hidden" name="thirdMajor" id="thirdMajor">
+										<%
+											if (u.getRole() == 2 && u.getMajor().size() > 2 && u.getMajor().get(2) != null) {
+												%>
 										<h3><%=u.getMajor().get(2).getName()%></h3>
+										<%
+											}
+										%>
 									</div>
 									<%
 										}
@@ -300,6 +346,16 @@
 								</div>
 
 							</div>
+
+
+							<%
+								if (u.getRole() == 4) {
+							%>
+							</div>
+							<%
+								}
+							%>
+
 
 
 							<%
@@ -321,6 +377,15 @@
 								</div>
 							</div>
 
+							<div class="text-center">
+								<div class="col-sm-6" align="center">
+									<img src="/content/img/empty-profile.png"
+										class="avatar img-circle img-thumbnail" alt="profilePic">
+									<input type="file" name="profile" id="" value=""> <br>
+								</div>
+							</div>
+							<br>
+
 							<%
 								if (errors != null && errors.get("biography") != null) {
 							%>
@@ -333,26 +398,16 @@
 							<div class="col-xs-6">
 								<div class="form-group">
 									<label class="control-label">Biography:</label>
-									<textarea type="text" class="form-control" name="bio" id="bio"
-										placeholder="Enter Biography" rows="5">
-										<%
+									<textarea type="text" class="form-control" name="biography" id="biography"
+										placeholder="Enter Biography" rows="5"><%
 											if (u.getBiography() != null) {
-										%><%=u.getBiography()%>
-										<%
+										%><%=u.getBiography()%><%
 											}
-										%>
-									</textarea>
+										%></textarea>
 								</div>
 							</div>
-							
-							<div class="text-center">
-								<div class="col-sm-6" align= "center">
-       							 <img src="/content/img/empty-profile.png" class="avatar img-circle img-thumbnail" alt="profilePic">	
-									<input type="file" name="profile" id="" value="" >
-									<br>
-									</div>
-     						 </div>
-     						 <br>
+
+
 							<%
 								if (errors != null && errors.get("experience") != null) {
 							%>
@@ -366,14 +421,11 @@
 								<div class="form-group">
 									<label class="control-label">Experience:</label>
 									<textarea type="text" class="form-control" name="experience"
-										id="experience" placeholder="Enter Experience" rows="5">
-										<%
+										id="experience" placeholder="Enter Experience" rows="5"><%
 											if (u.getExperience() != null) {
-										%><%=u.getExperience()%>
-										<%
+										%><%=u.getExperience()%><%
 											}
-										%>
-									</textarea>
+										%></textarea>
 								</div>
 							</div>
 							<%
@@ -390,28 +442,28 @@
 								<div class="form-group">
 									<label class="control-label">Password:</label> <input
 										type="password" class="form-control" name="password"
-										id="password" placeholder="Enter Password" required />
+										id="password" placeholder="Enter Password" />
 								</div>
 							</div>
 							<div class="col-xs-12 col-sm-6">
 								<div class="form-group">
 									<label class="control-label">Confirm Password:</label><input
 										type="password" class="form-control" name="confirmPassword"
-										id="confirmPassword" placeholder="Confirm Password" required />
+										id="confirmPassword" placeholder="Confirm Password" />
 								</div>
 							</div>
-							
-							<br> 
-							<div class="col-sm-6" align="left">
-								<label>Upload Resume:</label>
-								<input type="file" name="resume" id="" value="">
+
 							<br>
+							<div class="col-sm-6" align="left">
+								<label>Upload Resume:</label> <input type="file" name="resume"
+									id="" value=""> <br>
 							</div>
 							<!--  <button class="btn btn-primary" name="Upload" value="Upload"
 								type="Submit">Upload</button>-->
-							<div class="col-xs-12"> 	
+							<div class="col-xs-9"></div>
+							<div class="col-xs-3">
 								<button type="submit"
-									class="btn btn-large btn btn-danger btn-lg btn-block">
+									class="btn btn btn-danger btn-lg btn-block">
 									<b>Submit Changes</b>
 								</button>
 							</div>

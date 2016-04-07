@@ -95,9 +95,21 @@
  	if (profileUser.getMajorAtIndex(0) != null && profileUser.getMajorAtIndex(0).getName() != null) {
  %><%=profileUser.getMajorAtIndex(0).getName()%> <%
  	} else {
- %>None <%
+ %>Undecided <%
  	}
  %></li>
+  										 <%
+ 	if (profileUser.getMajorAtIndex(1) != null && profileUser.getMajorAtIndex(1).getName() != null) {
+ %><li class="list-group-item"><strong> Double Major:</strong><%=profileUser.getMajorAtIndex(1).getName()%></li><%
+ 
+ 	}
+ %>
+ 										 <%
+ 	if (profileUser.getMajorAtIndex(2) != null && profileUser.getMajorAtIndex(2).getName() != null) {
+ %><li class="list-group-item"><strong> Third Major:</strong><%=profileUser.getMajorAtIndex(2).getName()%></li><%
+ 
+ 	}
+ %>
 
 										<!-- ADD MINOR AND CONCENTRATION -->
 

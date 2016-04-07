@@ -41,7 +41,7 @@ public class User implements UserDetails, CredentialsContainer {
 	private int bNumber;
 	private String password;
 	private String salt;
-	private int titleID;
+	private long titleID;
 	private String firstName;
 	private String lastName;
 	private int role;
@@ -328,11 +328,11 @@ public class User implements UserDetails, CredentialsContainer {
 		this.occupation = occupation;
 	}
 
-	public int getTitleID() {
+	public long getTitleID() {
 		return titleID;
 	}
 
-	public void setTitleID(int titleID) {
+	public void setTitleID(long titleID) {
 		this.titleID = titleID;
 	}
 

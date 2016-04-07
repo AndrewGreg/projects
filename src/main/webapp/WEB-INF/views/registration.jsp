@@ -50,7 +50,7 @@
 <title>Registration</title>
 <jsp:include page="headerTemplate.jsp" />
 <link id="theme-style" rel="stylesheet"
-	href="/content/css/registrationForm.css">
+	href="/Alumni-Tracker/content/css/registrationForm.css">
 </head>
 <body>
 	<div class="wrapper">
@@ -63,7 +63,7 @@
 				<div class="breadcrumbs pull-right">
 					<ul class="breadcrumbs-list">
 						<li class="breadcrumbs-label">You are here:</li>
-						<li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
+						<li><a href="/Alumni-Tracker/">Home</a><i class="fa fa-angle-right"></i></li>
 						<li class="current">Registration</li>
 					</ul>
 				</div>
@@ -95,7 +95,7 @@
 
 							</div>
 						</div>
-						<form action="/register" method="POST" name="register"
+						<form action="/Alumni-Tracker/register" method="POST" name="register"
 							enctype="multipart/form-data">
 
 							<div class="row setup-content" id="step-1">
@@ -362,7 +362,7 @@
 								<!-- Input control group -->
 								<div class="control-group">
 									<!-- Title -->
-									<label class="control-label" for="gradYear">*Standing:</label>
+									<label class="control-label" for="standing">*Standing:</label>
 									<div class="controls">
 										<select name="standing" class="form-control" required>
 											<option value="1">Student</option>
@@ -661,8 +661,8 @@
 	<!--//wrapper-->
 	<jsp:include page="footerTemplate.jsp" />
 	<script type="text/javascript"
-		src="/content/jQuery/registrationForm.js"></script>
+		src="/Alumni-Tracker/content/jQuery/registrationForm.js"></script>
 	<script type="text/javascript"
-		src="/content/BootstrapFormHelpers/js/bootstrap-formhelpers-phone.js"></script>
+		src="/Alumni-Tracker/content/BootstrapFormHelpers/js/bootstrap-formhelpers-phone.js"></script>
 </body>
 </html>

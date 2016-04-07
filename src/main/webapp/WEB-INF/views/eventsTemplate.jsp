@@ -32,7 +32,7 @@
 				<div class="breadcrumbs pull-right">
 					<ul class="breadcrumbs-list">
 						<li class="breadcrumbs-label">You are here:</li>
-						<li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
+						<li><a href="/Alumni-Tracker/">Home</a><i class="fa fa-angle-right"></i></li>
 						<li class="current">Events</li>
 					</ul>
 				</div>
@@ -54,6 +54,8 @@
 									String timeRange = events.get(i).getTimeRange() != null ? events.get(i).getTimeRange()
 											: "No time range";
 									String id = Long.toString(events.get(i).getId());
+									String googleLink = events.get(i) != null && events.get(i).getGoogleMapsLink() != null
+											? events.get(i).getGoogleMapsLink() : "NA";
 							%>
 
 							<article class="events-item page-row has-divider clearfix">
@@ -67,7 +69,7 @@
 								<h3 class="title"><%=name%></h3>
 								<p class="meta">
 									<span class="time"><i class="fa fa-clock-o"></i><%=timeRange%></span><span
-										class="location"><i class="fa fa-map-marker"></i><%=location%></span>
+										class="location"><i class="fa fa-map-marker"></i><a href="<%=googleLink%>" target="_blank"><%=location%></a></span>
 								</p>
 								<p class="desc"><%=description%></p>
 							</div>
@@ -133,7 +135,7 @@
 						%>
 
 						<div class="container">
-							<a class="btn btn-cta" href="/createNewEvent"><i
+							<a class="btn btn-cta" href="/Alumni-Tracker/createNewEvent"><i
 								class="fa fa-calendar"></i>Create Event</a>
 						</div>
 

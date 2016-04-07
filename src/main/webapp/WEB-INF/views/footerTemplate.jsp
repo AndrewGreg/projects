@@ -96,32 +96,34 @@
 
 <!-- Javascript -->
 <script type="text/javascript"
-	src="/content/templateAssets/assets/plugins/jquery-1.11.2.min.js"></script>
+	src="/Alumni-Tracker/content/templateAssets/assets/plugins/jquery-1.11.2.min.js"></script>
 <script type="text/javascript"
-	src="/content/templateAssets/assets/plugins/jquery-migrate-1.2.1.min.js"></script>
+	src="/Alumni-Tracker/content/templateAssets/assets/plugins/jquery-migrate-1.2.1.min.js"></script>
 <script type="text/javascript"
-	src="/content/templateAssets/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+	src="/Alumni-Tracker/content/templateAssets/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript"
-	src="/content/templateAssets/assets/plugins/bootstrap-hover-dropdown.min.js"></script>
+	src="/Alumni-Tracker/content/templateAssets/assets/plugins/bootstrap-hover-dropdown.min.js"></script>
 <script type="text/javascript"
-	src="/content/templateAssets/assets/plugins/back-to-top.js"></script>
+	src="/Alumni-Tracker/content/templateAssets/assets/plugins/back-to-top.js"></script>
 <script type="text/javascript"
-	src="/content/templateAssets/assets/plugins/jquery-placeholder/jquery.placeholder.js"></script>
+	src="/Alumni-Tracker/content/templateAssets/assets/plugins/jquery-placeholder/jquery.placeholder.js"></script>
 <script type="text/javascript"
-	src="/content/templateAssets/assets/plugins/pretty-photo/js/jquery.prettyPhoto.js"></script>
+	src="/Alumni-Tracker/content/templateAssets/assets/plugins/pretty-photo/js/jquery.prettyPhoto.js"></script>
 <script type="text/javascript"
-	src="/content/templateAssets/assets/plugins/flexslider/jquery.flexslider-min.js"></script>
+	src="/Alumni-Tracker/content/templateAssets/assets/plugins/flexslider/jquery.flexslider-min.js"></script>
 <script type="text/javascript"
-	src="/content/templateAssets/assets/plugins/jflickrfeed/jflickrfeed.min.js"></script>
+	src="/Alumni-Tracker/content/templateAssets/assets/plugins/jflickrfeed/jflickrfeed.min.js"></script>
 <script type="text/javascript"
-	src="/content/templateAssets/assets/js/main.js"></script>
+	src="/Alumni-Tracker/content/templateAssets/assets/js/main.js"></script>
 <script type="text/javascript" src="/content/jQuery/clickable-row.js"></script>
 <script type="text/javascript" src="/content/jQuery/table-search.js"></script>
 
 
 <%
-	String loginAttempt = request.getAttribute("loginAttempt") != null ? (String) request.getAttribute("loginAttempt") : "";
-	
+	String loginAttempt = request.getAttribute("loginAttempt") != null
+			? (String) request.getAttribute("loginAttempt")
+			: "";
+
 	if (loginAttempt.equals("failure")) {
 %>
 <script type="text/javascript">
@@ -132,4 +134,46 @@
 	});
 </script>
 
-<% } %>
+<%
+	}
+%>
+
+<%
+	boolean eventCreation = request.getAttribute("eventCreation") != null
+			? (boolean) request.getAttribute("eventCreation")
+			: false;
+
+	if (eventCreation) {
+%>
+<jsp:include page="eventCreationModal.jsp" />
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('#eventCreation').modal('show');
+
+	});
+</script>
+
+<%
+	}
+%>
+
+<%
+	boolean jobCreation = request.getAttribute("jobCreation") != null
+			? (boolean) request.getAttribute("jobCreation")
+			: false;
+
+	if (jobCreation) {
+%>
+<jsp:include page="jobCreationModal.jsp" />
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('#jobCreation').modal('show');
+
+	});
+</script>
+
+<%
+	}
+%>

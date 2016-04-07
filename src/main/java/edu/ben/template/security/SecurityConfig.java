@@ -60,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.disable()
 				.authorizeRequests().antMatchers("/").permitAll().antMatchers("/register").permitAll()
 				.antMatchers("/jobs").permitAll()
-				.antMatchers("/eventsTemplate").permitAll()
+				.antMatchers("/eventsTemplate").permitAll().antMatchers("/faculty").permitAll()
 				/* TODO Add any additional open links here */
 				.anyRequest().authenticated()
 				.and()
@@ -73,7 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.formLogin()
 					.successHandler(new SimpleUrlAuthenticationSuccessHandler("/"))
 					.loginPage("/").permitAll()
-					.loginProcessingUrl("/login")
+					.loginProcessingUrl("//login")
 					.usernameParameter("email")
 					.passwordParameter("password")
 					.failureUrl("/loginFailure")

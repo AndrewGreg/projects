@@ -300,6 +300,7 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`job` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
+AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -309,7 +310,6 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `alumnitracker`.`job_interest` (
   `interest_id` INT(11) NOT NULL,
   `job_id` INT(11) NOT NULL,
-  PRIMARY KEY (`interest_id`, `job_id`),
   INDEX `fk_interest_has_job_job1_idx` (`job_id` ASC),
   INDEX `fk_interest_has_job_interest1_idx` (`interest_id` ASC),
   CONSTRAINT `fk_interest_has_job_interest1`

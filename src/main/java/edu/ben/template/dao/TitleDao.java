@@ -12,8 +12,6 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 
 import edu.ben.template.model.Title;
-import edu.ben.template.model.UploadFile;
-import edu.ben.template.model.User;
 
 public class TitleDao extends BaseDao<Title> {
 
@@ -109,6 +107,7 @@ public class TitleDao extends BaseDao<Title> {
 	@Override
 	public RowMapper<Title> getRowMapper() {
 		return new RowMapper<Title>() {
+			@Override
 			public Title mapRow(ResultSet rs, int rowNum) throws SQLException {
 				// map result set to object
 				Title t = new Title();

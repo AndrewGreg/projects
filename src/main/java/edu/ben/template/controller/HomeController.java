@@ -1,9 +1,6 @@
 package edu.ben.template.controller;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,8 +11,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Random;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -204,7 +199,7 @@ public class HomeController extends BaseController {
 
 				return "createJobTemplate";
 			}
-			
+
 			job.setLocation(location);
 
 			try {
@@ -701,13 +696,20 @@ public class HomeController extends BaseController {
 	 * @return to be determined.
 	 */
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String registrationPost(Model model, @RequestParam("firstName") String firstName,
-			@RequestParam("lastName") String lastName, @RequestParam("benEmail") String benEmail,
-			@RequestParam("personalEmail") String personalEmail, @RequestParam("gradYear") String gradYear,
-			@RequestParam("standing") String standing, @RequestParam("occupation") String occupation,
-			@RequestParam("title") String title, @RequestParam("suffix") String suffix,
+	public String registrationPost(Model model, @RequestParam("title") String title,
+			@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName,
+			@RequestParam("suffix") String suffix, @RequestParam("benEmail") String benEmail,
+			@RequestParam("personalEmail") String personalEmail, @RequestParam("phone") String phone,
+			@RequestParam("workPhone") String workPhone, @RequestParam("linkedin") String linkedin,
+			@RequestParam("bio") String bio, @RequestParam("standing") String standing,
+			@RequestParam("gradYear") String gradYear, @RequestParam("gradSchool") String gradSchool,
+			@RequestParam("major") String major, @RequestParam("minor") String minor,
+			@RequestParam("Concentration") String concentration, @RequestParam("company") String company,
+			@RequestParam("occupation") String occupation, @RequestParam("experience") String experience,
 			@RequestParam("password") String password, @RequestParam("passConfirm") String passConfirm) {
 
+		//TODO SPRING INPUT PROBLEMS AND VALIDATE INFO
+		
 		try {
 
 			boolean validatePerEmail = personalEmail != null && !personalEmail.equals("") ? true : false;
@@ -725,28 +727,28 @@ public class HomeController extends BaseController {
 					&& (graduationYear != -1) && (role != -1) && ((password != null && password.matches(".{2,}")
 							&& passConfirm != null && passConfirm.matches(".{2,}")) && password.equals(passConfirm))) {
 
-				User register = new User();
+				User newUser = new User();
 
-				register.setEmail(benEmail);
-				register.setPersonalEmail(personalEmail);
-				register.setFirstName(firstName);
-				register.setLastName(lastName);
+				newUser.setEmail(benEmail);
+				newUser.setPersonalEmail(personalEmail);
+				newUser.setFirstName(firstName);
+				newUser.setLastName(lastName);
 
 				// FIX THE SALT
-				register.setSalt(password);
+				newUser.setSalt(password);
 
 				if (graduationYear != 0) {
-					register.setGraduationYear(graduationYear);
+					newUser.setGraduationYear(graduationYear);
 				}
 
 				if (occupation == null || occupation.equals("")) {
-					register.setOccupation(null);
+					newUser.setOccupation(null);
 				} else {
-					register.setOccupation(occupation);
+					newUser.setOccupation(occupation);
 				}
 
-				register.setRole(role);
-				register.setPersonalEmail(personalEmail);
+				newUser.setRole(role);
+				newUser.setPersonalEmail(personalEmail);
 
 				// TITLE is now TitleId
 				// if (title == null || title.equals("")) {
@@ -756,14 +758,14 @@ public class HomeController extends BaseController {
 				// }
 
 				if (suffix == null || suffix.equals("")) {
-					register.setSuffix(null);
+					newUser.setSuffix(null);
 				} else {
-					register.setSuffix(suffix);
+					newUser.setSuffix(suffix);
 				}
 
-				register.setPassword(pwEncoder.encode(password));
+				newUser.setPassword(pwEncoder.encode(password));
 
-				getUserDao().addUser(register);
+				getUserDao().addUser(newUser);
 
 				model.addAttribute("active", "index");
 				return "indexTemplate";
@@ -834,29 +836,29 @@ public class HomeController extends BaseController {
 		// model.addAttribute("active", "index");
 		return "admin";
 	}
-	
+
 	@RequestMapping(value = "/getImage/{id}", method = RequestMethod.GET)
-		public void image(Model model, @PathVariable Long id) throws SQLException, IOException{
-			User profileUser = getUserDao().getObjectById(id);
-			// gets the image object based on the image id
-			if (profileUser.getImageId() != null) {
-				UploadFile userPhoto = getImageUploadDao().getObjectById(profileUser.getImageId());
-				// User userProfile = userPhoto.getProfile();
-				byte buff[] = new byte[1024];
-				Blob profilePic = userPhoto.getData();
-				// response.setContentType("image/jpeg, image/jpg, image/png,
-				// image/gif");
-				File newPic = new File("image.jpeg");
-				InputStream is = profilePic.getBinaryStream();
-				FileOutputStream fos = new FileOutputStream(newPic);
-				for (int i = is.read(buff); i != -1; i = is.read(buff)) {
-					fos.write(buff, 0, i);
-				}
-				is.close();
-				fos.close();
-				//model.addAttribute("photo", userPhoto);
+	public void image(Model model, @PathVariable Long id) throws SQLException, IOException {
+		User profileUser = getUserDao().getObjectById(id);
+		// gets the image object based on the image id
+		if (profileUser.getImageId() != null) {
+			UploadFile userPhoto = getImageUploadDao().getObjectById(profileUser.getImageId());
+			// User userProfile = userPhoto.getProfile();
+			byte buff[] = new byte[1024];
+			Blob profilePic = userPhoto.getData();
+			// response.setContentType("image/jpeg, image/jpg, image/png,
+			// image/gif");
+			File newPic = new File("image.jpeg");
+			InputStream is = profilePic.getBinaryStream();
+			FileOutputStream fos = new FileOutputStream(newPic);
+			for (int i = is.read(buff); i != -1; i = is.read(buff)) {
+				fos.write(buff, 0, i);
 			}
+			is.close();
+			fos.close();
+			// model.addAttribute("photo", userPhoto);
 		}
+	}
 
 	/**
 	 * Method to request for the edit page.
@@ -1138,15 +1140,15 @@ public class HomeController extends BaseController {
 	 * @param id
 	 *            that belongs to that user.
 	 * @return the profile page that belongs to the user.
-	 * @throws IOException 
-	 * @throws SQLException 
+	 * @throws IOException
+	 * @throws SQLException
 	 */
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
 	public String userProfile(Model model, @PathVariable Long id) throws IOException, SQLException {
 
 		User profileUser = getUserDao().getObjectById(id);
-		
-		//User profileUser = getUserDao().getObjectById(id);
+
+		// User profileUser = getUserDao().getObjectById(id);
 		// gets the image object based on the image id
 		if (profileUser.getImageId() != null) {
 			UploadFile userPhoto = getImageUploadDao().getObjectById(profileUser.getImageId());
@@ -1165,8 +1167,7 @@ public class HomeController extends BaseController {
 			fos.close();
 			model.addAttribute("photo", userPhoto);
 		}
-			
-		
+
 		profileUser.setMajor(getMajorDao().getMajorByUser(profileUser));
 		profileUser.setConcentration(getMajorDao().getConcentrationByUser(profileUser));
 		profileUser.setMinor(getMajorDao().getMinorByUser(profileUser));
@@ -1327,7 +1328,7 @@ public class HomeController extends BaseController {
 			}
 
 			ArrayList<User> facultyList = new ArrayList<User>();
-			
+
 			for (int i = page * 15; i < page * 15 + 15; i++) {
 				if (i < facTemp.size()) {
 					facultyList.add(facTemp.get(i));
@@ -1342,6 +1343,7 @@ public class HomeController extends BaseController {
 		model.addAttribute("active", "faculty");
 		return "faculty";
 	}
+
 	/**
 	 * Displays all the users in the system.
 	 * 
@@ -1356,26 +1358,27 @@ public class HomeController extends BaseController {
 
 			ArrayList<User> allUser = new ArrayList<User>();
 			allUser = getUserDao().getAll();
-//			
-//			User profileUser = getUserDao().getObjectById(id);
-//			// gets the image object based on the image id
-//			if (profileUser.getImageId() != null) {
-//				UploadFile userPhoto = getImageUploadDao().getObjectById(profileUser.getImageId());
-//				// User userProfile = userPhoto.getProfile();
-//				byte buff[] = new byte[1024];
-//				Blob profilePic = userPhoto.getData();
-//				// response.setContentType("image/jpeg, image/jpg, image/png,
-//				// image/gif");
-//				File newPic = new File("image.jpeg");
-//				InputStream is = profilePic.getBinaryStream();
-//				FileOutputStream fos = new FileOutputStream(newPic);
-//				for (int i = is.read(buff); i != -1; i = is.read(buff)) {
-//					fos.write(buff, 0, i);
-//				}
-//				is.close();
-//				fos.close();
-//				//model.addAttribute("photo", userPhoto);
-//			}
+			//
+			// User profileUser = getUserDao().getObjectById(id);
+			// // gets the image object based on the image id
+			// if (profileUser.getImageId() != null) {
+			// UploadFile userPhoto =
+			// getImageUploadDao().getObjectById(profileUser.getImageId());
+			// // User userProfile = userPhoto.getProfile();
+			// byte buff[] = new byte[1024];
+			// Blob profilePic = userPhoto.getData();
+			// // response.setContentType("image/jpeg, image/jpg, image/png,
+			// // image/gif");
+			// File newPic = new File("image.jpeg");
+			// InputStream is = profilePic.getBinaryStream();
+			// FileOutputStream fos = new FileOutputStream(newPic);
+			// for (int i = is.read(buff); i != -1; i = is.read(buff)) {
+			// fos.write(buff, 0, i);
+			// }
+			// is.close();
+			// fos.close();
+			// //model.addAttribute("photo", userPhoto);
+			// }
 
 			for (User users : allUser) {
 				users.setMajor(getMajorDao().getMajorByUser(users));

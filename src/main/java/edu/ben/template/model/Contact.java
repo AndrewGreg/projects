@@ -66,6 +66,7 @@ public class Contact extends User {
 	/**
 	 * @return the email from the contact.
 	 */
+	@Override
 	public String getEmail() {
 		return email;
 	}
@@ -73,6 +74,7 @@ public class Contact extends User {
 	/**
 	 * Set the email of the contact.
 	 */
+	@Override
 	public void setEmail(String email) {
 		this.email = email;
 	}
@@ -81,6 +83,7 @@ public class Contact extends User {
 	 * 
 	 * @return the phone number of the contact.
 	 */
+	@Override
 	public int getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -90,6 +93,7 @@ public class Contact extends User {
 	 * 
 	 * @param phoneNumber
 	 */
+	@Override
 	public void setPhoneNumber(int phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}

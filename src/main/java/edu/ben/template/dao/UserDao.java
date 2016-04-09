@@ -11,8 +11,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 
-import edu.ben.template.model.Job;
-import edu.ben.template.model.UploadFile;
 import edu.ben.template.model.User;
 
 public class UserDao extends BaseDao<User> {
@@ -339,6 +337,7 @@ public class UserDao extends BaseDao<User> {
 	@Override
 	public RowMapper<User> getRowMapper() {
 		return new RowMapper<User>() {
+			@Override
 			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 				// map result set to object
 				User user = new User();

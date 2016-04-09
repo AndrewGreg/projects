@@ -6,14 +6,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.ben.template.dao.DaoKeeper;
 import edu.ben.template.dao.UserDao;
-import edu.ben.template.model.User;
 
 /**
  * sets the _user and _account request variables for ease of use

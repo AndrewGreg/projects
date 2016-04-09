@@ -76,6 +76,7 @@ public class ContactDao extends BaseDao<Contact> {
 	@Override
 	public RowMapper<Contact> getRowMapper() {
 		return new RowMapper<Contact>() {
+			@Override
 			public Contact mapRow(ResultSet rs, int rowNum) throws SQLException {
 				// map result set to object
 				Contact contact = new Contact();

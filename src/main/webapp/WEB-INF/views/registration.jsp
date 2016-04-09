@@ -256,7 +256,7 @@
 										<input type="text" id="phone" name="phone"
 											placeholder="+1 (000) 000-0000"
 											class="form-control input-medium bfh-phone"
-											data-format="+1 (ddd) ddd-dddd" value="<%=phone%>">
+											data-format="+1 (ddd) ddd-dddd" value="<%=phone%>" data-name="phone">
 
 										<%
 											if (errors.get("phone") != null) {
@@ -282,7 +282,7 @@
 										<input type="text" id="workPhone" name="workPhone"
 											placeholder="+1 (000) 000-0000"
 											class="form-control input-medium bfh-phone"
-											data-format="+1 (ddd) ddd-dddd" value="<%=workPhone%>">
+											data-format="+1 (ddd) ddd-dddd" value="<%=workPhone%>" data-name="workPhone">
 
 										<%
 											if (errors.get("workPhone") != null) {
@@ -302,9 +302,9 @@
 								<!-- Input control group -->
 								<div class="control-group">
 									<!-- Title -->
-									<label class="control-label" for="title">LinkedIn:</label>
+									<label class="control-label" for="linkedin">LinkedIn:</label>
 									<div class="controls">
-										<input type="text" id="linkedin" name="title"
+										<input type="text" id="linkedin" name="linkedin"
 											placeholder="https://www.linkedin.com/in/john-doe-123b45b6"
 											class="form-control" value="<%=linkedin%>">
 
@@ -364,7 +364,7 @@
 									<!-- Title -->
 									<label class="control-label" for="standing">*Standing:</label>
 									<div class="controls">
-										<select name="standing" class="form-control" required>
+										<select name="standing" id="standing" class="form-control" required>
 											<option value="1">Student</option>
 											<option value="2">Alumnus/Alumna</option>
 											<option value="3">Faculty</option>
@@ -422,7 +422,7 @@
 								<!-- Input control group -->
 								<div class="control-group">
 									<!-- Title -->
-									<label class="control-label" for="personalEmail">Graduate
+									<label class="control-label" for="gradSchool">Graduate
 										School:</label>
 									<div class="controls">
 										<input type="text" id="gradSchool" name="gradSchool"

@@ -127,6 +127,7 @@ public class TransferDao extends BaseDao<Transfer> {
 	@Override
 	public RowMapper<Transfer> getRowMapper() {
 		return new RowMapper<Transfer>() {
+			@Override
 			public Transfer mapRow(ResultSet rs, int rowNum) throws SQLException {
 				// map result set to object
 

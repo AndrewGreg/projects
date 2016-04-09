@@ -144,7 +144,7 @@
 							%>
 
 							<div class="col-md-4 ">
-								<h2 class="title">
+								<h2 class="title" style="text-align: center;">
 									<a href="/jobs/<%=jobId%>"><%=jobName%></a>
 								</h2>
 

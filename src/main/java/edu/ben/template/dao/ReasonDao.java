@@ -12,9 +12,6 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 
 import edu.ben.template.model.Reason;
-import edu.ben.template.model.Title;
-import edu.ben.template.model.UploadFile;
-import edu.ben.template.model.User;
 
 public class ReasonDao extends BaseDao<Reason> {
 
@@ -107,6 +104,7 @@ public class ReasonDao extends BaseDao<Reason> {
 	@Override
 	public RowMapper<Reason> getRowMapper() {
 		return new RowMapper<Reason>() {
+			@Override
 			public Reason mapRow(ResultSet rs, int rowNum) throws SQLException {
 				// map result set to object
 				Reason r = new Reason();

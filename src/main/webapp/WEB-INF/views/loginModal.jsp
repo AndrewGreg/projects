@@ -25,7 +25,7 @@
 				<%
 					}
 				%>
-				<form role="form" action="/login" method="POST" name="loginForm">
+				<form role="form" action="/Alumni-Tracker/login" method="POST" name="loginForm">
 					<div class="form-group">
 						<label for="usrname"><span
 							class="glyphicon glyphicon-user"></span> Username</label> <input

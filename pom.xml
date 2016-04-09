@@ -22,20 +22,20 @@
 
 
 	<dependencies>
-		 <dependency>
-        	<groupId>commons-fileupload</groupId>
-        	<artifactId>commons-fileupload</artifactId>
-        	<version>1.2.2</version>
-    	</dependency>
-    	<dependency>
-        	<groupId>commons-io</groupId>
-        	<artifactId>commons-io</artifactId>
-        	<version>2.4</version>
-    	</dependency>
-    	<dependency>
-    		<groupId>org.hibernate</groupId>
-    		<artifactId>hibernate-core</artifactId>
-    		<version>4.3.6.Final</version>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>4.3.6.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.appengine</groupId>
@@ -119,7 +119,6 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${spring.version}</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.jayway.jsonpath</groupId>
@@ -226,7 +225,6 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -356,23 +354,29 @@
 		</pluginRepository>
 	</pluginRepositories>
 	<build>
-		<sourceDirectory>${workspace}\${project}\src\main\java</sourceDirectory>
-		<scriptSourceDirectory>${workspace}\${project}\src\main\scripts</scriptSourceDirectory>
-		<testSourceDirectory>${workspace}\${project}\src\test\java</testSourceDirectory>
-		<outputDirectory>${workspace}\${project}\target\classes</outputDirectory>
-		<testOutputDirectory>${workspace}\${project}\target\test-classes</testOutputDirectory>
+		<sourceDirectory>${workspace}\${project}\src\main\java
+		</sourceDirectory>
+		<scriptSourceDirectory>${workspace}\${project}\src\main\scripts
+		</scriptSourceDirectory>
+		<testSourceDirectory>${workspace}\${project}\src\test\java
+		</testSourceDirectory>
+		<outputDirectory>${workspace}\${project}\target\classes
+		</outputDirectory>
+
 		<resources>
 			<resource>
-				<directory>${workspace}\${project}\src\main\resources</directory>
+				<directory>${workspace}\${project}\src\main\webapp\resources
+				</directory>
 			</resource>
 		</resources>
 		<testResources>
 			<testResource>
-				<directory>${workspace}\${project}\src\test\resources</directory>
+				<directory>${workspace}\${project}\src\test\webapp\resources
+				</directory>
 			</testResource>
 		</testResources>
 		<directory>${workspace}\${project}\target</directory>
-		<finalName>SWT-1.0-SNAPSHOT</finalName>
+		<finalName>Alumni-Tracker</finalName>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -405,20 +409,22 @@
 							<goal>war</goal>
 						</goals>
 						<configuration>
-							<warSourceExcludes>content/components/**,content/build/**,content/css/**,content/i/**,content/font/**,content/dev/**</warSourceExcludes>
+							<warSourceExcludes>content/components/**,content/build/**,content/css/**,content/i/**,content/font/**,content/dev/**
+							</warSourceExcludes>
 							<webResources>
 								<resource>
-									<directory>src/main/webapp</directory>
+									<directory>src/main/webapp/</directory>
 								</resource>
 							</webResources>
 						</configuration>
 					</execution>
 				</executions>
 				<configuration>
-					<warSourceExcludes>content/components/**,content/build/**,content/css/**,content/i/**,content/font/**,content/dev/**</warSourceExcludes>
+					<warSourceExcludes>content/components/**,content/build/**,content/css/**,content/i/**,content/font/**,content/dev/**
+					</warSourceExcludes>
 					<webResources>
 						<resource>
-							<directory>src/main/webapp</directory>
+							<directory>src/main/webapp/</directory>
 						</resource>
 					</webResources>
 				</configuration>
@@ -543,7 +549,8 @@
 							<goal>site</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${workspace}\${project}\target\site</outputDirectory>
+							<outputDirectory>${workspace}\${project}\target\site
+							</outputDirectory>
 							<reportPlugins>
 								<reportPlugin>
 									<groupId>org.apache.maven.plugins</groupId>
@@ -559,7 +566,8 @@
 							<goal>deploy</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${workspace}\${project}\target\site</outputDirectory>
+							<outputDirectory>${workspace}\${project}\target\site
+							</outputDirectory>
 							<reportPlugins>
 								<reportPlugin>
 									<groupId>org.apache.maven.plugins</groupId>
@@ -570,7 +578,8 @@
 					</execution>
 				</executions>
 				<configuration>
-					<outputDirectory>${workspace}\${project}\target\site</outputDirectory>
+					<outputDirectory>${workspace}\${project}\target\site
+					</outputDirectory>
 					<reportPlugins>
 						<reportPlugin>
 							<groupId>org.apache.maven.plugins</groupId>

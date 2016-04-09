@@ -40,8 +40,8 @@
 				<div class="breadcrumbs pull-right">
 					<ul class="breadcrumbs-list">
 						<li class="breadcrumbs-label">You are here:</li>
-						<li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
-						<li><a href="/jobs">Jobs</a><i class="fa fa-angle-right"></i></li>
+						<li><a href="/Alumni-Tracker/">Home</a><i class="fa fa-angle-right"></i></li>
+						<li><a href="/Alumni-Tracker/jobs">Jobs</a><i class="fa fa-angle-right"></i></li>
 						<li class="current" style="color: white">Edit a Job</li>
 					</ul>
 				</div>
@@ -49,7 +49,7 @@
 				<div class="container">
 					<div class="row">
 						<article class="contact-form col-md-8 col-sm-7  page-row">
-						<form action="/editAJob" method="POST"
+						<form action="/Alumni-Tracker/editAJob" method="POST"
 							name="editAJob">
 
 							<%
@@ -377,24 +377,24 @@
 
 	<!-- Javascript -->
 	<script type="text/javascript"
-		src="content/templateAssets/assets/plugins/jquery-1.11.2.min.js"></script>
+		src="/Alumni-Tracker/content/templateAssets/assets/plugins/jquery-1.11.2.min.js"></script>
 	<script type="text/javascript"
-		src="content/templateAssets/assets/plugins/jquery-migrate-1.2.1.min.js"></script>
+		src="/Alumni-Tracker/content/templateAssets/assets/plugins/jquery-migrate-1.2.1.min.js"></script>
 	<script type="text/javascript"
-		src="content/templateAssets/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+		src="/Alumni-Tracker/content/templateAssets/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript"
-		src="content/templateAssets/assets/plugins/bootstrap-hover-dropdown.min.js"></script>
+		src="/Alumni-Tracker/content/templateAssets/assets/plugins/bootstrap-hover-dropdown.min.js"></script>
 	<script type="text/javascript"
-		src="content/templateAssets/assets/plugins/back-to-top.js"></script>
+		src="/Alumni-Tracker/content/templateAssets/assets/plugins/back-to-top.js"></script>
 	<script type="text/javascript"
-		src="content/templateAssets/assets/plugins/jquery-placeholder/jquery.placeholder.js"></script>
+		src="/Alumni-Tracker/content/templateAssets/assets/plugins/jquery-placeholder/jquery.placeholder.js"></script>
 	<script type="text/javascript"
-		src="content/templateAssets/assets/plugins/pretty-photo/js/jquery.prettyPhoto.js"></script>
+		src="/Alumni-Tracker/content/templateAssets/assets/plugins/pretty-photo/js/jquery.prettyPhoto.js"></script>
 	<script type="text/javascript"
-		src="content/templateAssets/assets/plugins/flexslider/jquery.flexslider-min.js"></script>
+		src="/Alumni-Tracker/content/templateAssets/assets/plugins/flexslider/jquery.flexslider-min.js"></script>
 	<script type="text/javascript"
-		src="content/templateAssets/assets/plugins/jflickrfeed/jflickrfeed.min.js"></script>
+		src="/Alumni-Tracker/content/templateAssets/assets/plugins/jflickrfeed/jflickrfeed.min.js"></script>
 	<script type="text/javascript"
-		src="content/templateAssets/assets/js/main.js"></script>
+		src="/Alumni-Tracker/content/templateAssets/assets/js/main.js"></script>
 </body>
 </html>

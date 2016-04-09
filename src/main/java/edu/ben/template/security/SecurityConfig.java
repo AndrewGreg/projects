@@ -71,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.formLogin()
 					.successHandler(new SimpleUrlAuthenticationSuccessHandler("/"))
 					.loginPage("/").permitAll()
-					.loginProcessingUrl("/login")
+					.loginProcessingUrl("//login")
 					.usernameParameter("email")
 					.passwordParameter("password")
 					.failureUrl("/loginFailure")

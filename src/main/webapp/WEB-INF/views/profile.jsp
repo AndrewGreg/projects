@@ -32,20 +32,20 @@
 					<%
 						if(request.getAttribute("photo") == null){
 					%>
-					<img id="profile-pic" src="/content/img/empty-profile.png"
+					<img id="profile-pic" src="/Alumni-Tracker/content/img/empty-profile.png"
 						alt="Profile Picture">
 					<%}else{ %>
-						<img id="profile-pic" src="/getImage/<%=photo.getId()%>.jpeg">
+						<img id="profile-pic" src="/Alumni-Tracker/getImage/<%=photo.getId()%>.jpeg">
 				<div class="page-wrapper table-container ben-container">
 					<header class="page-heading clearfix"> <img
-						id="profile-pic" src="/content/img/empty-profile.png">
+						id="profile-pic" src="/Alumni-Tracker/content/img/empty-profile.png">
 					<% }%>
 					<h1 class="heading-title">
 						<%=profileUser.getFirstName()%>
 						<%=profileUser.getLastName()%></h1>
 					<div class="pull-right">
 						<%if(currentUser.getRole() == 4){%>
-							<form action="/deleteUser" method="POST"
+							<form action="/Alumni-Tracker/deleteUser" method="POST"
 							name="deleteUser">
 								<button type="submit" class="btn btn-primary">Delete User</button>
 							</form>							
@@ -56,11 +56,11 @@
 					<div class="breadcrumbs pull-right" id="breadcrumbs-profile">
 						<ul class="breadcrumbs-list">
 							<li class="breadcrumbs-label">You are here:</li>
-							<li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
+							<li><a href="/Alumni-Tracker/">Home</a><i class="fa fa-angle-right"></i></li>
 							<%
 								if (currentUser.getId() != profileUser.getId()) {
 							%>
-							<li><a href="/alumni">Alumni</a><i class="fa fa-angle-right"></i></li>
+							<li><a href="/Alumni-Tracker/alumni">Alumni</a><i class="fa fa-angle-right"></i></li>
 							<%
 								}
 							%>
@@ -79,7 +79,7 @@
 											<%
 												if (currentUser.getId() == profileUser.getId() || currentUser.getRole() == 4) {
 											%>
-											<a href="/edit/<%=profileUser.getId()%>"><span class="label label-info"><small><i
+											<a href="/Alumni-Tracker/edit/<%=profileUser.getId()%>"><span class="label label-info"><small><i
 														class="fa fa-pencil"></i> Edit Information</small></span></a>
 											<%
 												}
@@ -107,9 +107,21 @@
  	if (profileUser.getMajorAtIndex(0) != null && profileUser.getMajorAtIndex(0).getName() != null) {
  %><%=profileUser.getMajorAtIndex(0).getName()%> <%
  	} else {
- %>None <%
+ %>Undecided <%
  	}
  %></li>
+  										 <%
+ 	if (profileUser.getMajorAtIndex(1) != null && profileUser.getMajorAtIndex(1).getName() != null) {
+ %><li class="list-group-item"><strong> Double Major:</strong><%=profileUser.getMajorAtIndex(1).getName()%></li><%
+ 
+ 	}
+ %>
+ 										 <%
+ 	if (profileUser.getMajorAtIndex(2) != null && profileUser.getMajorAtIndex(2).getName() != null) {
+ %><li class="list-group-item"><strong> Third Major:</strong><%=profileUser.getMajorAtIndex(2).getName()%></li><%
+ 
+ 	}
+ %>
 
 										<!-- ADD MINOR AND CONCENTRATION -->
 

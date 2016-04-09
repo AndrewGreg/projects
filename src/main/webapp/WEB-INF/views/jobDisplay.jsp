@@ -30,7 +30,7 @@
 			<div class="row" align="left" style="padding-left: 50px;">
 				<h1><%=currentJob.getName()%></h1>
 				<%if(currentUser.getRole() > 1){%>
-				<a href="/editJob/<%=id%>">Edit Job</a>
+				<a href="/Alumni-Tracker/editJob/<%=id%>">Edit Job</a>
 				<%} %>
 				<hr>
 				<h3>

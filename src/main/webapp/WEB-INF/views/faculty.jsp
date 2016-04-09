@@ -30,7 +30,7 @@
 					<div class="breadcrumbs pull-right">
 						<ul class="breadcrumbs-list">
 							<li class="breadcrumbs-label">You are here:</li>
-							<li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
+							<li><a href="/Alumni-Tracker/">Home</a><i class="fa fa-angle-right"></i></li>
 							<li class="current">Faculty Directory</li>
 						</ul>
 					</div>
@@ -76,9 +76,9 @@
 												if (faculty.get(i).getRole() == 3) {
 									%>
 									<tr class='clickable-row row-link'
-										data-href='/user/<%=faculty.get(i).getId()%>'>
+										data-href='/Alumni-Tracker/user/<%=faculty.get(i).getId()%>'>
 										<td align="center"><img id="empty-profile-pic"
-											src="/content/img/empty-profile.png"
+											src="/Alumni-Tracker/content/img/empty-profile.png"
 											alt="Empty profile picture"></td>
 										<td align="center"><%=faculty.get(i).getFirstName()%></td>
 										<td align="center"><%=faculty.get(i).getLastName()%></td>
@@ -104,7 +104,7 @@
 									<%
 										while (i <= pages) {
 									%>
-									<li><a href="/faculty?page=<%=i%>"><%=++i%></a></li>
+									<li><a href="/Alumni-Tracker/faculty?page=<%=i%>"><%=++i%></a></li>
 
 									<%
 										}
@@ -124,7 +124,7 @@
 	<!--//wrapper-->
 	<jsp:include page="footerTemplate.jsp" />
 
-	<script type="text/javascript" src="/content/jQuery/sortColumns.js"></script>
+	<script type="text/javascript" src="/Alumni-Tracker/content/jQuery/sortColumns.js"></script>
 
 </body>
 

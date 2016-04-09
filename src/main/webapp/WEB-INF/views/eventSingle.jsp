@@ -43,7 +43,12 @@
                             <h3 class="title" style="color: white"><%=currentEvent.getName()%></h3>
                             <%if(currentUser.getId() == currentEvent.getPoster().getId()){%>
                             	<a href="/editAnEvent/<%=id%>" style="color: white">Edit Event</a>
+                            <%if(currentUser.getRole() == 4){%>	
+                           		<form action="/deleteEvent" method="POST" name="deleteEvent">
+									<button type="submit" class="btn btn-primary">Delete Event</button>
+							    </form>
                             <%	
+                            	}
                             	}
                             %>
                             <div class="box box-border page-row">

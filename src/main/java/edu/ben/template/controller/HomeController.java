@@ -36,7 +36,7 @@ import edu.ben.template.model.User;
 import edu.ben.template.model.Validator;
 
 @Controller
-@SessionAttributes({ "editJob", "editEvent", "profileUser"})
+@SessionAttributes({ "editJob", "currentJob", "editEvent", "currentEvent", "profileUser"})
 public class HomeController extends BaseController {
 
 	// Allows the password to be Hashed.
@@ -163,7 +163,8 @@ public class HomeController extends BaseController {
 			return "createJobTemplate";
 		}
 	}
-
+	
+	
 	/**
 	 * Form processing of the job posting creation page.
 	 * 
@@ -508,6 +509,13 @@ public class HomeController extends BaseController {
 		return "eventSingle";
 
 	}
+	
+	@RequestMapping(value = "/deleteEvent", method = RequestMethod.POST)
+	public String deleteEvent(Model model, @ModelAttribute("currentEvent") Event currentEvent) {
+		getEventDao().deleteEvent(currentEvent.getId());
+		return "eventsTemplate";
+	}
+	
 
 	/**
 	 * Access to the registration page.
@@ -880,6 +888,12 @@ public class HomeController extends BaseController {
 
 		return "jobsSingleTemplate";
 
+	}
+	
+	@RequestMapping(value = "/deleteJob", method = RequestMethod.POST)
+	public String deleteJob(Model model, @ModelAttribute("currentJob") Job currentJob) {
+		getJobDao().deleteJob(currentJob.getId());
+		return "jobsTemplate";
 	}
 
 	@RequestMapping(value = "/jobs", method = RequestMethod.GET)

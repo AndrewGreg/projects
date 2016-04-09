@@ -43,9 +43,13 @@
                             <h3 class="title" style="color: white"><%=currentJob.getName()%></h3>
                              <%if((currentUser.getId() == currentJob.getPoster().getId()) || currentUser.getRole() > 2){%>
                             		<a href="/editAJob/<%=id%>" style="color: white">Edit Job</a>
+                             <%if(currentUser.getRole() == 4){%>	
+                           		<form action="/deleteJob" method="POST" name="deleteJob">
+									<button type="submit" class="btn btn-primary">Delete Job</button>
+							    </form>
                             <%
                             	}
-                            
+                             	}
                             %>
                             <% 
                                String hoursDisplay = "";

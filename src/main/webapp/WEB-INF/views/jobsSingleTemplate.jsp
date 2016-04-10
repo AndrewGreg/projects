@@ -31,8 +31,8 @@
                     <div class="breadcrumbs pull-right">
                         <ul class="breadcrumbs-list">
                             <li class="breadcrumbs-label">You are here:</li>
-                            <li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
-                            <li><a href="/jobs">Jobs</a><i class="fa fa-angle-right"></i></li>
+                            <li><a href="/Alumni-Tracker/">Home</a><i class="fa fa-angle-right"></i></li>
+                            <li><a href="/Alumni-Tracker/jobs">Jobs</a><i class="fa fa-angle-right"></i></li>
                             <li class="current"  style="color: white"><%=currentJob.getName()%></li>
                         </ul>
                     </div><!--//breadcrumbs-->

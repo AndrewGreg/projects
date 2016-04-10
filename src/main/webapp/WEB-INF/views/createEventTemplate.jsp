@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.HashMap"%>
 <%
 	HashMap<String, String> errors;
@@ -8,245 +8,308 @@
 	} else {
 		errors = new HashMap<String, String>();
 	}
+
+	String name = (request.getParameter("name") == null) ? "" : (String) request.getParameter("name");
+	String description = (request.getParameter("description") == null) ? ""
+			: (String) request.getParameter("description");
+	String location = (request.getParameter("location") == null) ? ""
+			: (String) request.getParameter("location");
+	String date = (request.getParameter("date") == null) ? "" : (String) request.getParameter("date");
+	String startTime = (request.getParameter("startTime") == null) ? ""
+			: (String) request.getParameter("startTime");
+	String endTime = (request.getParameter("endTime") == null) ? "" : (String) request.getParameter("endTime");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Create an Event</title>
+<title>Create Event</title>
 <jsp:include page="headerTemplate.jsp" />
 </head>
 <body>
-
- <div class="wrapper">
+	<div class="wrapper">
 		<jsp:include page="navBarTemplate.jsp" />
-
 		<!-- ******CONTENT****** -->
-		<div class="content container">
-			<div class="page-wrapper">
-				<header class="page-heading clearfix">
-				<h1 class="heading-title pull-left" style="color: white">Create
-					an Event</h1>
+		<div class="content container content-container">
+			<div class="page-wrapper ben-container">
+				<header class="page-heading clearfix pageHeading">
+				<h1 class="heading-title pull-left">Create an Event</h1>
 				<div class="breadcrumbs pull-right">
 					<ul class="breadcrumbs-list">
 						<li class="breadcrumbs-label">You are here:</li>
-						<li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
-						<li><a href="/eventsTemplate">Events</a><i class="fa fa-angle-right"></i></li>
-						<li class="current" style="color: white">Create an Event</li>
+						<li><a href="/Alumni-Tracker/">Home</a><i class="fa fa-angle-right"></i></li>
+						<li><a href="/Alumni-Tracker/eventsTemplate">Events</a><i
+							class="fa fa-angle-right"></i></li>
+						<li class="current">Create Event</li>
 					</ul>
 				</div>
 				<!--//breadcrumbs--> </header>
-				<div class="container">
-					<div class="row">
-						<article class="contact-form col-md-8 col-sm-7  page-row">
-						<form action="/createNewEvent" method="POST"
-							name="createNewEvent">
+				<br>
+				<div class="row">
+					<div class="col-md-6 col-md-offset-3">
 
+						<form action="/Alumni-Tracker/createNewEvent" method="POST" name="createNewEvent">
+
+							<div class="row">
+								<!-- Input control group -->
+								<div class="form-group col-sm-12">
+									<!-- Title -->
+									<label class="control-label" for="name">*Event Name:</label>
+									<div class="controls">
+										<input type="text" id="name" name="name" placeholder="Event"
+											class="form-control" value="<%=name%>" autofocus>
+
+										<%
+											if (errors.get("name") != null) {
+										%>
+
+										<span class="help-block" style="color: #e60000"> <%=errors.get("name")%></span>
+
+										<%
+											}
+										%>
+
+									</div>
+								</div>
+								<!-- /Input control group -->
+							</div>
+							<br>
+
+							<div class="row">
+								<!-- Input control group -->
+								<div class="form-group col-sm-6">
+									<!-- Title -->
+									<label class="control-label" for="eventDate">*Event
+										Date (mm/dd/yyyy):</label>
+									<div class="bfh-datepicker" data-format="m/d/y"
+										data-name="date" id="eventDate">
+										<div class="input-prepend bfh-datepicker-toggle"
+											data-toggle="bfh-datepicker">
+											<span class="add-on"><i class="icon-calendar"></i></span> <input
+												type="text" class="input-medium" name="date"
+												value="<%=date%>">
+										</div>
+										<div class="bfh-datepicker-calendar">
+											<table class="calendar table table-bordered">
+												<thead>
+													<tr class="months-header">
+														<th class="month" colspan="4"><a class="previous"
+															href="#"><i class="icon-chevron-left"></i></a> <span></span>
+															<a class="next" href="#"><i
+																class="icon-chevron-right"></i></a></th>
+														<th class="year" colspan="3"><a class="previous"
+															href="#"><i class="icon-chevron-left"></i></a> <span></span>
+															<a class="next" href="#"><i
+																class="icon-chevron-right"></i></a></th>
+													</tr>
+													<tr class="days-header">
+													</tr>
+												</thead>
+												<tbody>
+												</tbody>
+											</table>
+										</div>
+									</div>
+
+
+									<%
+										if (errors.get("date") != null) {
+									%>
+
+									<span class="help-block" style="color: #e60000"> <%=errors.get("date")%></span>
+
+									<%
+										}
+									%>
+
+
+								</div>
+								<!-- /Input control group -->
+
+								<!-- Input control group -->
+								<div class="form-group col-sm-6">
+									<!-- Title -->
+									<label class="control-label" for="location">*Event
+										Location:</label>
+									<div class="controls">
+										<input type="text" id="location" name="location"
+											placeholder="Location" class="form-control"
+											value="<%=location%>">
+
+										<%
+											if (errors.get("location") != null) {
+										%>
+
+										<span class="help-block" style="color: #e60000"> <%=errors.get("location")%></span>
+
+										<%
+											}
+										%>
+
+									</div>
+								</div>
+								<!-- /Input control group -->
+							</div>
+							<br>
+
+							<div class="row">
+								<!-- Input control group -->
+								<div class="form-group col-sm-6">
+									<!-- Title -->
+									<label class="control-label" for="eventStartTime">*Start
+										Time:</label>
+									<div class="controls">
+										<div class="bfh-timepicker" id="eventStartTime"
+											data-time="08:00" data-name="startTime">
+											<div class="input-prepend bfh-timepicker-toggle"
+												data-toggle="bfh-timepicker">
+												<span class="add-on"><i class="icon-time"></i></span> <input
+													name="startTime" type="text" class="input-medium"
+													value="08:00">
+											</div>
+											<div class="bfh-timepicker-popover">
+												<table class="table">
+													<tbody>
+														<tr>
+															<td class="hour"><a class="next" href="#"><i
+																	class="icon-chevron-up"></i></a><br> <input
+																type="text" class="input-mini" readonly><br>
+																<a class="previous" href="#"><i
+																	class="icon-chevron-down"></i></a></td>
+															<td class="separator">:</td>
+															<td class="minute"><a class="next" href="#"><i
+																	class="icon-chevron-up"></i></a><br> <input
+																type="text" class="input-mini" readonly><br>
+																<a class="previous" href="#"><i
+																	class="icon-chevron-down"></i></a></td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+
+										
+
+									</div>
+								</div>
+								<!-- /Input control group -->
+
+								<!-- Input control group -->
+								<div class="form-group col-sm-6">
+									<!-- Title -->
+									<label class="control-label" for="eventEndTime">*End
+										Time:</label>
+									<div class="controls">
+										<div class="bfh-timepicker" id="eventEndTime"
+											data-time="08:00" data-name="endTime">
+											<div class="input-prepend bfh-timepicker-toggle"
+												data-toggle="bfh-timepicker">
+												<span class="add-on"><i class="icon-time"></i></span> <input
+													name="endTime" type="text" class="input-medium">
+											</div>
+											<div class="bfh-timepicker-popover">
+												<table class="table">
+													<tbody>
+														<tr>
+															<td class="hour"><a class="next" href="#"><i
+																	class="icon-chevron-up"></i></a><br> <input
+																type="text" class="input-mini" readonly><br>
+																<a class="previous" href="#"><i
+																	class="icon-chevron-down"></i></a></td>
+															<td class="separator">:</td>
+															<td class="minute"><a class="next" href="#"><i
+																	class="icon-chevron-up"></i></a><br> <input
+																type="text" class="input-mini" readonly><br>
+																<a class="previous" href="#"><i
+																	class="icon-chevron-down"></i></a></td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /Input control group -->
+							</div>
 							<%
-								String name = (request.getParameter("name") == null) ? "" : (String) request.getParameter("name");
-								String description = (request.getParameter("description") == null) ? "" : (String) request.getParameter("description");
-								String location = (request.getParameter("location") == null) ? "" : (String) request.getParameter("location");
-								String date = (request.getParameter("date") == null) ? "" : (String) request.getParameter("date");
-							%>
+											if (errors.get("times") != null) {
+										%>
+
+										<span class="help-block" style="color: #e60000"> <%=errors.get("times")%></span>
+
+										<%
+											}
+										%>
+							<br>
 
 
-							<div class="form-group col-sm-6">
-								<label style="color: white">Event Name </label><input type="text"
-									class="form-control" name="name" value="<%=name%>" required>
+							<div class="row">
+								<!-- Input control group -->
+								<div class="form-group col-sm-12">
+									<!-- Title -->
+									<label class="control-label" for="description">*Description:</label>
+									<div class="controls">
+										<textarea rows="5" id="description" name="description"
+											placeholder="This is the event description."
+											class="form-control" value="<%=description%>"></textarea>
 
-								<%
-									if (errors.get("name") != null) {
-								%>
+										<%
+											if (errors.get("description") != null) {
+										%>
 
-								<h6 style="color: red"><%=errors.get("name")%></h6>
+										<span class="help-block" style="color: #e60000"> <%=errors.get("description")%></span>
 
-								<%
-									}
-								%>
+										<%
+											}
+										%>
+
+									</div>
+								</div>
+								<!-- /Input control group -->
 							</div>
+							<br>
 
-							<div class="form-group col-sm-3">
-								<label style="color: white">Location </label><input type="text"
-									class="form-control" name="location" value="<%=location%>"
-									required>
-
-								<%
-									if (errors.get("location") != null) {
-								%>
-
-								<h6 style="color: red"><%=errors.get("location")%></h6>
-
-								<%
-									}
-								%>
+							<div class="row">
+								<!-- Input control group -->
+								<div class="form-group col-sm-12">
+									<div class="checkbox">
+										<label> <input type="checkbox" name="public">
+											This is a public event.
+										</label>
+										<div class="pull-right">
+											<button type="reset" class="btn btn-danger">Clear</button>
+											<button type="submit" class="btn btn-primary">Create
+												Event</button>
+										</div>
+									</div>
+								</div>
 							</div>
-
-							<div class="form-group col-sm-3">
-								<label style="color: white">Date </label><input type="text"
-									class="form-control" name=date value="<%=date%>"
-									required>
-
-								<%
-									if (errors.get("date") != null) {
-								%>
-
-								<h6 style="color: red"><%=errors.get("date")%></h6>
-
-								<%
-									}
-								%>
+							<br>
+							<div class="row">
+								<div class="col-md-4">
+									<span>* denotes required field.</span>
+								</div>
 							</div>
-							
-							<div class="form-group col-sm-12">
-								<label style="color: white">Description </label>
-								<textarea class="form-control" rows="8" name="description"></textarea>
-
-								<%
-									if (errors.get("description") != null) {
-								%>
-
-								<h6 style="color: red"><%=errors.get("description")%></h6>
-
-								<%
-									}
-								%>
-
-								<br>
-								<button type="reset" class="btn btn-danger">Clear</button>
-								<button type="submit" class="btn btn-primary">Create
-									posting</button>
-							</div>
-
-						</form>
-						</article>
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</div><!--//wrapper-->
-	<!-- ******FOOTER****** -->
-	<footer class="footer">
-	<div class="footer-content">
-		<div class="container">
-			<div class="row">
-				<div class="footer-col col-md-3 col-sm-4 about">
-					<div class="footer-col-inner">
-						<h3>About</h3>
-						<ul>
-							<li><a href="about.html"><i class="fa fa-caret-right"></i>About
-									us</a></li>
-							<li><a href="contact.html"><i class="fa fa-caret-right"></i>Contact
-									us</a></li>
-							<li><a href="privacy.html"><i class="fa fa-caret-right"></i>Privacy
-									policy</a></li>
-							<li><a href="terms-and-conditions.html"><i
-									class="fa fa-caret-right"></i>Terms & Conditions</a></li>
-						</ul>
-					</div>
-					<!--//footer-col-inner-->
-				</div>
-				<!--//foooter-col-->
-				<div class="footer-col col-md-6 col-sm-8 newsletter">
-					<div class="footer-col-inner">
-						<h3>Join our mailing list</h3>
-						<p>Subscribe to get our weekly newsletter delivered directly
-							to your inbox</p>
-						<form class="subscribe-form">
-							<div class="form-group">
-								<input type="email" class="form-control"
-									placeholder="Enter your email" />
-							</div>
-							<input class="btn btn-theme btn-subscribe" type="submit"
-								value="Subscribe">
+							<br>
 						</form>
 
 					</div>
-					<!--//footer-col-inner-->
 				</div>
-				<!--//foooter-col-->
-				<div class="footer-col col-md-3 col-sm-12 contact">
-					<div class="footer-col-inner">
-						<h3>Contact us</h3>
-						<div class="row">
-							<p class="adr clearfix col-md-12 col-sm-4">
-								<i class="fa fa-map-marker pull-left"></i> <span
-									class="adr-group pull-left"> <span
-									class="street-address">Benedictine University</span><br> <span
-									class="region">5700 College Rd</span><br> <span
-									class="postal-code">60532</span><br> <span
-									class="country-name">United States</span>
-								</span>
-							</p>
-							<p class="tel col-md-12 col-sm-4">
-								<i class="fa fa-phone"></i>(630) 829-6000
-							</p>
-							<p class="email col-md-12 col-sm-4">
-								<i class="fa fa-envelope"></i><a href="#">benedictine@university.com</a>
-							</p>
-						</div>
-					</div>
-					<!--//footer-col-inner-->
-				</div>
-				<!--//foooter-col-->
-			</div>
-		</div>
-	</div>
-	<!--//footer-content-->
-	<div class="bottom-bar">
-		<div class="container">
-			<div class="row">
-				<small class="copyright col-md-6 col-sm-12 col-xs-12">Copyright
-					@ 2014 College Green Online | Website template by <a href="#">3rd
-						Wave Media</a>
-				</small>
-				<ul class="social pull-right col-md-6 col-sm-12 col-xs-12">
-					<li><a href="https://twitter.com/BenU1887" target="_blank"><i
-							class="fa fa-twitter"></i></a></li>
-					<li><a href="https://www.facebook.com/BenedictineUniversity/"
-						target="_blank"><i class="fa fa-facebook"></i></a></li>
-					<li><a href="https://www.youtube.com/user/benu1887"
-						target="_blank"><i class="fa fa-youtube"></i></a></li>
-					<li><a
-						href="https://www.linkedin.com/company/benedictine-university"
-						target="_blank"><i class="fa fa-linkedin"></i></a></li>
-					<li><a
-						href="https://plus.google.com/113106216606814236277/posts"
-						target="_blank"><i class="fa fa-google-plus"></i></a></li>
-					<li><a href="https://www.instagram.com/benu1887/"
-						target="_blank"><i class="fa fa-instagram"></i></a></li>
-					<li class="row-end"><a href="https://www.ben.edu"
-						target="_blank"><i class="fa fa-university"></i></a></li>
-				</ul>
-				<!--//social-->
-			</div>
-			<!--//row-->
-		</div>
-		<!--//container-->
-	</div>
-	<!--//bottom-bar--> </footer>
-	<!--//footer-->
 
-	<!-- Javascript -->
+			</div>
+		</div>
+	</div>
+	<!--//wrapper-->
+	<jsp:include page="footerTemplate.jsp" />
 	<script type="text/javascript"
-		src="content/templateAssets/assets/plugins/jquery-1.11.2.min.js"></script>
+		src="/Alumni-Tracker/content/BootstrapFormHelpers/dist/js/bootstrap-formhelpers.js"></script>
 	<script type="text/javascript"
-		src="content/templateAssets/assets/plugins/jquery-migrate-1.2.1.min.js"></script>
+		src="/Alumni-Tracker/content/BootstrapFormHelpers/js/lang/en_US/bootstrap-formhelpers-datepicker.en_US.js"></script>
 	<script type="text/javascript"
-		src="content/templateAssets/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+		src="/Alumni-Tracker/content/BootstrapFormHelpers/js/bootstrap-formhelpers-datepicker.js"></script>
 	<script type="text/javascript"
-		src="content/templateAssets/assets/plugins/bootstrap-hover-dropdown.min.js"></script>
+		src="/Alumni-Tracker/content/BootstrapFormHelpers/js/lang/en_US/bootstrap-formhelpers-timepicker.en_US.js"></script>
 	<script type="text/javascript"
-		src="content/templateAssets/assets/plugins/back-to-top.js"></script>
-	<script type="text/javascript"
-		src="content/templateAssets/assets/plugins/jquery-placeholder/jquery.placeholder.js"></script>
-	<script type="text/javascript"
-		src="content/templateAssets/assets/plugins/pretty-photo/js/jquery.prettyPhoto.js"></script>
-	<script type="text/javascript"
-		src="content/templateAssets/assets/plugins/flexslider/jquery.flexslider-min.js"></script>
-	<script type="text/javascript"
-		src="content/templateAssets/assets/plugins/jflickrfeed/jflickrfeed.min.js"></script>
-	<script type="text/javascript"
-		src="content/templateAssets/assets/js/main.js"></script>
+		src="/Alumni-Tracker/content/BootstrapFormHelpers/js/bootstrap-formhelpers-timepicker.js"></script>
 </body>
 </html>

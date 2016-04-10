@@ -51,7 +51,7 @@ public class UserDao extends BaseDao<User> {
 
 		// Created, lastModified, lastLogin, lastActive will be implemented in
 		// future sprint
-		String sql = "INSERT INTO user (`bnumber`, `email`, `personal_email`, `password`, `salt`, `title_id`, `first_name`, `last_name`, `role`, `graduation_year`, `occupation`, `company`, `suffix`, `biography`, `experience`, `hidden`, `active`, `created`, `last_active`, `last_login`, `last_modified`, `social_media`, `phone_number`, `work_number`, `user_verified`, `admin_verified`, `graduate_verified`, `current_graduate_verified`, `graduate_school`, `public`, `reference`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, null, null, null, null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+		String sql = "INSERT INTO user (`bnumber`, `email`, `personal_email`, `password`, `salt`, `title_id`, `first_name`, `last_name`, `role`, `graduation_year`, `occupation`, `company`, `suffix`, `biography`, `experience`, `hidden`, `active`, `social_media`, `phone_number`, `work_number`, `user_verified`, `admin_verified`, `graduate_verified`, `current_graduate_verified`, `graduate_school`, `public`, `reference`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, null, null, null, null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
 		try {
 			jdbcTemplate.update(sql,
@@ -105,7 +105,7 @@ public class UserDao extends BaseDao<User> {
 	public ArrayList<User> getAllStudents() {
 
 		List<User> users = new ArrayList<User>();
-		String sql = "SELECT * from user WHERE role = '10'";
+		String sql = "SELECT * from user WHERE role = '1'";
 
 		try {
 			users = jdbcTemplate.query(sql, getRowMapper());
@@ -120,7 +120,7 @@ public class UserDao extends BaseDao<User> {
 	public int getStudentCount() {
 
 		int count = 0;
-		String sql = "SELECT COUNT(*) FROM user WHERE role = '10';";
+		String sql = "SELECT COUNT(*) FROM user WHERE role = '1';";
 
 		try {
 
@@ -141,7 +141,7 @@ public class UserDao extends BaseDao<User> {
 	public ArrayList<User> getAllAlumni() {
 
 		List<User> users = new ArrayList<User>();
-		String sql = "SELECT * from user WHERE role = '20'";
+		String sql = "SELECT * from user WHERE role = '2'";
 
 		try {
 			users = jdbcTemplate.query(sql, getRowMapper());
@@ -156,7 +156,7 @@ public class UserDao extends BaseDao<User> {
 	public int getAlumniCount() {
 
 		int count = 0;
-		String sql = "SELECT COUNT(*) FROM user WHERE role = '20';";
+		String sql = "SELECT COUNT(*) FROM user WHERE role = '2';";
 
 		try {
 
@@ -177,7 +177,7 @@ public class UserDao extends BaseDao<User> {
 	public ArrayList<User> getAllFaculty() {
 
 		List<User> users = new ArrayList<User>();
-		String sql = "SELECT * from user WHERE role = '30'";
+		String sql = "SELECT * from user WHERE role = '3'";
 
 		try {
 			users = jdbcTemplate.query(sql, getRowMapper());
@@ -192,7 +192,7 @@ public class UserDao extends BaseDao<User> {
 	public int getFacultyCount() {
 
 		int count = 0;
-		String sql = "SELECT COUNT(*) FROM user WHERE role = '30';";
+		String sql = "SELECT COUNT(*) FROM user WHERE role = '3';";
 
 		try {
 
@@ -317,7 +317,9 @@ public class UserDao extends BaseDao<User> {
 
 	public void updateUser(User user) {
 
-		String sql = "UPDATE user SET `bnumber`=?, `email`=?, `personal_email`=?, `password`=?, `salt`=?, `title_id`=?, `first_name`=?, `last_name`=?, `role`=?, `graduation_year`=?, `occupation`=?, `company`=?, `suffix`=?, `biography`=?, `experience`=?, `hidden`=?, `active`=?, 'created' = ?, 'last_active'=?, 'last_modified'=?, 'last_login'=?, `social_media`=?, `phone_number`=?, `work_number`=?, `user_verified`=?, `admin_verified`=?, `graduate_verified`=?, `current_graduate_verified`=?, `graduate_school`=?, `public`=?, `reference`=? WHERE `id`=?;";
+
+		String sql = "UPDATE user SET `bnumber`=?, `email`=?, `personal_email`=?, `password`=?, `salt`=?, `title_id`=?, `first_name`=?, `last_name`=?, `role`=?, `graduation_year`=?, `occupation`=?, `company`=?, `suffix`=?, `biography`=?, `experience`=?, `hidden`=?, `active`=?, `social_media`=?, `phone_number`=?, `work_number`=?, `user_verified`=?, `admin_verified`=?, `graduate_verified`=?, `current_graduate_verified`=?, `graduate_school`=?, `public`=?, `reference`=? WHERE `id`=?;";
+		
 
 		try {
 			jdbcTemplate.update(sql,

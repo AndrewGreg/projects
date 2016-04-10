@@ -82,20 +82,52 @@ public class Job {
 	 * @param hours
 	 * @param link
 	 */
-	public Job(String name, String description, String company, User poster, String location, 
-			String reference, int toPublic,
-			int hours, String link) {
+	public Job(String name, String description, String company, User poster, String location, String reference,
+			int toPublic, int hours, String link) {
 		super();
 		this.name = name;
 		this.description = description;
 		this.company = company;
 		this.poster = poster;
 		this.location = location;
-//		this.salary = salary;
-//		this.start_salary = start_salary;
-//		this.end_salary = end_salary;
-//		this.start_wage = start_wage;
-//		this.end_wage = end_wage;
+		this.reference = reference;
+		this.toPublic = toPublic;
+		this.hours = hours;
+		this.link = link;
+	}
+
+	/**
+	 * Constructor that passes in all the attributes of the job class.
+	 * 
+	 * @param name
+	 * @param description
+	 * @param company
+	 * @param poster
+	 * @param location
+	 * @param reference
+	 * @param toPublic
+	 * @param hours
+	 * @param link
+	 * @param salary
+	 * @param start_salary
+	 * @param end_salary
+	 * @param start_wage
+	 * @param end_wage
+	 */
+	public Job(String name, String description, String company, User poster, String location, String reference,
+			int toPublic, int hours, String link, boolean salary, int start_salary, int end_salary, float start_wage,
+			float end_wage) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.company = company;
+		this.poster = poster;
+		this.location = location;
+		this.salary = salary;
+		this.start_salary = start_salary;
+		this.end_salary = end_salary;
+		this.start_wage = start_wage;
+		this.end_wage = end_wage;
 		this.reference = reference;
 		this.toPublic = toPublic;
 		this.hours = hours;
@@ -363,6 +395,33 @@ public class Job {
 	 */
 	public int getToPublic() {
 		return toPublic;
+	}
+
+	/**
+	 * Returns a shortened description for display on the front page.
+	 * 
+	 * @return shortDescription shortened description
+	 */
+	public String getShortDescription() {
+		String shortDescription = "";
+
+		if (description.length() > 120 && description.length() > 0) {
+			shortDescription = description.substring(0, 120) + "...";
+			return shortDescription;
+		} else {
+			return description;
+		}
+	}
+
+	/**
+	 * Returns a link that takes you to the search in google maps for the
+	 * location.
+	 * 
+	 * @return link search in google maps
+	 */
+	public String getGoogleMapsLink() {
+		// https://maps.google.com/?q=term
+		return "https://maps.google.com/?q=" + location.trim().replace(" ", "+");
 	}
 
 	/**

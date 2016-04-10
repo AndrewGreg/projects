@@ -83,12 +83,12 @@ public class EventDao extends BaseDao<Event> {
 	 */
 	public void addEvent(Event event) {
 
-		String sql = "INSERT INTO event (name, description, date,user_id,public, longitude, latitude,role, reference, location) VALUES (?, ?, ?, ?,?,?, ?, ?, ?,?)";
+		String sql = "INSERT INTO event (name, description, date,user_id,public,start_time,end_time, longitude, latitude,role, reference, location) VALUES (?,?,?, ?, ?, ?,?,?, ?, ?, ?,?)";
 
 		jdbcTemplate.update(sql,
 				new Object[] { event.getName(), event.getDescription(), event.getDate(), event.getPoster().getId(),
-						event.getToPublic(), event.getLongitude(), event.getLatitude(), event.getRole(),
-						event.getReference(), event.getLocation() });
+						event.getToPublic(), event.getStartTime(), event.getEndTime(), event.getLongitude(),
+						event.getLatitude(), event.getRole(), event.getReference(), event.getLocation() });
 		return;
 	}
 
@@ -99,12 +99,13 @@ public class EventDao extends BaseDao<Event> {
 	 */
 	public void updateEvent(Event event) {
 
-		String sql = "UPDATE event SET name = ?, description = ?, date = ?, user_id = ?, public = ? longitude = ?, latitude = ?, role = ?, reference = ?, location = ? WHERE id = ?";
+		String sql = "UPDATE event SET name = ?, description = ?, date = ?, user_id = ?, public = ?,start_time= ?,end_time= ?, longitude = ?, latitude = ?, role = ?, reference = ?, location = ? WHERE id = ?";
 		try {
 			jdbcTemplate.update(sql,
 					new Object[] { event.getName(), event.getDescription(), event.getDate(), event.getPoster().getId(),
-							event.getToPublic(), event.getLongitude(), event.getLatitude(), event.getRole(),
-							event.getReference(), event.getLocation(), event.getId() });
+							event.getToPublic(), event.getStartTime(), event.getEndTime(), event.getLongitude(),
+							event.getLatitude(), event.getRole(), event.getReference(), event.getLocation(),
+							event.getId() });
 		} catch (Exception e) {
 			/* Probably want to log this */
 		}
@@ -265,6 +266,8 @@ public class EventDao extends BaseDao<Event> {
 				event.setToPublic(rs.getInt("public"));
 				event.setLatitude(rs.getFloat("latitude"));
 				event.setLongitude(rs.getFloat("longitude"));
+				event.setStartTime(rs.getString("start_time"));
+				event.setEndTime(rs.getString("end_time"));
 				event.setRole(rs.getInt("role"));
 				event.setReference(rs.getString("reference"));
 				event.setLocation(rs.getString("location"));

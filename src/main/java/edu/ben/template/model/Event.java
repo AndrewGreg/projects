@@ -22,8 +22,8 @@ public class Event {
 	private int role;
 	private String reference;
 	private String location;
-	// private int startTime;
-	// private int endTime;
+	private String startTime;
+	private String endTime;
 
 	/**
 	 * An empty constructor.
@@ -63,6 +63,26 @@ public class Event {
 	}
 
 	/**
+	 * Constructor with basic info of an event along with the poster and times.
+	 * 
+	 * @param name
+	 * @param date
+	 * @param description
+	 * @param poster
+	 * @param startTime
+	 * @param endTime
+	 */
+	public Event(String name, Date date, String description, User poster, String startTime, String endTime) {
+		super();
+		this.name = name;
+		this.date = date;
+		this.description = description;
+		this.poster = poster;
+		this.startTime = startTime;
+		this.endTime = endTime;
+	}
+
+	/**
 	 * Constructor with all variables that are used with an Event.
 	 * 
 	 * @param name
@@ -91,6 +111,7 @@ public class Event {
 	}
 
 	/**
+	 * Gets the id of the event
 	 * 
 	 * @return the id of event.
 	 */
@@ -108,6 +129,7 @@ public class Event {
 	}
 
 	/**
+	 * Gets the name of the event
 	 * 
 	 * @return the name of the event.
 	 */
@@ -125,6 +147,7 @@ public class Event {
 	}
 
 	/**
+	 * Gets the date of the event
 	 * 
 	 * @return the date of the event.
 	 */
@@ -142,7 +165,7 @@ public class Event {
 	}
 
 	/**
-	 * 
+	 * Gets the description of the event
 	 * 
 	 * @return the description of the event.
 	 */
@@ -160,6 +183,7 @@ public class Event {
 	}
 
 	/**
+	 * Gets the poster of the event
 	 * 
 	 * @return the user who posted the event.
 	 */
@@ -231,10 +255,7 @@ public class Event {
 	}
 
 	/**
-	 * ToString Method of the Event class.
-	 */
-
-	/**
+	 * Returns 1 if it is a public event
 	 * 
 	 * @return 1, if the event is displayed to everyone.
 	 */
@@ -252,6 +273,7 @@ public class Event {
 	}
 
 	/**
+	 * Returns the reference number to the event
 	 * 
 	 * @return reference number to the event.
 	 */
@@ -269,6 +291,7 @@ public class Event {
 	}
 
 	/**
+	 * Gets the location of the event
 	 * 
 	 * @return the location of the Event.
 	 */
@@ -283,6 +306,150 @@ public class Event {
 	 */
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	/**
+	 * Returns the event start time
+	 * 
+	 * @return startTime of the event
+	 */
+	public String getStartTime() {
+		return startTime;
+	}
+
+	/**
+	 * Sets the start time for the event
+	 * 
+	 * @param startTime
+	 *            of the event
+	 */
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+
+	/**
+	 * Returns the end time of the event
+	 * 
+	 * @return endTime of the event
+	 */
+	public String getEndTime() {
+		return endTime;
+	}
+
+	/**
+	 * Sets the end time for the event
+	 * 
+	 * @param endTime
+	 *            of the event
+	 */
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
+	/**
+	 * Returns the time range for the event
+	 * 
+	 * @return range between start time and end time (startTime - endTime)
+	 */
+	public String getTimeRange() {
+		return getStartTime() + " - " + getEndTime();
+	}
+
+	/**
+	 * Returns the month that the event is taking place on
+	 * 
+	 * @return month
+	 */
+	public String getEventMonth() {
+		String month = "";
+		if (date != null) {
+			int monthSpot = 1;
+
+			String[] dateParts = date.toString().split("-");
+
+			switch (dateParts[monthSpot]) {
+			case "01":
+				month = "JAN";
+				break;
+			case "02":
+				month = "FEB";
+				break;
+			case "03":
+				month = "MAR";
+				break;
+			case "04":
+				month = "APR";
+				break;
+			case "05":
+				month = "MAY";
+				break;
+			case "06":
+				month = "JUN";
+				break;
+			case "07":
+				month = "JUL";
+				break;
+			case "08":
+				month = "AUG";
+				break;
+			case "09":
+				month = "SEP";
+				break;
+			case "10":
+				month = "OCT";
+				break;
+			case "11":
+				month = "NOV";
+				break;
+			case "12":
+				month = "DEC";
+				break;
+			default:
+				month = "";
+				break;
+			}
+		}
+		return month;
+	}
+
+	/**
+	 * Returns the day the event will take place on
+	 * 
+	 * @return event day
+	 */
+	public String getEventDay() {
+		return date != null && date.toString().split("-")[2] != null ? date.toString().split("-")[2] : null;
+	}
+
+	/**
+	 * Returns a shortened description for display on the front page.
+	 * 
+	 * @return shortDescription shortened description
+	 */
+	public String getShortDescription() {
+		String shortDescription = "";
+
+		if (description.length() > 60 && description.length() > 0) {
+			shortDescription = description.substring(0, 60) + "...";
+			return shortDescription;
+		} else {
+			return description;
+		}
+	}
+
+	/**
+	 * Returns a link that takes you to the search in google maps for the
+	 * location.
+	 * 
+	 * @return link search in google maps
+	 */
+	public String getGoogleMapsLink() {
+		// https://maps.google.com/?q=term
+		if (location != null) {
+			return "https://maps.google.com/?q=" + location.trim().replace(" ", "+");
+		} else {
+			return "#";
+		}
 	}
 
 	/**

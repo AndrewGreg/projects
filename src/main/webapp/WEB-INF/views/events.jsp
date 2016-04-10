@@ -17,7 +17,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Events</title>
 <jsp:include page="headerTemplate.jsp" />
-<link rel="stylesheet" type="text/css" href="/content/css/lists.css">
+<link rel="stylesheet" type="text/css" href="/Alumni-Tracker/content/css/lists.css">
 </head>
 <body>
 	<jsp:include page="navBarTemplate.jsp" />
@@ -58,7 +58,7 @@
 				
 				<li>
 					<h4 class="primary">
-						<a href="/event/<%=id%>"><%=name%></a>
+						<a href="/Alumni-Tracker/event/<%=id%>"><%=name%></a>
 					</h4>
 					<p class="secondary"><%=date%></p>
 				</li>
@@ -69,8 +69,8 @@
 				%>
 			</ul>
 		</div>
-		<script src="/content/jQuery/list.js"></script>
-		<script src="/content/jQuery/listSearch.js"></script>
+		<script src="/Alumni-Tracker/content/jQuery/list.js"></script>
+		<script src="/Alumni-Tracker/content/jQuery/listSearch.js"></script>
 	</div>
 	<jsp:include page="footerTemplate.jsp" />
 </body>

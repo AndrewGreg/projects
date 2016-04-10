@@ -26,16 +26,23 @@
 			<div class="page-wrapper table-container">
 				<header class="page-heading clearfix"
 					style="margin-bottom: 10px !important;">
-				<h1 class="heading-title pull-left">Manage Users</h1>
+				<h1 class="heading-title pull-left">Manage Users </h1>
 				<div class="breadcrumbs pull-right">
 					<ul class="breadcrumbs-list">
 						<li class="breadcrumbs-label">You are here:</li>
-						<li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
+						<li><a href="/Alumni-Tracker/">Home</a><i class="fa fa-angle-right"></i></li>
 						<li class="current">Manage Users</li>
 					</ul>
 				</div>
 				<!--//breadcrumbs--> </header>
-				
+				<a href=/register><button type="button" class="btn btn-primary">Add User</button></a>
+				<div style="margin-top: 20px">
+					<form action="/massRegister" method="post" enctype="multipart/form-data">
+						<label>Upload Multiple Users:</label>
+						<input type="file" name="multiple" id="" value="">
+						<button type="submit" class="btn btn-primary">Upload</button>
+					</form>
+				</div>
 				<div class="page-content table-content">
 
 					<div class="row">
@@ -45,13 +52,13 @@
 									placeholder="Search" style="margin-top: 5px;">
 							</div>
 							<span class="counter pull-right"></span>
-							<table class="table table-hover results">
+							<table id= indextable class="table table-hover results">
 								<thead>
 									<tr>
-										<th>Profile</th>
-										<th>First Name</th>
-										<th>Last Name</th>
-										<th>Role</th>
+										<th><a href="javascript:SortTable(1,'T');">Profile</a></th>
+										<th><a href="javascript:SortTable(1,'T');">First Name</a></th>
+										<th><a href="javascript:SortTable(2,'T');">Last Name</a></th>
+										<th><a href="javascript:SortTable(3,'T');">Role</a></th>
 									</tr>
 									<tr class="warning no-result">
 										<td colspan="4"><i class="fa fa-warning"></i> No result</td>
@@ -87,10 +94,10 @@
 									%>
 									
 									<tr class='clickable-row row-link'
-										data-href='/user/<%=users.get(i).getId()%>'
+										data-href='/Alumni-Tracker/user/<%=users.get(i).getId()%>'
 										<%if (i % 2 == 1) {%> style="background-color: #E8E8E8" <%}%>>
 										<td><img id="empty-profile-pic"
-											src="/content/img/empty-profile.png"
+											src="/Alumni-Tracker/content/img/empty-profile.png"
 											alt="Empty profile picture"></td>
 										<td><%=users.get(i).getFirstName()%></td>
 										<td><%=users.get(i).getLastName()%></td>
@@ -112,8 +119,8 @@
 									<%
 										while (i < users.size() / 15 + 1) {
 									%>
-									<li><a href="/allUsers?page=<%=i%>"><%=++i%></a></li>
-									<li><a href="/allUsers?page=<%=++i%>"><%=i++%></a></li>
+									<li><a href="/Alumni-Tracker/allUsers?page=<%=i%>"><%=++i%></a></li>
+									<li><a href="/Alumni-Tracker/allUsers?page=<%=i++%>"><%=i++%></a></li>
 									<%
 										}
 									%>
@@ -128,5 +135,8 @@
 		</div>
 	</div>
 	<jsp:include page="footerTemplate.jsp" />
+	
+	<script type="text/javascript" src="/Alumni-Tracker/content/jQuery/sortColumns.js"></script>
+	
 </body>
 </html>

@@ -31,8 +31,8 @@
                     <div class="breadcrumbs pull-right">
                         <ul class="breadcrumbs-list">
                             <li class="breadcrumbs-label">You are here:</li>
-                            <li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
-                            <li><a href="/eventsTemplate">Events</a><i class="fa fa-angle-right"></i></li>
+                            <li><a href="/Alumni-Tracker/">Home</a><i class="fa fa-angle-right"></i></li>
+                            <li><a href="/Alumni-Tracker/eventsTemplate">Events</a><i class="fa fa-angle-right"></i></li>
                             <li class="current" style="color: white"><%=currentEvent.getName()%></li>
                         </ul>
                     </div><!--//breadcrumbs-->
@@ -47,6 +47,7 @@
                            		<form action="/deleteEvent" method="POST" name="deleteEvent">
 									<button type="submit" class="btn btn-primary">Delete Event</button>
 							    </form>
+                            	<a href="/Alumni-Tracker/editAnEvent/<%=id%>" style="color: white">Edit Event</a>
                             <%	
                             	}
                             	}

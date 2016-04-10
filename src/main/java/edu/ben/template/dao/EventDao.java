@@ -147,7 +147,7 @@ public class EventDao extends BaseDao<Event> {
 
 			return (ArrayList<Event>) events;
 		} catch (EmptyResultDataAccessException e) {
-			System.out.println("There are no events with that search!");
+			
 			return null;
 		}
 	}
@@ -169,7 +169,7 @@ public class EventDao extends BaseDao<Event> {
 
 			return (ArrayList<Event>) event;
 		} catch (EmptyResultDataAccessException e) {
-			System.out.println("There are no upcoming events.");
+			
 			return null;
 		}
 	}

@@ -19,9 +19,7 @@ public class UserController extends BaseController {
 	public String displayAccount(Model model) {
 
 		User userId = getCurrentUser();
-
 		// User user = getUserDao().getObjectById(userId);
-
 		model.addAttribute("userId", userId);
 		return "account/view";
 	}

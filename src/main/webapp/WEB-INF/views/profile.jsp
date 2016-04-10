@@ -33,7 +33,8 @@
 						if(request.getAttribute("photo") == null){
 					%>
 					<img id="profile-pic" src="/Alumni-Tracker/content/img/empty-profile.png"
-						alt="Profile Picture">
+						alt="Profile Picture" style = "margin-top: 20px">
+						
 					<%}else{ %>
 						<img id="profile-pic" src="/Alumni-Tracker/getImage/<%=photo.getId()%>.jpeg">
 				<div class="page-wrapper table-container ben-container">

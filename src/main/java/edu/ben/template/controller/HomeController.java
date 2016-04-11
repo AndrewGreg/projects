@@ -710,8 +710,6 @@ public class HomeController extends BaseController {
 			@RequestParam("experience") String experience, @RequestParam("password") String password,
 			@RequestParam("passConfirm") String passConfirm) {
 
-		// TODO SPRING INPUT PROBLEMS AND VALIDATE INFO
-
 		try {
 
 			// Empty title = -1
@@ -940,7 +938,6 @@ public class HomeController extends BaseController {
 
 				model.addAttribute("errors", errors);
 
-				System.out.println("Something wrong");
 				return "registration";
 			}
 
@@ -948,7 +945,6 @@ public class HomeController extends BaseController {
 			e.printStackTrace();
 		}
 		return "registration";
-
 	}
 
 	@RequestMapping(value = "/massRegister", method = RequestMethod.POST)

@@ -154,7 +154,7 @@ public class JobDao extends BaseDao<Job> {
 
 			return (ArrayList<Job>) jobs;
 		} catch (EmptyResultDataAccessException e) {
-			System.out.println("There are no jobs with that search!");
+			
 			return null;
 		}
 	}
@@ -199,7 +199,7 @@ public class JobDao extends BaseDao<Job> {
 
 			return (ArrayList<Job>) jobs;
 		} catch (EmptyResultDataAccessException e) {
-			System.out.println("There are no jobs.");
+			
 			return null;
 		}
 	}
@@ -222,7 +222,7 @@ public class JobDao extends BaseDao<Job> {
 
 			return (ArrayList<Job>) jobs;
 		} catch (EmptyResultDataAccessException e) {
-			System.out.println("There are no jobs.");
+			
 			return null;
 		}
 	}

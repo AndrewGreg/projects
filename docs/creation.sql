@@ -67,8 +67,8 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`user` (
   `last_modified` DATETIME NULL DEFAULT NULL,
   `last_login` DATETIME NULL DEFAULT NULL,
   `social_media` VARCHAR(200) NULL DEFAULT NULL,
-  `phone_number` INT(11) NULL DEFAULT NULL,
-  `work_number` INT(11) NULL DEFAULT NULL,
+  `phone_number` VARCHAR(20) NULL DEFAULT NULL,
+  `work_number` VARCHAR(20) NULL DEFAULT NULL,
   `user_verified` TINYINT(1) NULL DEFAULT '0',
   `admin_verified` TINYINT(1) NULL DEFAULT '0',
   `graduate_verified` TINYINT(1) NULL DEFAULT '0',
@@ -300,7 +300,7 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`job` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
+AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -310,6 +310,7 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `alumnitracker`.`job_interest` (
   `interest_id` INT(11) NOT NULL,
   `job_id` INT(11) NOT NULL,
+  PRIMARY KEY (`interest_id`, `job_id`),
   INDEX `fk_interest_has_job_job1_idx` (`job_id` ASC),
   INDEX `fk_interest_has_job_interest1_idx` (`interest_id` ASC),
   CONSTRAINT `fk_interest_has_job_interest1`

@@ -115,8 +115,8 @@
 	src="/Alumni-Tracker/content/templateAssets/assets/plugins/jflickrfeed/jflickrfeed.min.js"></script>
 <script type="text/javascript"
 	src="/Alumni-Tracker/content/templateAssets/assets/js/main.js"></script>
-<script type="text/javascript" src="/content/jQuery/clickable-row.js"></script>
-<script type="text/javascript" src="/content/jQuery/table-search.js"></script>
+<script type="text/javascript" src="/Alumni-Tracker/content/jQuery/clickable-row.js"></script>
+<script type="text/javascript" src="/Alumni-Tracker/content/jQuery/table-search.js"></script>
 
 
 <%
@@ -137,7 +137,7 @@
 <%
 	}
 %>
-
+<%--
 <%
 	boolean eventCreation = request.getAttribute("eventCreation") != null
 			? (boolean) request.getAttribute("eventCreation")
@@ -176,4 +176,4 @@
 
 <%
 	}
-%>
+%>  --%>

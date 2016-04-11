@@ -29,7 +29,6 @@ public abstract class BaseController extends DaoKeeper {
 	 */
 	@ModelAttribute("currentUser")
 	public User getCurrentUser() {
-		// get the security principal
 		return getUserFromPrincipal();
 	}
 
@@ -40,13 +39,10 @@ public abstract class BaseController extends DaoKeeper {
 	 * @return the logged in user.
 	 */
 	public User getUserFromPrincipal(Object principal) {
-		System.out.println(principal);
 		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) principal;
 
 		String userName = user.getUsername();
-
 		User loggedUser = getUserDao().getByEmail(userName);
-
 		return loggedUser;
 	}
 
@@ -78,19 +74,11 @@ public abstract class BaseController extends DaoKeeper {
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
 	public void handleMissingServletRequestParameterException(MissingServletRequestParameterException e,
 			HttpServletResponse response) {
-		/* TODO THIS SHOULD BE LOGGED SOMEWHERE */
 	}
 
 	@ExceptionHandler(AccessDeniedException.class)
 	@ResponseStatus(value = HttpStatus.FORBIDDEN)
 	public String handleAccessDeniedException(AccessDeniedException e, HttpServletResponse response) {
-		/* TODO THIS SHOULD BE LOGGED SOMEWHERE */
 		return "errors/accessDenied";
 	}
-
-	// public long getCurrentUserId() {
-	// User u = (User)
-	// SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	// return u.getId();
-	// }
 }

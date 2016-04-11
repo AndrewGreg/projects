@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -163,8 +164,6 @@ public class HomeController extends BaseController {
 				job.setEnd_salary(endingSalary);
 			} else if (!(startingSalary < endingSalary)) {
 
-				System.out.println("Error in salary");
-
 				HashMap<String, String> errors = new HashMap<String, String>();
 
 				if (name == null || !name.matches(".{2,}")) {
@@ -209,7 +208,6 @@ public class HomeController extends BaseController {
 			}
 
 			model.addAttribute("jobCreation", true);
-			System.out.println("Job was created");
 
 			model.addAttribute("active", "job");
 
@@ -330,7 +328,7 @@ public class HomeController extends BaseController {
 
 			return "editJobTemplate";
 		}
-		// return "jobPostings";
+
 	}
 
 	/**
@@ -421,7 +419,6 @@ public class HomeController extends BaseController {
 				}
 
 				model.addAttribute("errors", errors);
-				System.out.println("Event date is earlier than the current date.");
 
 				return "/createEventTemplate";
 			}
@@ -452,7 +449,6 @@ public class HomeController extends BaseController {
 				}
 
 				model.addAttribute("errors", errors);
-				System.out.println("Start time is less than end time.");
 
 				return "/createEventTemplate";
 
@@ -467,7 +463,6 @@ public class HomeController extends BaseController {
 			}
 
 			model.addAttribute("eventCreation", true);
-			System.out.println("Event was created.");
 
 			try {
 				getEventDao().addEvent(createEvent);
@@ -555,9 +550,9 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/editAnEvent/{id}", method = RequestMethod.GET)
 	public String editAnEvent(Model model, @PathVariable Long id) {
 		Event editEvent = getEventDao().getObjectById(id);
-		// Long jobId = editJob.getId();
+
 		model.addAttribute("editEvent", editEvent);
-		// model.addAttribute("editJobId", jobId);
+
 		return "editEventTemplate";
 	}
 
@@ -583,7 +578,7 @@ public class HomeController extends BaseController {
 				getEventDao().updateEvent(editEvent);
 
 			} catch (Exception e) {
-				// e.printStackTrace();
+
 			}
 
 			return "redirect:/events";
@@ -610,7 +605,6 @@ public class HomeController extends BaseController {
 
 			return "editEventTemplate";
 		}
-		// return "jobPostings";
 	}
 
 	/**
@@ -1097,7 +1091,7 @@ public class HomeController extends BaseController {
 	 * @throws SQLException
 	 * @throws SerialException
 	 */
-	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/edit/", method = RequestMethod.POST)
 	public String edit(Model model, @RequestParam("title") String title, @RequestParam("fName") String firstName,
 			@RequestParam("lName") String lastName, @RequestParam("suffix") String suffix,
 			@RequestParam("personalEmail") String personalEmail, @RequestParam("graduationYear") String graduationYear,
@@ -1174,8 +1168,6 @@ public class HomeController extends BaseController {
 				getUserDao().updateUser(u);
 				getMajorDao().updateMajorAndConcentrationByUser(u);
 			} catch (Exception e) {
-				/* Probably should log this */
-				System.out.println("Oops");
 
 			}
 
@@ -1253,8 +1245,6 @@ public class HomeController extends BaseController {
 				getUserDao().updateUser(u);
 				getMajorDao().updateMajorAndConcentrationByUser(u);
 			} catch (Exception e) {
-				/* Probably should log this */
-				System.out.println("Oops");
 
 			}
 
@@ -1368,60 +1358,6 @@ public class HomeController extends BaseController {
 
 		return "profile";
 	}
-
-	/**
-	 * Post method that displays after user profile is displayed.
-	 * 
-	 * @param model
-	 *            being passed.
-	 * @param request
-	 * @param response
-	 * @param fileUpload
-	 *            to pass the file in.
-	 * @param files
-	 *            to pass the text file in.
-	 * @return the profile after its displayed.
-	 * @throws Exception
-	 *             to file that is invalid.
-	 */
-	// @RequestMapping(value = "/userProfile", method = RequestMethod.POST)
-	// public void userProfileUpload(Model model, HttpServletRequest request,
-	// HttpServletResponse response,
-	// @RequestParam CommonsMultipartFile[] fileUpload, @RequestParam("file")
-	// MultipartFile[] files)
-	// throws Exception {
-	//
-	// MultipartHttpServletRequest multipartRequest =
-	// (MultipartHttpServletRequest) request;
-	// MultipartFile multipartFile = multipartRequest.getFile("file");
-	//
-	// // UploadFile file = new UploadFile();
-	// // file.setFilename(multipartFile.getOriginalFilename());
-	// // file.setNotes(ServletRequestUtils.getStringParameter(request,
-	// // "notes"));
-	// // file.setType(multipartFile.getContentType());
-	// if (files[0] != null) {
-	// ((UploadFile) files[0]).setData(multipartFile.getBytes());
-	// getFileUploadDao().addFile((UploadFile) files[0]);
-	// }
-	// if (files[1] != null) {
-	// ((UploadFile) files[1]).setData(multipartFile.getBytes());
-	// getImageUploadDao().addImage((UploadFile) files[1]);
-	// }
-	// if (fileUpload != null && fileUpload.length > 0) {
-	// for (CommonsMultipartFile aFile : fileUpload){
-
-	// System.out.println("Saving file: " + aFile.getOriginalFilename());
-
-	// UploadFile uploadFile = new UploadFile();
-	// uploadFile.setFileName(aFile.getOriginalFilename());
-	// uploadFile.setData(aFile.getBytes());
-	// fileUploadDao.save(uploadFile);
-	// }
-	// }
-
-	// return "userProfile";
-	// }
 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.POST)
 	public String userProfileUpload(Model model, @RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
@@ -1610,7 +1546,7 @@ public class HomeController extends BaseController {
 	public String deleteUser(Model model, @ModelAttribute("profileUser") User profileUser) {
 		profileUser.setActive(false);
 		profileUser.setHidden(true);
-		// System.out.println(profileUser.getId());
+
 		getUserDao().updateUser(profileUser);
 		return "admin";
 	}

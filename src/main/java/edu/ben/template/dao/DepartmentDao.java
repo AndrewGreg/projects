@@ -139,7 +139,7 @@ public class DepartmentDao extends BaseDao<Department> {
 
 			return (ArrayList<Department>) departments;
 		} catch (EmptyResultDataAccessException e) {
-			System.out.println("There are no department with that name!");
+		
 			return null;
 		}
 	}

@@ -139,7 +139,7 @@ public class CollegeDao extends BaseDao<College> {
 
 			return (ArrayList<College>) colleges;
 		} catch (EmptyResultDataAccessException e) {
-			System.out.println("There is no College with that name!");
+
 			return null;
 		}
 	}

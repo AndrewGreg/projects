@@ -110,7 +110,6 @@ public class UserDao extends BaseDao<User> {
 
 			return (ArrayList<User>) users;
 		} catch (EmptyResultDataAccessException e) {
-			System.out.println("There are not any students in the system.");
 			return null;
 		}
 	}
@@ -126,7 +125,7 @@ public class UserDao extends BaseDao<User> {
 			return count;
 
 		} catch (EmptyResultDataAccessException e) {
-			System.out.println("There are not any students in the system.");
+			
 			return count;
 		}
 	}
@@ -146,7 +145,7 @@ public class UserDao extends BaseDao<User> {
 
 			return (ArrayList<User>) users;
 		} catch (EmptyResultDataAccessException e) {
-			System.out.println("There are not any alumni in the system.");
+			
 			return null;
 		}
 	}
@@ -162,7 +161,7 @@ public class UserDao extends BaseDao<User> {
 			return count;
 
 		} catch (EmptyResultDataAccessException e) {
-			System.out.println("There are not any alumni in the system.");
+			
 			return count;
 		}
 	}
@@ -182,7 +181,7 @@ public class UserDao extends BaseDao<User> {
 
 			return (ArrayList<User>) users;
 		} catch (EmptyResultDataAccessException e) {
-			System.out.println("There are not any faculty in the system.");
+			
 			return null;
 		}
 	}
@@ -198,7 +197,7 @@ public class UserDao extends BaseDao<User> {
 			return count;
 
 		} catch (EmptyResultDataAccessException e) {
-			System.out.println("There are not any faculty in the system.");
+		
 			return count;
 		}
 	}

@@ -41,7 +41,11 @@ public class User implements UserDetails, CredentialsContainer {
 	private int bNumber;
 	private String password;
 	private String salt;
-	private int titleID;
+
+	private long titleID;
+
+	private Long imageId;
+
 	private String firstName;
 	private String lastName;
 	private int role;
@@ -125,7 +129,7 @@ public class User implements UserDetails, CredentialsContainer {
 	}
 
 	public User(String email, String personalEmail, Long id, int securityLevel, int bNumber, String password,
-			String salt, int titleID, String firstName, String lastName, int role, int graduationYear,
+			String salt, int titleID, long imageId, String firstName, String lastName, int role, int graduationYear,
 			String occupation, String company, String suffix, String biography, String experience, boolean hidden,
 			boolean active, DateTime created, DateTime lastActive, DateTime lastModified, String socialMedia,
 			String phoneNumber, String workNumber, boolean userVerified, boolean adminVerified, boolean graduateVerified,
@@ -140,6 +144,7 @@ public class User implements UserDetails, CredentialsContainer {
 		this.password = password;
 		this.salt = salt;
 		this.titleID = titleID;
+		this.imageId = imageId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.role = role;
@@ -176,7 +181,7 @@ public class User implements UserDetails, CredentialsContainer {
 	}
 
 	public User(String email, String personalEmail, Long id, int securityLevel, int bNumber, String password,
-			String salt, int titleID, String firstName, String lastName, int role, int graduationYear,
+			String salt, int titleID, long imageId, String firstName, String lastName, int role, int graduationYear,
 			String occupation, String company, String suffix, String biography, String experience, boolean hidden,
 			boolean active, DateTime created, DateTime lastActive, DateTime lastModified, String socialMedia,
 			String phoneNumber, String workNumber, boolean userVerified, boolean adminVerified, boolean graduateVerified,
@@ -192,6 +197,7 @@ public class User implements UserDetails, CredentialsContainer {
 		this.password = password;
 		this.salt = salt;
 		this.titleID = titleID;
+		this.imageId = imageId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.role = role;
@@ -247,6 +253,7 @@ public class User implements UserDetails, CredentialsContainer {
 		// serializable
 		private static final long serialVersionUID = -4713441153411394321L;
 
+		@Override
 		public int compare(GrantedAuthority g1, GrantedAuthority g2) {
 			// Neither should ever be null as each entry is checked before
 			// adding it to the set.
@@ -328,12 +335,20 @@ public class User implements UserDetails, CredentialsContainer {
 		this.occupation = occupation;
 	}
 
-	public int getTitleID() {
+	public long getTitleID() {
 		return titleID;
 	}
 
-	public void setTitleID(int titleID) {
+	public void setTitleID(long titleID) {
 		this.titleID = titleID;
+	}
+	
+	public Long getImageId() {
+		return imageId;
+	}
+
+	public void setImageId(Long imageId) {
+		this.imageId = imageId;
 	}
 
 	public String getSuffix() {
@@ -360,6 +375,7 @@ public class User implements UserDetails, CredentialsContainer {
 		return lastName;
 	}
 
+	@Override
 	public String getPassword() {
 		return password;
 	}
@@ -759,6 +775,15 @@ public class User implements UserDetails, CredentialsContainer {
 			}
 		}
 		this.interest.add(interest);
+	}
+	
+	/**
+	 * Placeholder for a method to return the user's profile picture
+	 * @return profile picture of the user
+	 */
+	public Object getProfilePic() {
+		//TODO Design and implement this method
+		return null;
 	}
 
 	@Override

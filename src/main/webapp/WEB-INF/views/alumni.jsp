@@ -30,7 +30,7 @@
 					<div class="breadcrumbs pull-right">
 						<ul class="breadcrumbs-list">
 							<li class="breadcrumbs-label">You are here:</li>
-							<li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
+							<li><a href="/Alumni-Tracker/">Home</a><i class="fa fa-angle-right"></i></li>
 							<li class="current">Alumni Directory</li>
 						</ul>
 					</div>
@@ -75,9 +75,9 @@
 											for (int i = 0; i < alumni.size(); i++) {
 									%>
 									<tr class='clickable-row row-link'
-										data-href='/user/<%=alumni.get(i).getId()%>'>
+										data-href='/Alumni-Tracker/user/<%=alumni.get(i).getId()%>'>
 										<td align="center"><img id="empty-profile-pic"
-											src="/content/img/empty-profile.png"
+											src="/Alumni-Tracker/content/img/empty-profile.png"
 											alt="Empty profile picture"></td>
 										<td align="center"><%=alumni.get(i).getFirstName()%></td>
 										<td align="center"><%=alumni.get(i).getLastName()%></td>
@@ -100,11 +100,11 @@
 									<%
 										while (i < alumni.size() / 15 + 1) {
 									%>
-									<li><a href="/alumni?page=<%=i%>"><%=++i%></a></li>
+									<li><a href="/Alumni-Tracker/alumni?page=<%=i%>"><%=++i%></a></li>
 									<%
 										if (alumni.size() > 15) {
 									%>
-									<li><a href="/alumni?page=<%=i++%>"><%=i++%></a></li>
+									<li><a href="/Alumni-Tracker/alumni?page=<%=i++%>"><%=i++%></a></li>
 									<%
 										}
 										}
@@ -123,7 +123,7 @@
 	<!--//wrapper-->
 	<jsp:include page="footerTemplate.jsp" />
 
-	<script type="text/javascript" src="/content/jQuery/sortColumns.js"></script>
+	<script type="text/javascript" src="/Alumni-Tracker/content/jQuery/sortColumns.js"></script>
 
 </body>
 

@@ -37,8 +37,8 @@
 				<div class="breadcrumbs pull-right">
 					<ul class="breadcrumbs-list">
 						<li class="breadcrumbs-label">You are here:</li>
-						<li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
-						<li><a href="/eventsTemplate">Events</a><i
+						<li><a href="/Alumni-Tracker/">Home</a><i class="fa fa-angle-right"></i></li>
+						<li><a href="/Alumni-Tracker/eventsTemplate">Events</a><i
 							class="fa fa-angle-right"></i></li>
 						<li class="current">Create Event</li>
 					</ul>
@@ -48,7 +48,7 @@
 				<div class="row">
 					<div class="col-md-6 col-md-offset-3">
 
-						<form action="/createNewEvent" method="POST" name="createNewEvent">
+						<form action="/Alumni-Tracker/createNewEvent" method="POST" name="createNewEvent">
 
 							<div class="row">
 								<!-- Input control group -->
@@ -302,14 +302,14 @@
 	<!--//wrapper-->
 	<jsp:include page="footerTemplate.jsp" />
 	<script type="text/javascript"
-		src="/content/BootstrapFormHelpers/dist/js/bootstrap-formhelpers.js"></script>
+		src="/Alumni-Tracker/content/BootstrapFormHelpers/dist/js/bootstrap-formhelpers.js"></script>
 	<script type="text/javascript"
-		src="/content/BootstrapFormHelpers/js/lang/en_US/bootstrap-formhelpers-datepicker.en_US.js"></script>
+		src="/Alumni-Tracker/content/BootstrapFormHelpers/js/lang/en_US/bootstrap-formhelpers-datepicker.en_US.js"></script>
 	<script type="text/javascript"
-		src="/content/BootstrapFormHelpers/js/bootstrap-formhelpers-datepicker.js"></script>
+		src="/Alumni-Tracker/content/BootstrapFormHelpers/js/bootstrap-formhelpers-datepicker.js"></script>
 	<script type="text/javascript"
-		src="/content/BootstrapFormHelpers/js/lang/en_US/bootstrap-formhelpers-timepicker.en_US.js"></script>
+		src="/Alumni-Tracker/content/BootstrapFormHelpers/js/lang/en_US/bootstrap-formhelpers-timepicker.en_US.js"></script>
 	<script type="text/javascript"
-		src="/content/BootstrapFormHelpers/js/bootstrap-formhelpers-timepicker.js"></script>
+		src="/Alumni-Tracker/content/BootstrapFormHelpers/js/bootstrap-formhelpers-timepicker.js"></script>
 </body>
 </html>

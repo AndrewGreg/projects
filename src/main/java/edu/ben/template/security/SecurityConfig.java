@@ -15,8 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.stereotype.Component;
-
 import edu.ben.template.dao.DaoConfig;
 //import edu.ben.template.dao.DaoConfig;
 
@@ -73,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.formLogin()
 					.successHandler(new SimpleUrlAuthenticationSuccessHandler("/"))
 					.loginPage("/").permitAll()
-					.loginProcessingUrl("/login")
+					.loginProcessingUrl("//login")
 					.usernameParameter("email")
 					.passwordParameter("password")
 					.failureUrl("/loginFailure")

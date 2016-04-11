@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`title` (
   `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -132,7 +133,6 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`department` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -162,7 +162,7 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`event` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 14
+AUTO_INCREMENT = 9
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -172,7 +172,6 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `alumnitracker`.`event_department` (
   `event_id` INT(11) NOT NULL,
   `department_id` INT(11) NOT NULL,
-  PRIMARY KEY (`event_id`, `department_id`),
   INDEX `fk_event_has_department_department1_idx` (`department_id` ASC),
   INDEX `fk_event_has_department_event1_idx` (`event_id` ASC),
   CONSTRAINT `fk_event_has_department_department1`
@@ -198,7 +197,7 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`interest` (
   `hidden` TINYINT(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 4
+AUTO_INCREMENT = 11
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -208,7 +207,6 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `alumnitracker`.`event_interest` (
   `interest_id` INT(11) NOT NULL,
   `event_id` INT(11) NOT NULL,
-  PRIMARY KEY (`interest_id`, `event_id`),
   INDEX `fk_interest_has_event_event1_idx` (`event_id` ASC),
   INDEX `fk_interest_has_event_interest1_idx` (`interest_id` ASC),
   CONSTRAINT `fk_interest_has_event_event1`
@@ -302,7 +300,7 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`job` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 9
+AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -312,7 +310,6 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `alumnitracker`.`job_interest` (
   `interest_id` INT(11) NOT NULL,
   `job_id` INT(11) NOT NULL,
-  PRIMARY KEY (`interest_id`, `job_id`),
   INDEX `fk_interest_has_job_job1_idx` (`job_id` ASC),
   INDEX `fk_interest_has_job_interest1_idx` (`interest_id` ASC),
   CONSTRAINT `fk_interest_has_job_interest1`
@@ -356,7 +353,7 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`major` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 9
+AUTO_INCREMENT = 14
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -368,6 +365,7 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`reason` (
   `name` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -409,9 +407,8 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `alumnitracker`.`user_file`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `alumnitracker`.`user_file` (
-  `user_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_id` INT(11) NOT NULL,
   `file_id` INT(11) NOT NULL,
-  PRIMARY KEY (`user_id`, `file_id`),
   INDEX `fk_user_has_file_file1_idx` (`file_id` ASC),
   INDEX `fk_user_has_file_user1_idx` (`user_id` ASC),
   CONSTRAINT `fk_user_has_file_file1`
@@ -434,7 +431,6 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `alumnitracker`.`user_interest` (
   `user_id` INT(11) NOT NULL,
   `interest_id` INT(11) NOT NULL,
-  PRIMARY KEY (`user_id`, `interest_id`),
   INDEX `fk_user_has_interest_interest1_idx` (`interest_id` ASC),
   INDEX `fk_user_has_interest_user1_idx` (`user_id` ASC),
   CONSTRAINT `fk_user_has_interest_interest1`
@@ -459,7 +455,6 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`user_major` (
   `major_id` INT(11) NOT NULL,
   `minor` TINYINT(1) NOT NULL DEFAULT '0',
   `hidden` TINYINT(1) NULL DEFAULT NULL,
-  PRIMARY KEY (`user_id`, `major_id`),
   INDEX `fk_user_has_major_major1_idx` (`major_id` ASC),
   INDEX `fk_user_has_major_user1_idx` (`user_id` ASC),
   CONSTRAINT `fk_user_has_major_major1`

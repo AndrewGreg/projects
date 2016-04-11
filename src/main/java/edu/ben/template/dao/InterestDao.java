@@ -13,7 +13,6 @@ import org.springframework.jdbc.core.RowMapper;
 
 import edu.ben.template.model.Event;
 import edu.ben.template.model.Interest;
-import edu.ben.template.model.Major;
 import edu.ben.template.model.User;
 import edu.ben.template.model.Job;
 
@@ -165,6 +164,7 @@ public class InterestDao extends BaseDao<Interest> {
 	@Override
 	public RowMapper<Interest> getRowMapper() {
 		return new RowMapper<Interest>() {
+			@Override
 			public Interest mapRow(ResultSet rs, int rowNum) throws SQLException {
 				// map result set to object
 				Interest interest = new Interest();

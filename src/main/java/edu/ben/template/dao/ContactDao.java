@@ -76,12 +76,13 @@ public class ContactDao extends BaseDao<Contact> {
 	@Override
 	public RowMapper<Contact> getRowMapper() {
 		return new RowMapper<Contact>() {
+			@Override
 			public Contact mapRow(ResultSet rs, int rowNum) throws SQLException {
 				// map result set to object
 				Contact contact = new Contact();
 				contact.setName(rs.getString("name"));
 				contact.setEmail(rs.getString("email"));
-				contact.setPhoneNumber(rs.getInt("phoneNumber"));
+				contact.setPhoneNumber(rs.getString("phoneNumber"));
 				contact.setMessage(rs.getString("message"));
 				contact.setUserId(rs.getInt("userId"));
 				contact.setRecipientId(rs.getInt("recipientId"));

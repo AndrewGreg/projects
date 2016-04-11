@@ -67,7 +67,7 @@
 <title>Registration</title>
 <jsp:include page="headerTemplate.jsp" />
 <link id="theme-style" rel="stylesheet"
-	href="/content/css/registrationForm.css">
+	href="/Alumni-Tracker/content/css/registrationForm.css">
 </head>
 <body>
 	<div class="wrapper">
@@ -80,7 +80,8 @@
 				<div class="breadcrumbs pull-right">
 					<ul class="breadcrumbs-list">
 						<li class="breadcrumbs-label">You are here:</li>
-						<li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
+						<li><a href="/Alumni-Tracker/">Home</a><i
+							class="fa fa-angle-right"></i></li>
 						<li class="current">Registration</li>
 					</ul>
 				</div>
@@ -112,8 +113,8 @@
 
 							</div>
 						</div>
-						<form action="/register" method="POST" name="register"
-							enctype="multipart/form-data">
+						<form action="/Alumni-Tracker/register" method="POST"
+							name="register" enctype="multipart/form-data">
 
 							<div class="row setup-content" id="step-1">
 
@@ -280,9 +281,10 @@
 									<label class="control-label" for="phone">Phone:</label>
 									<div class="controls" data-name="phone">
 										<input type="text" id="phone" name="phone"
-											placeholder="(000)000-0000"
+											placeholder=" (000)000-0000"
 											class="form-control input-medium bfh-phone"
 											data-format=" (ddd)ddd-dddd" value="<%=phone%>">
+
 
 										<%
 											if (errors.get("phone") != null) {
@@ -306,9 +308,10 @@
 										Phone:</label>
 									<div class="controls" data-name="workPhone">
 										<input type="text" id="workPhone" name="workPhone"
-											placeholder="(000)000-0000"
+											placeholder=" (000)000-0000"
 											class="form-control input-medium bfh-phone"
 											data-format=" (ddd)ddd-dddd" value="<%=workPhone%>">
+
 
 										<%
 											if (errors.get("workPhone") != null) {
@@ -329,6 +332,7 @@
 								<div class="control-group">
 									<!-- Title -->
 									<label class="control-label" for="linkedin">LinkedIn:</label>
+
 									<div class="controls" data-name="linkedin">
 										<input type="text" id="linkedin" name="linkedin"
 											placeholder="https://www.linkedin.com/in/john-doe"
@@ -389,255 +393,262 @@
 								<div class="control-group">
 									<!-- Title -->
 									<label class="control-label" for="standing">*Standing:</label>
+									<<<<<<< HEAD
 									<div class="controls" data-name="standing">
 										<select name="standing" id="standing" class="form-control"
-											required>
-											<option value="1">Student</option>
-											<option value="2">Alumnus/Alumna</option>
-											<option value="3">Faculty</option>
-										</select>
+											required> =======
+											<div class="controls">
+												<select name="standing" id="standing" class="form-control"
+													required> >>>>>>>
+													f4a9afdb3e5f824475f690c695fe1eb622072f3b
+													<option value="1">Student</option>
+													<option value="2">Alumnus/Alumna</option>
+													<option value="3">Faculty</option>
+												</select>
 
-										<%
-											if (errors.get("standing") != null) {
-										%>
+												<%
+													if (errors.get("standing") != null) {
+												%>
 
-										<h6 style="color: red"><%=errors.get("standing")%></h6>
+												<h6 style="color: red"><%=errors.get("standing")%></h6>
 
-										<%
-											}
-										%>
+												<%
+													}
+												%>
+											</div>
 									</div>
-								</div>
-								<br>
-								<!-- /Input control group -->
+									<br>
+									<!-- /Input control group -->
 
-								<!-- Input control group -->
-								<div class="control-group">
-									<!-- Title -->
-									<label class="control-label" for="gradYear">Graduation
-										Year:</label>
-									<div class="controls" data-name="gradYear">
-										<select name="gradYear" id="gradYear" class="form-control"
-											required>
-											<option value="0">None</option>
+									<!-- Input control group -->
+									<div class="control-group">
+										<!-- Title -->
+										<label class="control-label" for="gradYear">Graduation
+											Year:</label>
+										<div class="controls" data-name="gradYear">
+											<select name="gradYear" id="gradYear" class="form-control"
+												required>
+												<option value="0">None</option>
+
+												<%
+													for (int year = 2050; year > 1949; year--) {
+												%>
+												<option value="<%=year%>"><%=year%></option>
+												<%
+													}
+												%>
+
+											</select>
+
 
 											<%
-												for (int year = 2050; year > 1949; year--) {
+												if (errors.get("gradYear") != null) {
 											%>
-											<option value="<%=year%>"><%=year%></option>
+
+											<h6 style="color: red"><%=errors.get("gradYear")%></h6>
+
+											<%
+												}
+											%>
+											<br>
+										</div>
+									</div>
+									<!-- /Input control group -->
+
+									<!-- Input control group -->
+									<div class="control-group">
+										<!-- Title -->
+										<label class="control-label" for="gradSchool">Graduate
+											School:</label>
+										<div class="controls" data-name="gradSchool">
+											<input type="text" id="gradSchool" name="gradSchool"
+												placeholder="Benedictine University" class="form-control"
+												value="<%=gradSchool%>">
+
+											<%
+												if (errors.get("gradSchool") != null) {
+											%>
+
+											<span class="help-block" style="color: #e60000"> <%=errors.get("gradSchool")%></span>
+
 											<%
 												}
 											%>
 
-										</select>
-
-
-										<%
-											if (errors.get("gradYear") != null) {
-										%>
-
-										<h6 style="color: red"><%=errors.get("gradYear")%></h6>
-
-										<%
-											}
-										%>
-										<br>
+										</div>
 									</div>
-								</div>
-								<!-- /Input control group -->
+									<br>
+									<!-- /Input control group -->
 
-								<!-- Input control group -->
-								<div class="control-group">
-									<!-- Title -->
-									<label class="control-label" for="gradSchool">Graduate
-										School:</label>
-									<div class="controls" data-name="gradSchool">
-										<input type="text" id="gradSchool" name="gradSchool"
-											placeholder="Benedictine University" class="form-control"
-											value="<%=gradSchool%>">
+									<!-- Input control group -->
+									<div class="control-group">
+										<!-- Title -->
+										<label class="control-label" for="major">*Major:</label>
+										<div class="controls" data-name="major">
+											<select name="major" class="form-control" required>
 
-										<%
-											if (errors.get("gradSchool") != null) {
-										%>
-
-										<span class="help-block" style="color: #e60000"> <%=errors.get("gradSchool")%></span>
-
-										<%
-											}
-										%>
-
-									</div>
-								</div>
-								<br>
-								<!-- /Input control group -->
-
-								<!-- Input control group -->
-								<div class="control-group">
-									<!-- Title -->
-									<label class="control-label" for="major">*Major:</label>
-									<div class="controls" data-name="major">
-										<select name="major" class="form-control" required>
+												<%
+													for (int i = 0; i < majorList.size(); i++) {
+														String majorName = majorList.get(i).getName() != null ? majorList.get(i).getName() : "";
+												%>
+												<option value="<%=majorList.get(i).getId()%>"><%=majorName%></option>
+											</select>
 
 											<%
-												for (int i = 0; i < majorList.size(); i++) {
-													String majorName = majorList.get(i).getName() != null ? majorList.get(i).getName() : "";
+												}
+												if (errors.get("major") != null) {
 											%>
-											<option value="<%=majorList.get(i).getId()%>"><%=majorName%></option>
-										</select>
 
-										<%
-											}
-											if (errors.get("major") != null) {
-										%>
+											<span class="help-block" style="color: #e60000"> <%=errors.get("major")%></span>
 
-										<span class="help-block" style="color: #e60000"> <%=errors.get("major")%></span>
+											<%
+												}
+											%>
 
-										<%
-											}
-										%>
+										</div>
+									</div>
+									<br>
+									<!-- /Input control group -->
 
+									<div>
+										<p>* denotes required field.</p>
+									</div>
+									<button class="btn btn-primary nextBtn pull-right"
+										type="button">Next</button>
+								</div>
+
+								<div class="row setup-content" id="step-3">
+
+									<h3>Employment Information</h3>
+									<br>
+
+									<!-- Input control group -->
+									<div class="control-group">
+										<!-- Title -->
+										<label class="control-label" for="company">Company:</label>
+										<div class="controls" data-name="company">
+											<input type="text" id="company" name="company"
+												placeholder="Microsoft" class="form-control"
+												value="<%=company%>">
+
+											<%
+												if (errors.get("company") != null) {
+											%>
+
+											<span class="help-block" style="color: #e60000"> <%=errors.get("company")%></span>
+
+											<%
+												}
+											%>
+
+										</div>
+									</div>
+									<br>
+									<!-- /Input control group -->
+
+									<!-- Input control group -->
+									<div class="control-group">
+										<!-- Title -->
+										<label class="control-label" for="occupation">Occupation:</label>
+										<div class="controls" data-name="occupation">
+											<input type="text" id="occupation" name="occupation"
+												placeholder="Software Engineer" class="form-control"
+												value="<%=occupation%>">
+
+											<%
+												if (errors.get("occupation") != null) {
+											%>
+
+											<span class="help-block" style="color: #e60000"> <%=errors.get("occupation")%></span>
+
+											<%
+												}
+											%>
+
+										</div>
+									</div>
+									<br>
+									<!-- /Input control group -->
+
+									<!-- Input control group -->
+									<div class="control-group">
+										<!-- Title -->
+										<label class="control-label" for="experience">Experience:</label>
+										<div class="controls" data-name="experience">
+											<textarea rows="5" id="experience" name="experience"
+												placeholder="Professional Experience." class="form-control"
+												value="<%=experience%>"></textarea>
+
+											<%
+												if (errors.get("experience") != null) {
+											%>
+
+											<span class="help-block" style="color: #e60000"> <%=errors.get("experience")%></span>
+
+											<%
+												}
+											%>
+
+										</div>
+									</div>
+									<br>
+									<!-- /Input control group -->
+
+									<div>
+										<p>* denotes required field.</p>
+									</div>
+									<button class="btn btn-primary nextBtn pull-right"
+										type="button">Next</button>
+								</div>
+
+								<div class="row setup-content" id="step-4">
+
+									<h3>Complete Registration</h3>
+									<br>
+
+									<!-- Input control group -->
+									<div class="control-group">
+										<!-- Title -->
+										<label class="control-label" for="password">*Password:</label>
+										<div class="controls" data-name="password">
+											<input type="password" id="password" name="password"
+												placeholder="Password" class="form-control">
+										</div>
+									</div>
+									<br>
+									<!-- /Input control group -->
+
+									<!-- Input control group -->
+									<div class="control-group">
+										<!-- Title -->
+										<label class="control-label" for="passConfirm">*Confirm
+											Password:</label>
+										<div class="controls" data-name="passConfirm">
+											<input type="password" id="passConfirm" name="passConfirm"
+												placeholder="Confirm Password" class="form-control">
+
+											<%
+												if (errors.get("passwords") != null) {
+											%>
+
+											<span class="help-block" style="color: #e60000"> <%=errors.get("passwords")%></span>
+
+											<%
+												}
+											%>
+
+										</div>
+									</div>
+									<br>
+									<!-- /Input control group -->
+
+									<div>
+										<p>* denotes required field.</p>
+									</div>
+									<div class="pull-right">
+										<button type="submit" class="btn btn-primary">Register</button>
 									</div>
 								</div>
-								<br>
-								<!-- /Input control group -->
-
-								<div>
-									<p>* denotes required field.</p>
-								</div>
-								<button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
-							</div>
-
-							<div class="row setup-content" id="step-3">
-
-								<h3>Employment Information</h3>
-								<br>
-
-								<!-- Input control group -->
-								<div class="control-group">
-									<!-- Title -->
-									<label class="control-label" for="company">Company:</label>
-									<div class="controls" data-name="company">
-										<input type="text" id="company" name="company"
-											placeholder="Microsoft" class="form-control"
-											value="<%=company%>">
-
-										<%
-											if (errors.get("company") != null) {
-										%>
-
-										<span class="help-block" style="color: #e60000"> <%=errors.get("company")%></span>
-
-										<%
-											}
-										%>
-
-									</div>
-								</div>
-								<br>
-								<!-- /Input control group -->
-
-								<!-- Input control group -->
-								<div class="control-group">
-									<!-- Title -->
-									<label class="control-label" for="occupation">Occupation:</label>
-									<div class="controls" data-name="occupation">
-										<input type="text" id="occupation" name="occupation"
-											placeholder="Software Engineer" class="form-control"
-											value="<%=occupation%>">
-
-										<%
-											if (errors.get("occupation") != null) {
-										%>
-
-										<span class="help-block" style="color: #e60000"> <%=errors.get("occupation")%></span>
-
-										<%
-											}
-										%>
-
-									</div>
-								</div>
-								<br>
-								<!-- /Input control group -->
-
-								<!-- Input control group -->
-								<div class="control-group">
-									<!-- Title -->
-									<label class="control-label" for="experience">Experience:</label>
-									<div class="controls" data-name="experience">
-										<textarea rows="5" id="experience" name="experience"
-											placeholder="Professional Experience." class="form-control"
-											value="<%=experience%>"></textarea>
-
-										<%
-											if (errors.get("experience") != null) {
-										%>
-
-										<span class="help-block" style="color: #e60000"> <%=errors.get("experience")%></span>
-
-										<%
-											}
-										%>
-
-									</div>
-								</div>
-								<br>
-								<!-- /Input control group -->
-
-								<div>
-									<p>* denotes required field.</p>
-								</div>
-								<button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
-							</div>
-
-							<div class="row setup-content" id="step-4">
-
-								<h3>Complete Registration</h3>
-								<br>
-
-								<!-- Input control group -->
-								<div class="control-group">
-									<!-- Title -->
-									<label class="control-label" for="password">*Password:</label>
-									<div class="controls" data-name="password">
-										<input type="password" id="password" name="password"
-											placeholder="Password" class="form-control">
-									</div>
-								</div>
-								<br>
-								<!-- /Input control group -->
-
-								<!-- Input control group -->
-								<div class="control-group">
-									<!-- Title -->
-									<label class="control-label" for="passConfirm">*Confirm
-										Password:</label>
-									<div class="controls" data-name="passConfirm">
-										<input type="password" id="passConfirm" name="passConfirm"
-											placeholder="Confirm Password" class="form-control">
-
-										<%
-											if (errors.get("passwords") != null) {
-										%>
-
-										<span class="help-block" style="color: #e60000"> <%=errors.get("passwords")%></span>
-
-										<%
-											}
-										%>
-
-									</div>
-								</div>
-								<br>
-								<!-- /Input control group -->
-
-								<div>
-									<p>* denotes required field.</p>
-								</div>
-								<div class="pull-right">
-									<button type="submit" class="btn btn-primary">Register</button>
-								</div>
-							</div>
 						</form>
 						<br>
 					</div>
@@ -648,8 +659,8 @@
 	<!--//wrapper-->
 	<jsp:include page="footerTemplate.jsp" />
 	<script type="text/javascript"
-		src="/content/jQuery/registrationForm.js"></script>
+		src="/Alumni-Tracker/content/jQuery/registrationForm.js"></script>
 	<script type="text/javascript"
-		src="/content/BootstrapFormHelpers/js/bootstrap-formhelpers-phone.js"></script>
+		src="/Alumni-Tracker/content/BootstrapFormHelpers/js/bootstrap-formhelpers-phone.js"></script>
 </body>
 </html>

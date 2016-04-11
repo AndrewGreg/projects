@@ -42,8 +42,8 @@
 				<div class="breadcrumbs pull-right">
 					<ul class="breadcrumbs-list">
 						<li class="breadcrumbs-label">You are here:</li>
-						<li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
-						<li><a href="/jobs">Jobs</a><i class="fa fa-angle-right"></i></li>
+						<li><a href="/Alumni-Tracker/">Home</a><i class="fa fa-angle-right"></i></li>
+						<li><a href="/Alumni-Tracker/jobs">Jobs</a><i class="fa fa-angle-right"></i></li>
 						<li class="current">Create Job</li>
 					</ul>
 				</div>
@@ -51,7 +51,7 @@
 				<br>
 				<div class="row">
 					<div class="col-md-6 col-md-offset-3">
-						<form action="/createJobPosting" method="POST" name="createJob">
+						<form action="/Alumni-Tracker/createJobPosting" method="POST" name="createJob">
 
 							<div class="row">
 								<!-- Input control group -->

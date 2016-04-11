@@ -31,8 +31,8 @@
                     <div class="breadcrumbs pull-right">
                         <ul class="breadcrumbs-list">
                             <li class="breadcrumbs-label">You are here:</li>
-                            <li><a href="/">Home</a><i class="fa fa-angle-right"></i></li>
-                            <li><a href="/eventsTemplate">Events</a><i class="fa fa-angle-right"></i></li>
+                            <li><a href="/Alumni-Tracker/">Home</a><i class="fa fa-angle-right"></i></li>
+                            <li><a href="/Alumni-Tracker/eventsTemplate">Events</a><i class="fa fa-angle-right"></i></li>
                             <li class="current" style="color: white"><%=currentEvent.getName()%></li>
                         </ul>
                     </div><!--//breadcrumbs-->
@@ -42,7 +42,7 @@
                         <div class="jobs-wrapper col-md-8 col-sm-7">           
                             <h3 class="title" style="color: white"><%=currentEvent.getName()%></h3>
                             <%if(currentUser.getId() == currentEvent.getPoster().getId()){%>
-                            	<a href="/editAnEvent/<%=id%>" style="color: white">Edit Event</a>
+                            	<a href="/Alumni-Tracker/editAnEvent/<%=id%>" style="color: white">Edit Event</a>
                             <%	
                             	}
                             %>

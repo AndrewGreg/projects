@@ -943,7 +943,7 @@ public class HomeController extends BaseController {
 	 * @throws SQLException
 	 * @throws SerialException
 	 */
-	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/edit/", method = RequestMethod.POST)
 	public String edit(Model model, @RequestParam("title") String title, @RequestParam("fName") String firstName,
 			@RequestParam("lName") String lastName, @RequestParam("suffix") String suffix,
 			@RequestParam("personalEmail") String personalEmail, @RequestParam("graduationYear") String graduationYear,

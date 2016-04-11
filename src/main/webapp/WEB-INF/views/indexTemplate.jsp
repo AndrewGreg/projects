@@ -431,8 +431,9 @@
 
 		</div>
 		<!--//content-->
+		<jsp:include page="footerTemplate.jsp" />
+
 	</div>
 	<!--//wrapper-->
-	<jsp:include page="footerTemplate.jsp" />
 </body>
 </html>

@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/3.3.3 http://maven.apache.org/xsd/maven-3.3.3.xsd"
 	xmlns="http://maven.apache.org/POM/3.3.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>alumnitracker</groupId>
-	<version>1.0-SNAPSHOT</version>
+	<groupId>Alumni-Tracker</groupId>
+	<version>0.0.1</version>
 	<packaging>war</packaging>
 	<name>Alumni Tracker</name>
 
@@ -588,5 +588,5 @@
 	<reporting>
 		<outputDirectory>${workspace}\${project}\target\site</outputDirectory>
 	</reporting>
-	<artifactId>SWT</artifactId>
+	<artifactId>Alumni-Tracker</artifactId>
 </project>

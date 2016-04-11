@@ -730,10 +730,10 @@ public class HomeController extends BaseController {
 			boolean validBenEmail = benEmail != null && benEmail.matches("[a-zA-Z](?:[a-zA-Z_0-9])+@ben.edu") ? true
 					: false;
 
-			boolean validPhone = phone == null || phone.equals("")
+			boolean validPhone = phone == null || phone.replace(" ", "").equals("")
 					|| phone.trim().matches("\\([0-9]{3}\\)[0-9]{3}-[0-9]{4}") ? true : false;
 
-			boolean validWorkPhone = workPhone == null || workPhone.equals("")
+			boolean validWorkPhone = workPhone == null || workPhone.replace(" ", "").equals("")
 					|| workPhone.trim().matches("\\([0-9]{3}\\)[0-9]{3}-[0-9]{4}") ? true : false;
 
 			// Linkedin length on the database is 200
@@ -938,12 +938,25 @@ public class HomeController extends BaseController {
 
 				model.addAttribute("errors", errors);
 
+				ArrayList<Major> majorList = getMajorDao().getAllMajors();
+				ArrayList<Title> titleList = getTitleDao().getAll();
+
+				model.addAttribute("majorList", majorList);
+				model.addAttribute("titleList", titleList);
+
 				return "registration";
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		ArrayList<Major> majorList = getMajorDao().getAllMajors();
+		ArrayList<Title> titleList = getTitleDao().getAll();
+
+		model.addAttribute("majorList", majorList);
+		model.addAttribute("titleList", titleList);
+
 		return "registration";
 	}
 

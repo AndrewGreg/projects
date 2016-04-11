@@ -1,12 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.HashMap"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="edu.ben.template.model.Major"%>
+<%@ page import="edu.ben.template.model.Title"%>
 <%
 	HashMap<String, String> errors;
 	if (request.getAttribute("errors") != null) {
 		errors = (HashMap<String, String>) request.getAttribute("errors");
 	} else {
-		errors = new HashMap<String, String>(); 
+		errors = new HashMap<String, String>();
+	}
+
+	ArrayList<Major> majorList;
+	if (request.getAttribute("majorList") != null) {
+		majorList = (ArrayList<Major>) request.getAttribute("majorList");
+	} else {
+		majorList = new ArrayList<Major>();
+	}
+
+	ArrayList<Title> titleList;
+	if (request.getAttribute("titleList") != null) {
+		titleList = (ArrayList<Title>) request.getAttribute("titleList");
+	} else {
+		titleList = new ArrayList<Title>();
 	}
 
 	String firstName = (request.getParameter("firstName") == null) ? ""
@@ -108,9 +125,18 @@
 								<div class="control-group">
 									<!-- Title -->
 									<label class="control-label" for="title">Title:</label>
-									<div class="controls">
-										<input type="text" id="title" name="title" placeholder="Mr"
-											class="form-control" value="<%=title%>">
+									<div class="controls" data-name="title">
+										<select name="title" id="title" class="form-control" required>
+											<option value="-1">No Title</option>
+											<%
+												for (int i = 0; i < titleList.size(); i++) {
+													String titleName = titleList.get(i).getName() != null ? titleList.get(i).getName() : "";
+											%>
+											<option value="<%=titleList.get(i).getId()%>"><%=titleName%></option>
+											<%
+												}
+											%>
+										</select>
 
 										<%
 											if (errors.get("title") != null) {
@@ -132,7 +158,7 @@
 									<!-- Title -->
 									<label class="control-label" for="firstName">*First
 										Name:</label>
-									<div class="controls">
+									<div class="controls" data-name="firstName">
 										<input type="text" id="firstName" name="firstName"
 											placeholder="John" class="form-control"
 											value="<%=firstName%>">
@@ -156,7 +182,7 @@
 								<div class="control-group">
 									<!-- Title -->
 									<label class="control-label" for="lastName">*Last Name:</label>
-									<div class="controls">
+									<div class="controls" data-name="lastName">
 										<input type="text" id="lastName" name="lastName"
 											placeholder="Doe" class="form-control" value="<%=lastName%>">
 
@@ -179,7 +205,7 @@
 								<div class="control-group">
 									<!-- Title -->
 									<label class="control-label" for="suffix">Suffix:</label>
-									<div class="controls">
+									<div class="controls" data-name="suffix">
 										<input type="text" id="suffix" name="suffix"
 											placeholder="Ph.D" class="form-control" value="<%=suffix%>">
 
@@ -203,7 +229,7 @@
 									<!-- Title -->
 									<label class="control-label" for="benEmail">*Benedictine
 										E-mail:</label>
-									<div class="controls">
+									<div class="controls" data-name="benEmail">
 										<input type="text" id="benEmail" name="benEmail"
 											placeholder="jdoe@ben.edu" class="form-control"
 											value="<%=benEmail%>">
@@ -228,7 +254,7 @@
 									<!-- Title -->
 									<label class="control-label" for="personalEmail">Personal
 										E-mail:</label>
-									<div class="controls">
+									<div class="controls" data-name="personalEmail">
 										<input type="text" id="personalEmail" name="personalEmail"
 											placeholder="johnDoe@someplace.com" class="form-control"
 											value="<%=personalEmail%>">
@@ -252,11 +278,11 @@
 								<div class="control-group">
 									<!-- Title -->
 									<label class="control-label" for="phone">Phone:</label>
-									<div class="controls">
+									<div class="controls" data-name="phone">
 										<input type="text" id="phone" name="phone"
-											placeholder="+1 (000) 000-0000"
+											placeholder="(000)000-0000"
 											class="form-control input-medium bfh-phone"
-											data-format="+1 (ddd) ddd-dddd" value="<%=phone%>">
+											data-format=" (ddd)ddd-dddd" value="<%=phone%>">
 
 										<%
 											if (errors.get("phone") != null) {
@@ -278,11 +304,11 @@
 									<!-- Title -->
 									<label class="control-label" for="workPhone">Work
 										Phone:</label>
-									<div class="controls">
+									<div class="controls" data-name="workPhone">
 										<input type="text" id="workPhone" name="workPhone"
-											placeholder="+1 (000) 000-0000"
+											placeholder="(000)000-0000"
 											class="form-control input-medium bfh-phone"
-											data-format="+1 (ddd) ddd-dddd" value="<%=workPhone%>">
+											data-format=" (ddd)ddd-dddd" value="<%=workPhone%>">
 
 										<%
 											if (errors.get("workPhone") != null) {
@@ -302,10 +328,10 @@
 								<!-- Input control group -->
 								<div class="control-group">
 									<!-- Title -->
-									<label class="control-label" for="title">LinkedIn:</label>
-									<div class="controls">
-										<input type="text" id="linkedin" name="title"
-											placeholder="https://www.linkedin.com/in/john-doe-123b45b6"
+									<label class="control-label" for="linkedin">LinkedIn:</label>
+									<div class="controls" data-name="linkedin">
+										<input type="text" id="linkedin" name="linkedin"
+											placeholder="https://www.linkedin.com/in/john-doe"
 											class="form-control" value="<%=linkedin%>">
 
 										<%
@@ -327,7 +353,7 @@
 								<div class="control-group">
 									<!-- Title -->
 									<label class="control-label" for="bio">Biography:</label>
-									<div class="controls">
+									<div class="controls" data-name="bio">
 										<textarea rows="5" id="bio" name="bio"
 											placeholder="This is my biography." class="form-control"
 											value="<%=bio%>"></textarea>
@@ -363,8 +389,9 @@
 								<div class="control-group">
 									<!-- Title -->
 									<label class="control-label" for="standing">*Standing:</label>
-									<div class="controls">
-										<select name="standing" class="form-control" required>
+									<div class="controls" data-name="standing">
+										<select name="standing" id="standing" class="form-control"
+											required>
 											<option value="1">Student</option>
 											<option value="2">Alumnus/Alumna</option>
 											<option value="3">Faculty</option>
@@ -389,10 +416,10 @@
 									<!-- Title -->
 									<label class="control-label" for="gradYear">Graduation
 										Year:</label>
-									<div class="controls">
+									<div class="controls" data-name="gradYear">
 										<select name="gradYear" id="gradYear" class="form-control"
 											required>
-											<option value="">None</option>
+											<option value="0">None</option>
 
 											<%
 												for (int year = 2050; year > 1949; year--) {
@@ -422,9 +449,9 @@
 								<!-- Input control group -->
 								<div class="control-group">
 									<!-- Title -->
-									<label class="control-label" for="personalEmail">Graduate
+									<label class="control-label" for="gradSchool">Graduate
 										School:</label>
-									<div class="controls">
+									<div class="controls" data-name="gradSchool">
 										<input type="text" id="gradSchool" name="gradSchool"
 											placeholder="Benedictine University" class="form-control"
 											value="<%=gradSchool%>">
@@ -448,11 +475,18 @@
 								<div class="control-group">
 									<!-- Title -->
 									<label class="control-label" for="major">*Major:</label>
-									<div class="controls">
-										<input type="text" id="major" name="major"
-											placeholder="Science" class="form-control" value="<%=major%>">
+									<div class="controls" data-name="major">
+										<select name="major" class="form-control" required>
+
+											<%
+												for (int i = 0; i < majorList.size(); i++) {
+													String majorName = majorList.get(i).getName() != null ? majorList.get(i).getName() : "";
+											%>
+											<option value="<%=majorList.get(i).getId()%>"><%=majorName%></option>
+										</select>
 
 										<%
+											}
 											if (errors.get("major") != null) {
 										%>
 
@@ -467,53 +501,6 @@
 								<br>
 								<!-- /Input control group -->
 
-								<!-- Input control group -->
-								<div class="control-group">
-									<!-- Title -->
-									<label class="control-label" for="minor">Minor:</label>
-									<div class="controls">
-										<input type="text" id="minor" name="minor"
-											placeholder="Forensics" class="form-control"
-											value="<%=minor%>">
-
-										<%
-											if (errors.get("minor") != null) {
-										%>
-
-										<span class="help-block" style="color: #e60000"> <%=errors.get("minor")%></span>
-
-										<%
-											}
-										%>
-
-									</div>
-								</div>
-								<br>
-								<!-- /Input control group -->
-
-								<!-- Input control group -->
-								<div class="control-group">
-									<!-- Title -->
-									<label class="control-label" for="concentration">Concentration:</label>
-									<div class="controls">
-										<input type="text" id="concentration" name="concentration"
-											placeholder="Biology" class="form-control"
-											value="<%=concentration%>">
-
-										<%
-											if (errors.get("concentration") != null) {
-										%>
-
-										<span class="help-block" style="color: #e60000"> <%=errors.get("concentration")%></span>
-
-										<%
-											}
-										%>
-
-									</div>
-								</div>
-								<br>
-								<!-- /Input control group -->
 								<div>
 									<p>* denotes required field.</p>
 								</div>
@@ -529,7 +516,7 @@
 								<div class="control-group">
 									<!-- Title -->
 									<label class="control-label" for="company">Company:</label>
-									<div class="controls">
+									<div class="controls" data-name="company">
 										<input type="text" id="company" name="company"
 											placeholder="Microsoft" class="form-control"
 											value="<%=company%>">
@@ -553,7 +540,7 @@
 								<div class="control-group">
 									<!-- Title -->
 									<label class="control-label" for="occupation">Occupation:</label>
-									<div class="controls">
+									<div class="controls" data-name="occupation">
 										<input type="text" id="occupation" name="occupation"
 											placeholder="Software Engineer" class="form-control"
 											value="<%=occupation%>">
@@ -577,7 +564,7 @@
 								<div class="control-group">
 									<!-- Title -->
 									<label class="control-label" for="experience">Experience:</label>
-									<div class="controls">
+									<div class="controls" data-name="experience">
 										<textarea rows="5" id="experience" name="experience"
 											placeholder="Professional Experience." class="form-control"
 											value="<%=experience%>"></textarea>
@@ -612,7 +599,7 @@
 								<div class="control-group">
 									<!-- Title -->
 									<label class="control-label" for="password">*Password:</label>
-									<div class="controls">
+									<div class="controls" data-name="password">
 										<input type="password" id="password" name="password"
 											placeholder="Password" class="form-control">
 									</div>
@@ -625,8 +612,8 @@
 									<!-- Title -->
 									<label class="control-label" for="passConfirm">*Confirm
 										Password:</label>
-									<div class="controls">
-										<input type="text" id="passConfirm" name="passConfirm"
+									<div class="controls" data-name="passConfirm">
+										<input type="password" id="passConfirm" name="passConfirm"
 											placeholder="Confirm Password" class="form-control">
 
 										<%

@@ -104,7 +104,7 @@
 					<%
 						}
 					%>
-				</div>
+				
 			</section>
 			<!--//promo-->
 			<section class="news">
@@ -168,12 +168,11 @@
 								%>
 
 							</div>
+							<!--//carousel-inner-->
 						</div>
-						<!--//carousel-inner-->
+						<!--//news-carousel-->
 					</div>
-					<!--//news-carousel-->
-				</div>
-				<!--//section-content-->
+					<!--//section-content-->
 			</section>
 			<!--//news-->
 			<div class="row cols-wrapper">
@@ -431,9 +430,8 @@
 
 		</div>
 		<!--//content-->
-		<jsp:include page="footerTemplate.jsp" />
-
 	</div>
 	<!--//wrapper-->
+	<jsp:include page="footerTemplate.jsp" />
 </body>
 </html>

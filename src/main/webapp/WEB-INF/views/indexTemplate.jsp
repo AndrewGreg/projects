@@ -104,7 +104,7 @@
 					<%
 						}
 					%>
-				
+				</div>
 			</section>
 			<!--//promo-->
 			<section class="news">
@@ -168,11 +168,12 @@
 								%>
 
 							</div>
-							<!--//carousel-inner-->
 						</div>
-						<!--//news-carousel-->
+						<!--//carousel-inner-->
 					</div>
-					<!--//section-content-->
+					<!--//news-carousel-->
+				</div>
+				<!--//section-content-->
 			</section>
 			<!--//news-->
 			<div class="row cols-wrapper">

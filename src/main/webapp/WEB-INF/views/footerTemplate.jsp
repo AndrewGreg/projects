@@ -138,13 +138,13 @@
 	}
 %>
 
-<%
+<%--
 	boolean eventCreation = request.getAttribute("eventCreation") != null
 			? (boolean) request.getAttribute("eventCreation")
 			: false;
 
 	if (eventCreation) {
-%>
+--%>
 <jsp:include page="eventCreationModal.jsp" />
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -154,17 +154,17 @@
 	});
 </script>
 
-<%
+<%--
 	}
-%>
+--%>
 
-<%
+<%--
 	boolean jobCreation = request.getAttribute("jobCreation") != null
 			? (boolean) request.getAttribute("jobCreation")
 			: false;
 
 	if (jobCreation) {
-%>
+--%>
 <jsp:include page="jobCreationModal.jsp" />
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -174,6 +174,6 @@
 	});
 </script>
 
-<%
+<%--
 	}
-%>
+--%>

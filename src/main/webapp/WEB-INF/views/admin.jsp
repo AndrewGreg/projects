@@ -39,7 +39,7 @@
 				<div style="margin-top: 20px">
 					<form action="/massRegister" method="post" enctype="multipart/form-data">
 						<label>Upload Multiple Users:</label>
-						<input type="file" name="multiple" id="" value="">
+						<input type="file" accept=".xls,.xlsx" name="multiple" id="" value="">
 						<button type="submit" class="btn btn-primary">Upload</button>
 					</form>
 				</div>
@@ -81,15 +81,16 @@
 											String role = "";
 											
 											for (int i = 0; i < users.size(); i++) {
-												if(users.get(i).getRole() == 1){
-													role = "Student";
-												}else if(users.get(i).getRole() == 2){
-													role = "Alumni";
-												}else if(users.get(i).getRole() == 3){
-													role = "Faculty";
-												}else{
-													role = "Admin";
-												}
+												if(users.get(i).isActive()){
+													if(users.get(i).getRole() == 1){
+														role = "Student";
+													}else if(users.get(i).getRole() == 2){
+														role = "Alumni";
+													}else if(users.get(i).getRole() == 3){
+														role = "Faculty";
+													}else{
+														role = "Admin";
+													}
 												
 									%>
 									
@@ -105,6 +106,7 @@
 									</tr>
 
 									<%
+												}
 											}
 										}
 									%>

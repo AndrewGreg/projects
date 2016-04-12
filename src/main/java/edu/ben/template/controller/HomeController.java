@@ -64,6 +64,21 @@ public class HomeController extends BaseController {
 	}
 
 	/**
+	 * Sort the Events by the date.
+	 * 
+	 * @param events
+	 */
+	public void sortEvents(ArrayList<Event> events) {
+
+		Collections.sort(events, new Comparator<Event>() {
+			@Override
+			public int compare(Event o1, Event o2) {
+				return o1.getDate().compareTo(o2.getDate());
+			}
+		});
+	}
+
+	/**
 	 * Index method.
 	 * 
 	 * @param model
@@ -641,19 +656,18 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/eventsTemplate", method = RequestMethod.GET)
 	public String events(Model model) {
 
+		ArrayList<Event> events;
 		try {
-			ArrayList<Event> events = new ArrayList<Event>();
 			events = getEventDao().getAll();
-
+			sortEvents(events);
 			model.addAttribute("events", events);
-			
-			
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return "eventsTemplate";
+	
 	}
 
 	@RequestMapping(value = "/newEvents/{id}", method = RequestMethod.GET)

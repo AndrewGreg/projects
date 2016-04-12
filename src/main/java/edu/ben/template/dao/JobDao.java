@@ -265,6 +265,7 @@ public class JobDao extends BaseDao<Job> {
 	@Override
 	public RowMapper<Job> getRowMapper() {
 		return new RowMapper<Job>() {
+			@Override
 			public Job mapRow(ResultSet rs, int rowNum) throws SQLException {
 				// map result set to object
 				Job job = new Job();

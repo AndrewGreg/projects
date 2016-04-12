@@ -16,7 +16,7 @@ public class Contact extends User {
 
 	private String name;
 	private String email;
-	private int phoneNumber;
+	private String phoneNumber;
 	private String message;
 	private int userId;
 	private int recipientId;
@@ -36,7 +36,7 @@ public class Contact extends User {
 	 * @param phoneNumber
 	 * @param message
 	 */
-	public Contact(String name, String email, int phoneNumber, String message, int userId, int recipientId) {
+	public Contact(String name, String email, String phoneNumber, String message, int userId, int recipientId) {
 		super();
 		this.name = name;
 		this.email = email;
@@ -66,6 +66,7 @@ public class Contact extends User {
 	/**
 	 * @return the email from the contact.
 	 */
+	@Override
 	public String getEmail() {
 		return email;
 	}
@@ -73,6 +74,7 @@ public class Contact extends User {
 	/**
 	 * Set the email of the contact.
 	 */
+	@Override
 	public void setEmail(String email) {
 		this.email = email;
 	}
@@ -81,7 +83,8 @@ public class Contact extends User {
 	 * 
 	 * @return the phone number of the contact.
 	 */
-	public int getPhoneNumber() {
+	@Override
+	public String getPhoneNumber() {
 		return phoneNumber;
 	}
 
@@ -90,7 +93,8 @@ public class Contact extends User {
 	 * 
 	 * @param phoneNumber
 	 */
-	public void setPhoneNumber(int phoneNumber) {
+	@Override
+	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 

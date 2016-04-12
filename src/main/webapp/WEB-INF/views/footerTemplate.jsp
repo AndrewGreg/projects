@@ -139,6 +139,7 @@
 %>
 
 <%--
+
 	boolean eventCreation = request.getAttribute("eventCreation") != null
 			? (boolean) request.getAttribute("eventCreation")
 			: false;

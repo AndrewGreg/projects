@@ -256,6 +256,7 @@ public class EventDao extends BaseDao<Event> {
 	@Override
 	public RowMapper<Event> getRowMapper() {
 		return new RowMapper<Event>() {
+			@Override
 			public Event mapRow(ResultSet rs, int rowNum) throws SQLException {
 				// map result set to object
 				Event event = new Event();

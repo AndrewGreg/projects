@@ -150,6 +150,7 @@ public class DepartmentDao extends BaseDao<Department> {
 	@Override
 	public RowMapper<Department> getRowMapper() {
 		return new RowMapper<Department>() {
+			@Override
 			public Department mapRow(ResultSet rs, int rowNum) throws SQLException {
 				// map result set to object
 				Department department = new Department();

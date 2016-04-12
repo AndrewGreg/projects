@@ -61,8 +61,8 @@ public class User implements UserDetails, CredentialsContainer {
 	private DateTime lastActive;
 	private DateTime lastModified;
 	private String socialMedia;
-	private int phoneNumber;
-	private int workNumber;
+	private String phoneNumber;
+	private String workNumber;
 	private boolean userVerified;
 	private boolean adminVerified;
 	private boolean graduateVerified;
@@ -132,7 +132,7 @@ public class User implements UserDetails, CredentialsContainer {
 			String salt, int titleID, long imageId, String firstName, String lastName, int role, int graduationYear,
 			String occupation, String company, String suffix, String biography, String experience, boolean hidden,
 			boolean active, DateTime created, DateTime lastActive, DateTime lastModified, String socialMedia,
-			int phoneNumber, int workNumber, boolean userVerified, boolean adminVerified, boolean graduateVerified,
+			String phoneNumber, String workNumber, boolean userVerified, boolean adminVerified, boolean graduateVerified,
 			boolean currentGraduateVerified, String graduateSchool, int toPublic, String reference,
 			DateTime lastLogin) {
 		super();
@@ -184,7 +184,7 @@ public class User implements UserDetails, CredentialsContainer {
 			String salt, int titleID, long imageId, String firstName, String lastName, int role, int graduationYear,
 			String occupation, String company, String suffix, String biography, String experience, boolean hidden,
 			boolean active, DateTime created, DateTime lastActive, DateTime lastModified, String socialMedia,
-			int phoneNumber, int workNumber, boolean userVerified, boolean adminVerified, boolean graduateVerified,
+			String phoneNumber, String workNumber, boolean userVerified, boolean adminVerified, boolean graduateVerified,
 			boolean currentGraduateVerified, String graduateSchool, int toPublic, String reference,
 			ArrayList<Major> major, ArrayList<Major> minor, ArrayList<Major> concentration,
 			ArrayList<Interest> interest, DateTime lastLogin) {
@@ -253,6 +253,7 @@ public class User implements UserDetails, CredentialsContainer {
 		// serializable
 		private static final long serialVersionUID = -4713441153411394321L;
 
+		@Override
 		public int compare(GrantedAuthority g1, GrantedAuthority g2) {
 			// Neither should ever be null as each entry is checked before
 			// adding it to the set.
@@ -374,6 +375,7 @@ public class User implements UserDetails, CredentialsContainer {
 		return lastName;
 	}
 
+	@Override
 	public String getPassword() {
 		return password;
 	}
@@ -466,19 +468,19 @@ public class User implements UserDetails, CredentialsContainer {
 		this.socialMedia = socialMedia;
 	}
 
-	public int getPhoneNumber() {
+	public String getPhoneNumber() {
 		return phoneNumber;
 	}
 
-	public void setPhoneNumber(int phoneNumber) {
+	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public int getWorkNumber() {
+	public String getWorkNumber() {
 		return workNumber;
 	}
 
-	public void setWorkNumber(int workNumber) {
+	public void setWorkNumber(String workNumber) {
 		this.workNumber = workNumber;
 	}
 
@@ -773,6 +775,15 @@ public class User implements UserDetails, CredentialsContainer {
 			}
 		}
 		this.interest.add(interest);
+	}
+	
+	/**
+	 * Placeholder for a method to return the user's profile picture
+	 * @return profile picture of the user
+	 */
+	public Object getProfilePic() {
+		//TODO Design and implement this method
+		return null;
 	}
 
 	@Override

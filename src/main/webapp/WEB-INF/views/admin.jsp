@@ -37,7 +37,7 @@
 				<!--//breadcrumbs--> </header>
 				<a href=/register><button type="button" class="btn btn-primary">Add User</button></a>
 				<div style="margin-top: 20px">
-					<form action="/massRegister" method="post" enctype="multipart/form-data">
+					<form action="/Alumni-Tracker/massRegister" method="post" enctype="multipart/form-data">
 						<label>Upload Multiple Users:</label>
 						<input type="file" accept=".xls,.xlsx" name="multiple" id="" value="">
 						<button type="submit" class="btn btn-primary">Upload</button>

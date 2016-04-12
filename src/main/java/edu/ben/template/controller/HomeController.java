@@ -968,27 +968,30 @@ public class HomeController extends BaseController {
 		return "registration";
 	}
 
-	@RequestMapping(value = "/massRegister", method = RequestMethod.POST)
-	public String massRegistration(Model model, HttpServletRequest request, HttpServletResponse response,
-			@RequestParam CommonsMultipartFile[] multiple) throws IOException, SerialException, SQLException {
-
-		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		MultipartFile multipartFile = multipartRequest.getFile("multiple");
-
-		UploadFile file = new UploadFile();
-		file.setFileName(multipartFile.getOriginalFilename());
-		// file.setNotes(ServletRequestUtils.getStringParameter(request,
-		// "notes"));
-		// file.setType(multipartFile.getContentType());
-		if (file != null) {
-			byte[] bytes = multipartFile.getBytes();
-			Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-			file.setData((com.mysql.jdbc.Blob) blob);
-			getUserDao().addMultiple(file.getFileName());
-		}
-		// model.addAttribute("active", "index");
-		return "admin";
-	}
+//	@RequestMapping(value = "/massRegister", method = RequestMethod.POST)
+//	public String massRegistration(Model model, HttpServletRequest request, HttpServletResponse response,
+//			@RequestParam MultipartFile multiple) throws IOException, SerialException, SQLException {
+//
+//		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+//		MultipartFile multipartFile = multipartRequest.getFile("multiple");
+//		System.out.println(multiple);
+//		if(multiple.length > 0){
+//			UploadFile file = new UploadFile();
+//			file.setFileName(multipartFile.getOriginalFilename());
+//			// file.setNotes(ServletRequestUtils.getStringParameter(request,
+//			// "notes"));
+//			// file.setType(multipartFile.getContentType());
+//			if (file != null) {
+//				byte[] bytes = multipartFile.getBytes();
+//				Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+//				file.setData((com.mysql.jdbc.Blob) blob);
+//				getUserDao().addMultiple(file.getFileName());
+//			}
+//		}
+//		
+//		// model.addAttribute("active", "index");
+//		return "admin";
+//	}
 
 	@RequestMapping(value = "/getImage/{id}", method = RequestMethod.GET)
 	public void image(Model model, @PathVariable Long id) throws SQLException, IOException {

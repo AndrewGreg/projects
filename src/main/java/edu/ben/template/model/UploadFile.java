@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.mysql.jdbc.Blob;
 
 @Entity 
@@ -15,6 +17,7 @@ public class UploadFile {
     private String fileName;
     private Blob data;
     private User profile;
+    private MultipartFile file;
 
 	
 
@@ -65,5 +68,13 @@ public class UploadFile {
 
 	public void setProfile(User profile) {
 		this.profile = profile;
+	}
+
+	public MultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
 	}
 }

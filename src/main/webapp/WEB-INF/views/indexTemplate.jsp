@@ -4,9 +4,11 @@
 <%@page import="edu.ben.template.model.User"%>
 <%@page import="edu.ben.template.model.Event"%>
 <%@page import="edu.ben.template.model.Job"%>
+<%@page import="edu.ben.template.dao.EventDao"%>
 <%@ page import="java.util.ArrayList"%>
 <%
 	User user = (User) request.getAttribute("currentUser");
+	
 
 	ArrayList<Event> events;
 	if (request.getAttribute("events") != null) {
@@ -183,7 +185,7 @@
 						</h1>
 						<div class="section-content">
 
-							<%
+							<% 
 								for (int i = 0; i < events.size() && i < 4; i++) {
 									Long eventId = events.get(i) != null && events.get(i).getId() != 0 ? events.get(i).getId() : -1L;
 									String eventName = events.get(i) != null && events.get(i).getName() != null ? events.get(i).getName()

@@ -71,6 +71,8 @@
                                 <div class="panel-body">
                                     <% if (description.length() > 90) {%>
 									<%= (description.substring(0, 110) + "...") %>
+    								<%} else{ %>
+    								<%=description %>
     								<%} %>
                                 </div>
                                 <ul class="list-group">

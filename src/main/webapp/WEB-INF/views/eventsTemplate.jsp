@@ -15,12 +15,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-<!-- Hides the text being displayed -->
-#hidden { 
-    overflow:hidden; 
-}
-</style>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Events</title>
 <jsp:include page="headerTemplate.jsp" />
@@ -80,8 +74,11 @@
 								</p>
 							
 								<p class="desc" ><% if (description.length() > 90) {%>
-									<%= (description.substring(0, 150) + "...") %>
+									<%= (description.substring(0, 100) + "...") %>
+    								<%} else{ %>
+    								<%=description %>
     								<%} %>
+    								
     								</p>
 							
 								

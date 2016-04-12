@@ -21,6 +21,7 @@
 </head>
 <body>
 
+
 	<div class="wrapper">
 		<jsp:include page="navBarTemplate.jsp" />
 
@@ -71,7 +72,16 @@
 									<span class="time"><i class="fa fa-clock-o"></i><%=timeRange%></span><span
 										class="location"><i class="fa fa-map-marker"></i><a href="<%=googleLink%>" target="_blank"><%=location%></a></span>
 								</p>
-								<p class="desc"><%=description%></p>
+							
+								<p class="desc" ><% if (description.length() > 90) {%>
+									<%= (description.substring(0, 100) + "...") %>
+    								<%} else{ %>
+    								<%=description %>
+    								<%} %>
+    								
+    								</p>
+							
+								
 							</div>
 							<!--//details--> </article>
 							<!--//events-item-->

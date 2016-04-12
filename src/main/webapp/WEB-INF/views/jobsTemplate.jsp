@@ -69,7 +69,11 @@
                                     
                                 </div>
                                 <div class="panel-body">
-                                    <%=description%>
+                                    <% if (description.length() > 90) {%>
+									<%= (description.substring(0, 110) + "...") %>
+    								<%} else{ %>
+    								<%=description %>
+    								<%} %>
                                 </div>
                                 <ul class="list-group">
                                     <li class="list-group-item"><strong>Location:</strong> <%=location%></li>

@@ -123,14 +123,14 @@ public class EventDao extends BaseDao<Event> {
 	}
 
 	/**
-	 * List all of the Events.
+	 * List all of the Events by the date. When the date has passed the current date, It will not be displayed..
 	 * 
 	 * @return all the Events in the database.
 	 */
 	public ArrayList<Event> getAll() {
 
 		List<Event> events = new ArrayList<Event>();
-		String sql = SEARCH + "event ORDER BY name";
+		String sql = SEARCH + "event WHERE date >= NOW() ORDER BY date DESC";
 
 		try {
 			events = jdbcTemplate.query(sql, getRowMapper());

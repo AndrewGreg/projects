@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project
-	xsi:schemaLocation="http://maven.apache.org/POM/3.3.3 http://maven.apache.org/xsd/maven-3.3.3.xsd"
-	xmlns="http://maven.apache.org/POM/3.3.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.ben</groupId>
 	<version>0.0.1</version>
@@ -349,28 +349,13 @@
 		</pluginRepository>
 	</pluginRepositories>
 	<build>
-		<sourceDirectory>${workspace}\${project}\src\main\java
-		</sourceDirectory>
-		<scriptSourceDirectory>${workspace}\${project}\src\main\scripts
-		</scriptSourceDirectory>
-		<testSourceDirectory>${workspace}\${project}\src\test\java
-		</testSourceDirectory>
-		<outputDirectory>${workspace}\${project}\target\classes
-		</outputDirectory>
-
 		<resources>
 			<resource>
 				<directory>${workspace}\${project}\src\main\resources
 				</directory>
 			</resource>
 		</resources>
-		<testResources>
-			<testResource>
-				<directory>${workspace}\${project}\src\test\resources
-				</directory>
-			</testResource>
-		</testResources>
-		<directory>${workspace}\${project}\target</directory>
+		<directory>${workspace}\workspace\target</directory>
 		<finalName>Alumni-Tracker</finalName>
 		<plugins>
 			<plugin>
@@ -399,60 +384,10 @@
 				<artifactId>maven-deploy-plugin</artifactId>
 				<version>2.7</version>
 			</plugin>
-			<plugin>
-				<artifactId>maven-site-plugin</artifactId>
-				<version>3.0</version>
-				<executions>
-					<execution>
-						<id>default-site</id>
-						<phase>site</phase>
-						<goals>
-							<goal>site</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${workspace}\${project}\target\site
-							</outputDirectory>
-							<reportPlugins>
-								<reportPlugin>
-									<groupId>org.apache.maven.plugins</groupId>
-									<artifactId>maven-project-info-reports-plugin</artifactId>
-								</reportPlugin>
-							</reportPlugins>
-						</configuration>
-					</execution>
-					<execution>
-						<id>default-deploy</id>
-						<phase>site-deploy</phase>
-						<goals>
-							<goal>deploy</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${workspace}\${project}\target\site
-							</outputDirectory>
-							<reportPlugins>
-								<reportPlugin>
-									<groupId>org.apache.maven.plugins</groupId>
-									<artifactId>maven-project-info-reports-plugin</artifactId>
-								</reportPlugin>
-							</reportPlugins>
-						</configuration>
-					</execution>
-				</executions>
-				<configuration>
-					<outputDirectory>workspace\${project}\target\site
-					</outputDirectory>
-					<reportPlugins>
-						<reportPlugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-project-info-reports-plugin</artifactId>
-						</reportPlugin>
-					</reportPlugins>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 	<reporting>
-		<outputDirectory>${workspace}\${project}\target\site</outputDirectory>
+		<outputDirectory>${workspace}\${project}\target\</outputDirectory>
 	</reporting>
 	<artifactId>Alumni-Tracker</artifactId>
 </project>

@@ -646,6 +646,8 @@ public class HomeController extends BaseController {
 			events = getEventDao().getAll();
 
 			model.addAttribute("events", events);
+			
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();

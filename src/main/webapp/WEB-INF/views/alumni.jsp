@@ -81,8 +81,12 @@
 											alt="Empty profile picture"></td>
 										<td align="center"><%=alumni.get(i).getFirstName()%></td>
 										<td align="center"><%=alumni.get(i).getLastName()%></td>
+										<%--<%if (alumni.get(i).getMajor() != null && !alumni.get(i).getMajor().equals(null) && !alumni.get(i).getMajorAtIndex(0).equals(null)) {
 										<td align="center"><%=alumni.get(i).getMajorAtIndex(0).getName()%></td>
+										<%} %>
+										<%if (alumni.get(i).getGraduationYear() != 0) {%>
 										<td align="center"><%=alumni.get(i).getGraduationYear()%></td>
+										<%} %> --%>
 									</tr>
 
 									<%

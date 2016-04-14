@@ -355,7 +355,7 @@
 				</directory>
 			</resource>
 		</resources>
-		<directory>${workspace}\workspace\target</directory>
+		<directory>${workspace}\${project}\target</directory>
 		<finalName>Alumni-Tracker</finalName>
 		<plugins>
 			<plugin>

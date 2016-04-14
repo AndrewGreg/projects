@@ -140,16 +140,6 @@
 	}
 %>
 
-<<<<<<< HEAD
-<%--
-
-	boolean eventCreation = request.getAttribute("eventCreation") != null
-			? (boolean) request.getAttribute("eventCreation")
-			: false;
-
-	if (eventCreation) {
---%>
-=======
 <%
 	String eventCreation = request.getAttribute("eventCreation") != null
 			? (String) request.getAttribute("eventCreation")
@@ -157,7 +147,6 @@
 
 	if (eventCreation.equals("true")) {
 %>
->>>>>>> 50a596b5eac47fe5a6a5824a5f7949419322188f
 <jsp:include page="eventCreationModal.jsp" />
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -167,19 +156,11 @@
 	});
 </script>
 
-<%--
+<%
 	}
---%>
+%>
 
-<<<<<<< HEAD
-<%--
-	boolean jobCreation = request.getAttribute("jobCreation") != null
-			? (boolean) request.getAttribute("jobCreation")
-			: false;
 
-	if (jobCreation) {
---%>
-=======
 <%
 	String jobCreation = request.getAttribute("jobCreation") != null
 			? (String) request.getAttribute("jobCreation")
@@ -187,7 +168,6 @@
 
 	if (jobCreation.equals("true")) {
 %>
->>>>>>> 50a596b5eac47fe5a6a5824a5f7949419322188f
 <jsp:include page="jobCreationModal.jsp" />
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -197,10 +177,6 @@
 	});
 </script>
 
-<%--
+<%
 	}
-<<<<<<< HEAD
---%>
-=======
 %>
->>>>>>> 50a596b5eac47fe5a6a5824a5f7949419322188f

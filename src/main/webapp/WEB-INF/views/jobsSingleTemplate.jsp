@@ -39,16 +39,18 @@
                 </header> 
                  <div class="page-content">
                     <div class="row page-row">
-                        <div class="jobs-wrapper col-md-8 col-sm-7">           
+                        <div class="jobs-wrapper col-md-8 col-sm-7">   
+                         <%if(currentUser.getRole() == 4){%>	
+                           		<form action="/Alumni-Tracker/deleteJob" method="POST" name="deleteJob">
+									<button type="submit" class="btn btn-primary">Delete Job</button>
+							    </form>  
+						 <%} %>                       
                             <h3 class="title" style="color: white"><%=currentJob.getName()%></h3>
                              <%if((currentUser.getId() == currentJob.getPoster().getId()) || currentUser.getRole() > 2){%>
-                            		<a href="/editAJob/<%=id%>" style="color: white">Edit Job</a>
-                             <%if(currentUser.getRole() == 4){%>	
-                           		<form action="/deleteJob" method="POST" name="deleteJob">
-									<button type="submit" class="btn btn-primary">Delete Job</button>
-							    </form>
+                            		<a href="/Alumni-Tracker/editAJob/<%=id%>" style="color: white">Edit Job</a>
+                            
                             <%
-                            	}
+                            	
                              	}
                             %>
                             <% 

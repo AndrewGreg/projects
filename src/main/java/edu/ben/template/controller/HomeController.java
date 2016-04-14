@@ -286,7 +286,7 @@ public class HomeController extends BaseController {
 		return "editJobTemplate";
 	}
 
-	@RequestMapping(value = "/editAJob", method = RequestMethod.POST)
+	@RequestMapping(value = "deAJob", method = RequestMethod.POST)
 	public String editAJobPost(Model model, @RequestParam("name") String name, @RequestParam("company") String company,
 			@RequestParam("description") String description, @RequestParam("location") String location,
 			@RequestParam("startSalary") int startSalary, @RequestParam("endSalary") int endSalary,

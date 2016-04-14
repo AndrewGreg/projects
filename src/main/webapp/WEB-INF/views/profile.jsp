@@ -237,35 +237,52 @@
 								<p class="tel">
 									<i class="fa fa-phone"></i>Tel: None
 								</p>
-
+								
+					<!-- If the profile id does not equal the current logged in user. -->
+						<%if (currentUser.getId() != profileUser.getId()) { %>
 								<p class="email">
 									<i class="fa fa-envelope"></i>Ben E-Mail: <a
-										href="<%if (profileUser.getEmail() != null) {%>mailto:<%=profileUser.getEmail()%>? <%} else {%> # <%}%>">
-										<%
-											if (profileUser.getEmail() != null) {
-										%> <%=profileUser.getEmail()%> <%
- 	} else {
- %> None <%
- 	}
- %>
+										href="<%if (profileUser.getEmail() != null) {%>
+										mailto:<%=profileUser.getEmail()%>? 
+										<%} else {%> # 
+										<%}%>">
+										<%if (profileUser.getEmail() != null) {%>
+										 <%=profileUser.getEmail()%>
+										  <%} else {%> None 
+										  <%}%>
 									</a>
 								</p>
+						
 								<p class="email">
 									<i class="fa fa-envelope"></i>Personal E-mail: <a
-										href="<%if (profileUser.getPersonalEmail() != null) {%>mailto:<%=profileUser.getPersonalEmail()%>? <%} else {%> # <%}%>">
-										<%
-											if (profileUser.getPersonalEmail() != null) {
-										%> <%=profileUser.getPersonalEmail()%> <%
- 	} else {
- %> None <%
- 	}
- %>
+										href="<%if (profileUser.getPersonalEmail() != null) {%>
+										mailto:<%=profileUser.getPersonalEmail()%>? 
+										<%} else {%> # 
+										<%}%>">
+										<%if (profileUser.getPersonalEmail() != null) { %>
+										<%=profileUser.getPersonalEmail()%>
+										<%} else {%> 
+										None 
+										<% }%>
 									</a>
 								</p>
-
+								<%} else { %>
+								<p class="email">
+									<i class="fa fa-envelope"></i>Ben E-Mail: 
+										<%if (profileUser.getEmail() != null) {%>
+										<%=profileUser.getEmail()%>
+										<%} else {%> None
+										<%}%>		
+								</p>
+								<p class="email">
+									<i class="fa fa-envelope"></i>Personal E-mail:
+									 <%if (profileUser.getPersonalEmail() != null) {%>
+										<%=profileUser.getPersonalEmail()%>
+										<%} else {%> None
+										<%}%>
+								</p>
+									<%} %>
 								</section><!--//widget--> </aside>
-
-
 							</div>
 						</div>
 					</div>

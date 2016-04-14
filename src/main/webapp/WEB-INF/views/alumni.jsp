@@ -30,7 +30,8 @@
 					<div class="breadcrumbs pull-right">
 						<ul class="breadcrumbs-list">
 							<li class="breadcrumbs-label">You are here:</li>
-							<li><a href="/Alumni-Tracker/">Home</a><i class="fa fa-angle-right"></i></li>
+							<li><a href="/Alumni-Tracker/">Home</a><i
+								class="fa fa-angle-right"></i></li>
 							<li class="current">Alumni Directory</li>
 						</ul>
 					</div>
@@ -49,10 +50,18 @@
 								<thead>
 									<tr>
 										<th class="text-center" style="color: black;">Profile</th>
-										<th class="text-center"><a href="javascript:SortTable(1,'T');">First Name <i class="fa fa-retweet"></i></a></th>
-										<th class="text-center"><a href="javascript:SortTable(2,'T');">Last Name <i class="fa fa-retweet"></i></a></th>
-										<th class="text-center"><a href="javascript:SortTable(3,'T');">Major <i class="fa fa-retweet"></i></a></th>
-										<th class="text-center"><a href="javascript:SortTable(4,'N');">Grad Year <i class="fa fa-retweet"></i></a></th>
+										<th class="text-center"><a
+											href="javascript:SortTable(1,'T');">First Name <i
+												class="fa fa-retweet"></i></a></th>
+										<th class="text-center"><a
+											href="javascript:SortTable(2,'T');">Last Name <i
+												class="fa fa-retweet"></i></a></th>
+										<th class="text-center"><a
+											href="javascript:SortTable(3,'T');">Major <i
+												class="fa fa-retweet"></i></a></th>
+										<th class="text-center"><a
+											href="javascript:SortTable(4,'N');">Grad Year <i
+												class="fa fa-retweet"></i></a></th>
 									</tr>
 									<tr class="warning no-result">
 										<td colspan="4"><i class="fa fa-warning"></i> No result</td>
@@ -73,15 +82,23 @@
 									<%
 										} else {
 											for (int i = 0; i < alumni.size(); i++) {
+
+												String firstName = alumni.get(i) != null && alumni.get(i).getFirstName() != null
+														? alumni.get(i).getFirstName() : "N/A";
+												String lastName = alumni.get(i) != null && alumni.get(i).getLastName() != null
+														? alumni.get(i).getLastName() : "N/A";
+												String major = alumni.get(i) != null && alumni.get(i).getMajorAtIndex(0) != null
+														&& alumni.get(i).getMajorAtIndex(0).getName() != null ? alumni.get(i).getFirstName()
+																: "N/A";
 									%>
 									<tr class='clickable-row row-link'
 										data-href='/Alumni-Tracker/user/<%=alumni.get(i).getId()%>'>
 										<td align="center"><img id="empty-profile-pic"
 											src="/Alumni-Tracker/content/img/empty-profile.png"
 											alt="Empty profile picture"></td>
-										<td align="center"><%=alumni.get(i).getFirstName()%></td>
-										<td align="center"><%=alumni.get(i).getLastName()%></td>
-										<td align="center"><%=alumni.get(i).getMajorAtIndex(0).getName()%></td>
+										<td align="center"><%=firstName%></td>
+										<td align="center"><%=lastName%></td>
+										<td align="center"><%=major%></td>
 										<td align="center"><%=alumni.get(i).getGraduationYear()%></td>
 									</tr>
 
@@ -96,20 +113,16 @@
 								<ul class="pagination">
 									<%
 										int i = 0;
+										int count = (int) request.getAttribute("alumniCount");
+										int pages = (count - 1) / 15;
 									%>
 									<%
-										while (i < alumni.size() / 15 + 1) {
+										while (i <= pages) {
 									%>
 									<li><a href="/Alumni-Tracker/alumni?page=<%=i%>"><%=++i%></a></li>
 									<%
-										if (alumni.size() > 15) {
-									%>
-									<li><a href="/Alumni-Tracker/alumni?page=<%=i++%>"><%=i++%></a></li>
-									<%
-										}
 										}
 									%>
-
 								</ul>
 							</div>
 						</div>
@@ -123,7 +136,8 @@
 	<!--//wrapper-->
 	<jsp:include page="footerTemplate.jsp" />
 
-	<script type="text/javascript" src="/Alumni-Tracker/content/jQuery/sortColumns.js"></script>
+	<script type="text/javascript"
+		src="/Alumni-Tracker/content/jQuery/sortColumns.js"></script>
 
 </body>
 

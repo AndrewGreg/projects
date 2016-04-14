@@ -222,7 +222,7 @@ public class HomeController extends BaseController {
 				e.printStackTrace();
 			}
 
-			model.addAttribute("jobCreation", true);
+			model.addAttribute("jobCreation", "true");
 
 			model.addAttribute("active", "job");
 
@@ -478,8 +478,6 @@ public class HomeController extends BaseController {
 				createEvent.setToPublic(1);
 			}
 
-			model.addAttribute("eventCreation", true);
-
 			try {
 				getEventDao().addEvent(createEvent);
 			} catch (Exception e) {
@@ -495,6 +493,8 @@ public class HomeController extends BaseController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			
+			model.addAttribute("eventCreation", "true");
 
 			return "eventsTemplate";
 
@@ -704,7 +704,7 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String registration(Model model) {
 
-		ArrayList<Major> majorList = getMajorDao().getAllMajors();
+		ArrayList<Major> majorList = getMajorDao().getAll();
 		ArrayList<Title> titleList = getTitleDao().getAll();
 
 		model.addAttribute("majorList", majorList);
@@ -962,9 +962,9 @@ public class HomeController extends BaseController {
 
 				model.addAttribute("errors", errors);
 
-				ArrayList<Major> majorList = getMajorDao().getAllMajors();
+				ArrayList<Major> majorList = getMajorDao().getAll();
 				ArrayList<Title> titleList = getTitleDao().getAll();
-
+				
 				model.addAttribute("majorList", majorList);
 				model.addAttribute("titleList", titleList);
 
@@ -1451,12 +1451,13 @@ public class HomeController extends BaseController {
 					users.add(alumni.get(i));
 				}
 			}
+			model.addAttribute("alumniCount", alumni.size());
 			model.addAttribute("alumni", users);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		
 		model.addAttribute("active", "alumni");
 		return "alumni";
 	}
@@ -1567,6 +1568,7 @@ public class HomeController extends BaseController {
 					users.add(allUser.get(i));
 				}
 			}
+			model.addAttribute("listCount", allUser.size());
 			model.addAttribute("users", users);
 
 		} catch (Exception e) {

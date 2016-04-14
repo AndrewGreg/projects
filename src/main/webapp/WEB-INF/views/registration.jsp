@@ -76,16 +76,17 @@
 		<div class="content container content-container">
 			<div class="page-wrapper ben-container">
 				<header class="page-heading clearfix pageHeading">
-				<h1 class="heading-title pull-left">Account Registration</h1>
-				<div class="breadcrumbs pull-right">
-					<ul class="breadcrumbs-list">
-						<li class="breadcrumbs-label">You are here:</li>
-						<li><a href="/Alumni-Tracker/">Home</a><i
-							class="fa fa-angle-right"></i></li>
-						<li class="current">Registration</li>
-					</ul>
-				</div>
-				<!--//breadcrumbs--> </header>
+					<h1 class="heading-title pull-left">Account Registration</h1>
+					<div class="breadcrumbs pull-right">
+						<ul class="breadcrumbs-list">
+							<li class="breadcrumbs-label">You are here:</li>
+							<li><a href="/Alumni-Tracker/">Home</a><i
+								class="fa fa-angle-right"></i></li>
+							<li class="current">Registration</li>
+						</ul>
+					</div>
+					<!--//breadcrumbs-->
+				</header>
 				<div class="row">
 					<div class="col-xs-6 col-xs-offset-3">
 						<div class="stepwizard">
@@ -483,14 +484,18 @@
 										<select name="major" class="form-control" required>
 
 											<%
+												String majorName = "";
 												for (int i = 0; i < majorList.size(); i++) {
-													String majorName = majorList.get(i).getName() != null ? majorList.get(i).getName() : "";
+													majorName = majorList.get(i).getName() != null ? majorList.get(i).getName() : "";
 											%>
-											<option value="<%=majorList.get(i).getId()%>"><%=majorName%></option>
-										</select>
+											
+												<option value="<%=majorList.get(i).getId()%>"><%=majorName%></option>
 
+											<%
+												}
+											%>
+										</select>
 										<%
-											}
 											if (errors.get("major") != null) {
 										%>
 

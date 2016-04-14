@@ -115,8 +115,10 @@
 	src="/Alumni-Tracker/content/templateAssets/assets/plugins/jflickrfeed/jflickrfeed.min.js"></script>
 <script type="text/javascript"
 	src="/Alumni-Tracker/content/templateAssets/assets/js/main.js"></script>
-<script type="text/javascript" src="/Alumni-Tracker/content/jQuery/clickable-row.js"></script>
-<script type="text/javascript" src="/Alumni-Tracker/content/jQuery/table-search.js"></script>
+<script type="text/javascript"
+	src="/Alumni-Tracker/content/jQuery/clickable-row.js"></script>
+<script type="text/javascript"
+	src="/Alumni-Tracker/content/jQuery/table-search.js"></script>
 
 
 <%
@@ -138,6 +140,7 @@
 	}
 %>
 
+<<<<<<< HEAD
 <%--
 
 	boolean eventCreation = request.getAttribute("eventCreation") != null
@@ -146,6 +149,15 @@
 
 	if (eventCreation) {
 --%>
+=======
+<%
+	String eventCreation = request.getAttribute("eventCreation") != null
+			? (String) request.getAttribute("eventCreation")
+			: "";
+
+	if (eventCreation.equals("true")) {
+%>
+>>>>>>> 50a596b5eac47fe5a6a5824a5f7949419322188f
 <jsp:include page="eventCreationModal.jsp" />
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -159,6 +171,7 @@
 	}
 --%>
 
+<<<<<<< HEAD
 <%--
 	boolean jobCreation = request.getAttribute("jobCreation") != null
 			? (boolean) request.getAttribute("jobCreation")
@@ -166,6 +179,15 @@
 
 	if (jobCreation) {
 --%>
+=======
+<%
+	String jobCreation = request.getAttribute("jobCreation") != null
+			? (String) request.getAttribute("jobCreation")
+			: "";
+
+	if (jobCreation.equals("true")) {
+%>
+>>>>>>> 50a596b5eac47fe5a6a5824a5f7949419322188f
 <jsp:include page="jobCreationModal.jsp" />
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -177,4 +199,8 @@
 
 <%--
 	}
+<<<<<<< HEAD
 --%>
+=======
+%>
+>>>>>>> 50a596b5eac47fe5a6a5824a5f7949419322188f

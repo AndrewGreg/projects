@@ -5,17 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.mysql.jdbc.Blob;
 
 import edu.ben.template.model.UploadFile;
-import edu.ben.template.model.User;
 
 @Repository
 public class FileUploadDao extends BaseDao<UploadFile>{
@@ -51,6 +46,7 @@ public class FileUploadDao extends BaseDao<UploadFile>{
 	@Override
 	public RowMapper<UploadFile> getRowMapper() {
 		return new RowMapper<UploadFile>() {
+			@Override
 			public UploadFile mapRow(ResultSet rs, int rowNum) throws SQLException {
 				// map result set to object
 				UploadFile file = new UploadFile();

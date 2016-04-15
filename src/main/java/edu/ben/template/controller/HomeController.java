@@ -65,6 +65,21 @@ public class HomeController extends BaseController {
 	}
 
 	/**
+	 * Sort the Events by the date.
+	 * 
+	 * @param events
+	 */
+	public void sortEvents(ArrayList<Event> events) {
+
+		Collections.sort(events, new Comparator<Event>() {
+			@Override
+			public int compare(Event o1, Event o2) {
+				return o1.getDate().compareTo(o2.getDate());
+			}
+		});
+	}
+
+	/**
 	 * Index method.
 	 * 
 	 * @param model
@@ -208,7 +223,7 @@ public class HomeController extends BaseController {
 				e.printStackTrace();
 			}
 
-			model.addAttribute("jobCreation", true);
+			model.addAttribute("jobCreation", "true");
 
 			model.addAttribute("active", "job");
 
@@ -462,8 +477,6 @@ public class HomeController extends BaseController {
 				createEvent.setToPublic(1);
 			}
 
-			model.addAttribute("eventCreation", true);
-
 			try {
 				getEventDao().addEvent(createEvent);
 			} catch (Exception e) {
@@ -479,6 +492,8 @@ public class HomeController extends BaseController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			
+			model.addAttribute("eventCreation", "true");
 
 			return "eventsTemplate";
 
@@ -641,10 +656,10 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/eventsTemplate", method = RequestMethod.GET)
 	public String events(Model model) {
 
+		ArrayList<Event> events;
 		try {
-			ArrayList<Event> events = new ArrayList<Event>();
 			events = getEventDao().getAll();
-
+			sortEvents(events);
 			model.addAttribute("events", events);
 
 		} catch (Exception e) {
@@ -652,6 +667,7 @@ public class HomeController extends BaseController {
 		}
 
 		return "eventsTemplate";
+	
 	}
 
 	@RequestMapping(value = "/newEvents/{id}", method = RequestMethod.GET)
@@ -680,6 +696,12 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String registration(Model model) {
 
+		ArrayList<Major> majorList = getMajorDao().getAll();
+		ArrayList<Title> titleList = getTitleDao().getAll();
+
+		model.addAttribute("majorList", majorList);
+		model.addAttribute("titleList", titleList);
+
 		return "registration";
 	}
 
@@ -691,115 +713,266 @@ public class HomeController extends BaseController {
 	 * @return to be determined.
 	 */
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String registrationPost(Model model, @RequestParam("firstName") String firstName,
-			@RequestParam("lastName") String lastName, @RequestParam("benEmail") String benEmail,
-			@RequestParam("personalEmail") String personalEmail, @RequestParam("gradYear") String gradYear,
-			@RequestParam("standing") String standing, @RequestParam("occupation") String occupation,
-			@RequestParam("title") String title, @RequestParam("suffix") String suffix,
-			@RequestParam("password") String password, @RequestParam("passConfirm") String passConfirm) {
+	public String registrationPost(Model model, @RequestParam("title") int title,
+			@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName,
+			@RequestParam("suffix") String suffix, @RequestParam("benEmail") String benEmail,
+			@RequestParam("personalEmail") String personalEmail,
+			@RequestParam(value = "phone", required = false) String phone,
+			@RequestParam(value = "workPhone", required = false) String workPhone,
+			@RequestParam("linkedin") String linkedin, @RequestParam("bio") String bio,
+			@RequestParam("standing") int standing, @RequestParam("gradYear") int gradYear,
+			@RequestParam("gradSchool") String gradSchool, @RequestParam("major") int major,
+			@RequestParam("company") String company, @RequestParam("occupation") String occupation,
+			@RequestParam("experience") String experience, @RequestParam("password") String password,
+			@RequestParam("passConfirm") String passConfirm) {
 
 		try {
 
-			boolean validatePerEmail = personalEmail != null && !personalEmail.equals("") ? true : false;
+			// Empty title = -1
+			boolean validTitle = getTitleDao().getObjectById((long) title) != null || title == -1 ? true : false;
 
-			int graduationYear = gradYear != null && !gradYear.equals("") && gradYear.matches("[0-9]{4}")
-					? Integer.parseInt(gradYear) : (gradYear == null || gradYear.equals("") ? 1 : -1);
-			int role = standing.equals("1") || standing.equals("2") || standing.equals("3") ? Integer.parseInt(standing)
-					: -1;
+			// Size of first name on the database is 45
+			boolean validFirstName = firstName != null && firstName.matches(".{2,44}") ? true : false;
 
-			if ((firstName != null && firstName.matches(".{2,}")) && (lastName != null && lastName.matches(".{2,}"))
-					&& (benEmail != null && benEmail.matches("[a-zA-Z](?:[a-zA-Z_0-9])+@ben.edu"))
-					&& ((validatePerEmail
-							&& personalEmail.matches("[a-zA-Z](?:[a-zA-Z_0-9])+@[a-zA-Z_0-9]+[.][a-zA-Z_0-9]{2,4}"))
-							|| !validatePerEmail)
-					&& (graduationYear != -1) && (role != -1) && ((password != null && password.matches(".{2,}")
-							&& passConfirm != null && passConfirm.matches(".{2,}")) && password.equals(passConfirm))) {
+			// Size of last name on the database is 45
+			boolean validLastName = lastName != null && lastName.matches(".{2,44}") ? true : false;
+
+			boolean validSuffix = suffix == null || suffix.equals("") || suffix.matches(".{2,}") ? true : false;
+
+			boolean validPerEmail = personalEmail == null || personalEmail.equals("")
+					|| personalEmail.matches("[a-zA-Z](?:[a-zA-Z_0-9])+@[a-zA-Z_0-9]+[.][a-zA-Z_0-9]{2,4}") ? true
+							: false;
+
+			boolean validBenEmail = benEmail != null && benEmail.matches("[a-zA-Z](?:[a-zA-Z_0-9])+@ben.edu") ? true
+					: false;
+
+			boolean validPhone = phone == null || phone.replace(" ", "").equals("")
+					|| phone.trim().matches("\\([0-9]{3}\\)[0-9]{3}-[0-9]{4}") ? true : false;
+
+			boolean validWorkPhone = workPhone == null || workPhone.replace(" ", "").equals("")
+					|| workPhone.trim().matches("\\([0-9]{3}\\)[0-9]{3}-[0-9]{4}") ? true : false;
+
+			// Linkedin length on the database is 200
+			boolean validLinkedin = linkedin == null || linkedin.equals("")
+					|| (linkedin.contains("linkedin.com/in/") && linkedin.length() < 199) ? true : false;
+
+			// Bio length on the database is 1000
+			boolean validBio = bio == null || bio.equals("") || bio.length() < 999 ? true : false;
+
+			// 1 for student, 2 for alumni, 3 for faculty
+			int role = standing == 1 || standing == 2 || standing == 3 ? standing : -1;
+
+			// No grad year = 0
+			boolean validGradYear = gradYear > 1900 || gradYear == 0 ? true : false;
+
+			// Graduate school size on the database is 200
+			boolean validGradSchool = gradSchool == null || gradSchool.equals("") || gradSchool.length() < 199 ? true
+					: false;
+
+			boolean validMajor = getMajorDao().getObjectById(major) != null ? true : false;
+
+			// Company size on the database is 200
+			boolean validCompany = company == null || company.equals("") || company.length() < 199;
+
+			// Occupation size on the database is 200
+			boolean validOccupation = occupation == null || occupation.equals("") || occupation.length() < 199;
+
+			// Size of experience on the database is 1000
+			boolean validExperience = experience == null || experience.matches("") || experience.length() < 999;
+
+			boolean validPassword = password != null && password.matches(".{2,}") && password.length() < 300
+					&& passConfirm != null && password.equals(passConfirm) ? true : false;
+
+			if (validTitle && validFirstName && validLastName && validSuffix && validBenEmail && validPerEmail
+					&& role != -1 && (gradYear != -1) && (role != -1) && validPhone && validWorkPhone && validLinkedin
+					&& validBio && validGradYear && validGradSchool && validMajor && validCompany && validOccupation
+					&& validExperience && validPassword) {
+
+				firstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1);
+				lastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1);
 
 				User register = new User();
 
-				register.setEmail(benEmail);
-				register.setPersonalEmail(personalEmail);
+				if (title != -1) {
+					register.setTitleID(title);
+				}
+
 				register.setFirstName(firstName);
 				register.setLastName(lastName);
 
-				// FIX THE SALT
-				register.setSalt(password);
-
-				if (graduationYear != 0) {
-					register.setGraduationYear(graduationYear);
-				}
-
-				if (occupation == null || occupation.equals("")) {
-					register.setOccupation(null);
-				} else {
-					register.setOccupation(occupation);
-				}
-
-				register.setRole(role);
-				register.setPersonalEmail(personalEmail);
-
-				// TITLE is now TitleId
-				// if (title == null || title.equals("")) {
-				// register.setTitleID(null);
-				// } else {
-				// register.setTitleID(title);
-				// }
-
-				if (suffix == null || suffix.equals("")) {
+				if (suffix != null && suffix.equals("")) {
 					register.setSuffix(null);
 				} else {
 					register.setSuffix(suffix);
 				}
 
+				register.setEmail(benEmail);
+
+				if (personalEmail != null && personalEmail.equals("")) {
+					register.setPersonalEmail(null);
+				} else {
+					register.setPersonalEmail(personalEmail);
+				}
+
+				register.setRole(role);
+
+				if (phone != null && phone.trim().matches("\\([0-9]{3}\\)[0-9]{3}-[0-9]{4}")) {
+					register.setPhoneNumber(phone.trim());
+				}
+
+				if (workPhone != null && workPhone.trim().matches("\\([0-9]{3}\\)[0-9]{3}-[0-9]{4}")) {
+					register.setPhoneNumber(workPhone.trim());
+				}
+
+				if (linkedin != null && !linkedin.equals("")) {
+					register.setSocialMedia(linkedin);
+				}
+
+				if (bio != null && bio.equals("")) {
+					register.setBio(null);
+				} else {
+					register.setBio(bio);
+				}
+
+				if (gradYear != 0) {
+					register.setGraduationYear(gradYear);
+				}
+
+				if (gradSchool != null && gradSchool.equals("")) {
+					register.setGraduateSchool(null);
+				} else {
+					register.setGraduateSchool(gradSchool);
+				}
+
+				// TODO FIGURE OUT HOW TO SET THE MAJOR
+				register.setMajor(null);
+
+				if (company != null && company.equals("")) {
+					register.setCompany(null);
+				} else {
+					register.setCompany(company);
+				}
+
+				if (occupation != null && occupation.equals("")) {
+					register.setOccupation(null);
+				} else {
+					register.setOccupation(occupation);
+				}
+
+				if (experience != null && experience.equals("")) {
+					register.setExperience(null);
+				} else {
+					register.setExperience(experience);
+				}
+
+				// FIX THE SALT
+				register.setSalt(password);
 				register.setPassword(pwEncoder.encode(password));
 
-				getUserDao().addUser(register);
+				try {
+					getUserDao().addUser(register);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
-				model.addAttribute("active", "index");
-				return "indexTemplate";
+				return "redirect:/";
 
 			} else {
 				HashMap<String, String> errors = new HashMap<String, String>();
 
-				if (firstName == null || !firstName.matches(".{2,}")) {
+				if (!validTitle) {
+					errors.put("title", "Error in the input for title.");
+				}
+
+				if (!validFirstName) {
 					errors.put("firstName", "Error in the input for first name.");
 				}
 
-				if (lastName == null || !lastName.matches(".{2,}")) {
+				if (!validLastName) {
 					errors.put("lastName", "Error in the input for last name.");
 				}
 
-				if (benEmail == null || !benEmail.matches("[a-zA-Z](?:[a-zA-Z_0-9])+@ben.edu")) {
+				if (!validSuffix) {
+					errors.put("suffix", "Error in the input for suffix.");
+				}
+
+				if (!validBenEmail) {
 					errors.put("benEmail", "Error in the input for your Benedictine email.");
 				}
 
-				if (validatePerEmail
-						&& !personalEmail.matches("[a-zA-Z](?:[a-zA-Z_0-9])+@[a-zA-Z_0-9]+[.][a-zA-Z_0-9]{2,4}")) {
+				if (!validPerEmail) {
 					errors.put("personalEmail", "Error in the input for your personal email.");
 				}
 
-				if (graduationYear == -1) {
-					errors.put("gradYear", "Error in the input for the graduation year.");
+				if (!validPhone) {
+					errors.put("phone", "Error in the input for your phone number.");
+				}
+
+				if (!validWorkPhone) {
+					errors.put("workPhone", "Error in the input for your work's phone number.");
+				}
+
+				if (!validLinkedin) {
+					errors.put("linkedin", "Error in the input for the linkedin link.");
+				}
+
+				if (!validBio) {
+					errors.put("phone", "Error in the input for your biography.");
 				}
 
 				if (role == -1) {
-					errors.put("standing", "You must choose a valid standing.");
+					errors.put("standing", "Error in the selection for standing.");
 				}
 
-				// TODO Add validation for title and suffix
-				// find the regex to invalidate two special characters together
+				if (gradYear == -1) {
+					errors.put("gradYear", "Error in the input for the graduation year.");
+				}
 
-				if ((password == null || !password.matches(".{2,}") || passConfirm == null
-						|| !passConfirm.matches(".{2,}")) || !password.equals(passConfirm)) {
+				if (!validGradSchool) {
+					errors.put("gradSchool", "Error in the input for graduate school.");
+				}
+
+				if (!validMajor) {
+					errors.put("major", "Error in the selection of your major.");
+				}
+
+				if (!validCompany) {
+					errors.put("company", "Error in the input for your company.");
+				}
+
+				if (!validOccupation) {
+					errors.put("occupation", "Error in the input for your occupation.");
+				}
+
+				if (!validExperience) {
+					errors.put("experience", "Error in the input for your professional experience.");
+				}
+
+				if (!validPassword) {
 					errors.put("passwords", "Passwords either do not match or are too short.");
 				}
 
 				model.addAttribute("errors", errors);
+
+				ArrayList<Major> majorList = getMajorDao().getAll();
+				ArrayList<Title> titleList = getTitleDao().getAll();
+				
+				model.addAttribute("majorList", majorList);
+				model.addAttribute("titleList", titleList);
+
 				return "registration";
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		ArrayList<Major> majorList = getMajorDao().getAllMajors();
+		ArrayList<Title> titleList = getTitleDao().getAll();
+
+		model.addAttribute("majorList", majorList);
+		model.addAttribute("titleList", titleList);
+
 		return "registration";
 	}
 
@@ -964,6 +1137,7 @@ public class HomeController extends BaseController {
 	 * @throws SQLException
 	 * @throws SerialException
 	 */
+
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
 	public String edit(Model model, @PathVariable Long id, @RequestParam("title") String title,
 			@RequestParam("fName") String firstName, @RequestParam("lName") String lastName,
@@ -1004,6 +1178,7 @@ public class HomeController extends BaseController {
 		if (validateEditFormSubmission(password, confirmPassword, firstName, lastName, personalEmail) && Validator.validatePassword(password, false)) {
 
 			// User u = getUserDao().getObjectById(id);
+
 			User u = getCurrentUser();
 
 			if (Validator.validateSelect(graduationYear)) {
@@ -1371,12 +1546,13 @@ public class HomeController extends BaseController {
 					users.add(alumni.get(i));
 				}
 			}
+			model.addAttribute("alumniCount", alumni.size());
 			model.addAttribute("alumni", users);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		
 		model.addAttribute("active", "alumni");
 		return "alumni";
 	}
@@ -1487,6 +1663,7 @@ public class HomeController extends BaseController {
 					users.add(allUser.get(i));
 				}
 			}
+			model.addAttribute("listCount", allUser.size());
 			model.addAttribute("users", users);
 
 		} catch (Exception e) {

@@ -294,6 +294,7 @@ public class MajorDao extends BaseDao<Major> {
 	@Override
 	public RowMapper<Major> getRowMapper() {
 		return new RowMapper<Major>() {
+			@Override
 			public Major mapRow(ResultSet rs, int rowNum) throws SQLException {
 				// map result set to object
 				Major major = new Major();

@@ -12,7 +12,7 @@
 		jobs = new ArrayList<Job>();
 	}
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -69,7 +69,11 @@
                                     
                                 </div>
                                 <div class="panel-body">
-                                    <%=description%>
+                                    <% if (description.length() > 90) {%>
+									<%= (description.substring(0, 110) + "...") %>
+    								<%} else{ %>
+    								<%=description %>
+    								<%} %>
                                 </div>
                                 <ul class="list-group">
                                     <li class="list-group-item"><strong>Location:</strong> <%=location%></li>

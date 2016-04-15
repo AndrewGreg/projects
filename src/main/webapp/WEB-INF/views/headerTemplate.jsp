@@ -10,19 +10,19 @@
 	rel='stylesheet' type='text/css'>
 <!-- Global CSS -->
 <link rel="stylesheet"
-	href="/Alumni-Tracker/content/templateAssets/assets/plugins/bootstrap/css/bootstrap.min.css" >
+	href="/Alumni-Tracker/content/templateAssets/assets/plugins/bootstrap/css/bootstrap.min.css" type='text/css' >
 <!-- Plugins CSS -->
 <link rel="stylesheet"
-	href="/Alumni-Tracker/content/templateAssets/assets/plugins/font-awesome/css/font-awesome.css">
+	href="/Alumni-Tracker/content/templateAssets/assets/plugins/font-awesome/css/font-awesome.css" type='text/css'>
 <link rel="stylesheet"
-	href="/Alumni-Tracker/content/templateAssets/assets/plugins/flexslider/flexslider.css" >
+	href="/Alumni-Tracker/content/templateAssets/assets/plugins/flexslider/flexslider.css" type='text/css' >
 <link rel="stylesheet"
-	href="/Alumni-Tracker/content/templateAssets/assets/plugins/pretty-photo/css/prettyPhoto.css" >
+	href="/Alumni-Tracker/content/templateAssets/assets/plugins/pretty-photo/css/prettyPhoto.css" type='text/css' >
 <!-- Theme CSS -->
 <link id="theme-style" rel="stylesheet"
-	href="/Alumni-Tracker/content/templateAssets/assets/css/styles-ben.css">
+	href="/Alumni-Tracker/content/templateAssets/assets/css/styles-ben.css" type='text/css'>
 <link rel="stylesheet"
-	href="/Alumni-Tracker/content/BootstrapFormHelpers/dist/css/bootstrap-formhelpers.min.css">
+	href="/Alumni-Tracker/content/BootstrapFormHelpers/dist/css/bootstrap-formhelpers.min.css" type='text/css'>
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>

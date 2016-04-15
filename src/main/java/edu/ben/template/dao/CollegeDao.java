@@ -150,6 +150,7 @@ public class CollegeDao extends BaseDao<College> {
 	@Override
 	public RowMapper<College> getRowMapper() {
 		return new RowMapper<College>() {
+			@Override
 			public College mapRow(ResultSet rs, int rowNum) throws SQLException {
 				// map result set to object
 				College college = new College();

@@ -14,7 +14,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema alumnitracker
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `alumnitracker` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS `alumnitracker` DEFAULT CHARACTER SET utf8;
 USE `alumnitracker` ;
 
 -- -----------------------------------------------------
@@ -67,8 +67,8 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`user` (
   `last_modified` DATETIME NULL DEFAULT NULL,
   `last_login` DATETIME NULL DEFAULT NULL,
   `social_media` VARCHAR(200) NULL DEFAULT NULL,
-  `phone_number` VARCHAR(45) NULL DEFAULT NULL,
-  `work_number` INT(11) NULL DEFAULT NULL,
+  `phone_number` VARCHAR(20) NULL DEFAULT NULL,
+  `work_number` VARCHAR(20) NULL DEFAULT NULL,
   `user_verified` TINYINT(1) NULL DEFAULT '0',
   `admin_verified` TINYINT(1) NULL DEFAULT '0',
   `graduate_verified` TINYINT(1) NULL DEFAULT '0',

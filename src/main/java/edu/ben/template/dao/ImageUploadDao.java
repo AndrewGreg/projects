@@ -1,7 +1,5 @@
 package edu.ben.template.dao;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -93,6 +91,7 @@ public class ImageUploadDao extends BaseDao<UploadFile> {
 	@Override
 	public RowMapper<UploadFile> getRowMapper() {
 		return new RowMapper<UploadFile>() {
+			@Override
 			public UploadFile mapRow(ResultSet rs, int rowNum) throws SQLException {
 				// map result set to object
 				UploadFile image = new UploadFile();

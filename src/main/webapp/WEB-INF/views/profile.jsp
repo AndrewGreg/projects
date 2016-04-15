@@ -123,20 +123,38 @@
  
  	}
  %>
-
 										<!-- ADD MINOR AND CONCENTRATION -->
+										
+  										 <%
+ 	if (profileUser.getMinorAtIndex(0) != null && profileUser.getMinorAtIndex(0).getName() != null) {
+ %><li class="list-group-item"><strong> Minor:</strong> <%=profileUser.getMinorAtIndex(0).getName()%></li><%
+ 
+ 	}
+ %>
+  										 <%
+ 	if (profileUser.getMinorAtIndex(1) != null && profileUser.getMinorAtIndex(1).getName() != null) {
+ %><li class="list-group-item"><strong> Double Minor:</strong> <%=profileUser.getMinorAtIndex(1).getName()%></li><%
+ 
+ 	}
+ %>
+ 										 <%
+ 	if (profileUser.getMinorAtIndex(2) != null && profileUser.getMinorAtIndex(2).getName() != null) {
+ %><li class="list-group-item"><strong> Third Minor:</strong> <%=profileUser.getMinorAtIndex(2).getName()%></li><%
+ 
+ 	}
+ %>
 
 										<li class="list-group-item"><strong>Graduation
 												Year:</strong> <%
- 	if (profileUser.getGraduationYear() != 1) {
+ 	if (profileUser.getGraduationYear() > 1900) {
  %><%=profileUser.getGraduationYear()%> <%
  	} else {
- %>No graduation year.<%
+ %>To Be Determined.<%
  	}
  %></li>
 										<li class="list-group-item"><strong>Occupation:</strong>
 											<%
-												if (profileUser.getOccupation() != null) {
+												if (profileUser.getOccupation() != null && !profileUser.getOccupation().equals("")) {
 											%><%=profileUser.getOccupation()%> <%
  	} else {
  %>No user occupation.<%
@@ -151,7 +169,7 @@
  %></li>
 										<li class="list-group-item"><strong>Experience:</strong>
 											<%
-												if (profileUser.getExperience() != null) {
+												if (profileUser.getExperience() != null && !profileUser.getExperience().equals("")) {
 											%><%=profileUser.getExperience()%> <%
  	} else {
  %>No user experience.<%
@@ -161,7 +179,7 @@
 									<div class="panel-body">
 										<strong>Biography:</strong>
 										<%
-											if (profileUser.getBiography() != null) {
+											if (profileUser.getBiography() != null && !profileUser.getBiography().equals("") ) {
 										%><%=profileUser.getBiography()%>
 										<%
 											} else {

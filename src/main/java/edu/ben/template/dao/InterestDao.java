@@ -60,11 +60,24 @@ public class InterestDao extends BaseDao<Interest> {
 			return null;
 		}
 	}
+	
+	public Interest getByName(String name) {
+
+		String sql = "SELECT * FROM interest WHERE name = ?;";
+
+		try {
+			Interest i = jdbcTemplate.queryForObject(sql, new Object[] { name }, getRowMapper());
+			return i;
+		} catch (EmptyResultDataAccessException e) {
+			/* Probably want to log this */
+			return null;
+		}
+	}
 
 	public ArrayList<Interest> getAllByUser(User u) {
 
 		List<Interest> interests = new ArrayList<Interest>();
-		String sql = "SELECT i.id, i.name i.hidden FROM user_interest ui JOIN user u ON u.id = ui.user_id JOIN interest i ON i.id = ui.interest_id  WHERE u.id = ?;";
+		String sql = "SELECT i.id, i.name, i.hidden FROM user_interest ui JOIN user u ON u.id = ui.user_id JOIN interest i ON i.id = ui.interest_id  WHERE u.id = ?;";
 
 		try {
 			interests = jdbcTemplate.query(sql, new Object[] { u.getId() }, getRowMapper());
@@ -144,6 +157,18 @@ public class InterestDao extends BaseDao<Interest> {
 
 		try {
 			jdbcTemplate.update(sql, job.getId(), interest.getId());
+			return;
+		} catch (Exception e) {
+			/* Probably should log this */
+		}
+	}
+	
+	public void clearUserInterest(User user) {
+
+		String sql = "DELETE FROM user_interest where user_id = ?;";
+
+		try {
+			jdbcTemplate.update(sql, user.getId());
 			return;
 		} catch (Exception e) {
 			/* Probably should log this */

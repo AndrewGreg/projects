@@ -36,13 +36,12 @@
 					</div>
 					<!--//breadcrumbs-->
 				</header>
-				<a href=/register><button type="button" class="btn btn-primary">Add
+				<a href="/Alumni-Tracker/register"><button type="button" class="btn btn-primary">Add
 						User</button></a>
 				<div style="margin-top: 20px">
-					<form action="/massRegister" method="post"
-						enctype="multipart/form-data">
-						<label>Upload Multiple Users:</label> <input type="file"
-							name="multiple" id="" value="">
+					<form action="/Alumni-Tracker/massRegister" method="post" enctype="multipart/form-data">
+						<label>Upload Multiple Users:</label>
+						<input type="file" accept=".xls,.xlsx" name="multiple" id="" value="">
 						<button type="submit" class="btn btn-primary">Upload</button>
 					</form>
 				</div>
@@ -84,17 +83,18 @@
 											String role = "";
 
 											for (int i = 0; i < users.size(); i++) {
-												if (users.get(i).getRole() == 1) {
-													role = "Student";
-												} else if (users.get(i).getRole() == 2) {
-													role = "Alumni";
-												} else if (users.get(i).getRole() == 3) {
-													role = "Faculty";
-												} else if (users.get(i).getRole() == 4) {
-													role = "Admin";
-												} else {
-													role = "Role Error.";
-												}
+												if(users.get(i).isActive()){
+													if(users.get(i).getRole() == 1){
+														role = "Student";
+													}else if(users.get(i).getRole() == 2){
+														role = "Alumni";
+													}else if(users.get(i).getRole() == 3){
+														role = "Faculty";
+													}else if (users.get(i).getRole() == 4){
+														role = "Admin";
+													}else{
+														role = "Role Error.";
+													}
 
 												String firstName = users.get(i) != null && users.get(i).getFirstName() != null
 														? users.get(i).getFirstName() : "N/A";
@@ -114,7 +114,9 @@
 									</tr>
 
 									<%
-										}
+
+												}
+											}
 										}
 									%>
 								</tbody>

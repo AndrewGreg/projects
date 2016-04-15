@@ -41,7 +41,7 @@ import edu.ben.template.model.User;
 import edu.ben.template.model.Validator;
 
 @Controller
-@SessionAttributes({ "editJob", "editEvent", "profileUser" })
+@SessionAttributes({ "editJob", "currentJob", "editEvent", "currentEvent", "profileUser"})
 public class HomeController extends BaseController {
 
 	// Allows the password to be Hashed.
@@ -276,6 +276,7 @@ public class HomeController extends BaseController {
 			return "createJobTemplate";
 		}
 	}
+	
 
 	@RequestMapping(value = "/editAJob/{id}", method = RequestMethod.GET)
 	public String editAJob(Model model, @PathVariable Long id) {
@@ -286,7 +287,7 @@ public class HomeController extends BaseController {
 		return "editJobTemplate";
 	}
 
-	@RequestMapping(value = "/editAJob", method = RequestMethod.POST)
+	@RequestMapping(value = "editAJob", method = RequestMethod.POST)
 	public String editAJobPost(Model model, @RequestParam("name") String name, @RequestParam("company") String company,
 			@RequestParam("description") String description, @RequestParam("location") String location,
 			@RequestParam("startSalary") int startSalary, @RequestParam("endSalary") int endSalary,
@@ -685,6 +686,13 @@ public class HomeController extends BaseController {
 		return "eventSingle";
 
 	}
+	
+	@RequestMapping(value = "/deleteEvent", method = RequestMethod.POST)
+	public String deleteEvent(Model model, @ModelAttribute("currentEvent") Event currentEvent) {
+		getEventDao().deleteEvent(currentEvent.getId());
+		return "redirect:/eventsTemplate";
+	}
+	
 
 	/**
 	 * Access to the registration page.
@@ -976,27 +984,30 @@ public class HomeController extends BaseController {
 		return "registration";
 	}
 
-	@RequestMapping(value = "/massRegister", method = RequestMethod.POST)
-	public String massRegistration(Model model, HttpServletRequest request, HttpServletResponse response,
-			@RequestParam CommonsMultipartFile[] multiple) throws IOException, SerialException, SQLException {
-
-		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		MultipartFile multipartFile = multipartRequest.getFile("multiple");
-
-		UploadFile file = new UploadFile();
-		file.setFileName(multipartFile.getOriginalFilename());
-		// file.setNotes(ServletRequestUtils.getStringParameter(request,
-		// "notes"));
-		// file.setType(multipartFile.getContentType());
-		if (file != null) {
-			byte[] bytes = multipartFile.getBytes();
-			Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-			file.setData((com.mysql.jdbc.Blob) blob);
-			getUserDao().addMultiple(file.getFileName());
-		}
-		// model.addAttribute("active", "index");
-		return "admin";
-	}
+//	@RequestMapping(value = "/massRegister", method = RequestMethod.POST)
+//	public String massRegistration(Model model, HttpServletRequest request, HttpServletResponse response,
+//			@RequestParam MultipartFile multiple) throws IOException, SerialException, SQLException {
+//
+//		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+//		MultipartFile multipartFile = multipartRequest.getFile("multiple");
+//		System.out.println(multiple);
+//		if(multiple.length > 0){
+//			UploadFile file = new UploadFile();
+//			file.setFileName(multipartFile.getOriginalFilename());
+//			// file.setNotes(ServletRequestUtils.getStringParameter(request,
+//			// "notes"));
+//			// file.setType(multipartFile.getContentType());
+//			if (file != null) {
+//				byte[] bytes = multipartFile.getBytes();
+//				Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+//				file.setData((com.mysql.jdbc.Blob) blob);
+//				getUserDao().addMultiple(file.getFileName());
+//			}
+//		}
+//		
+//		// model.addAttribute("active", "index");
+//		return "admin";
+//	}
 
 	@RequestMapping(value = "/getImage/{id}", method = RequestMethod.GET)
 	public void image(Model model, @PathVariable Long id) throws SQLException, IOException {
@@ -1432,6 +1443,12 @@ public class HomeController extends BaseController {
 
 		return "jobsSingleTemplate";
 
+	}
+	
+	@RequestMapping(value = "/deleteJob", method = RequestMethod.POST)
+	public String deleteJob(Model model, @ModelAttribute("currentJob") Job currentJob) {
+		getJobDao().deleteJob(currentJob.getId());
+		return  "redirect:/jobs";
 	}
 
 	@RequestMapping(value = "/jobs", method = RequestMethod.GET)

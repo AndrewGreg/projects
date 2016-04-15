@@ -135,6 +135,16 @@ public class JobDao extends BaseDao<Job> {
 		return;
 
 	}
+	
+	public void deleteJob(Long id){
+		
+		String sql = "DELETE FROM job WHERE id = ?";
+		try{
+			jdbcTemplate.update(sql, id);
+		}catch(Exception e){
+			e.printStackTrace(); 
+		}
+	}
 
 	/**
 	 * Searches by name of the job in ascending order.

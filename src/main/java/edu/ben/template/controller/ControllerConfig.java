@@ -27,5 +27,10 @@ public class ControllerConfig {
 	public UserController userController() {
 		return new UserController();
 	}
+	
+	@Bean
+	public FileUploadController fileUploadController() {
+		return new FileUploadController();
+	}
 
 }

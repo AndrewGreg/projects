@@ -111,6 +111,16 @@ public class EventDao extends BaseDao<Event> {
 		}
 		return;
 	}
+	
+	public void deleteEvent(Long id){
+		
+		String sql = "DELETE FROM event WHERE id = ?";
+		try{
+			jdbcTemplate.update(sql, id);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * List all of the Events by the date. When the date has passed the current date, It will not be displayed..

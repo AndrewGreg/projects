@@ -39,13 +39,23 @@
                 </header> 
                  <div class="page-content">
                     <div class="row page-row">
-                        <div class="jobs-wrapper col-md-8 col-sm-7">           
-                            <h3 class="title" style="color: white"><%=currentJob.getName()%></h3>
-                             <%if((currentUser.getId() == currentJob.getPoster().getId()) || currentUser.getRole() > 2){%>
-                            		<a href="/editAJob/<%=id%>" style="color: white">Edit Job</a>
-                            <%
-                            	}
+                        <div class="jobs-wrapper col-md-8 col-sm-7">          
+                           
+							<div class="title">
+								<h3 style="color: white"><%=currentJob.getName()%></h3>
+								 <%if(currentUser.getRole() == 4){%>	
+                           			<form action="/Alumni-Tracker/deleteJob" method="POST" name="deleteJob">
+										<button type="submit" class="btn btn-primary" style="background-color:#F1102F; margin-left: 110px; margin-top: -60px">Delete Job</button>
+							    	</form>  
+								 <%} %>
+							</div>    
                             
+                             <%if((currentUser.getId() == currentJob.getPoster().getId()) || currentUser.getRole() > 2){%>
+                            		<a href="/Alumni-Tracker/editAJob/<%=id%>" style="color: white">Edit Job</a>
+                            
+                            <%
+                            	
+                             	}
                             %>
                             <% 
                                String hoursDisplay = "";

@@ -66,7 +66,7 @@ public class UserDao extends BaseDao<User> {
 							user.isAdminVerified(), user.isGraduateVerified(), user.isCurrentGraduateVerified(),
 							user.getGraduateSchool(), user.getToPublic(), user.getReference() });
 		} catch (Exception e) {
-			/* Probably want to log this */
+			e.printStackTrace();
 		}
 	}
 

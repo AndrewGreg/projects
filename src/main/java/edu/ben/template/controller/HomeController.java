@@ -286,7 +286,7 @@ public class HomeController extends BaseController {
 		return "editJobTemplate";
 	}
 
-	@RequestMapping(value = "deAJob", method = RequestMethod.POST)
+	@RequestMapping(value = "editAJob", method = RequestMethod.POST)
 	public String editAJobPost(Model model, @RequestParam("name") String name, @RequestParam("company") String company,
 			@RequestParam("description") String description, @RequestParam("location") String location,
 			@RequestParam("startSalary") int startSalary, @RequestParam("endSalary") int endSalary,
@@ -690,7 +690,7 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/deleteEvent", method = RequestMethod.POST)
 	public String deleteEvent(Model model, @ModelAttribute("currentEvent") Event currentEvent) {
 		getEventDao().deleteEvent(currentEvent.getId());
-		return "eventsTemplate";
+		return "redirect:/eventsTemplate";
 	}
 	
 
@@ -1336,7 +1336,7 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/deleteJob", method = RequestMethod.POST)
 	public String deleteJob(Model model, @ModelAttribute("currentJob") Job currentJob) {
 		getJobDao().deleteJob(currentJob.getId());
-		return "jobsTemplate";
+		return  "redirect:/jobs";
 	}
 
 	@RequestMapping(value = "/jobs", method = RequestMethod.GET)

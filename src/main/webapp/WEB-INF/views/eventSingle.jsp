@@ -39,16 +39,20 @@
                 </header> 
                  <div class="page-content">
                     <div class="row page-row">
-                        <div class="jobs-wrapper col-md-8 col-sm-7">           
-                            <h3 class="title" style="color: white"><%=currentEvent.getName()%></h3>
+                        <div class="jobs-wrapper col-md-8 col-sm-7">
+                        	<div class="title">
+                        		<h3 style="color: white"><%=currentEvent.getName()%></h3>
+                        		 <%if(currentUser.getRole() == 4){%>	
+                           			<form action="/Alumni-Tracker/deleteEvent" method="POST" name="deleteEvent">
+										<button type="submit" class="btn btn-primary" style="background-color:#F1102F; margin-left: 110px; margin-top: -60px">Delete Event</button>
+							    	</form>
+							    <%} %>
+                       		</div>           
+                            
                             <%if(currentUser.getId() == currentEvent.getPoster().getId() || currentUser.getRole() > 2){%>
                             	<a href="/Alumni-Tracker/editAnEvent/<%=id%>" style="color: white">Edit Event</a>
-                            <%if(currentUser.getRole() == 4){%>	
-                           		<form action="Alumni-Tracker/deleteEvent" method="POST" name="deleteEvent">
-									<button type="submit" class="btn btn-primary">Delete Event</button>
-							    </form>
+                           
                             <%	
-                            	}
                             	}
                             %>
                             <div class="box box-border page-row">

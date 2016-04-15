@@ -67,7 +67,7 @@
 							</div>
 							<!--//date-label-wrapper-->
 							<div class="details col-md-11 col-sm-10">
-								<h3 class="title"><%=name%></h3>
+								<h3 class="title"><a href="/Alumni-Tracker/newEvents/<%=id%>"><%=name%></a></h3>
 								<p class="meta">
 									<span class="time"><i class="fa fa-clock-o"></i><%=timeRange%></span><span
 										class="location"><i class="fa fa-map-marker"></i><a href="<%=googleLink%>" target="_blank"><%=location%></a></span>

@@ -116,7 +116,7 @@
 								<ul class="pagination">
 									<%
 										int i = 0;
-										int count = (int) request.getAttribute("facultyCount");
+										int count = (Integer) request.getAttribute("facultyCount");
 										int pages = (count - 1) / 15;
 									%>
 									<%

@@ -70,7 +70,8 @@
 									<li><strong>Location: </strong><a href="<%=googleLink%>"
 										target="_blank"><i class="fa fa-map-marker"></i><%=currentJob.getLocation()%></a></li>
 
-									<li><strong>Salary:</strong> <%=currentJob.getStart_salary()%>
+									<li><strong>Salary:</strong> <i
+											class="fa fa-usd"></i><%=currentJob.getStart_salary()%>
 										- <%=currentJob.getEnd_salary()%></li>
 
 									<li><strong>Hours:</strong> <%=hoursDisplay%></li>

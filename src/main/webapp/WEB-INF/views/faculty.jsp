@@ -82,16 +82,18 @@
 									<%
 										} else {
 											for (int i = 0; i < faculty.size(); i++) {
-												if (faculty.get(i).getRole() == 3) {
-													String firstName = faculty.get(i) != null && faculty.get(i).getFirstName() != null
+												if(faculty.get(i).isActive()){
+													if (faculty.get(i).getRole() == 3) {
+														String firstName = faculty.get(i) != null && faculty.get(i).getFirstName() != null
 															? faculty.get(i).getFirstName() : "N/A";
-													String lastName = faculty.get(i) != null && faculty.get(i).getLastName() != null
+														String lastName = faculty.get(i) != null && faculty.get(i).getLastName() != null
 															? faculty.get(i).getLastName() : "N/A";
-													String occupation = faculty.get(i) != null && faculty.get(i).getOccupation() != null
+														String occupation = faculty.get(i) != null && faculty.get(i).getOccupation() != null
 															? faculty.get(i).getOccupation() : "N/A";
-													String major = faculty.get(i) != null && faculty.get(i).getMajorAtIndex(0) != null
+														String major = faculty.get(i) != null && faculty.get(i).getMajorAtIndex(0) != null
 															&& faculty.get(i).getMajorAtIndex(0).getName() != null ? faculty.get(i).getFirstName()
 																	: "N/A";
+												
 									%>
 									<tr class='clickable-row row-link'
 										data-href='/Alumni-Tracker/user/<%=faculty.get(i).getId()%>'>
@@ -105,7 +107,8 @@
 									</tr>
 
 									<%
-										}
+													}	
+												}
 											}
 										}
 									%>

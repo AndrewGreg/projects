@@ -82,12 +82,12 @@
 									<%
 										} else {
 											for (int i = 0; i < alumni.size(); i++) {
-
-												String firstName = alumni.get(i) != null && alumni.get(i).getFirstName() != null
+												if(alumni.get(i).isActive()){
+													String firstName = alumni.get(i) != null && alumni.get(i).getFirstName() != null
 														? alumni.get(i).getFirstName() : "N/A";
-												String lastName = alumni.get(i) != null && alumni.get(i).getLastName() != null
+													String lastName = alumni.get(i) != null && alumni.get(i).getLastName() != null
 														? alumni.get(i).getLastName() : "N/A";
-												String major = alumni.get(i) != null && alumni.get(i).getMajorAtIndex(0) != null
+													String major = alumni.get(i) != null && alumni.get(i).getMajorAtIndex(0) != null
 														&& alumni.get(i).getMajorAtIndex(0).getName() != null ? alumni.get(i).getFirstName()
 																: "N/A";
 									%>
@@ -103,7 +103,8 @@
 									</tr>
 
 									<%
-										}
+												}
+											}
 										}
 									%>
 								</tbody>

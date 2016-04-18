@@ -7,11 +7,11 @@
 					<div class="footer-col-inner">
 						<h3>About</h3>
 						<ul>
-							<li><a href="about.html"><i class="fa fa-caret-right"></i>About
+							<li><a href="about.jsp"><i class="fa fa-caret-right"></i>About
 									us</a></li>
-							<li><a href="contact.html"><i class="fa fa-caret-right"></i>Contact
+							<li><a href="jsp"><i class="fa fa-caret-right"></i>Contact
 									us</a></li>
-							<li><a href="privacy.html"><i class="fa fa-caret-right"></i>Privacy
+							<li><a href="jsp"><i class="fa fa-caret-right"></i>Privacy
 									policy</a></li>
 							<li><a href="terms-and-conditions.html"><i
 									class="fa fa-caret-right"></i>Terms & Conditions</a></li>

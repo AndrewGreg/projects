@@ -21,15 +21,19 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import edu.ben.template.model.Event;
 import edu.ben.template.model.Interest;
@@ -79,6 +83,12 @@ public class HomeController extends BaseController {
 		});
 	}
 
+	@RequestMapping("notfound")
+	@ResponseBody
+	public String notFound() {
+		return "customError";
+	}
+
 	/**
 	 * Index method.
 	 * 
@@ -125,6 +135,7 @@ public class HomeController extends BaseController {
 		model.addAttribute("active", "index");
 
 		return "indexTemplate";
+
 	}
 
 	@RequestMapping(value = "/createJobPosting", method = RequestMethod.GET)
@@ -959,27 +970,30 @@ public class HomeController extends BaseController {
 		return "registration";
 	}
 
-//	@RequestMapping(value = "/massRegister", method = RequestMethod.POST)
-//	public String massRegistration(Model model, HttpServletRequest request, HttpServletResponse response,
-//			@RequestParam CommonsMultipartFile[] multiple) throws IOException, SerialException, SQLException {
-//
-//		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-//		MultipartFile multipartFile = multipartRequest.getFile("multiple");
-//
-//		UploadFile file = new UploadFile();
-//		file.setFileName(multipartFile.getOriginalFilename());
-//		// file.setNotes(ServletRequestUtils.getStringParameter(request,
-//		// "notes"));
-//		// file.setType(multipartFile.getContentType());
-//		if (file != null) {
-//			byte[] bytes = multipartFile.getBytes();
-//			Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-//			file.setData((com.mysql.jdbc.Blob) blob);
-//			getUserDao().addMultiple(file.getFileName());
-//		}
-//		// model.addAttribute("active", "index");
-//		return "admin";
-//	}
+	// @RequestMapping(value = "/massRegister", method = RequestMethod.POST)
+	// public String massRegistration(Model model, HttpServletRequest request,
+	// HttpServletResponse response,
+	// @RequestParam CommonsMultipartFile[] multiple) throws IOException,
+	// SerialException, SQLException {
+	//
+	// MultipartHttpServletRequest multipartRequest =
+	// (MultipartHttpServletRequest) request;
+	// MultipartFile multipartFile = multipartRequest.getFile("multiple");
+	//
+	// UploadFile file = new UploadFile();
+	// file.setFileName(multipartFile.getOriginalFilename());
+	// // file.setNotes(ServletRequestUtils.getStringParameter(request,
+	// // "notes"));
+	// // file.setType(multipartFile.getContentType());
+	// if (file != null) {
+	// byte[] bytes = multipartFile.getBytes();
+	// Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+	// file.setData((com.mysql.jdbc.Blob) blob);
+	// getUserDao().addMultiple(file.getFileName());
+	// }
+	// // model.addAttribute("active", "index");
+	// return "admin";
+	// }
 
 	@RequestMapping(value = "/getImage/{id}", method = RequestMethod.GET)
 	public void image(Model model, @PathVariable Long id) throws SQLException, IOException {

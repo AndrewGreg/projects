@@ -1414,6 +1414,7 @@ public class HomeController extends BaseController {
 			e.printStackTrace();
 		}
 
+		model.addAttribute("active", "job");
 		return "jobsSingleTemplate";
 
 	}

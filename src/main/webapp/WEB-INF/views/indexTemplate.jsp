@@ -145,7 +145,7 @@
 
 								<div class="col-md-4 ">
 									<h2 class="title" style="text-align: center;">
-										<a href="/jobs/<%=jobId%>"><%=jobName%></a>
+										<a href="/Alumni-Tracker/jobs/<%=jobId%>"><%=jobName%></a>
 									</h2>
 
 									<p><%=shortDescription%></p>
@@ -175,6 +175,7 @@
 						<!--//news-carousel-->
 					</div>
 					<!--//section-content-->
+					</div>
 			</section>
 			<!--//news-->
 			<div class="row cols-wrapper">
@@ -207,7 +208,7 @@
 								</p>
 								<div class="details">
 									<h2 class="title">
-										<a href="#"><%=eventName%></a>
+										<a href="/Alumni-Tracker/newEvents/<%=eventId%>"><%=eventName%></a>
 									</h2>
 									<p class="time">
 										<i class="fa fa-clock-o"></i><%=timeRange%>

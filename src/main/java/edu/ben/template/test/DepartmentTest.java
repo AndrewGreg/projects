@@ -19,6 +19,7 @@ public class DepartmentTest {
 	@Autowired
 	private DepartmentDao departmentDao = new DepartmentDao();
 
+	@SuppressWarnings("deprecation")
 	@Test
 	@Transactional
 	@Rollback(true)

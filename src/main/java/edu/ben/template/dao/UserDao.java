@@ -49,7 +49,11 @@ public class UserDao extends BaseDao<User> {
 
 		// Created, lastModified, lastLogin, lastActive will be implemented in
 		// future sprint
-		String sql = "INSERT INTO user (`bnumber`, `email`, `personal_email`, `password`, `salt`, `title_id`, `first_name`, `last_name`, `role`, `graduation_year`, `occupation`, `company`, `suffix`, `biography`, `experience`, `hidden`, `active`, `social_media`, `phone_number`, `work_number`, `user_verified`, `admin_verified`, `graduate_verified`, `current_graduate_verified`, `graduate_school`, `public`, `reference`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, null, null, null, null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+		String sql = "INSERT INTO user (`bnumber`, `email`, `personal_email`, `password`, `salt`, `title_id`, `first_name`, `last_name`, `role`, "
+				+ "`graduation_year`, `occupation`, `company`, `suffix`, `biography`, `experience`, `hidden`, `active`, `social_media`, "
+				+ "`phone_number`, `work_number`, `user_verified`, `admin_verified`, `graduate_verified`, `current_graduate_verified`, "
+				+ "`graduate_school`, `public`, `reference`) VALUES "
+				+ "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
 		try {
 			jdbcTemplate.update(sql,
@@ -57,13 +61,13 @@ public class UserDao extends BaseDao<User> {
 							user.getSalt(), user.getTitleID(), user.getFirstName(), user.getLastName(), user.getRole(),
 							user.getGraduationYear(), user.getOccupation(), user.getCompany(), user.getSuffix(),
 							user.getBiography(), user.getExperience(), user.isHidden(), user.isActive(),
+
 							user.getSocialMedia(), user.getPhoneNumber(), user.getWorkNumber(), user.isUserVerified(),
 							user.isAdminVerified(), user.isGraduateVerified(), user.isCurrentGraduateVerified(),
 							user.getGraduateSchool(), user.getToPublic(), user.getReference() });
 		} catch (Exception e) {
-			/* Probably want to log this */
+			e.printStackTrace();
 		}
-
 	}
 
 	// TODO Not Tested in Sprint 3
@@ -125,7 +129,7 @@ public class UserDao extends BaseDao<User> {
 			return count;
 
 		} catch (EmptyResultDataAccessException e) {
-			
+
 			return count;
 		}
 	}
@@ -145,7 +149,7 @@ public class UserDao extends BaseDao<User> {
 
 			return (ArrayList<User>) users;
 		} catch (EmptyResultDataAccessException e) {
-			
+
 			return null;
 		}
 	}
@@ -161,7 +165,7 @@ public class UserDao extends BaseDao<User> {
 			return count;
 
 		} catch (EmptyResultDataAccessException e) {
-			
+
 			return count;
 		}
 	}
@@ -181,7 +185,7 @@ public class UserDao extends BaseDao<User> {
 
 			return (ArrayList<User>) users;
 		} catch (EmptyResultDataAccessException e) {
-			
+
 			return null;
 		}
 	}
@@ -197,7 +201,7 @@ public class UserDao extends BaseDao<User> {
 			return count;
 
 		} catch (EmptyResultDataAccessException e) {
-		
+
 			return count;
 		}
 	}
@@ -314,9 +318,7 @@ public class UserDao extends BaseDao<User> {
 
 	public void updateUser(User user) {
 
-
 		String sql = "UPDATE user SET `bnumber`=?, `email`=?, `personal_email`=?, `password`=?, `salt`=?, `title_id`=?, `first_name`=?, `last_name`=?, `role`=?, `graduation_year`=?, `occupation`=?, `company`=?, `suffix`=?, `biography`=?, `experience`=?, `hidden`=?, `active`=?, `social_media`=?, `phone_number`=?, `work_number`=?, `user_verified`=?, `admin_verified`=?, `graduate_verified`=?, `current_graduate_verified`=?, `graduate_school`=?, `public`=?, `reference`=? WHERE `id`=?;";
-		
 
 		try {
 			jdbcTemplate.update(sql,

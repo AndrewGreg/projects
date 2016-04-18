@@ -7,9 +7,12 @@ public class Validator {
 		return password.equals(confirmPassword);
 	}
 
-	public static boolean validatePassword(String password) {
+	public static boolean validatePassword(String password, boolean required) {
 
+		if (required){
 		return (!isNull(password) && password.matches(".{2,}"));
+		}
+		return (isNull(password) || password.matches(".{2,}"));
 	}
 
 	public static boolean validateName(String name) {

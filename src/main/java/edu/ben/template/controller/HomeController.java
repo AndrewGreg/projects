@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import edu.ben.template.model.Event;
+import edu.ben.template.model.Interest;
 import edu.ben.template.model.Job;
 import edu.ben.template.model.Major;
 import edu.ben.template.model.Title;
@@ -40,7 +41,7 @@ import edu.ben.template.model.User;
 import edu.ben.template.model.Validator;
 
 @Controller
-@SessionAttributes({ "editJob", "currentJob", "editEvent", "currentEvent", "profileUser"})
+@SessionAttributes({ "editJob", "currentJob", "editEvent", "currentEvent", "profileUser" })
 public class HomeController extends BaseController {
 
 	// Allows the password to be Hashed.
@@ -275,7 +276,6 @@ public class HomeController extends BaseController {
 			return "createJobTemplate";
 		}
 	}
-	
 
 	@RequestMapping(value = "/editAJob/{id}", method = RequestMethod.GET)
 	public String editAJob(Model model, @PathVariable Long id) {
@@ -493,7 +493,7 @@ public class HomeController extends BaseController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 			model.addAttribute("eventCreation", "true");
 
 			return "eventsTemplate";
@@ -630,30 +630,6 @@ public class HomeController extends BaseController {
 	 *            being passed in.
 	 * @return the page returning all the events being posted.
 	 */
-	@RequestMapping(value = "/events", method = RequestMethod.GET)
-	public String eventPostings(Model model) {
-
-		try {
-			ArrayList<Event> events = new ArrayList<Event>();
-			events = getEventDao().getAll();
-
-			model.addAttribute("events", events);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		model.addAttribute("active", "event");
-		return "events";
-	}
-
-	/**
-	 * Displays all events.
-	 * 
-	 * @param model
-	 *            being passed in.
-	 * @return the page returning all the events being posted.
-	 */
 	@RequestMapping(value = "/eventsTemplate", method = RequestMethod.GET)
 	public String events(Model model) {
 
@@ -668,7 +644,7 @@ public class HomeController extends BaseController {
 		}
 
 		return "eventsTemplate";
-	
+
 	}
 
 	@RequestMapping(value = "/newEvents/{id}", method = RequestMethod.GET)
@@ -686,13 +662,12 @@ public class HomeController extends BaseController {
 		return "eventSingle";
 
 	}
-	
+
 	@RequestMapping(value = "/deleteEvent", method = RequestMethod.POST)
 	public String deleteEvent(Model model, @ModelAttribute("currentEvent") Event currentEvent) {
 		getEventDao().deleteEvent(currentEvent.getId());
 		return "redirect:/eventsTemplate";
 	}
-	
 
 	/**
 	 * Access to the registration page.
@@ -964,7 +939,7 @@ public class HomeController extends BaseController {
 
 				ArrayList<Major> majorList = getMajorDao().getAll();
 				ArrayList<Title> titleList = getTitleDao().getAll();
-				
+
 				model.addAttribute("majorList", majorList);
 				model.addAttribute("titleList", titleList);
 
@@ -986,25 +961,22 @@ public class HomeController extends BaseController {
 
 //	@RequestMapping(value = "/massRegister", method = RequestMethod.POST)
 //	public String massRegistration(Model model, HttpServletRequest request, HttpServletResponse response,
-//			@RequestParam MultipartFile multiple) throws IOException, SerialException, SQLException {
+//			@RequestParam CommonsMultipartFile[] multiple) throws IOException, SerialException, SQLException {
 //
 //		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 //		MultipartFile multipartFile = multipartRequest.getFile("multiple");
-//		System.out.println(multiple);
-//		if(multiple.length > 0){
-//			UploadFile file = new UploadFile();
-//			file.setFileName(multipartFile.getOriginalFilename());
-//			// file.setNotes(ServletRequestUtils.getStringParameter(request,
-//			// "notes"));
-//			// file.setType(multipartFile.getContentType());
-//			if (file != null) {
-//				byte[] bytes = multipartFile.getBytes();
-//				Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-//				file.setData((com.mysql.jdbc.Blob) blob);
-//				getUserDao().addMultiple(file.getFileName());
-//			}
+//
+//		UploadFile file = new UploadFile();
+//		file.setFileName(multipartFile.getOriginalFilename());
+//		// file.setNotes(ServletRequestUtils.getStringParameter(request,
+//		// "notes"));
+//		// file.setType(multipartFile.getContentType());
+//		if (file != null) {
+//			byte[] bytes = multipartFile.getBytes();
+//			Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+//			file.setData((com.mysql.jdbc.Blob) blob);
+//			getUserDao().addMultiple(file.getFileName());
 //		}
-//		
 //		// model.addAttribute("active", "index");
 //		return "admin";
 //	}
@@ -1074,12 +1046,33 @@ public class HomeController extends BaseController {
 		Title title = getTitleDao().getObjectById(u.getTitleID());
 
 		ArrayList<Major> m = getMajorDao().getAllMajors();
+		ArrayList<Major> mi = getMajorDao().getAllMajors();
 		ArrayList<Title> t = getTitleDao().getAll();
+		ArrayList<Interest> i = getInterestDao().getAll();
+		ArrayList<Interest> uI = getInterestDao().getAllByUser(profileUser);
+		ArrayList<Interest> interests = new ArrayList<Interest>();
+
+		Boolean exists = false;
+
+		for (Interest interest : i) {
+			for (Interest userInterest : uI) {
+				if (userInterest.getName().equals(interest.getName())) {
+					exists = true;
+				}
+			}
+			if (!exists) {
+				interests.add(interest);
+			}
+			exists = false;
+		}
 
 		model.addAttribute("user", profileUser);
 		model.addAttribute("majors", m);
+		model.addAttribute("minors", mi);
 		model.addAttribute("titles", t);
 		model.addAttribute("title", title);
+		model.addAttribute("interests", interests);
+		model.addAttribute("userInterests", uI);
 
 		// For User Error Checking
 		HashMap<String, String> e = new HashMap<String, String>();
@@ -1127,45 +1120,51 @@ public class HomeController extends BaseController {
 	 * @throws SQLException
 	 * @throws SerialException
 	 */
-	@RequestMapping(value = "/edit/", method = RequestMethod.POST)
-	public String edit(Model model, @RequestParam("title") String title, @RequestParam("fName") String firstName,
-			@RequestParam("lName") String lastName, @RequestParam("suffix") String suffix,
-			@RequestParam("personalEmail") String personalEmail, @RequestParam("graduationYear") String graduationYear,
-			@RequestParam("major") String major, @RequestParam("doubleMajor") String doubleMajor,
-			@RequestParam("thirdMajor") String thirdMajor, @RequestParam("occupation") String occupation,
-			@RequestParam("biography") String biography, @RequestParam("experience") String experience,
-			@RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword/*
-																												 * ,
-																												 * HttpServletRequest
-																												 * request,
-																												 * HttpServletResponse
-																												 * response, @RequestParam
-																												 * CommonsMultipartFile
-																												 * []
-																												 * fileUpload,
-																												 * 
-																												 * @RequestParam
-																												 * ("file")
-																												 * MultipartFile
-																												 * []
-																												 * files, @RequestParam
-																												 * ("photo")
-																												 * File
-																												 * photo,
-																												 * 
-																												 * @RequestParam
-																												 * (
-																												 * "resume")
-																												 * File
-																												 * resume
-																												 */)
-					throws IOException {
+	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
+	public String edit(Model model, @PathVariable Long id, @RequestParam("title") String title,
+			@RequestParam("fName") String firstName, @RequestParam("lName") String lastName,
+			@RequestParam("suffix") String suffix, @RequestParam("personalEmail") String personalEmail,
+			@RequestParam("graduationYear") String graduationYear, @RequestParam("major") String major,
+			@RequestParam("doubleMajor") String doubleMajor, @RequestParam("thirdMajor") String thirdMajor,
+			@RequestParam("occupation") String occupation, @RequestParam("biography") String biography,
+			@RequestParam("experience") String experience, @RequestParam("interests") ArrayList<String> interests,
+			@RequestParam("minor") String minor, @RequestParam("secondMinor") String secondMinor,
+			@RequestParam("thirdMinor") String thirdMinor, @RequestParam("password") String password,
+			@RequestParam("confirmPassword") String confirmPassword/*
+																	 * ,
+																	 * HttpServletRequest
+																	 * request,
+																	 * HttpServletResponse
+																	 * response, @RequestParam
+																	 * CommonsMultipartFile
+																	 * []
+																	 * fileUpload,
+																	 * 
+																	 * @RequestParam
+																	 * ("file")
+																	 * MultipartFile
+																	 * []
+																	 * files, @RequestParam
+																	 * ("photo")
+																	 * File
+																	 * photo,
+																	 * 
+																	 * @RequestParam
+																	 * (
+																	 * "resume")
+																	 * File
+																	 * resume
+																	 */) throws IOException {
 
-		if (validateEdit(firstName, lastName, personalEmail)) {
+		// VALIDATION
+		if (validateEditFormSubmission(password, confirmPassword, firstName, lastName, personalEmail)
+				&& Validator.validatePassword(password, false)) {
+
+			// User u = getUserDao().getObjectById(id);
 
 			User u = getCurrentUser();
 
-			if (!Validator.validateSelect(graduationYear)) {
+			if (Validator.validateSelect(graduationYear)) {
 				u.setGraduationYear((Integer.parseInt(graduationYear)));
 			}
 			if (!major.equals("Select") && !getMajorDao().getByName(major).equals(null)
@@ -1179,6 +1178,19 @@ public class HomeController extends BaseController {
 			if (!thirdMajor.equals("Select") && !getMajorDao().getByName(thirdMajor).equals(null)
 					&& getMajorDao().getByName(thirdMajor) != null) {
 				u.addMajor(getMajorDao().getByName(thirdMajor));
+			}
+
+			if (!minor.equals("Select") && !getMajorDao().getByName(minor).equals(null)
+					&& getMajorDao().getByName(minor) != null) {
+				u.addMinor(getMajorDao().getByName(minor));
+			}
+			if (!secondMinor.equals("Select") && !getMajorDao().getByName(secondMinor).equals(null)
+					&& getMajorDao().getByName(secondMinor) != null) {
+				u.addMinor(getMajorDao().getByName(secondMinor));
+			}
+			if (!thirdMinor.equals("Select") && !getMajorDao().getByName(thirdMinor).equals(null)
+					&& getMajorDao().getByName(thirdMinor) != null) {
+				u.addMinor(getMajorDao().getByName(thirdMinor));
 			}
 
 			if (!title.equals("Select") && !getTitleDao().getObjectByName(title).equals(null)) {
@@ -1202,7 +1214,7 @@ public class HomeController extends BaseController {
 
 			try {
 				getUserDao().updateUser(u);
-				getMajorDao().updateMajorAndConcentrationByUser(u);
+				getMajorDao().updateMajorsByUser(u);
 			} catch (Exception e) {
 
 			}
@@ -1273,49 +1285,122 @@ public class HomeController extends BaseController {
 			// }
 			// }
 
+			// TODO PLACE FILE HERE
+
+			getInterestDao().clearUserInterest(u);
+			u.clearInterest();
+
+			for (String i : interests) {
+				try {
+					Interest interest = getInterestDao().getByName(i);
+					getInterestDao().addInterestToUser(u, interest);
+					u.addInterest(interest);
+				} catch (Exception e) {
+
+				}
+			}
+
 			if (validatePassword(password, confirmPassword)) {
 				u.setPassword(pwEncoder.encode(password));
 			}
 
 			try {
 				getUserDao().updateUser(u);
-				getMajorDao().updateMajorAndConcentrationByUser(u);
+				getMajorDao().updateMajorsByUser(u);
 			} catch (Exception e) {
 
 			}
 
 			return "redirect:/user/" + u.getId();
 		}
+
+		HashMap<String, String> e = new HashMap<String, String>();// TODO
+
+		ArrayList<Major> m = getMajorDao().getAllMajors();
+
+		User u = getCurrentUser();
+		// User profileUser = getUserDao().getObjectById(id);
+
+		// u.setMajor(getMajorDao().getMajorByUser(u));
+		// u.setConcentration(getMajorDao().getConcentrationByUser(u));
+		// u.setMinor(getMajorDao().getMinorByUser(u));
+
+		u.setMajor(getMajorDao().getMajorByUser(u));
+		u.setConcentration(getMajorDao().getConcentrationByUser(u));
+		u.setMinor(getMajorDao().getMinorByUser(u));
+
+		// Change this to a u.setTitle(); --> Refactor TitleId To a String
+
+		Title t = getTitleDao().getObjectById(u.getTitleID());
+
+		ArrayList<Major> ma = getMajorDao().getAllMajors();
+		ArrayList<Major> mi = getMajorDao().getAllMajors();
+		ArrayList<Title> titles = getTitleDao().getAll();
+		ArrayList<Interest> i = getInterestDao().getAll();
+		ArrayList<Interest> uI = getInterestDao().getAllByUser(u);
+		ArrayList<Interest> interests2 = new ArrayList<Interest>();
+
+		Boolean exists = false;
+
+		for (Interest interest : i) {
+			for (Interest userInterest : uI) {
+				if (userInterest.getName().equals(interest.getName())) {
+					exists = true;
+				}
+			}
+			if (!exists) {
+				interests2.add(interest);
+			}
+			exists = false;
+		}
+
+		// For User Error Checking
+		HashMap<String, String> error = new HashMap<String, String>();
+
+		if (!Validator.validatePasswordsMatch(password, confirmPassword))
+			error.put("password", "Passwords Must Match!");
+		else if (!Validator.isNull(password) && !Validator.validatePassword(password, false))
+			error.put("password", "Password Is Not Long Enough!");// TODO Change
+																	// when
+																	// regex
+																	// does
+
+		if (!Validator.validateName(firstName))
+			error.put("fName", "Invalid First Name");
+		if (!Validator.validateName(lastName))
+			error.put("fName", "Invalid Last Name");
+		if (!Validator.validateEmail(personalEmail, false))
+			error.put("fName", "Invalid Email Address");
+
+		getInterestDao().clearUserInterest(u);
+		u.clearInterest();
+
+		for (String newInterest : interests) {
+			try {
+				Interest interest = getInterestDao().getByName(newInterest);
+				getInterestDao().addInterestToUser(u, interest);
+				u.addInterest(interest);
+			} catch (Exception ex) {
+
+			}
+		}
+
+		u.setSuffix(suffix);
+		u.setOccupation(occupation);
+		u.setBio(biography);
+		u.setExperience(experience);
+
+		model.addAttribute("user", u);
+		model.addAttribute("majors", ma);
+		model.addAttribute("minors", mi);
+		model.addAttribute("titles", titles);
+		model.addAttribute("title", t);
+		model.addAttribute("interests", interests2);
+		model.addAttribute("userInterests", uI);
+		model.addAttribute("errors", error);
 		return "edit";
+
 	}
-	//
-	// HashMap<String, String> e = new HashMap<String, String>();// TODO
-	//
-	// ArrayList<Major> m = getMajorDao().getAllMajors();
-	//
-	// User u = getCurrentUser();
-	//
-	// u.setMajor(getMajorDao().getMajorByUser(u));
-	// u.setConcentration(getMajorDao().getConcentrationByUser(u));
-	// u.setMinor(getMajorDao().getMinorByUser(u));
-	//
-	// if (!Validator.validatePassword(password) ||
-	// !Validator.validatePasswordsMatch(password, confirmPassword))
-	// e.put("password", "Invalid Password");
-	// if (!Validator.validateName(firstName))
-	// e.put("fName", "Invalid First Name Entry");
-	// if (!Validator.validateName(lastName))
-	// e.put("fName", "Invalid Last Name Entry");
-	// if (!Validator.validateEmail(personalEmail, false))
-	// e.put("fName", "Invalid Email Entry");
-	//
-	// model.addAttribute("user", u);
-	// model.addAttribute("majors", m);
-	// model.addAttribute("errors", e);
-	//
-	// return "edit";
-	//
-	// }
 
 	@RequestMapping(value = "/jobs/{id}", method = RequestMethod.GET)
 	public String jobsSingle(Model model, @PathVariable Long id) {
@@ -1332,11 +1417,11 @@ public class HomeController extends BaseController {
 		return "jobsSingleTemplate";
 
 	}
-	
+
 	@RequestMapping(value = "/deleteJob", method = RequestMethod.POST)
 	public String deleteJob(Model model, @ModelAttribute("currentJob") Job currentJob) {
 		getJobDao().deleteJob(currentJob.getId());
-		return  "redirect:/jobs";
+		return "redirect:/jobs";
 	}
 
 	@RequestMapping(value = "/jobs", method = RequestMethod.GET)
@@ -1457,7 +1542,7 @@ public class HomeController extends BaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		model.addAttribute("active", "alumni");
 		return "alumni";
 	}
@@ -1610,25 +1695,24 @@ public class HomeController extends BaseController {
 	private boolean validateEdit(String password, String confirmPassword, String firstName, String lastName,
 			String personalEmail, String graduationYear) {
 
-		return (Validator.validatePasswordsMatch(password, confirmPassword) && Validator.validatePassword(password)
-				&& Validator.validateName(firstName) && Validator.validateName(lastName)
-				&& Validator.validateGraduationYear(graduationYear, false)
+		return (Validator.validatePasswordsMatch(password, confirmPassword)
+				&& Validator.validatePassword(password, true) && Validator.validateName(firstName)
+				&& Validator.validateName(lastName) && Validator.validateGraduationYear(graduationYear, false)
 				&& Validator.validateEmail(personalEmail, false));
 	}
 
 	private boolean validatePassword(String password, String confirmPassword) {
 
-		return (Validator.validatePasswordsMatch(password, confirmPassword) && Validator.validatePassword(password));
+		return (Validator.validatePasswordsMatch(password, confirmPassword)
+				&& Validator.validatePassword(password, true));
 	}
 
-	private boolean validateEdit(/* String password, String confirmPassword, */ String firstName, String lastName,
-			String personalEmail) {
+	private boolean validateEditFormSubmission(String password, String confirmPassword, String firstName,
+			String lastName, String personalEmail) {
 
-		return (/*
-				 * Validator.validatePasswordsMatch(password, confirmPassword)
-				 * && Validator.validatePassword(password) &&
-				 */Validator.validateName(firstName) && Validator.validateName(lastName)
+		return (Validator.validatePasswordsMatch(password, confirmPassword)
+				// && Validator.validatePassword(password, false)
+				&& Validator.validateName(firstName) && Validator.validateName(lastName)
 				&& Validator.validateEmail(personalEmail, false));
 	}
-
 }

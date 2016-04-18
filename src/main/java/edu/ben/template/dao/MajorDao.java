@@ -185,9 +185,9 @@ public class MajorDao extends BaseDao<Major> {
 	// }
 
 	// TODO Check with Prof. Pollack
-	public void updateMajorAndConcentrationByUser(User u) {
+	public void updateMajorsByUser(User u) {
 
-		String sql = "DELETE FROM user_major WHERE user_id = ? AND minor = 0;";
+		String sql = "DELETE FROM user_major WHERE user_id = ?;";
 
 		if (u.equals(null)) {
 			return;
@@ -205,8 +205,12 @@ public class MajorDao extends BaseDao<Major> {
 		for (int i = 0; i < u.getConcentration().size(); i++) {
 			addConcentrationToUser(u.getConcentration().get(i), u);
 		}
+
+		for (int i = 0; i < u.getMinor().size(); i++) {
+			addMinorToUser(u.getMinor().get(i), u);
+		}
 	}
-	
+
 	// TODO Check with Prof. Pollack
 	public void updateMinorByUser(User u) {
 

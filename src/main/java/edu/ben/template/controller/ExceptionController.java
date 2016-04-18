@@ -1,19 +1,25 @@
 package edu.ben.template.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-
+@Controller
 public class ExceptionController {
 
 
 	@ExceptionHandler(Exception.class)
-	public ModelAndView noHandlerFoundException(Exception ex) {
-
-		ModelAndView model = new ModelAndView("/Alumni-Tracker/customError.jsp");
-		model.addObject("exception", ex);
-		return model;
-
+	@RequestMapping("e")
+	public ModelAndView defaultErrorHandler(HttpServletRequest request, Exception e) {
+	
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("exception", e);
+		mav.addObject("url", request.getRequestURL());
+		mav.setViewName("customError");
+		return mav;
 	}
 	
 

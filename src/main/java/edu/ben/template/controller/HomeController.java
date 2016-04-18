@@ -21,6 +21,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -83,11 +84,7 @@ public class HomeController extends BaseController {
 		});
 	}
 
-	@RequestMapping("notfound")
-	@ResponseBody
-	public String notFound() {
-		return "customError";
-	}
+
 
 	/**
 	 * Index method.
@@ -97,7 +94,7 @@ public class HomeController extends BaseController {
 	 * @return to the homepage template of Alumni Tracker.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String index(Model model) {
+	public String index(Model model) throws Exception{
 
 		ArrayList<Event> events;
 
@@ -133,9 +130,12 @@ public class HomeController extends BaseController {
 		model.addAttribute("events", eventDisplay);
 		model.addAttribute("jobs", jobDisplay);
 		model.addAttribute("active", "index");
+		
 
+		
+	
 		return "indexTemplate";
-
+		
 	}
 
 	@RequestMapping(value = "/createJobPosting", method = RequestMethod.GET)

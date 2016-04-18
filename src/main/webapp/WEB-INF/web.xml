@@ -80,5 +80,8 @@
 		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	<error-page>
+		<location>/e</location>
+	</error-page>
 
 </web-app>

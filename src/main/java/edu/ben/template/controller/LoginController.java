@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.ben.template.model.LoginCredentials;
 import edu.ben.template.model.User;
@@ -13,8 +14,6 @@ import edu.ben.template.model.User;
 @Controller
 public class LoginController {
 	final Logger _log = LoggerFactory.getLogger(LoginController.class);
-
-	
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model) {
@@ -29,12 +28,15 @@ public class LoginController {
 	 * is probably a better way to do this in the spring security world
 	 */
 	@RequestMapping(value = "/loginFailure", method = RequestMethod.GET)
-	public String loginFailed(Model model) {
+	public String loginFailed(Model model, RedirectAttributes redirectAttrs) {
 		// add an error message
 		model.addAttribute("credentials", new LoginCredentials());
 		model.addAttribute("user", new User());
 		model.addAttribute("loginAttempt", "failure");
-		return "indexTemplate";
+
+		redirectAttrs.addFlashAttribute("loginAttempt", "failure");
+
+		return "redirect:/";
 	}
-	
+
 }

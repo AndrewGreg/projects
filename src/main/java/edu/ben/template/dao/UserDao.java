@@ -56,9 +56,16 @@ public class UserDao extends BaseDao<User> {
 				+ "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
 		try {
+			Long title;
+			try {
+				title = user.getTitleID() != -1 ? user.getTitleID() : null;
+			} catch (NullPointerException nEx) {
+				title = null;
+			}
+
 			jdbcTemplate.update(sql,
 					new Object[] { user.getbNumber(), user.getEmail(), user.getPersonalEmail(), user.getPassword(),
-							user.getSalt(), user.getTitleID(), user.getFirstName(), user.getLastName(), user.getRole(),
+							user.getSalt(), title, user.getFirstName(), user.getLastName(), user.getRole(),
 							user.getGraduationYear(), user.getOccupation(), user.getCompany(), user.getSuffix(),
 							user.getBiography(), user.getExperience(), user.isHidden(), user.isActive(),
 

@@ -230,7 +230,7 @@
 								<div class="control-group">
 									<!-- Title -->
 									<label class="control-label" for="benEmail">*Benedictine
-										E-mail:</label>
+										E-mail (Must start with a letter and end in "@ben.edu"):</label>
 									<div class="controls" data-name="benEmail">
 										<input type="text" id="benEmail" name="benEmail"
 											placeholder="jdoe@ben.edu" class="form-control"

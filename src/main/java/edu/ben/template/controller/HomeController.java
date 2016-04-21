@@ -298,10 +298,10 @@ public class HomeController extends BaseController {
 	}
 
 	@RequestMapping(value = "editAJob/{id}", method = RequestMethod.POST)
-	public String editAJobPost(Model model,@PathVariable Long id, @RequestParam("name") String name, @RequestParam("company") String company,
-			@RequestParam("location") String location, @RequestParam("hours") int hours,
-			@RequestParam("startSalary") String startSalary, @RequestParam("endSalary") String endSalary,
-			@RequestParam("description") String description,
+	public String editAJobPost(Model model, @PathVariable Long id, @RequestParam("name") String name,
+			@RequestParam("company") String company, @RequestParam("location") String location,
+			@RequestParam("hours") int hours, @RequestParam("startSalary") String startSalary,
+			@RequestParam("endSalary") String endSalary, @RequestParam("description") String description,
 			@RequestParam(value = "public", required = false) boolean isPublic) {
 
 		// HOURS 1 for part time, 2 for full time
@@ -315,7 +315,7 @@ public class HomeController extends BaseController {
 				&& (hours == 1 || hours == 2) && startingSalary != -2 && endingSalary != -2) {
 
 			User currentUser = getCurrentUser();
-			//(name, description, company, currentUser
+			// (name, description, company, currentUser
 			Job editJob = getJobDao().getObjectById(id);
 			editJob.setName(name);
 			editJob.setDescription(description);
@@ -654,6 +654,7 @@ public class HomeController extends BaseController {
 
 		model.addAttribute("editEvent", editEvent);
 
+		model.addAttribute("active", "event");
 		return "editEventTemplate";
 	}
 
@@ -733,7 +734,7 @@ public class HomeController extends BaseController {
 				return "editEventTemplate";
 			}
 
-			// TODO ERROR CHECK AFTER TIMES FAILED
+			//ERROR CHECK AFTER TIMES FAILED
 			if ((startHour > endHour) || (startHour == endHour && startMin >= endMin)) {
 
 				HashMap<String, String> errors = new HashMap<String, String>();
@@ -877,6 +878,7 @@ public class HomeController extends BaseController {
 			e.printStackTrace();
 		}
 
+		model.addAttribute("active", "event");
 		return "eventsTemplate";
 
 	}
@@ -893,6 +895,7 @@ public class HomeController extends BaseController {
 			e.printStackTrace();
 		}
 
+		model.addAttribute("active", "event");
 		return "eventSingle";
 
 	}

@@ -11,12 +11,14 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 
+import edu.ben.template.model.Event;
 import edu.ben.template.model.Rsvp;
+import edu.ben.template.model.User;
 
-
-public class RsvpDao extends BaseDao<Rsvp>{
+public class RsvpDao extends BaseDao<Rsvp> {
 
 	static final String SEARCH = "SELECT * FROM ";
+	// Passes in the User signed in.
 
 	/**
 	 * Super constructor
@@ -62,10 +64,10 @@ public class RsvpDao extends BaseDao<Rsvp>{
 		return object;
 	}
 
-	public ArrayList<Rsvp> getAll() {
+	public ArrayList<Rsvp> getAllByFirstName() {
 
 		List<Rsvp> rsvp = new ArrayList<Rsvp>();
-		String sql = SEARCH + "rsvp WHERE ORDER BY first_name DESC";
+		String sql = SEARCH + "rsvp WHERE ORDER BY User.user_Id DESC";
 
 		try {
 			rsvp = jdbcTemplate.query(sql, getRowMapper());
@@ -83,10 +85,9 @@ public class RsvpDao extends BaseDao<Rsvp>{
 	 */
 	public void addRsvp(Rsvp rsvp) {
 
-		String sql = "INSERT INTO rsvp (first_name,last_name,email,role) VALUES (?,?,?,?)";
+		String sql = "INSERT INTO rsvp (event_id,user_id) VALUES (?,?)";
 
-		jdbcTemplate.update(sql,
-				new Object[] { rsvp.getFirstName(), rsvp.getLastName(), rsvp.getEmail(), rsvp.getRole() });
+		jdbcTemplate.update(sql, new Object[] { rsvp.getEventId(), rsvp.getUserId() });
 		return;
 	}
 
@@ -97,10 +98,9 @@ public class RsvpDao extends BaseDao<Rsvp>{
 	 */
 	public void updateRsvp(Rsvp rsvp) {
 
-		String sql = "UPDATE rsvp SET first_name = ?, last_name = ?,email = ?,role = ?,  WHERE id = ?";
+		String sql = "UPDATE rsvp SET event_id = ?,user_id = ?, WHERE id = ?";
 		try {
-			jdbcTemplate.update(sql, new Object[] { rsvp.getFirstName(), rsvp.getLastName(), rsvp.getEmail(),
-					rsvp.getRole(), rsvp.getId() });
+			jdbcTemplate.update(sql, new Object[] { rsvp.getEventId(), rsvp.getUserId() });
 		} catch (Exception e) {
 			/* Probably want to log this */
 		}
@@ -124,11 +124,8 @@ public class RsvpDao extends BaseDao<Rsvp>{
 			public Rsvp mapRow(ResultSet rs, int rowNum) throws SQLException {
 				// map result set to object
 				Rsvp rsvp = new Rsvp();
-				rsvp.setId(rs.getLong("id"));
-				rsvp.setFirstName(rs.getString("first_name"));
-				rsvp.setLastName(rs.getString("last_name"));
-				rsvp.setEmail(rs.getString("email"));
-				rsvp.setRole(rs.getString("role"));
+				rsvp.setEventId((Event) rs.getObject("event_id"));
+				rsvp.setUserId((User) rs.getObject("user_id"));
 
 				return rsvp;
 			}
@@ -143,11 +140,10 @@ public class RsvpDao extends BaseDao<Rsvp>{
 		return new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-				PreparedStatement ps = connection.prepareStatement(
-						"insert into rsvp (id, email) values (?,?) " + "on duplicate key update email = values(email)",
-						new String[] { "id" });
-				ps.setLong(1, rsvp.getId());
-				ps.setString(2, rsvp.getEmail());
+				PreparedStatement ps = connection.prepareStatement("insert into rsvp (id, user_id) values (?,?) "
+						+ "on duplicate key update event_id = values(event_id)", new String[] { "id" });
+				ps.setLong(1, rsvp.getEventId().getId());
+				ps.setString(2, rsvp.getUserId().getEmail());
 				return ps;
 			}
 		};

@@ -10,10 +10,9 @@ package edu.ben.template.model;
 public class Rsvp {
 
 	private Long id;
-	private String firstName;
-	private String lastName;
-	private String email;
-	private String role;
+	private Event eventId;
+	private User userId;
+	
 
 	/**
 	 * Empty Constructor
@@ -26,67 +25,38 @@ public class Rsvp {
 	 * Constructor that passes in the first name, last name, and role of the
 	 * person that Rsvp.
 	 * 
-	 * @param firstName
-	 *            of attendant
-	 * @param lastName
-	 *            of attendant
-	 * @param role
-	 *            of attendant
+	 * @param userId
+	 * @param eventId
 	 */
-	public Rsvp(String firstName, String lastName, String email, String role) {
+	public Rsvp(User userId,Event eventId) {
 		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.role = role;
+		this.userId = userId;
+		this.eventId = eventId;
+
 	}
 
-	public Long getId() {
-		return id;
+	public Event getEventId() {
+		return eventId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setEventId(Event eventId) {
+		this.eventId = eventId;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public User getUserId() {
+		return userId;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setUserId(User userId) {
+		this.userId = userId;
 	}
 
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
+	
 	/**
-	 * To String Method.
+	 * To String 
 	 */
 	@Override
 	public String toString() {
-		return "Rsvp [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", role=" + role + "]";
+		return "Rsvp [id=" + id + ", eventId=" + eventId + ", userId=" + userId + "]";
 	}
-
-}
+	}

@@ -12,6 +12,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 
+import edu.ben.template.model.Testimonial;
 import edu.ben.template.model.User;
 
 public class TestimonialDao extends BaseDao<Testimonial> {

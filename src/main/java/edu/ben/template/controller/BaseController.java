@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -20,6 +20,7 @@ import edu.ben.template.model.User;
  * base location for controllers
  * 
  */
+@Controller
 public abstract class BaseController extends DaoKeeper {
 
 	/**
@@ -70,15 +71,19 @@ public abstract class BaseController extends DaoKeeper {
 		return attr.getRequest().getSession();
 	}
 
-	@ExceptionHandler(MissingServletRequestParameterException.class)
-	@ResponseStatus(value = HttpStatus.NOT_FOUND)
-	public void handleMissingServletRequestParameterException(MissingServletRequestParameterException e,
-			HttpServletResponse response) {
-	}
+	// @ExceptionHandler(MissingServletRequestParameterException.class)
+	// @ResponseStatus(value = HttpStatus.NOT_FOUND)
+	// public String
+	// handleMissingServletRequestParameterException(MissingServletRequestParameterException
+	// e,
+	// HttpServletResponse response) {
+	// return "/Alumni-Tracker/customError.jsp";
+	// }
 
 	@ExceptionHandler(AccessDeniedException.class)
 	@ResponseStatus(value = HttpStatus.FORBIDDEN)
 	public String handleAccessDeniedException(AccessDeniedException e, HttpServletResponse response) {
 		return "errors/accessDenied";
 	}
+
 }

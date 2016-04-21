@@ -41,8 +41,6 @@ public class DaoKeeper {
 	private ContactDao contactDao;
 	@Autowired
 	private TestimonialDao testimonialDao;
-	@Autowired
-	private RsvpDao rsvpDao;
 
 	public ObjectMapper getObjectMapper() {
 		return objectMapper;
@@ -162,14 +160,6 @@ public class DaoKeeper {
 
 	public void setTestimonialDao(TestimonialDao testimonialDao) {
 		this.testimonialDao = testimonialDao;
-	}
-
-	public RsvpDao getRsvpDao() {
-		return rsvpDao;
-	}
-
-	public void setRsvpDao(RsvpDao rsvpDao) {
-		this.rsvpDao = rsvpDao;
 	}
 
 }

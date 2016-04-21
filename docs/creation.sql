@@ -14,7 +14,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema alumnitracker
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `alumnitracker` DEFAULT CHARACTER SET utf8;
+CREATE SCHEMA IF NOT EXISTS `alumnitracker` DEFAULT CHARACTER SET utf8 ;
 USE `alumnitracker` ;
 
 -- -----------------------------------------------------
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`user` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 33
+AUTO_INCREMENT = 39
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -162,7 +162,7 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`event` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 9
+AUTO_INCREMENT = 15
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -229,7 +229,14 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `alumnitracker`.`file` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `file` BLOB NULL DEFAULT NULL,
-  PRIMARY KEY (`id`))
+  `user_id` INT(11) NOT NULL,
+  PRIMARY KEY (`id`, `user_id`),
+  INDEX `fk_file_user1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_file_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `alumnitracker`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -300,7 +307,7 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`job` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
+AUTO_INCREMENT = 14
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -405,28 +412,6 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `alumnitracker`.`user_file`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `alumnitracker`.`user_file` (
-  `user_id` INT(11) NOT NULL,
-  `file_id` INT(11) NOT NULL,
-  INDEX `fk_user_has_file_file1_idx` (`file_id` ASC),
-  INDEX `fk_user_has_file_user1_idx` (`user_id` ASC),
-  CONSTRAINT `fk_user_has_file_file1`
-    FOREIGN KEY (`file_id`)
-    REFERENCES `alumnitracker`.`file` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_user_has_file_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `alumnitracker`.`user` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
 -- Table `alumnitracker`.`user_interest`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `alumnitracker`.`user_interest` (
@@ -464,6 +449,45 @@ CREATE TABLE IF NOT EXISTS `alumnitracker`.`user_major` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_user_has_major_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `alumnitracker`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `alumnitracker`.`testimonial`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alumnitracker`.`testimonial` (
+  `id` INT NOT NULL,
+  `testimonial` VARCHAR(1000) NULL,
+  `user_id` INT(11) NOT NULL,
+  PRIMARY KEY (`id`, `user_id`),
+  INDEX `fk_testimonial_user1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_testimonial_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `alumnitracker`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `alumnitracker`.`rsvp`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alumnitracker`.`rsvp` (
+  `event_id` INT(11) NOT NULL,
+  `user_id` INT(11) NOT NULL,
+  INDEX `fk_event_has_user_user1_idx` (`user_id` ASC),
+  INDEX `fk_event_has_user_event1_idx` (`event_id` ASC),
+  CONSTRAINT `fk_event_has_user_event1`
+    FOREIGN KEY (`event_id`)
+    REFERENCES `alumnitracker`.`event` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_event_has_user_user1`
     FOREIGN KEY (`user_id`)
     REFERENCES `alumnitracker`.`user` (`id`)
     ON DELETE NO ACTION

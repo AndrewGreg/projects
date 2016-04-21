@@ -115,7 +115,7 @@ public class TestimonialDao extends BaseDao<Testimonial> {
 	public ArrayList<Testimonial> getAll() {
 
 		List<Testimonial> testimonial = new ArrayList<Testimonial>();
-		String sql = SEARCH + "testimonial WHERE ORDER BY testimonial DESC";
+		String sql = SEARCH + "testimonial ORDER BY testimonial DESC";
 
 		try {
 			testimonial = jdbcTemplate.query(sql, getRowMapper());
@@ -179,7 +179,7 @@ public class TestimonialDao extends BaseDao<Testimonial> {
 				PreparedStatement ps = connection
 						.prepareStatement(
 								"insert into testimonial (id, testimonial) values (?,?) "
-										+ "on duplicate key update testimonial = values(testimonial)",
+										+ "on duplicate key update user_id = values(user_id)",
 								new String[] { "id" });
 				ps.setLong(1, testimonial.getId());
 				ps.setString(2, testimonial.getTestimonial());

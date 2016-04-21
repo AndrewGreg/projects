@@ -14,6 +14,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.fasterxml.jackson.module.afterburner.AfterburnerModule;
 
+import edu.ben.template.model.Rsvp;
+
 /**
  * DI config for controllers. Loaded from the <tt>WebApp</tt> class. This is a
  * base class that contains all the generic daos, with the datasource configs in
@@ -228,6 +230,30 @@ public class DaoConfig {
 	public InterestDao interestDao() throws IOException {
 		// create the dao
 		InterestDao dao = new InterestDao();
+		// set the specifics
+		// dao.setCache(cacheFactory());
+		dao.setDataSource(dataSource());
+		dao.setTransactionManager(transactionManager());
+		// return it
+		return dao;
+	}
+
+	@Bean
+	public TestimonialDao testimonialDao() throws IOException {
+		// create the dao
+		TestimonialDao dao = new TestimonialDao();
+		// set the specifics
+		// dao.setCache(cacheFactory());
+		dao.setDataSource(dataSource());
+		dao.setTransactionManager(transactionManager());
+		// return it
+		return dao;
+	}
+
+	@Bean
+	public RsvpDao rsvpDao() throws IOException {
+		// create the dao
+		RsvpDao dao = new RsvpDao();
 		// set the specifics
 		// dao.setCache(cacheFactory());
 		dao.setDataSource(dataSource());

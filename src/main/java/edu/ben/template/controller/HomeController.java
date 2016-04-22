@@ -899,10 +899,10 @@ public class HomeController extends BaseController {
 
 	@RequestMapping(value = "/addRsvp", method = RequestMethod.GET)
 	public String addRsvp(Model model, @ModelAttribute("currentUser") User currentUser,
-			@ModelAttribute("currentEvent") Event currentEvent) {
+			@ModelAttribute("currentEvent") Event currentEvent, RedirectAttributes redirectAttrs) {
 		//if(currentUser.getId() != getUserDao().getAllByEvent(currentEvent).size()){
 		getUserDao().addRsvp(currentUser, currentEvent);
-		model.addAttribute("addRsvp", "true");
+		redirectAttrs.addFlashAttribute("addRsvp", "true");
 		//}
 		return "redirect:/newEvents/" + currentEvent.getId();
 	}

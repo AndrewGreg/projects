@@ -83,5 +83,9 @@
 	<error-page>
 		<location>/e</location>
 	</error-page>
+	<error-page>
+		<error-code>401</error-code>
+		<location>/notAuthorized</location>
+	</error-page>
 
 </web-app>

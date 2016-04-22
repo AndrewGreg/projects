@@ -17,6 +17,7 @@ public class Testimonial {
 	 * Empty constructor
 	 */
 	public Testimonial() {
+		super();
 	}
 
 	public Testimonial(long id, String testimonial, User poster) {

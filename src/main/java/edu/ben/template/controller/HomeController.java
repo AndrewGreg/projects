@@ -86,8 +86,6 @@ public class HomeController extends BaseController {
 		});
 	}
 
-
-
 	/**
 	 * Index method.
 	 * 
@@ -96,7 +94,7 @@ public class HomeController extends BaseController {
 	 * @return to the homepage template of Alumni Tracker.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String index(Model model) throws Exception{
+	public String index(Model model) throws Exception {
 
 		ArrayList<Event> events;
 
@@ -132,12 +130,9 @@ public class HomeController extends BaseController {
 		model.addAttribute("events", eventDisplay);
 		model.addAttribute("jobs", jobDisplay);
 		model.addAttribute("active", "index");
-		
 
-		
-	
 		return "indexTemplate";
-		
+
 	}
 
 	@RequestMapping(value = "/createJobPosting", method = RequestMethod.GET)
@@ -736,7 +731,7 @@ public class HomeController extends BaseController {
 				return "editEventTemplate";
 			}
 
-			//ERROR CHECK AFTER TIMES FAILED
+			// ERROR CHECK AFTER TIMES FAILED
 			if ((startHour > endHour) || (startHour == endHour && startMin >= endMin)) {
 
 				HashMap<String, String> errors = new HashMap<String, String>();
@@ -902,10 +897,21 @@ public class HomeController extends BaseController {
 
 	}
 
-	@RequestMapping(value = "/deleteEvent", method = RequestMethod.POST)
-	public String deleteEvent(Model model, @ModelAttribute("currentEvent") Event currentEvent) {
-		getEventDao().deleteEvent(currentEvent.getId());
-		return "redirect:/eventsTemplate";
+	@RequestMapping(value = "/addRsvp", method = RequestMethod.GET)
+	public String addRsvp(Model model, @ModelAttribute("currentUser") User currentUser,
+			@ModelAttribute("currentEvent") Event currentEvent) {
+		//if(currentUser.getId() != getUserDao().getAllByEvent(currentEvent).size()){
+		getUserDao().addRsvp(currentUser, currentEvent);
+		model.addAttribute("addRsvp", "true");
+		//}
+		return "redirect:/newEvents/" + currentEvent.getId();
+	}
+
+	@RequestMapping(value = "/deleteRsvp", method = RequestMethod.GET)
+	public String deleteRsvp(Model model, @ModelAttribute("currentUser") User currentUser,
+			@ModelAttribute("currentEvent") Event currentEvent) {
+		getUserDao().deleteRsvp(currentUser, currentEvent);
+		return "redirect:/newEvents/" + currentEvent.getId();
 	}
 
 	/**

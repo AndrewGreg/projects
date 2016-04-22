@@ -39,6 +39,8 @@ public class DaoKeeper {
 	private CollegeDao collegeDao;
 	@Autowired
 	private ContactDao contactDao;
+	@Autowired
+	private TestimonialDao testimonialDao;
 
 	public ObjectMapper getObjectMapper() {
 		return objectMapper;
@@ -150,6 +152,14 @@ public class DaoKeeper {
 
 	public void setContactDao(ContactDao contactDao) {
 		this.contactDao = contactDao;
+	}
+
+	public TestimonialDao getTestimonialDao() {
+		return testimonialDao;
+	}
+
+	public void setTestimonialDao(TestimonialDao testimonialDao) {
+		this.testimonialDao = testimonialDao;
 	}
 
 }

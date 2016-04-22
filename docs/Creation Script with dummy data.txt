@@ -589,7 +589,17 @@ VALUES
 (5, 'Secondary Education', 0),
 (6, 'Social Work', 0),
 (7, 'Sports Management', 0),
-(8, 'Sports Marketing', 0);
+(8, 'Sports Marketing', 0),
+(9, 'Coding', 0),
+(10, 'Clerical', 0),
+(11, 'Management', 0),
+(12, 'Physical Therapy', 0),
+(13, 'Athletic Training', 0),
+(14, 'Human Resource', 0),
+(15, 'Marketing', 0),
+(16, 'Nursing', 0),
+(17, 'Fine Arts', 0),
+(18, 'Music', 0);
 
 
 INSERT INTO `event_interest` (`interest_id`, `event_id`)
@@ -681,7 +691,15 @@ VALUES
 (78, 'Social Science', 1, 9),
 (79, 'Spanish', 1, 9),
 (80, 'Criminal Justice', 1, 46),
-(81, 'Medical Spanish', 1, 47);
+(81, 'Medical Spanish', 1, 47),
+(82, 'Anthropology', 0,NULL),
+(83, 'Film Studies', 0,NULL),
+(84, 'Gender Studies', 0,NULL),
+(85, 'Life Span Services', 0,NULL),
+(86, 'Secondary Education', 0,NULL),
+(87, 'Social Work', 0,NULL),
+(88, 'Sports Management', 0,NULL),
+(89, 'Sports Marketing', 0,NULL);
 	
 	
 	INSERT INTO `user_major` (`user_id`, `major_id`, `minor`)

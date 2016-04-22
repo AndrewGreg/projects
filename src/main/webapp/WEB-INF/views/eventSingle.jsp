@@ -90,20 +90,20 @@
 								<h3 class="section-heading text-highlight">RSVP!</h3>
 
 								<%
-									if (currentUser != null) {// && currentUser != attendant.getUserId()) {
+									if (currentUser != null ) {// && currentUser != attendant.getUserId()) {
 								%>
 
 
 								<a class="btn btn-theme" href="/Alumni-Tracker/addRsvp"><i
 									class="fa fa-send-o"></i>Attend</a>
 
-								<%-- <% if(currentUser == attendant.getUserId()){ %>
+								<% if(currentUser != null){ %>
 									<a class="btn btn-theme" href="/Alumni-Tracker/deleteRsvp"><i
 									class="fa fa-ban"></i>Not Going</a>
-									<%} %> --%>
+									<%} %> 
 								<%
-									}
-								%>
+									} %>
+
 							</section>
 
 							<section class="widget has-divider">

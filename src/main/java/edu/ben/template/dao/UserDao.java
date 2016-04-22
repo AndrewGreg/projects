@@ -351,16 +351,18 @@ public class UserDao extends BaseDao<User> {
 	 * @param currentUser
 	 * @param event
 	 */
-	public void addRsvp(User currentUser, Event event) {
+	public boolean addRsvp(User currentUser, Event event) {
+		boolean attend = false;
 		String sql = "INSERT INTO rsvp (event_id,user_id) VALUES (?,?)";
 		try {
-			System.out.println(currentUser);
-			System.out.println(event);
 
 			jdbcTemplate.update(sql, new Object[] { event.getId(), currentUser.getId() });
+
+			attend = true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return attend;
 	}
 
 	/**
@@ -369,14 +371,17 @@ public class UserDao extends BaseDao<User> {
 	 * @param user
 	 * @param event
 	 */
-	public void deleteRsvp(User user, Event event) {
+	public boolean deleteRsvp(User user, Event event) {
+		boolean attend = false;
 
 		String sql = "DELETE FROM rsvp WHERE event_id =? AND user_id = ?";
 		try {
-			jdbcTemplate.update(sql, user.getId(), event.getId());
+			jdbcTemplate.update(sql, event.getId(), user.getId());
+			 attend = true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return attend;
 	}
 
 	public ArrayList<User> getAllByEvent(Event event) {

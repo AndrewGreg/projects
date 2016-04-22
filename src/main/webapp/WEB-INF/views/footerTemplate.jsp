@@ -176,3 +176,24 @@
 <%
 	}
 %>
+
+
+<%
+	String addRsvp = request.getAttribute("addRsvp") != null
+			? (String) request.getAttribute("addRsvp")
+			: "";
+
+	if (addRsvp.equals("true")) {
+%>
+<jsp:include page="rsvpAddModal.jsp" />
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('#addRsvp').modal('show');
+
+	});
+</script>
+
+<%
+	}
+%>

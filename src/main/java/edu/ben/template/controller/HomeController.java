@@ -898,29 +898,18 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/addRsvp", method = RequestMethod.GET)
 	public String addRsvp(Model model, @ModelAttribute("currentUser") User currentUser,
 			@ModelAttribute("currentEvent") Event currentEvent) {
+		//if(currentUser.getId() != getUserDao().getAllByEvent(currentEvent).size()){
 		getUserDao().addRsvp(currentUser, currentEvent);
+		model.addAttribute("addRsvp", "true");
+		//}
 		return "redirect:/newEvents/" + currentEvent.getId();
 	}
 
-	// @RequestMapping(value = "/eventSingle", method = RequestMethod.GET)
-	// public String event(Model model) {
-	// try {
-	// ArrayList<Event> events = new ArrayList<Event>();
-	// events = getEventDao().getAll();
-	//
-	// model.addAttribute("events", events);
-	//
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// model.addAttribute("active", "event");
-	// return "eventsTemplate";
-	// }
-
-	@RequestMapping(value = "/deleteRsvp", method = RequestMethod.POST)
-	public String deleteEvent(Model model, @ModelAttribute("currentEvent") Event currentEvent) {
-		getEventDao().deleteEvent(currentEvent.getId());
-		return "redirect:/eventSingle";
+	@RequestMapping(value = "/deleteRsvp", method = RequestMethod.GET)
+	public String deleteRsvp(Model model, @ModelAttribute("currentUser") User currentUser,
+			@ModelAttribute("currentEvent") Event currentEvent) {
+		getUserDao().deleteRsvp(currentUser, currentEvent);
+		return "redirect:/newEvents/" + currentEvent.getId();
 	}
 
 	/**

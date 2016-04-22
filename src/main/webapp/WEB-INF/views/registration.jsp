@@ -360,8 +360,7 @@
 									<label class="control-label" for="bio">Biography:</label>
 									<div class="controls" data-name="bio">
 										<textarea rows="5" id="bio" name="bio"
-											placeholder="This is my biography." class="form-control"
-											value="<%=bio%>"></textarea>
+											placeholder="This is my biography." class="form-control"><%=bio%></textarea>
 
 										<%
 											if (errors.get("bio") != null) {
@@ -488,8 +487,8 @@
 												for (int i = 0; i < majorList.size(); i++) {
 													majorName = majorList.get(i).getName() != null ? majorList.get(i).getName() : "";
 											%>
-											
-												<option value="<%=majorList.get(i).getId()%>"><%=majorName%></option>
+
+											<option value="<%=majorList.get(i).getId()%>"><%=majorName%></option>
 
 											<%
 												}
@@ -575,8 +574,7 @@
 									<label class="control-label" for="experience">Experience:</label>
 									<div class="controls" data-name="experience">
 										<textarea rows="5" id="experience" name="experience"
-											placeholder="Professional Experience." class="form-control"
-											value="<%=experience%>"></textarea>
+											placeholder="Professional Experience." class="form-control"><%=experience%></textarea>
 
 										<%
 											if (errors.get("experience") != null) {

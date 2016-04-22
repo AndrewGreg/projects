@@ -201,7 +201,7 @@ String hours = (request.getParameter("hours") == null) ? "" : (String) request.g
 									<div class="controls">
 										<textarea rows="5" id="description" name="description"
 											placeholder="Job description and/or requirements."
-											class="form-control" value="<%=description%>"></textarea>
+											class="form-control"><%=description%></textarea>
 
 										<%
 											if (errors.get("description") != null) {

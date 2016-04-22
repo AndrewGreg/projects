@@ -17,7 +17,7 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.modal-header, h4, .close {
+.modal-header, .modalh4 , .close {
 	background-color: #444;
 	color: white !important;
 	text-align: center;

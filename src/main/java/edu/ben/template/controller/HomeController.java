@@ -35,11 +35,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.ben.template.model.Event;
 import edu.ben.template.model.Interest;
 import edu.ben.template.model.Job;
 import edu.ben.template.model.Major;
+import edu.ben.template.model.Testimonial;
 import edu.ben.template.model.Title;
 import edu.ben.template.model.UploadFile;
 import edu.ben.template.model.User;
@@ -1950,4 +1952,32 @@ public class HomeController extends BaseController {
 				&& Validator.validateName(firstName) && Validator.validateName(lastName)
 				&& Validator.validateEmail(personalEmail, false));
 	}
+	
+	@RequestMapping(value = "/testimonial", method = RequestMethod.POST)
+	public String testimonials(@RequestParam("testimonial") String testimonial, Model model, RedirectAttributes redirectAttrs) {
+		
+		//TODO CHECK MAX SIZE OF TESTIMONIAL 1000 characters
+		if(testimonial != null && testimonial.matches("")) {
+			User currentUser = getCurrentUser();
+			Testimonial newComment = new Testimonial(testimonial, currentUser);
+			
+			//TODO ADD TO THE DATABASE
+			
+			model.addAttribute("testimonialCreation", "true");
+			//TODO RETURN SOMETHING (EITHER TESTIMONIAL LIST, OR PROFILE
+			
+			redirectAttrs.addFlashAttribute("testimonialCreation", "true");
+			return "indexTemplate";
+		} else {
+			//TODO CREATE HASHMAP AND ERROR CHECK
+		}
+		
+		
+		
+		
+		model.addAttribute("testimonialCreation", "true");
+		//TODO RETURN PROFILE WITH ERROR
+		return "indexTemplate";
+	}
+	
 }

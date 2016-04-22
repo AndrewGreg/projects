@@ -251,7 +251,7 @@
 									<div class="controls">
 										<textarea rows="5" id="description" name="description"
 											placeholder="This is the event description."
-											class="form-control" value="<%=description%>"></textarea>
+											class="form-control"><%=description%></textarea>
 
 										<%
 											if (errors.get("description") != null) {

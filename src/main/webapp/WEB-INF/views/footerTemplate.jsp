@@ -180,3 +180,24 @@
 <%
 	}
 %>
+
+<%
+	String testimonialCreation = request.getAttribute("testimonialCreation") != null
+			? (String) request.getAttribute("testimonialCreation")
+			: "";
+
+	if (testimonialCreation.equals("true")) {
+%>
+<jsp:include page="testimonialCreationModal.jsp" />
+
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('#testimonialCreation').modal('show');
+
+	});
+</script>
+
+<%
+	}
+%>

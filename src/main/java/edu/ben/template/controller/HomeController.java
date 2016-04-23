@@ -1963,7 +1963,7 @@ public class HomeController extends BaseController {
 	public String testimonials(@RequestParam("testimonial") String testimonial, Model model, RedirectAttributes redirectAttrs) {
 		
 		//TODO CHECK MAX SIZE OF TESTIMONIAL 1000 characters
-		if(testimonial != null && testimonial.matches("")) {
+		if(testimonial != null && testimonial.matches(".{10,}")) {
 			User currentUser = getCurrentUser();
 			Testimonial newComment = new Testimonial(testimonial, currentUser);
 			

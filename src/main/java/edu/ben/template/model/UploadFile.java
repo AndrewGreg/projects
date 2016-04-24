@@ -17,7 +17,6 @@ public class UploadFile {
     private String fileName;
     private byte[] data;
     private User profile;
-    private MultipartFile file;
 
 	
 
@@ -70,11 +69,4 @@ public class UploadFile {
 		this.profile = profile;
 	}
 
-	public MultipartFile getFile() {
-		return file;
-	}
-
-	public void setFile(MultipartFile file) {
-		this.file = file;
-	}
 }

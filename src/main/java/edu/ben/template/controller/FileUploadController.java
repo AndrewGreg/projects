@@ -113,24 +113,6 @@ public class FileUploadController extends BaseController {
 	public String massRegistration(Model model, @RequestParam("multiple") MultipartFile file)
 			throws IOException, SerialException, SQLException {
 
-		// MultipartHttpServletRequest multipartRequest =
-		// (MultipartHttpServletRequest) request;
-		// MultipartFile multipartFile = multipartRequest.getFile("multiple");
-		// System.out.println(multiple);
-		// if(multiple.length > 0){
-		// UploadFile file = new UploadFile();
-		// file.setFileName(multipartFile.getOriginalFilename());
-		// // file.setNotes(ServletRequestUtils.getStringParameter(request,
-		// // "notes"));
-		// // file.setType(multipartFile.getContentType());
-		// if (file != null) {
-		// byte[] bytes = multipartFile.getBytes();
-		// Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-		// file.setData((com.mysql.jdbc.Blob) blob);
-		// getUserDao().addMultiple(file.getFileName());
-		// }
-		// }
-
 		if (!file.isEmpty()) {
 			UploadFile fileObj = new UploadFile();
 			fileObj.setFileName(file.getOriginalFilename());
@@ -141,11 +123,11 @@ public class FileUploadController extends BaseController {
 			fileObj.setData(bytes);
 			//Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
 			//fileObj.setData((com.mysql.jdbc.Blob) blob);
-			getFileUploadDao().addFile(fileObj);
+			getUserDao().addMultiple(file.getName());
 		}
 
 		// model.addAttribute("active", "index");
-		return "admin";
+		return "redirect:/allUsers";
 	}
 
 }

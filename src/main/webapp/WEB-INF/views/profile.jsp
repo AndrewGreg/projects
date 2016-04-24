@@ -26,7 +26,7 @@
 		<!-- ******CONTENT****** -->
 		<div class="content container">
 			<div class="content container content-container">
-				<div class="page-wrapper table-container ben-container">D
+				<div class="page-wrapper table-container ben-container">
 					<header class="page-heading clearfix"> 
 					<%
  						if (request.getAttribute("photo") == null) {

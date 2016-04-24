@@ -900,9 +900,11 @@ public class HomeController extends BaseController {
 	}
 
 	@RequestMapping(value = "/deleteEvent", method = RequestMethod.POST)
-	public String deleteEvent(Model model, @ModelAttribute("currentEvent") Event currentEvent) {
+	public String deleteEvent(Model model, @ModelAttribute("currentEvent") Event currentEvent, 
+			RedirectAttributes redirectAttrs) {
 		getEventDao().deleteEvent(currentEvent.getId());
-		model.addAttribute("eventDeletion", "true");
+		//model.addAttribute("eventDeletion", "true");
+		redirectAttrs.addFlashAttribute("eventDeletion", "true");
 		return "redirect:/eventsTemplate";
 	}
 
@@ -1415,6 +1417,9 @@ public class HomeController extends BaseController {
 				// "notes"));
 				// file.setType(multipartFile.getContentType());
 				byte[] bytes = resume.getBytes();
+				if(getFileUploadDao().getObjectByUserId(id) != null){
+					getFileUploadDao().updateFile(fileObj);
+				}
 				fileObj.setData(bytes);
 				//Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
 				//fileObj.setData((com.mysql.jdbc.Blob) blob);
@@ -1642,9 +1647,11 @@ public class HomeController extends BaseController {
 	}
 
 	@RequestMapping(value = "/deleteJob", method = RequestMethod.POST)
-	public String deleteJob(Model model, @ModelAttribute("currentJob") Job currentJob) {
+	public String deleteJob(Model model, @ModelAttribute("currentJob") Job currentJob,
+			RedirectAttributes redirectAttrs) {
 		getJobDao().deleteJob(currentJob.getId());
-		model.addAttribute("jobDeletion", "true");
+		//model.addAttribute("jobDeletion", "true");
+		redirectAttrs.addFlashAttribute("jobDeletion", "true");
 		return "redirect:/jobs";
 	}
 
@@ -1697,19 +1704,9 @@ public class HomeController extends BaseController {
 	}
 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.POST)
-	public String userProfileUpload(Model model, @RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
+	public String userProfileUpload(Model model) throws Exception {
 
-		// if (fileUpload != null && fileUpload.length > 0) {
-		// for (CommonsMultipartFile aFile : fileUpload){
 
-		// System.out.println("Saving file: " + aFile.getOriginalFilename());
-
-		// UploadFile uploadFile = new UploadFile();
-		// uploadFile.setFileName(aFile.getOriginalFilename());
-		// uploadFile.setData(aFile.getBytes());
-		// fileUploadDao.save(uploadFile);
-		// }
-		// }
 		return "userProfile";
 	}
 
@@ -1823,28 +1820,7 @@ public class HomeController extends BaseController {
 
 			ArrayList<User> allUser = new ArrayList<User>();
 			allUser = getUserDao().getAll();
-			//
-			// User profileUser = getUserDao().getObjectById(id);
-			// // gets the image object based on the image id
-			// if (profileUser.getImageId() != null) {
-			// UploadFile userPhoto =
-			// getImageUploadDao().getObjectById(profileUser.getImageId());
-			// // User userProfile = userPhoto.getProfile();
-			// byte buff[] = new byte[1024];
-			// Blob profilePic = userPhoto.getData();
-			// // response.setContentType("image/jpeg, image/jpg, image/png,
-			// // image/gif");
-			// File newPic = new File("image.jpeg");
-			// InputStream is = profilePic.getBinaryStream();
-			// FileOutputStream fos = new FileOutputStream(newPic);
-			// for (int i = is.read(buff); i != -1; i = is.read(buff)) {
-			// fos.write(buff, 0, i);
-			// }
-			// is.close();
-			// fos.close();
-			// //model.addAttribute("photo", userPhoto);
-			// }
-
+			
 			for (User users : allUser) {
 				users.setMajor(getMajorDao().getMajorByUser(users));
 				users.setConcentration(getMajorDao().getConcentrationByUser(users));

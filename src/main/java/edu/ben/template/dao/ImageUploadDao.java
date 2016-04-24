@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -59,34 +60,15 @@ public class ImageUploadDao extends BaseDao<UploadFile> {
 			return null;
 		}
 		UploadFile object = null;	
-//		Blob blob = null;
 		
 		if(object == null){
 			try{
 				//look up the object
 				String sql = "SELECT * FROM image WHERE user_id = ?;";
 				object = this.jdbcTemplate.queryForObject(sql, new Object[] { id }, getRowMapper());
-				
-//				String sqlData = "SELECT file FROM image WHERE user_id =?;";
-//				blob = this.getJdbcTemplate().queryForObject(sqlData, new Object[] { id }, getRowMapper());
-//				
-//				InputStream stream = new BufferedInputStream(blob.getBinaryStream());
-//				ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-//				OutputStream output = new BufferedOutputStream(byteArrayOutputStream);
-//				int i;
-//				while (-1 != (i = stream.read())) {
-//					output.write(i);
-//				}
-//				output.flush();
-//				object.setData(byteArrayOutputStream.toByteArray());
-				//return byteArrayOutputStream.toByteArray();
-				
-//				InputStream stream = new BufferedInputStream(pic.getBinaryStream());
-//				ByteArrayOutputStream byteArrayOutputStream = new 
-//						return profilePic;
-			
-			}catch(Exception e){
-				e.printStackTrace();
+
+			}catch(EmptyResultDataAccessException e){
+				return null;
 			}
 		}
 		return object;
@@ -141,25 +123,6 @@ public class ImageUploadDao extends BaseDao<UploadFile> {
 			}
 		};
 	}
-	
-//	public RowMapper<Blob> getRowMapper() {
-//		return new RowMapper<UploadFile>() {
-//			@Override
-//			public UploadFile mapRow(ResultSet rs, int rowNum) throws SQLException {
-//				// map result set to object
-//				UploadFile image = new UploadFile();
-//				image.setId(rs.getLong("id"));
-//				image.setData(rs.getBytes("file"));
-//				
-//				// Grabs the id of the user of the profile pic.
-//				// Displays pic of user.
-//				long userId = rs.getLong("user_id");
-//				User profile = userDao.getObjectById(userId);
-//				image.setProfile(profile);
-//				return image;
-//			}
-//		};
-//	}
 
 	@Override
 	public PreparedStatementCreator getSavePreparedStatementCreator(final UploadFile image) {

@@ -37,11 +37,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.ben.template.model.Event;
 import edu.ben.template.model.Interest;
 import edu.ben.template.model.Job;
 import edu.ben.template.model.Major;
+import edu.ben.template.model.Testimonial;
 import edu.ben.template.model.Title;
 import edu.ben.template.model.UploadFile;
 import edu.ben.template.model.User;
@@ -651,6 +653,7 @@ public class HomeController extends BaseController {
 
 		model.addAttribute("editEvent", editEvent);
 
+		model.addAttribute("active", "event");
 		return "editEventTemplate";
 	}
 
@@ -730,7 +733,7 @@ public class HomeController extends BaseController {
 				return "editEventTemplate";
 			}
 
-			// TODO ERROR CHECK AFTER TIMES FAILED
+			// ERROR CHECK AFTER TIMES FAILED
 			if ((startHour > endHour) || (startHour == endHour && startMin >= endMin)) {
 
 				HashMap<String, String> errors = new HashMap<String, String>();
@@ -874,6 +877,7 @@ public class HomeController extends BaseController {
 			e.printStackTrace();
 		}
 
+		model.addAttribute("active", "event");
 		return "eventsTemplate";
 
 	}
@@ -890,6 +894,7 @@ public class HomeController extends BaseController {
 			e.printStackTrace();
 		}
 
+		model.addAttribute("active", "event");
 		return "eventSingle";
 
 	}
@@ -899,6 +904,23 @@ public class HomeController extends BaseController {
 		getEventDao().deleteEvent(currentEvent.getId());
 		model.addAttribute("eventDeletion", "true");
 		return "redirect:/eventsTemplate";
+	}
+
+	@RequestMapping(value = "/addRsvp", method = RequestMethod.GET)
+	public String addRsvp(Model model, @ModelAttribute("currentUser") User currentUser,
+			@ModelAttribute("currentEvent") Event currentEvent, RedirectAttributes redirectAttrs) {
+		//if(currentUser.getId() != getUserDao().getAllByEvent(currentEvent).size()){
+		getUserDao().addRsvp(currentUser, currentEvent);
+		redirectAttrs.addFlashAttribute("addRsvp", "true");
+		//}
+		return "redirect:/newEvents/" + currentEvent.getId();
+	}
+
+	@RequestMapping(value = "/deleteRsvp", method = RequestMethod.GET)
+	public String deleteRsvp(Model model, @ModelAttribute("currentUser") User currentUser,
+			@ModelAttribute("currentEvent") Event currentEvent) {
+		getUserDao().deleteRsvp(currentUser, currentEvent);
+		return "redirect:/newEvents/" + currentEvent.getId();
 	}
 
 	/**
@@ -1903,4 +1925,32 @@ public class HomeController extends BaseController {
 				&& Validator.validateName(firstName) && Validator.validateName(lastName)
 				&& Validator.validateEmail(personalEmail, false));
 	}
+	
+	@RequestMapping(value = "/testimonial", method = RequestMethod.POST)
+	public String testimonials(@RequestParam("testimonial") String testimonial, Model model, RedirectAttributes redirectAttrs) {
+		
+		//TODO CHECK MAX SIZE OF TESTIMONIAL 1000 characters
+		if(testimonial != null && testimonial.matches("")) {
+			User currentUser = getCurrentUser();
+			Testimonial newComment = new Testimonial(testimonial, currentUser);
+			
+			//TODO ADD TO THE DATABASE
+			
+			model.addAttribute("testimonialCreation", "true");
+			//TODO RETURN SOMETHING (EITHER TESTIMONIAL LIST, OR PROFILE
+			
+			redirectAttrs.addFlashAttribute("testimonialCreation", "true");
+			return "indexTemplate";
+		} else {
+			//TODO CREATE HASHMAP AND ERROR CHECK
+		}
+		
+		
+		
+		
+		model.addAttribute("testimonialCreation", "true");
+		//TODO RETURN PROFILE WITH ERROR
+		return "indexTemplate";
+	}
+	
 }

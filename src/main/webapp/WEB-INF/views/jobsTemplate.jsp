@@ -70,7 +70,7 @@
 									String poster = jobs.get(i) != null && jobs.get(i).getPoster() != null
 											&& jobs.get(i).getPoster().getFirstName() != null
 											&& jobs.get(i).getPoster().getLastName() != null
-													? (jobs.get(i).getPoster().getFirstName() + jobs.get(i).getPoster().getLastName())
+													? (jobs.get(i).getPoster().getFirstName() + " " + jobs.get(i).getPoster().getLastName())
 													: "N/A";
 
 									if (hours == 1) {

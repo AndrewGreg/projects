@@ -1,0 +1,767 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema alumnitracker
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema alumnitracker
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `alumnitracker` DEFAULT CHARACTER SET utf8 ;
+USE `alumnitracker` ;
+
+-- -----------------------------------------------------
+-- Table `alumnitracker`.`college`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alumnitracker`.`college` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(1000) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `alumnitracker`.`title`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alumnitracker`.`title` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 4
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `alumnitracker`.`user`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alumnitracker`.`user` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `bnumber` INT(11) NULL DEFAULT NULL,
+  `email` VARCHAR(100) NULL DEFAULT NULL,
+  `personal_email` VARCHAR(100) NULL DEFAULT NULL,
+  `password` VARCHAR(300) NOT NULL,
+  `salt` VARCHAR(300) NOT NULL,
+  `title_id` INT(11) NULL DEFAULT NULL,
+  `first_name` VARCHAR(45) NOT NULL,
+  `last_name` VARCHAR(45) NOT NULL,
+  `role` INT(11) NOT NULL,
+  `graduation_year` INT(11) NULL DEFAULT NULL,
+  `occupation` VARCHAR(200) NULL DEFAULT NULL,
+  `company` VARCHAR(200) NULL DEFAULT NULL,
+  `suffix` VARCHAR(45) NULL DEFAULT NULL,
+  `biography` VARCHAR(1000) NULL DEFAULT NULL,
+  `experience` VARCHAR(1000) NULL DEFAULT NULL,
+  `hidden` TINYINT(1) NOT NULL DEFAULT '0',
+  `active` TINYINT(1) NOT NULL DEFAULT '1',
+  `created` DATETIME NULL DEFAULT NULL,
+  `last_active` DATETIME NULL DEFAULT NULL,
+  `last_modified` DATETIME NULL DEFAULT NULL,
+  `last_login` DATETIME NULL DEFAULT NULL,
+  `social_media` VARCHAR(200) NULL DEFAULT NULL,
+  `phone_number` VARCHAR(20) NULL DEFAULT NULL,
+  `work_number` VARCHAR(20) NULL DEFAULT NULL,
+  `user_verified` TINYINT(1) NULL DEFAULT '0',
+  `admin_verified` TINYINT(1) NULL DEFAULT '0',
+  `graduate_verified` TINYINT(1) NULL DEFAULT '0',
+  `current_graduate_verified` TINYINT(1) NULL DEFAULT '0',
+  `graduate_school` VARCHAR(200) NULL DEFAULT NULL,
+  `public` INT(11) NULL DEFAULT '1',
+  `reference` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `personal_email_UNIQUE` (`personal_email` ASC),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC),
+  INDEX `fk_user_title1_idx` (`title_id` ASC),
+  CONSTRAINT `fk_user_title1`
+    FOREIGN KEY (`title_id`)
+    REFERENCES `alumnitracker`.`title` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 39
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `alumnitracker`.`contact`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alumnitracker`.`contact` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NULL DEFAULT NULL,
+  `email` VARCHAR(1000) NULL DEFAULT NULL,
+  `phone_number` VARCHAR(11) NULL DEFAULT NULL,
+  `message` VARCHAR(1000) NULL DEFAULT NULL,
+  `user_id` INT(11) NOT NULL,
+  `recipient_id` INT(11) NOT NULL,
+  PRIMARY KEY (`id`, `user_id`, `recipient_id`),
+  INDEX `fk_contact_user1_idx` (`user_id` ASC),
+  INDEX `fk_contact_user2_idx` (`recipient_id` ASC),
+  CONSTRAINT `fk_contact_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `alumnitracker`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_contact_user2`
+    FOREIGN KEY (`recipient_id`)
+    REFERENCES `alumnitracker`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `alumnitracker`.`department`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alumnitracker`.`department` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(1000) NOT NULL,
+  `college_id` INT(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_department_college1_idx` (`college_id` ASC),
+  CONSTRAINT `fk_department_college1`
+    FOREIGN KEY (`college_id`)
+    REFERENCES `alumnitracker`.`college` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `alumnitracker`.`event`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alumnitracker`.`event` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `date` DATE NULL DEFAULT NULL,
+  `description` VARCHAR(1000) NULL DEFAULT NULL,
+  `user_id` INT(11) NOT NULL,
+  `hidden` TINYINT(1) NOT NULL DEFAULT '0',
+  `start_time` VARCHAR(10) NULL DEFAULT NULL,
+  `end_time` VARCHAR(10) NULL DEFAULT NULL,
+  `public` INT(11) NOT NULL DEFAULT '1',
+  `longitude` FLOAT NULL DEFAULT NULL,
+  `latitude` FLOAT NULL DEFAULT NULL,
+  `role` INT(11) NOT NULL DEFAULT '0',
+  `reference` VARCHAR(45) NULL DEFAULT NULL,
+  `location` VARCHAR(200) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_event_user1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_event_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `alumnitracker`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 15
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `alumnitracker`.`event_department`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alumnitracker`.`event_department` (
+  `event_id` INT(11) NOT NULL,
+  `department_id` INT(11) NOT NULL,
+  INDEX `fk_event_has_department_department1_idx` (`department_id` ASC),
+  INDEX `fk_event_has_department_event1_idx` (`event_id` ASC),
+  CONSTRAINT `fk_event_has_department_department1`
+    FOREIGN KEY (`department_id`)
+    REFERENCES `alumnitracker`.`department` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_event_has_department_event1`
+    FOREIGN KEY (`event_id`)
+    REFERENCES `alumnitracker`.`event` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `alumnitracker`.`interest`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alumnitracker`.`interest` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `hidden` TINYINT(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 19
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `alumnitracker`.`event_interest`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alumnitracker`.`event_interest` (
+  `interest_id` INT(11) NOT NULL,
+  `event_id` INT(11) NOT NULL,
+  INDEX `fk_interest_has_event_event1_idx` (`event_id` ASC),
+  INDEX `fk_interest_has_event_interest1_idx` (`interest_id` ASC),
+  CONSTRAINT `fk_interest_has_event_event1`
+    FOREIGN KEY (`event_id`)
+    REFERENCES `alumnitracker`.`event` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_interest_has_event_interest1`
+    FOREIGN KEY (`interest_id`)
+    REFERENCES `alumnitracker`.`interest` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `alumnitracker`.`file`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alumnitracker`.`file` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `file` BLOB NULL DEFAULT NULL,
+  `user_id` INT(11) NOT NULL,
+  PRIMARY KEY (`id`, `user_id`),
+  INDEX `fk_file_user1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_file_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `alumnitracker`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `alumnitracker`.`hours`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alumnitracker`.`hours` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `classification` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 3
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `alumnitracker`.`image`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alumnitracker`.`image` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `file` LONGBLOB NOT NULL,
+  `user_id` INT(11) NOT NULL,
+  PRIMARY KEY (`id`, `user_id`),
+  INDEX `fk_image_user1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_image_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `alumnitracker`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `alumnitracker`.`job`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alumnitracker`.`job` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(1000) NULL DEFAULT NULL,
+  `company` VARCHAR(100) NULL DEFAULT NULL,
+  `user_id` INT(11) NOT NULL,
+  `hidden` TINYINT(1) NOT NULL DEFAULT '0',
+  `end_date` VARCHAR(10) NULL DEFAULT NULL,
+  `start_date` VARCHAR(10) NULL DEFAULT NULL,
+  `reference` VARCHAR(45) NULL DEFAULT NULL,
+  `public` INT(11) NULL DEFAULT '1',
+  `hours_id` INT(11) NOT NULL,
+  `salary` TINYINT(1) NOT NULL DEFAULT '0',
+  `start_wage` FLOAT NULL DEFAULT NULL,
+  `end_wage` FLOAT NULL DEFAULT NULL,
+  `start_salary` INT(11) NULL DEFAULT NULL,
+  `end_salary` INT(11) NULL DEFAULT NULL,
+  `link` VARCHAR(1000) NULL DEFAULT NULL,
+  `location` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`, `hours_id`),
+  INDEX `fk_job_user_idx` (`user_id` ASC),
+  INDEX `fk_job_hours1_idx` (`hours_id` ASC),
+  CONSTRAINT `fk_job_hours1`
+    FOREIGN KEY (`hours_id`)
+    REFERENCES `alumnitracker`.`hours` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_job_user`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `alumnitracker`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 14
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `alumnitracker`.`job_interest`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alumnitracker`.`job_interest` (
+  `interest_id` INT(11) NOT NULL,
+  `job_id` INT(11) NOT NULL,
+  PRIMARY KEY (`interest_id`, `job_id`),
+  INDEX `fk_interest_has_job_job1_idx` (`job_id` ASC),
+  INDEX `fk_interest_has_job_interest1_idx` (`interest_id` ASC),
+  CONSTRAINT `fk_interest_has_job_interest1`
+    FOREIGN KEY (`interest_id`)
+    REFERENCES `alumnitracker`.`interest` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_interest_has_job_job1`
+    FOREIGN KEY (`job_id`)
+    REFERENCES `alumnitracker`.`job` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `alumnitracker`.`mailing`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alumnitracker`.`mailing` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(1000) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `alumnitracker`.`major`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alumnitracker`.`major` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `concentration` TINYINT(1) NOT NULL DEFAULT '0',
+  `major_id` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_major_major1_idx` (`major_id` ASC),
+  CONSTRAINT `fk_major_major1`
+    FOREIGN KEY (`major_id`)
+    REFERENCES `alumnitracker`.`major` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 90
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `alumnitracker`.`reason`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alumnitracker`.`reason` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 4
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `alumnitracker`.`rsvp`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alumnitracker`.`rsvp` (
+  `event_id` INT(11) NOT NULL,
+  `user_id` INT(11) NOT NULL,
+  INDEX `fk_event_has_user_user1_idx` (`user_id` ASC),
+  INDEX `fk_event_has_user_event1_idx` (`event_id` ASC),
+  PRIMARY KEY (`event_id`, `user_id`),
+  CONSTRAINT `fk_event_has_user_event1`
+    FOREIGN KEY (`event_id`)
+    REFERENCES `alumnitracker`.`event` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_event_has_user_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `alumnitracker`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `alumnitracker`.`testimonial`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alumnitracker`.`testimonial` (
+  `id` INT(11) NOT NULL,
+  `testimonial` VARCHAR(1000) NULL DEFAULT NULL,
+  `user_id` INT(11) NOT NULL,
+  PRIMARY KEY (`id`, `user_id`),
+  INDEX `fk_testimonial_user1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_testimonial_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `alumnitracker`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `alumnitracker`.`transfer`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alumnitracker`.`transfer` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `description` VARCHAR(1000) NULL DEFAULT NULL,
+  `verified` TINYINT(1) NOT NULL DEFAULT '0',
+  `reason_id` INT(11) NOT NULL,
+  `user_id` INT(11) NOT NULL,
+  `verified_id` INT(11) NULL DEFAULT NULL,
+  `hidden` TINYINT(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  INDEX `fk_transfer_reason1_idx` (`reason_id` ASC),
+  INDEX `fk_transfer_user1_idx` (`user_id` ASC),
+  INDEX `fk_transfer_user2_idx` (`verified_id` ASC),
+  CONSTRAINT `fk_transfer_reason1`
+    FOREIGN KEY (`reason_id`)
+    REFERENCES `alumnitracker`.`reason` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_transfer_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `alumnitracker`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_transfer_user2`
+    FOREIGN KEY (`verified_id`)
+    REFERENCES `alumnitracker`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `alumnitracker`.`user_interest`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alumnitracker`.`user_interest` (
+  `user_id` INT(11) NOT NULL,
+  `interest_id` INT(11) NOT NULL,
+  INDEX `fk_user_has_interest_interest1_idx` (`interest_id` ASC),
+  INDEX `fk_user_has_interest_user1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_user_has_interest_interest1`
+    FOREIGN KEY (`interest_id`)
+    REFERENCES `alumnitracker`.`interest` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_user_has_interest_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `alumnitracker`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `alumnitracker`.`user_major`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alumnitracker`.`user_major` (
+  `user_id` INT(11) NOT NULL,
+  `major_id` INT(11) NOT NULL,
+  `minor` TINYINT(1) NOT NULL DEFAULT '0',
+  `hidden` TINYINT(1) NULL DEFAULT NULL,
+  INDEX `fk_user_has_major_major1_idx` (`major_id` ASC),
+  INDEX `fk_user_has_major_user1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_user_has_major_major1`
+    FOREIGN KEY (`major_id`)
+    REFERENCES `alumnitracker`.`major` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_user_has_major_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `alumnitracker`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+
+
+
+
+
+
+
+
+
+insert into title (id, name) values (1,"Mr.");
+insert into title (id, name) values (2,"Mrs.");
+insert into title (id, name) values (3,"Dr.");
+
+insert into reason (id,name) values (1,"Student Error");
+insert into reason (id,name) values (2,"Curriculum Change");
+insert into reason (id,name) values (3,"Finnancial");
+
+INSERT INTO `user` (`id`, `title_id`, `bnumber`, `email`, `personal_email`, `password`, `salt`, `first_name`, `last_name`, `role`, `graduation_year`, `occupation`, `suffix`, `biography`, `experience`, `hidden`, `active`, `created`, `last_active`, `last_modified`, `social_media`, `phone_number`)
+VALUES (1, 1, 2160102, 'example@ben.edu', 'example@yahoo.com',    'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Chris', 'Detloff',   2, 1999, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(297)528-1989'),
+	(2, 1, 2160102, 'example2@ben.edu', 'example2@yahoo.com',      'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Donald', 'Kirk',     2, 1999, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(414)616-3587'),
+	(3, 1, 2160102, 'alumni@ben.edu', 'alumniuser@yahoo.com',      'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Bob', 'Doe',         2, 2014, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(524)244-7345'),
+	(4, 1, 2160102, 'alumni2@ben.edu', 'alumniuser2@yahoo.com',    'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Joe', 'Chang',       2, 2004, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(793)628-4031'),
+	(5, 1, 2160102, 'alumni3@ben.edu', 'alumniuser3@yahoo.com',    'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Matt', 'Wang',       2, 2006, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(359)511-2331'),
+	(6, 1, 2160102, 'alumni4@ben.edu', 'alumniuser4@yahoo.com',    'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Miguel', 'Magoo',    2, 2009, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(176)118-7600'),
+	(7, 1, 2160102, 'alumni5@ben.edu', 'alumniuser5@yahoo.com',    'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Peter', 'Hebda',     2, 2011, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(604)626-0040'),
+	(8, 1, 2160102, 'alumni6@ben.edu', 'alumniuser6@yahoo.com',    'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'John', 'Duh',        2, 2012, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(834)405-4982'),
+	(9, 1, 2160102, 'alumni7@ben.edu', 'alumniuser7@yahoo.com',    'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Frank', 'Tank',      2, 2013, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(490)218-8669'),
+	(10, 1, 2160102, 'alumni8@ben.edu', 'alumniuser8@yahoo.com',   'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Don', 'Juan',        2, 1969, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(569)244-5043'),
+	(11, 1, 2160102, 'alumni9@ben.edu', 'alumniuser9@yahoo.com',   'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Andrew', 'Gregory',  2, 1935, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(862)384-1492'),
+	(12, 1, 2160102, 'alumni10@ben.edu', 'alumniuser10@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Andy', 'Boy',        2, 2014, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(558)211-9755'),
+	(13, 1, 2160102, 'alumni11@ben.edu', 'alumniuser11@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Hines', 'Ward',      2, 2004, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(228)972-9242'),
+	(14, 1, 2160102, 'alumni12@ben.edu', 'alumniuser12@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Brett', 'Favre',     2, 2006, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(760)910-2218'),
+	(15, 1, 2160102, 'alumni13@ben.edu', 'alumniuser13@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'John', 'Madden',     2, 2009, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(287)568-0318'),
+	(16, 1, 2160102, 'alumni14@ben.edu', 'alumniuser14@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Michael', 'Jordan',  2, 2011, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(445)853-6603'),
+	(17, 1, 2160102, 'alumni15@ben.edu', 'alumniuser15@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Walter', 'Payton',   2, 2012, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(833)416-0671'),
+	(18, 1, 2160102, 'alumni16@ben.edu', 'alumniuser16@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Sammy', 'Sosa',      2, 2013, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(892)823-3321'),
+	(19, 1, 2160102, 'alumni18@ben.edu', 'alumniuser18@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Harry', 'Potter',    2, 1935, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(167)726-4327'),
+	(20, 3, 2160102, 'alumni19@ben.edu', 'alumniuser19@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Lisa', 'Hotwagner',  2, 2002, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(327)541-2840'),
+	(21, 1, 2160102, 'alumni20@ben.edu', 'alumniuser20@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Kate', 'Upton',      2, 1943, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(830)348-0868'),
+	(22, 1, 2160102, 'alumni21@ben.edu', 'alumniuser21@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Michael', 'Jackson', 2, 2001, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(955)154-7290'),
+	(23, 1, 2160102, 'alumni22@ben.edu', 'alumniuser22@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Brian', 'Mcknight',  2, 2012, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(220)592-8713'),
+	(24, 2, 2160102, 'alumni23@ben.edu', 'alumniuser23@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Mariah', 'Carey',    2, 2008, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(668)982-6044'),
+	(25, 1, 2160102, 'alumni24@ben.edu', 'alumniuser24@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Barrack', 'Obama',   2, 1976, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(345)791-8272');
+
+insert into user (id, email,password,salt,first_name, last_name, role, title_id) values (29,'student@ben.edu', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Sam', 'Student', 1, 1);
+insert into user (id, email,password,salt,first_name, last_name, role, title_id) values (30,'alumni.account@ben.edu', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Al', 'Alumni', 2, 1);
+insert into user (id, email,password,salt,first_name, last_name, role, title_id) values (31,'faculty@ben.edu', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Phil', 'Phaculty', 3, 1);
+insert into user (id, email,password,salt,first_name, last_name, role, title_id) values (32,'admin@ben.edu', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Alice', 'Admin', 4, 2);
+
+INSERT INTO hours (id,classification) values (1, "part time");
+INSERT INTO hours (id,classification) values (2, "full time");
+
+
+
+INSERT INTO `job` (`id`, `name`, `description`, `company`, `user_id`, `hidden`, `end_date`, `start_date`, `reference`, `public`, `hours_id`, `salary`, `start_wage`, `end_wage`, `start_salary`, `end_salary`, `link`, `location`)
+VALUES
+	(1, 'Software Developer', 'You are always coding forever and forever and forever and forever and forever and forever and forever and forever and forever and forever and forever and forever.', 'Microsoft', 31, 0, NULL, NULL, NULL, 1, 2, 0, 0, 0, 100000, 150000, NULL, 'California'),
+	(2, 'Web Development (Front End)', 'You are always developing forever and forever and forever and forever and forever and forever and forever and forever and forever and forever and forever and forever.', 'Google Inc', 31, 0, NULL, NULL, NULL, 1, 2, 0, 0, 0, 100000, 150000, NULL, 'Illinois'),
+    (3, 'Sql Developer', 'You are always developing forever and forever and forever and forever and forever and forever and forever and forever and forever and forever and forever and forever.', 'Geek Squad', 31, 0, NULL, NULL, NULL, 1, 2, 0, 0, 0, 210000, 305000, NULL, 'Iowa'),
+	(4, 'I.T Support', 'You are always supporting forever and forever and forever and forever and forever and forever and forever and forever and forever and forever and forever and forever.', 'BP', 31, 0, NULL, NULL, NULL, 1, 2, 0, 0, 0, 5000, 10000, NULL, 'Maine'),
+(5, 'Technical Support Specialist', 'You are always helping forever and forever and forever and forever and forever and forever and forever and forever and forever and forever and forever and forever.', 'McDonalds', 31, 0, NULL, NULL, NULL, 1, 2, 0, 0, 0, 1000, 2000, NULL, 'Florida'),
+(6, 'Web Development (Back End)', 'You are always developing forever and forever and forever and forever and forever and forever and forever and forever and forever and forever and forever and forever.', 'Best Buy', 31, 0, NULL, NULL, NULL, 1, 2, 0, 0, 0, 60000, 70000, NULL, 'New York'),
+(7, 'Java Tester', 'You are always testing forever and forever and forever and forever and forever and forever and forever and forever and forever and forever and forever and forever.', 'Target', 31, 0, NULL, NULL, NULL, 1, 2, 0, 0, 0, 50000, 65000, NULL, 'South Carolina'),
+(8, 'Ruby Developer', 'You are always developing forever and forever and forever and forever and forever and forever and forever and forever and forever and forever and forever and forever.', 'Government', 31, 0, NULL, NULL, NULL, 1, 2, 0, 0, 0, 40000, 150000, NULL, 'Mexico'),
+(9, 'Web Designer', 'You are always designing forever and forever and forever and forever and forever and forever and forever and forever and forever and forever and forever and forever.', 'Apple', 31, 0, NULL, NULL, NULL, 1, 2, 0, 0, 0, 100000, 150000, NULL, 'Rhode Island');
+
+
+INSERT INTO `event` (`id`, `name`, `date`, `description`, `user_id`, `hidden`, `start_time`, `end_time`, `public`, `longitude`, `latitude`, `role`, `reference`, `location`)
+VALUES
+	(1, 'Sprint 6 Meeting', '2016-04-13', 'Go over the SOW over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over over and over .', 31, 0, '12:00', '14:00', 1, 0, 0, 0, NULL, 'Benedictine University'),
+	(2, 'Graduation', '2016-05-14', 'Join us in celebrating the class of 2016.', 31, 0, '09:00', '11:00', 1, 0, 0, 0, NULL, 'Benedictine University'),
+	(3, 'Sprint Review Meeting', '2016-04-12', 'We are meeting to review our sprint 6 meeting.', 31, 0, '14:00', '15:00', 1, 0, 0, 0, NULL, 'Benedictine University'),
+	(4, 'The Gettysburg Address', '2018-05-14', 'On June 1, 1865, Senator Charles Sumner referred to the most famous speech ever given by President Abraham Lincoln. In his eulogy on the slain president, he called the Gettysburg Address a "monumental act." He said Lincoln was mistaken that "the world will little note, nor long remember what we say here." Rather, the Bostonian remarked, "The world noted at once what he said, and will never cease to remember it. The battle itself was less important than the speech."', 31, 0, '10:00', '13:00', 1, 0, 0, 0, NULL, 'Gettysburg Pennsylvania'),
+	(5, '4th of July', '2016-07-04', 'We celebrate American Independence Day on the Fourth of July every year. We think of July 4, 1776, as a day that represents the Declaration of Independence and the birth of the United States of America as an independent nation.', 31, 0, '01:00', '23:00', 1, 0, 0, 0, NULL, 'Earth'),
+    (6, 'Founding of Benedictine', '2020-05-14', 'Join us in celebrating the finding of Benedictine University.', 31, 0, '09:00', '11:00', 1, 0, 0, 0, NULL, 'Benedictine University');
+    
+
+INSERT INTO `interest` (`id`, `name`, `hidden`)
+VALUES
+(1, 'Anthropology', 0),
+(2, 'Film Studies', 0),
+(3, 'Gender Studies', 0),
+(4, 'Life Span Services', 0),
+(5, 'Secondary Education', 0),
+(6, 'Social Work', 0),
+(7, 'Sports Management', 0),
+(8, 'Sports Marketing', 0),
+(9, 'Coding', 0),
+(10, 'Clerical', 0),
+(11, 'Management', 0),
+(12, 'Physical Therapy', 0),
+(13, 'Athletic Training', 0),
+(14, 'Human Resource', 0),
+(15, 'Marketing', 0),
+(16, 'Nursing', 0),
+(17, 'Fine Arts', 0),
+(18, 'Music', 0);
+
+
+INSERT INTO `event_interest` (`interest_id`, `event_id`)
+VALUES
+	(1, 1),
+	(2, 1);
+
+
+
+INSERT INTO `major` (`id`, `name`, `concentration`, `major_id`)
+VALUES
+	(1, 'Accounting', 0, NULL),
+(2, 'Bilingual Journalism', 0, NULL),
+(3, 'Biochemistry/Molecular Biology', 0, NULL),
+(4, 'Biology', 0, NULL),
+(5, 'Business Analytics', 0, NULL),
+(6, 'Business and Economics', 0, NULL),
+(7, 'Business with Science Applications', 0, NULL),
+(8, 'Chemistry', 0, NULL),
+(9, 'Clinical Laboratory Science', 0, NULL),
+(10, 'Communication Arts', 0, NULL),
+(11, 'Computer Information Systems', 0, NULL),
+(12, 'Computer Science', 0, NULL),
+(13, 'Criminal Justice', 0, NULL),
+(14, 'Diagnostic Medical Sonography', 0, NULL),
+(15, 'Economics', 0, NULL),
+(16, 'Elementary Education', 0, NULL),
+(17, 'Engineering Science', 0, NULL),
+(18, 'English Language and Literature', 0, NULL),
+(19, 'Entrepreneurship', 0, NULL),
+(20, 'Environmental Science', 0, NULL),
+(21, 'Exercise and Sports Studies', 0, NULL),
+(22, 'Global Studies', 0, NULL),
+(23, 'Graphic Arts and Design	', 0, NULL),
+(24, 'Health Science', 0, NULL),
+(25, 'History', 0, NULL),
+(26, 'Human Resource Management', 0, NULL),
+(27, 'International Business and Economics', 0, NULL),
+(28, 'International Studies', 0, NULL),
+(29, 'Management and Organizational Behavior', 0, NULL),
+(30, 'Marketing', 0, NULL),
+(31, 'Mathematics', 0, NULL),
+(32, 'Medical Humanities', 0, NULL),
+(33, 'Music', 0, NULL),
+(34, 'Music Education', 0, NULL),
+(35, 'Nuclear Medicine Technology', 0, NULL),
+(36, 'Nutrition', 0, NULL),
+(37, 'Philosophy', 0, NULL),
+(38, 'Physical Education', 0, NULL),
+(39, 'Physics', 0, NULL),
+(40, 'Political Science', 0, NULL),
+(41, 'Pre-Professional Health', 0, NULL),
+(42, 'Psychology', 0, NULL),
+(43, 'Radiation Therapy', 0, NULL),
+(44, 'Secondary Education', 0, NULL),
+(45, 'Social Science', 0, NULL),
+(46, 'Sociology', 0, NULL),
+(47, 'Spanish', 0, NULL),
+(48, 'Special Education', 0, NULL),
+(49, 'Studio Art', 0, NULL),
+(50, 'Theology', 0, NULL),
+(51, 'Undecided', 0, NULL),
+(52, 'Writing and Publishing', 0, NULL),
+(53, 'Perfusion Technology', 1, 9),
+(54, 'Respiratory Care', 1, 9),
+(55, 'Computer Systems and Algorithms Concentration', 1, 12),
+(56, 'Data Analytics Concentration', 1, 12),
+(57, 'E-Commerce Concentration', 1, 12),
+(58, 'Actuarial Science Concentration', 1, 31),
+(59, 'Biological Physics', 1, 31),
+(60, 'Pre-Law', 1, 40),
+(61, 'Chiropractic', 1, 41),
+(62, 'Dentistry', 1, 41),
+(63, 'Medicine', 1, 41),
+(64, 'Occupational Therapy', 1, 41),
+(65, 'Optometry', 1, 41),
+(66, 'Pharmacy', 1, 41),
+(67, 'Physical Therapy', 1, 41),
+(68, 'Podiatry', 1, 41),
+(69, 'Veterinary Medicine', 1, 41),
+(70, 'Pre-Physical', 1, 42),
+(71, 'Pre-Occupational Therapy', 1, 42),
+(72, 'Biology', 1, 44),
+(73, 'Business and Economics', 1, 9),
+(74, 'Chemistry', 1, 9),
+(75, 'English Language and Literature', 1, 9),
+(76, 'Mathematics', 1, 9),
+(77, 'Physics', 1, 9),
+(78, 'Social Science', 1, 9),
+(79, 'Spanish', 1, 9),
+(80, 'Criminal Justice', 1, 46),
+(81, 'Medical Spanish', 1, 47),
+(82, 'Anthropology', 0,NULL),
+(83, 'Film Studies', 0,NULL),
+(84, 'Gender Studies', 0,NULL),
+(85, 'Life Span Services', 0,NULL),
+(86, 'Secondary Education', 0,NULL),
+(87, 'Social Work', 0,NULL),
+(88, 'Sports Management', 0,NULL),
+(89, 'Sports Marketing', 0,NULL);
+	
+	
+	INSERT INTO `user_major` (`user_id`, `major_id`, `minor`)
+VALUES
+	(1, 1, 0),
+	(2, 2, 0),
+	(3, 3, 0),
+	(4, 4, 1),
+	(5, 6, 1),
+	(6, 1, 0),
+	(7, 2, 0),
+	(8, 6, 0),
+	(9, 3, 0),
+	(10, 4, 0),
+	(11, 1, 0),
+	(12, 2, 0),
+	(13, 3, 0),
+	(14, 4, 0),
+	(15, 1, 0),
+	(16, 2, 0),
+	(17, 3, 0),
+	(18, 4, 0),
+	(19, 1, 0),
+	(20, 2, 0),
+	(21, 3, 0),
+	(22, 4, 0),
+	(23, 1, 0),
+	(24, 2, 0),
+	(25, 4, 0),
+	(29, 1, 0),
+	(30, 3, 0),
+	(31, 1, 0),
+	(32, 2, 0);
+
+INSERT INTO `user_interest` (`user_id`, `interest_id`)
+VALUES
+	(1, 1),
+	(2, 1),
+	(3, 1),
+	(4, 1),
+	(5, 1),
+	(6, 1),
+	(7, 1),
+	(8, 1),
+	(9, 1),
+	(10, 1),
+	(11, 1),
+	(12, 1),
+	(13, 1),
+	(14, 1),
+	(15, 1),
+	(16, 1),
+	(17, 1),
+	(18, 1),
+	(19, 1),
+	(20, 1),
+	(21, 1),
+	(22, 1),
+	(23, 1),
+	(24, 1),
+	(25, 1),
+	(29, 1),
+	(30, 1),
+	(31, 1),
+	(32, 1);

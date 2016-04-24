@@ -230,7 +230,7 @@
 								<div class="control-group">
 									<!-- Title -->
 									<label class="control-label" for="benEmail">*Benedictine
-										E-mail:</label>
+										E-mail (Must start with a letter and end in "@ben.edu"):</label>
 									<div class="controls" data-name="benEmail">
 										<input type="text" id="benEmail" name="benEmail"
 											placeholder="jdoe@ben.edu" class="form-control"
@@ -360,8 +360,7 @@
 									<label class="control-label" for="bio">Biography:</label>
 									<div class="controls" data-name="bio">
 										<textarea rows="5" id="bio" name="bio"
-											placeholder="This is my biography." class="form-control"
-											value="<%=bio%>"></textarea>
+											placeholder="This is my biography." class="form-control"><%=bio%></textarea>
 
 										<%
 											if (errors.get("bio") != null) {
@@ -488,8 +487,8 @@
 												for (int i = 0; i < majorList.size(); i++) {
 													majorName = majorList.get(i).getName() != null ? majorList.get(i).getName() : "";
 											%>
-											
-												<option value="<%=majorList.get(i).getId()%>"><%=majorName%></option>
+
+											<option value="<%=majorList.get(i).getId()%>"><%=majorName%></option>
 
 											<%
 												}
@@ -575,8 +574,7 @@
 									<label class="control-label" for="experience">Experience:</label>
 									<div class="controls" data-name="experience">
 										<textarea rows="5" id="experience" name="experience"
-											placeholder="Professional Experience." class="form-control"
-											value="<%=experience%>"></textarea>
+											placeholder="Professional Experience." class="form-control"><%=experience%></textarea>
 
 										<%
 											if (errors.get("experience") != null) {

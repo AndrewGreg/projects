@@ -4,6 +4,7 @@
 <%@page import="edu.ben.template.model.Event"%>
 <%@page import="edu.ben.template.model.User"%>
 
+
 <%
 	User currentUser = (User) request.getAttribute("currentUser");
 %>
@@ -83,6 +84,27 @@
 
 						<aside
 							class="page-sidebar  col-md-3 col-md-offset-1 col-sm-4 col-sm-offset-1">
+
+
+							<section class="widget has-divider">
+								<h3 class="section-heading text-highlight">RSVP!</h3>
+
+								<%
+									if (currentUser != null ) {// && currentUser != attendant.getUserId()) {
+								%>
+
+
+								<a class="btn btn-theme" href="/Alumni-Tracker/addRsvp"><i
+									class="fa fa-send-o"></i>Attend</a>
+
+								<% if(currentUser != null){ %>
+									<a class="btn btn-theme" href="/Alumni-Tracker/deleteRsvp"><i
+									class="fa fa-ban"></i>Not Going</a>
+									<%} %> 
+								<%
+									} %>
+
+							</section>
 
 							<section class="widget has-divider">
 								<h3 class="section-heading text-highlight">Create your own

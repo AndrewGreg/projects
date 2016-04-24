@@ -111,19 +111,20 @@ public class EventDao extends BaseDao<Event> {
 		}
 		return;
 	}
-	
-	public void deleteEvent(Long id){
-		
+
+	public void deleteEvent(Long id) {
+
 		String sql = "DELETE FROM event WHERE id = ?";
-		try{
+		try {
 			jdbcTemplate.update(sql, id);
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * List all of the Events by the date. When the date has passed the current date, It will not be displayed..
+	 * List all of the Events by the date. When the date has passed the current
+	 * date, It will not be displayed..
 	 * 
 	 * @return all the Events in the database.
 	 */
@@ -157,7 +158,7 @@ public class EventDao extends BaseDao<Event> {
 
 			return (ArrayList<Event>) events;
 		} catch (EmptyResultDataAccessException e) {
-			
+
 			return null;
 		}
 	}
@@ -179,7 +180,7 @@ public class EventDao extends BaseDao<Event> {
 
 			return (ArrayList<Event>) event;
 		} catch (EmptyResultDataAccessException e) {
-			
+
 			return null;
 		}
 	}
@@ -244,6 +245,24 @@ public class EventDao extends BaseDao<Event> {
 			events = jdbcTemplate.query(sql, new Object[] { interest.getId() }, getRowMapper());// TEST
 			// THIS
 			return (ArrayList<Event>) events;
+		} catch (EmptyResultDataAccessException e) {
+			/* Probably want to log this */
+			return null;
+		}
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public ArrayList<Event> getAllByUser(User u) {
+
+		List<Event> rsvp = new ArrayList<Event>();
+		String sql = SEARCH + "event JOIN rsvp on event.id = rsvp.event_id WHERE rsvp.user_id = ?";
+
+		try {
+			rsvp = jdbcTemplate.query(sql, new Object[] { u.getId() }, getRowMapper());
+			return (ArrayList<Event>) rsvp;
 		} catch (EmptyResultDataAccessException e) {
 			/* Probably want to log this */
 			return null;

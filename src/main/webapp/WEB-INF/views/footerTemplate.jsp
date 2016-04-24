@@ -7,14 +7,14 @@
 					<div class="footer-col-inner">
 						<h3>About</h3>
 						<ul>
-							<li><a href="about.jsp"><i class="fa fa-caret-right"></i>About
-									us</a></li>
-							<li><a href="jsp"><i class="fa fa-caret-right"></i>Contact
-									us</a></li>
-							<li><a href="jsp"><i class="fa fa-caret-right"></i>Privacy
-									policy</a></li>
-							<li><a href="terms-and-conditions.html"><i
-									class="fa fa-caret-right"></i>Terms & Conditions</a></li>
+							<li><a href="/Alumni-Tracker/content/img/BuMap.jpg"><i
+									class="fa fa-caret-right"></i>Campus Map</a></li>
+							<li><a href="/Alumni-Tracker/eventsTemplate"><i
+									class="fa fa-caret-right"></i>Events</a></li>
+							<li><a href="/Alumni-Tracker/jobsTemplate"><i
+									class="fa fa-caret-right"></i>Jobs</a></li>
+							<li><a href="/Alumni-Tracker/testimonialsList"><i
+									class="fa fa-caret-right"></i>Testimonials</a></li>
 						</ul>
 					</div>
 					<!--//footer-col-inner-->
@@ -215,6 +215,43 @@
 	$(document).ready(function() {
 
 		$('#jobDeletion').modal('show');
+	});
+</script>
+<%
+	}
+%>
+
+<%
+	String testimonialCreation = request.getAttribute("testimonialCreation") != null
+			? (String) request.getAttribute("testimonialCreation")
+			: "";
+
+	if (testimonialCreation.equals("true")) {
+%>
+<jsp:include page="testimonialCreationModal.jsp" />
+
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('#testimonialCreation').modal('show');
+	});
+</script>
+<%
+	}
+%>
+
+<%
+	String addRsvp = request.getAttribute("addRsvp") != null ? (String) request.getAttribute("addRsvp") : "";
+
+	if (addRsvp.equals("true")) {
+%>
+
+<jsp:include page="rsvpAddModal.jsp" />
+
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('#addRsvp').modal('show');
 
 	});
 </script>

@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="jobCreation" role="dialog">
+<div class="modal fade" id="jobDeletion" role="dialog">
 	<div class="modal-dialog">
 		<!-- Modal content-->
 		<div class="modal-content">

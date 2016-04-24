@@ -900,10 +900,11 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/addRsvp", method = RequestMethod.GET)
 	public String addRsvp(Model model, @ModelAttribute("currentUser") User currentUser,
 			@ModelAttribute("currentEvent") Event currentEvent, RedirectAttributes redirectAttrs) {
-		//if(currentUser.getId() != getUserDao().getAllByEvent(currentEvent).size()){
+		// if(currentUser.getId() !=
+		// getUserDao().getAllByEvent(currentEvent).size()){
 		getUserDao().addRsvp(currentUser, currentEvent);
 		redirectAttrs.addFlashAttribute("addRsvp", "true");
-		//}
+		// }
 		return "redirect:/newEvents/" + currentEvent.getId();
 	}
 
@@ -1958,32 +1959,47 @@ public class HomeController extends BaseController {
 				&& Validator.validateName(firstName) && Validator.validateName(lastName)
 				&& Validator.validateEmail(personalEmail, false));
 	}
-	
+
 	@RequestMapping(value = "/testimonial", method = RequestMethod.POST)
-	public String testimonials(@RequestParam("testimonial") String testimonial, Model model, RedirectAttributes redirectAttrs) {
-		
-		//TODO CHECK MAX SIZE OF TESTIMONIAL 1000 characters
-		if(testimonial != null && testimonial.matches(".{10,}")) {
+	public String testimonials(@RequestParam(value = "testimonial", required = false) String testimonial, Model model,
+			RedirectAttributes redirectAttrs) {
+
+		if (testimonial != null && testimonial.matches(".{10, 999}")) {
 			User currentUser = getCurrentUser();
 			Testimonial newComment = new Testimonial(testimonial, currentUser);
-			
-			//TODO ADD TO THE DATABASE
-			
-			model.addAttribute("testimonialCreation", "true");
-			//TODO RETURN SOMETHING (EITHER TESTIMONIAL LIST, OR PROFILE
-			
+
+			getTestimonialDao().addTestimonial(newComment);
+
 			redirectAttrs.addFlashAttribute("testimonialCreation", "true");
-			return "indexTemplate";
+
+			if (getCurrentUser() != null) {
+				return "redirect:/user/" + getCurrentUser().getId();
+			}
+
+			else {
+				return "redirect:/";
+			}
 		} else {
-			//TODO CREATE HASHMAP AND ERROR CHECK
+
+			String errors = "";
+
+			if (testimonial == null || testimonial.length() < 10) {
+				errors = "The testimonial needs to be at least 10 characters long.";
+			} else {
+				errors = "The testimonial you posted is too long.";
+			}
+
+			redirectAttrs.addFlashAttribute("errors", errors);
+			redirectAttrs.addFlashAttribute("testimonialAttempt", "failure");
+
+			if (getCurrentUser() != null) {
+				return "redirect:/user/" + getCurrentUser().getId();
+			}
+
+			else {
+				return "redirect:/";
+			}
 		}
-		
-		
-		
-		
-		model.addAttribute("testimonialCreation", "true");
-		//TODO RETURN PROFILE WITH ERROR
-		return "indexTemplate";
 	}
-	
+
 }

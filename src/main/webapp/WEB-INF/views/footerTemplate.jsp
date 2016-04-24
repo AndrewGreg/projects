@@ -201,6 +201,25 @@
 %>
 
 <%
+	String testimonialAttempt = request.getAttribute("testimonialAttempt") != null
+			? (String) request.getAttribute("testimonialAttempt")
+			: "";
+
+	if (testimonialAttempt.equals("failure")) {
+%>
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('#testimonialModal').modal('show');
+
+	});
+</script>
+
+<%
+	}
+%>
+
+<%
 	String addRsvp = request.getAttribute("addRsvp") != null ? (String) request.getAttribute("addRsvp") : "";
 
 	if (addRsvp.equals("true")) {

@@ -27,56 +27,54 @@
 		<div class="content container">
 			<div class="content container content-container">
 				<div class="page-wrapper table-container ben-container">
-					<header class="page-heading clearfix">
-						<%
-							if (request.getAttribute("photo") == null) {
-						%>
-						<img id="profile-pic"
+					<header class="page-heading clearfix"> 
+					<%
+ 						if (request.getAttribute("photo") == null) {
+ 					%> 
+ 						<img id="profile-pic"
 							src="/Alumni-Tracker/content/img/empty-profile.png"
-							alt="Profile Picture">
-						<%
-							} else {
-						%>
+							alt="Profile Picture"> 
+					<%
+ 						} else {
+					 %> 
+						<header class="page-heading clearfix"> 
 						<img id="profile-pic"
-							src="/Alumni-Tracker/getImage/<%=photo.getId()%>.jpeg">
-						<div class="page-wrapper table-container ben-container">
-							<header class="page-heading clearfix">
-								<img id="profile-pic"
-									src="/Alumni-Tracker/content/img/empty-profile.png">
+							src="/Alumni-Tracker/getImage/<%=photo.getProfile().getId()%>.do" 
+							alt="Profile Picture" width="128" height="128">
+					<%
+ 						}
+ 					%>
+						<h1 class="heading-title">
+							<%=profileUser.getFirstName()%>
+							<%=profileUser.getLastName()%></h1>
+						<div class="pull-right">
+							<%
+								if (currentUser.getRole() == 4) {
+							%>
+							<form action="/Alumni-Tracker/deleteUser" method="POST"
+								name="deleteUser">
+								<button type="submit" class="btn btn-primary">Delete
+									User</button>
+							</form>
+
+							<%
+								}
+							%>
+						</div>
+
+						<div class="breadcrumbs pull-right" id="breadcrumbs-profile">
+							<ul class="breadcrumbs-list">
+								<li class="breadcrumbs-label">You are here:</li>
+								<li><a href="/Alumni-Tracker/">Home</a><i
+									class="fa fa-angle-right"></i></li>
+								<%
+									if (currentUser.getId() != profileUser.getId()) {
+								%>
+								<li><a href="/Alumni-Tracker/alumni">Alumni</a><i
+									class="fa fa-angle-right"></i></li>
 								<%
 									}
 								%>
-								<h1 class="heading-title">
-									<%=profileUser.getFirstName()%>
-									<%=profileUser.getLastName()%></h1>
-								<div class="pull-right">
-									<%
-										if (currentUser.getRole() == 4) {
-									%>
-									<form action="/Alumni-Tracker/deleteUser" method="POST"
-										name="deleteUser">
-										<button type="submit" class="btn btn-primary">Delete
-											User</button>
-									</form>
-
-									<%
-										}
-									%>
-								</div>
-
-								<div class="breadcrumbs pull-right" id="breadcrumbs-profile">
-									<ul class="breadcrumbs-list">
-										<li class="breadcrumbs-label">You are here:</li>
-										<li><a href="/Alumni-Tracker/">Home</a><i
-											class="fa fa-angle-right"></i></li>
-										<%
-											if (currentUser.getId() != profileUser.getId()) {
-										%>
-										<li><a href="/Alumni-Tracker/alumni">Alumni</a><i
-											class="fa fa-angle-right"></i></li>
-										<%
-											}
-										%>
 										<li class="current">Profile</li>
 									</ul>
 								</div>

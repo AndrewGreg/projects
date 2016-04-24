@@ -1,5 +1,6 @@
 package edu.ben.template.dao;
 
+import java.io.ByteArrayInputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.mysql.jdbc.Blob;
 
 import edu.ben.template.model.UploadFile;
+import edu.ben.template.model.User;
 
 @Repository
 public class FileUploadDao extends BaseDao<UploadFile>{
@@ -51,8 +53,13 @@ public class FileUploadDao extends BaseDao<UploadFile>{
 				// map result set to object
 				UploadFile file = new UploadFile();
 				file.setId(rs.getLong("id"));
-				file.setData((Blob) rs.getBlob("file"));
+				file.setData(rs.getBytes("file"));
 				
+				// Grabs the id of the user of the profile pic.
+				// Displays pic of user.
+//				long userId = rs.getLong("user_id");
+//				User profile = userDao.getObjectById(userId);
+//				file.setProfile(profile);
 				return file;
 			}
 		};
@@ -67,7 +74,7 @@ public class FileUploadDao extends BaseDao<UploadFile>{
 								+ "on duplicate key update file = values(file)",
 						new String[] { "id" });
 				ps.setLong(1, file.getId());
-				ps.setBlob(2, file.getData());
+				ps.setBinaryStream(2, new ByteArrayInputStream(file.getData()));
 				return ps;
 			}
 		};

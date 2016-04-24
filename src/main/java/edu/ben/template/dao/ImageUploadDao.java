@@ -1,5 +1,11 @@
 package edu.ben.template.dao;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,11 +30,22 @@ public class ImageUploadDao extends BaseDao<UploadFile> {
 	}
 
 	public void addImage(UploadFile image) {
-
+		
 		String sql = "INSERT INTO image (id, file, user_id) VALUES (?, ?, ?)";
-
-		jdbcTemplate.update(sql, new Object[] { image.getId(), image.getData(), image.getProfile().getId()});
-
+		try{
+			jdbcTemplate.update(sql, new Object[] { image.getId(), image.getData(), image.getProfile().getId()});
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateImage(UploadFile image){
+		String sql = "UPDATE image SET file = ? WHERE user_id = ?";
+		try{
+			jdbcTemplate.update(sql, new Object[] { image.getData(), image.getProfile().getId() });
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	public UploadFile getObjectByUserId(Long id){
@@ -42,12 +59,28 @@ public class ImageUploadDao extends BaseDao<UploadFile> {
 			return null;
 		}
 		UploadFile object = null;	
+//		Blob blob = null;
 		
 		if(object == null){
 			try{
 				//look up the object
 				String sql = "SELECT * FROM image WHERE user_id = ?;";
 				object = this.jdbcTemplate.queryForObject(sql, new Object[] { id }, getRowMapper());
+				
+//				String sqlData = "SELECT file FROM image WHERE user_id =?;";
+//				blob = this.getJdbcTemplate().queryForObject(sqlData, new Object[] { id }, getRowMapper());
+//				
+//				InputStream stream = new BufferedInputStream(blob.getBinaryStream());
+//				ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//				OutputStream output = new BufferedOutputStream(byteArrayOutputStream);
+//				int i;
+//				while (-1 != (i = stream.read())) {
+//					output.write(i);
+//				}
+//				output.flush();
+//				object.setData(byteArrayOutputStream.toByteArray());
+				//return byteArrayOutputStream.toByteArray();
+				
 //				InputStream stream = new BufferedInputStream(pic.getBinaryStream());
 //				ByteArrayOutputStream byteArrayOutputStream = new 
 //						return profilePic;
@@ -58,6 +91,7 @@ public class ImageUploadDao extends BaseDao<UploadFile> {
 		}
 		return object;
 	}
+
 	
 	public UploadFile getObjectById(Long id) {
 		return this.getImageById(id, false);
@@ -69,7 +103,7 @@ public class ImageUploadDao extends BaseDao<UploadFile> {
 			/* Probably want to log this */
 			return null;
 		}
-		UploadFile object = null;	
+		UploadFile object = null;
 		
 		if(object == null){
 			try{
@@ -96,7 +130,7 @@ public class ImageUploadDao extends BaseDao<UploadFile> {
 				// map result set to object
 				UploadFile image = new UploadFile();
 				image.setId(rs.getLong("id"));
-				image.setData((Blob) rs.getBlob("file"));
+				image.setData(rs.getBytes("file"));
 				
 				// Grabs the id of the user of the profile pic.
 				// Displays pic of user.
@@ -107,6 +141,25 @@ public class ImageUploadDao extends BaseDao<UploadFile> {
 			}
 		};
 	}
+	
+//	public RowMapper<Blob> getRowMapper() {
+//		return new RowMapper<UploadFile>() {
+//			@Override
+//			public UploadFile mapRow(ResultSet rs, int rowNum) throws SQLException {
+//				// map result set to object
+//				UploadFile image = new UploadFile();
+//				image.setId(rs.getLong("id"));
+//				image.setData(rs.getBytes("file"));
+//				
+//				// Grabs the id of the user of the profile pic.
+//				// Displays pic of user.
+//				long userId = rs.getLong("user_id");
+//				User profile = userDao.getObjectById(userId);
+//				image.setProfile(profile);
+//				return image;
+//			}
+//		};
+//	}
 
 	@Override
 	public PreparedStatementCreator getSavePreparedStatementCreator(final UploadFile image) {
@@ -114,10 +167,10 @@ public class ImageUploadDao extends BaseDao<UploadFile> {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
 				PreparedStatement ps = connection.prepareStatement(
-						"insert into file (id, file) values (?,?) " + "on duplicate key update file = values(file)",
+						"insert into file (id, file) values (?,?,?) " + "on duplicate key update file = values(file)",
 						new String[] { "id" });
 				ps.setLong(1, image.getId());
-				ps.setBlob(2, image.getData());
+				ps.setBinaryStream(2, new ByteArrayInputStream(image.getData()));
 				return ps;
 			}
 		};

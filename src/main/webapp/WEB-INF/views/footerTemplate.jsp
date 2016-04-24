@@ -162,6 +162,27 @@
 
 
 <%
+	String eventDeletion = request.getAttribute("eventDeletion") != null
+			? (String) request.getAttribute("eventDeletion")
+			: "";
+
+	if (eventDeletion.equals("true")) {
+%>
+<jsp:include page="deleteEventModal.jsp" />
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('#eventDeletion').modal('show');
+
+	});
+</script>
+
+<%
+	}
+%>
+
+
+<%
 	String jobCreation = request.getAttribute("jobCreation") != null
 			? (String) request.getAttribute("jobCreation")
 			: "";
@@ -180,3 +201,25 @@
 <%
 	}
 %>
+
+
+<%
+	String jobDeletion = request.getAttribute("jobDeletion") != null
+			? (String) request.getAttribute("jobDeletion")
+			: "";
+
+	if (jobDeletion.equals("true")) {
+%>
+<jsp:include page="deleteJobModal.jsp" />
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('#jobDeletion').modal('show');
+
+	});
+</script>
+
+<%
+	}
+%>
+

@@ -27,20 +27,23 @@
 		<div class="content container">
 			<div class="content container content-container">
 				<div class="page-wrapper table-container ben-container">
-					<header class="page-heading clearfix"> <%
- 	if (request.getAttribute("photo") == null) {
- %> <img id="profile-pic"
-						src="/Alumni-Tracker/content/img/empty-profile.png"
-						alt="Profile Picture"> <%
- 	} else {
- %> <img id="profile-pic"
-						src="/Alumni-Tracker/getImage/<%=photo.getId()%>.jpeg">
-					<div class="page-wrapper table-container ben-container">
-						<header class="page-heading clearfix"> <img
-							id="profile-pic"
-							src="/Alumni-Tracker/content/img/empty-profile.png"> <%
- 	}
- %>
+					<header class="page-heading clearfix"> 
+					<%
+ 						if (request.getAttribute("photo") == null) {
+ 					%> 
+ 						<img id="profile-pic"
+							src="/Alumni-Tracker/content/img/empty-profile.png"
+							alt="Profile Picture"> 
+					<%
+ 						} else {
+					 %> 
+						<header class="page-heading clearfix"> 
+						<img id="profile-pic"
+							src="/Alumni-Tracker/getImage/<%=photo.getProfile().getId()%>.do" 
+							alt="Profile Picture" width="128" height="128">
+					<%
+ 						}
+ 					%>
 						<h1 class="heading-title">
 							<%=profileUser.getFirstName()%>
 							<%=profileUser.getLastName()%></h1>

@@ -138,9 +138,10 @@ public class FileUploadController extends BaseController {
 			// "notes"));
 			// file.setType(multipartFile.getContentType());
 			byte[] bytes = file.getBytes();
-			Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-			fileObj.setData((com.mysql.jdbc.Blob) blob);
-			getUserDao().addMultiple(fileObj.getFileName());
+			fileObj.setData(bytes);
+			//Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+			//fileObj.setData((com.mysql.jdbc.Blob) blob);
+			getFileUploadDao().addFile(fileObj);
 		}
 
 		// model.addAttribute("active", "index");

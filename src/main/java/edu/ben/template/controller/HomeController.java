@@ -682,14 +682,13 @@ public class HomeController extends BaseController {
 			@RequestParam("date") String dateStr, @RequestParam("description") String description,
 			@RequestParam("location") String location, @RequestParam("startTime") String startTime,
 
-			@RequestParam("endTime") String endTime,
-			@RequestParam(value = "public", required = false) boolean isPublic/*
-																				 * , @ModelAttribute
-																				 * (
-																				 * "editEvent")
-																				 * Event
-																				 * editEvent
-																				 */) {
+	@RequestParam("endTime") String endTime, @RequestParam(value = "public", required = false) boolean isPublic/*
+																												 * , @ModelAttribute
+																												 * (
+																												 * "editEvent")
+																												 * Event
+																												 * editEvent
+																												 */) {
 
 		Date currentDate = new Date(System.currentTimeMillis());
 
@@ -1373,7 +1372,6 @@ public class HomeController extends BaseController {
 	 * @throws SerialException
 	 */
 
-
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
 	public String edit(Model model, @PathVariable Long id, @RequestParam("title") String title,
 			@RequestParam("fName") String firstName, @RequestParam("lName") String lastName,
@@ -1386,7 +1384,6 @@ public class HomeController extends BaseController {
 			@RequestParam("thirdMinor") String thirdMinor, @RequestParam("password") String password,
 			@RequestParam("confirmPassword") String confirmPassword, @RequestParam("resume") MultipartFile resume,
 			@RequestParam("profile") MultipartFile profile) throws IOException, SerialException, SQLException {
-
 
 		if (validateEditFormSubmission(password, confirmPassword, firstName, lastName, personalEmail)
 				&& Validator.validatePassword(password, false)) {
@@ -1425,7 +1422,9 @@ public class HomeController extends BaseController {
 				profileUser.addMinor(getMajorDao().getByName(thirdMinor));
 			}
 
-			if (!title.equals("Select") && !getTitleDao().getObjectByName(title).equals(null)) {
+			if (title.equals("Select")) {
+				profileUser.setTitleID(-1);
+			} else if (!title.equals("Select") && !getTitleDao().getObjectByName(title).equals(null)) {
 				profileUser.setTitleID(getTitleDao().getObjectByName(title).getId());
 			}
 			//
@@ -1553,8 +1552,7 @@ public class HomeController extends BaseController {
 			// getFileUploadDao().addFile(uploadFile);
 			// }
 			// }
-			
-		
+
 			// TODO PLACE FILE HERE
 
 			getInterestDao().clearUserInterest(profileUser);
@@ -1643,10 +1641,8 @@ public class HomeController extends BaseController {
 		if (!Validator.validateEmail(personalEmail, false))
 			error.put("fName", "Invalid Email Address");
 
-
 		getInterestDao().clearUserInterest(profileUser);
 		profileUser.clearInterest();
-
 
 		for (String newInterest : interests) {
 			try {
@@ -1657,7 +1653,6 @@ public class HomeController extends BaseController {
 
 			}
 		}
-
 
 		profileUser.setSuffix(suffix);
 		profileUser.setOccupation(occupation);

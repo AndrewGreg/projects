@@ -101,7 +101,6 @@
 										<td align="center"><%=major%></td>
 										<td align="center"><%=alumni.get(i).getGraduationYear()%></td>
 									</tr>
-
 									<%
 										}
 										}

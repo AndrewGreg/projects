@@ -7,7 +7,11 @@ insert into reason (id,name) values (2,"Curriculum Change");
 insert into reason (id,name) values (3,"Finnancial");
 
 INSERT INTO `user` (`id`, `title_id`, `bnumber`, `email`, `personal_email`, `password`, `salt`, `first_name`, `last_name`, `role`, `graduation_year`, `occupation`, `suffix`, `biography`, `experience`, `hidden`, `active`, `created`, `last_active`, `last_modified`, `social_media`, `phone_number`)
+<<<<<<< HEAD
 VALUES (1, 1, 2160102, 'example@ben.edu', 'example@yahoo.com',        'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Chris', 'Detloff',   2, 1999, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(297)528-1989'),
+=======
+VALUES (1, 1, 2160102, 'example@ben.edu', 'example@yahoo.com',    'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Chris', 'Detloff',   2, 1999, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(297)528-1989'),
+>>>>>>> sprint
 	(2, 1, 2160102, 'example2@ben.edu', 'example2@yahoo.com',      'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Donald', 'Kirk',     2, 1999, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(414)616-3587'),
 	(3, 1, 2160102, 'alumni@ben.edu', 'alumniuser@yahoo.com',      'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Bob', 'Doe',         2, 2014, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(524)244-7345'),
 	(4, 1, 2160102, 'alumni2@ben.edu', 'alumniuser2@yahoo.com',    'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Joe', 'Chang',       2, 2004, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '(793)628-4031'),

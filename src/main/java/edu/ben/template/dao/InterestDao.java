@@ -73,6 +73,7 @@ public class InterestDao extends BaseDao<Interest> {
 		}
 	}
 
+
 	public ArrayList<Interest> getAllByUser(User u) {
 
 		List<Interest> interests = new ArrayList<Interest>();
@@ -173,6 +174,7 @@ public class InterestDao extends BaseDao<Interest> {
 			/* Probably should log this */
 		}
 	}
+
 
 	public void updateInterest(Interest interest) {
 

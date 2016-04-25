@@ -41,7 +41,7 @@ import edu.ben.template.model.User;
 import edu.ben.template.model.Validator;
 
 @Controller
-@SessionAttributes({ "editJob", "currentJob", "editEvent", "currentEvent", "profileUser"})
+@SessionAttributes({ "editJob", "currentJob", "editEvent", "currentEvent", "profileUser" })
 public class HomeController extends BaseController {
 
 	// Allows the password to be Hashed.
@@ -276,7 +276,6 @@ public class HomeController extends BaseController {
 			return "createJobTemplate";
 		}
 	}
-	
 
 	@RequestMapping(value = "/editAJob/{id}", method = RequestMethod.GET)
 	public String editAJob(Model model, @PathVariable Long id) {
@@ -493,7 +492,7 @@ public class HomeController extends BaseController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 			model.addAttribute("eventCreation", "true");
 
 			return "eventsTemplate";
@@ -630,30 +629,6 @@ public class HomeController extends BaseController {
 	 *            being passed in.
 	 * @return the page returning all the events being posted.
 	 */
-	@RequestMapping(value = "/events", method = RequestMethod.GET)
-	public String eventPostings(Model model) {
-
-		try {
-			ArrayList<Event> events = new ArrayList<Event>();
-			events = getEventDao().getAll();
-
-			model.addAttribute("events", events);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		model.addAttribute("active", "event");
-		return "events";
-	}
-
-	/**
-	 * Displays all events.
-	 * 
-	 * @param model
-	 *            being passed in.
-	 * @return the page returning all the events being posted.
-	 */
 	@RequestMapping(value = "/eventsTemplate", method = RequestMethod.GET)
 	public String events(Model model) {
 
@@ -668,7 +643,7 @@ public class HomeController extends BaseController {
 		}
 
 		return "eventsTemplate";
-	
+
 	}
 
 	@RequestMapping(value = "/newEvents/{id}", method = RequestMethod.GET)
@@ -686,13 +661,12 @@ public class HomeController extends BaseController {
 		return "eventSingle";
 
 	}
-	
+
 	@RequestMapping(value = "/deleteEvent", method = RequestMethod.POST)
 	public String deleteEvent(Model model, @ModelAttribute("currentEvent") Event currentEvent) {
 		getEventDao().deleteEvent(currentEvent.getId());
 		return "redirect:/eventsTemplate";
 	}
-	
 
 	/**
 	 * Access to the registration page.
@@ -964,7 +938,7 @@ public class HomeController extends BaseController {
 
 				ArrayList<Major> majorList = getMajorDao().getAll();
 				ArrayList<Title> titleList = getTitleDao().getAll();
-				
+
 				model.addAttribute("majorList", majorList);
 				model.addAttribute("titleList", titleList);
 
@@ -986,25 +960,22 @@ public class HomeController extends BaseController {
 
 //	@RequestMapping(value = "/massRegister", method = RequestMethod.POST)
 //	public String massRegistration(Model model, HttpServletRequest request, HttpServletResponse response,
-//			@RequestParam MultipartFile multiple) throws IOException, SerialException, SQLException {
+//			@RequestParam CommonsMultipartFile[] multiple) throws IOException, SerialException, SQLException {
 //
 //		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 //		MultipartFile multipartFile = multipartRequest.getFile("multiple");
-//		System.out.println(multiple);
-//		if(multiple.length > 0){
-//			UploadFile file = new UploadFile();
-//			file.setFileName(multipartFile.getOriginalFilename());
-//			// file.setNotes(ServletRequestUtils.getStringParameter(request,
-//			// "notes"));
-//			// file.setType(multipartFile.getContentType());
-//			if (file != null) {
-//				byte[] bytes = multipartFile.getBytes();
-//				Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-//				file.setData((com.mysql.jdbc.Blob) blob);
-//				getUserDao().addMultiple(file.getFileName());
-//			}
+//
+//		UploadFile file = new UploadFile();
+//		file.setFileName(multipartFile.getOriginalFilename());
+//		// file.setNotes(ServletRequestUtils.getStringParameter(request,
+//		// "notes"));
+//		// file.setType(multipartFile.getContentType());
+//		if (file != null) {
+//			byte[] bytes = multipartFile.getBytes();
+//			Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+//			file.setData((com.mysql.jdbc.Blob) blob);
+//			getUserDao().addMultiple(file.getFileName());
 //		}
-//		
 //		// model.addAttribute("active", "index");
 //		return "admin";
 //	}
@@ -1149,6 +1120,7 @@ public class HomeController extends BaseController {
 	 * @throws SerialException
 	 */
 
+
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
 	public String edit(Model model, @PathVariable Long id, @RequestParam("title") String title,
 			@RequestParam("fName") String firstName, @RequestParam("lName") String lastName,
@@ -1185,8 +1157,9 @@ public class HomeController extends BaseController {
 																	 * resume
 																	 */) throws IOException {
 
-		//VALIDATION
-		if (validateEditFormSubmission(password, confirmPassword, firstName, lastName, personalEmail) && Validator.validatePassword(password, false)) {
+
+		if (validateEditFormSubmission(password, confirmPassword, firstName, lastName, personalEmail)
+				&& Validator.validatePassword(password, false)) {
 
 			// User u = getUserDao().getObjectById(id);
 
@@ -1329,6 +1302,21 @@ public class HomeController extends BaseController {
 				}
 			}
 
+			// TODO PLACE FILE HERE
+
+			getInterestDao().clearUserInterest(u);
+			u.clearInterest();
+
+			for (String i : interests) {
+				try {
+					Interest interest = getInterestDao().getByName(i);
+					getInterestDao().addInterestToUser(u, interest);
+					u.addInterest(interest);
+				} catch (Exception e) {
+
+				}
+			}
+
 			if (validatePassword(password, confirmPassword)) {
 				u.setPassword(pwEncoder.encode(password));
 			}
@@ -1389,8 +1377,12 @@ public class HomeController extends BaseController {
 		if (!Validator.validatePasswordsMatch(password, confirmPassword))
 			error.put("password", "Passwords Must Match!");
 		else if (!Validator.isNull(password) && !Validator.validatePassword(password, false))
-			error.put("password", "Password Is Not Long Enough!");//TODO Change when regex does
-		
+
+			error.put("password", "Password Is Not Long Enough!");// TODO Change
+																	// when
+																	// regex
+																	// does
+
 		if (!Validator.validateName(firstName))
 			error.put("fName", "Invalid First Name");
 		if (!Validator.validateName(lastName))
@@ -1398,7 +1390,10 @@ public class HomeController extends BaseController {
 		if (!Validator.validateEmail(personalEmail, false))
 			error.put("fName", "Invalid Email Address");
 
-		
+
+
+
+
 		getInterestDao().clearUserInterest(u);
 		u.clearInterest();
 
@@ -1411,12 +1406,14 @@ public class HomeController extends BaseController {
 
 			}
 		}
-		
+
+
 		u.setSuffix(suffix);
 		u.setOccupation(occupation);
 		u.setBio(biography);
 		u.setExperience(experience);
-		
+
+
 		model.addAttribute("user", u);
 		model.addAttribute("majors", ma);
 		model.addAttribute("minors", mi);
@@ -1444,11 +1441,11 @@ public class HomeController extends BaseController {
 		return "jobsSingleTemplate";
 
 	}
-	
+
 	@RequestMapping(value = "/deleteJob", method = RequestMethod.POST)
 	public String deleteJob(Model model, @ModelAttribute("currentJob") Job currentJob) {
 		getJobDao().deleteJob(currentJob.getId());
-		return  "redirect:/jobs";
+		return "redirect:/jobs";
 	}
 
 	@RequestMapping(value = "/jobs", method = RequestMethod.GET)
@@ -1569,7 +1566,7 @@ public class HomeController extends BaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		model.addAttribute("active", "alumni");
 		return "alumni";
 	}
@@ -1742,5 +1739,4 @@ public class HomeController extends BaseController {
 				&& Validator.validateName(firstName) && Validator.validateName(lastName)
 				&& Validator.validateEmail(personalEmail, false));
 	}
-
 }

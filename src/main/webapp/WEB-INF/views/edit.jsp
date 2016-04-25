@@ -14,7 +14,8 @@
 	//if(request.getAttribute("photo") != null){
 	photo = (UploadFile) request.getAttribute("photo");
 	//}
-	User u = (User) request.getAttribute("user");
+	User u = (User) request.getAttribute("profileUser");
+	User currUser = (User) request.getAttribute("currUser");
 	Title title = (Title) request.getAttribute("title");
 	ArrayList<Major> m = (ArrayList<Major>) request.getAttribute("majors");
 	ArrayList<Major> mi = (ArrayList<Major>) request.getAttribute("minors");
@@ -44,12 +45,9 @@
 					<div class="panel-body">
 						<h3 class="text-center text-danger">Edit My Account</h3>
 						<h4 class="text-center"><%=u.getEmail()%></h4>
-<<<<<<< HEAD
+
 						<form action="/Alumni-Tracker/edit/<%=u.getId()%>" method="post" enctype="multipart/form-data">
-=======
-						<form action="/Alumni-Tracker/edit" method="post"
-							enctype="multipart/form-data">
->>>>>>> a8b2d0573ca1915996e729764364c5421b8e1d91
+
 							<%
 								if (errors != null && errors.get("title") != null) {
 							%>
@@ -178,7 +176,7 @@
 								<div class="ccol-xs-12 col-sm-3">
 									<div class="form-group">
 										<label class="control-label">Graduation Year:<%
-											if (u.getRole() == 1) {
+											if (u.getRole() == 1 || currUser.getRole() == 4) {
 										%>
 										</label>
 										<jsp:useBean id="today" class="java.util.Date" />
@@ -230,7 +228,7 @@
 								<div class="col-xs-12 col-sm-3">
 									<div class="form-group">
 										<label class="control-label">Major:<%
-											if (u.getRole() == 1) {
+											if (u.getRole() == 1 || currUser.getRole() == 4) {
 										%>
 										</label> <select class="form-control" name="major" id="major">
 											<option>Select</option>
@@ -280,7 +278,7 @@
 								<div class="col-xs-12 col-sm-3">
 									<div class="form-group">
 										<label class="control-label">Double Major:<%
-											if (u.getRole() == 1) {
+											if (u.getRole() == 1 || currUser.getRole() == 4) {
 										%>
 										</label> <select class="form-control" name="doubleMajor"
 											id="doubleMajor">
@@ -331,7 +329,7 @@
 								<div class="col-xs-12 col-sm-3">
 									<div class="form-group">
 										<label class="select-label">Third Major:<%
-											if (u.getRole() == 1) {
+											if (u.getRole() == 1 || currUser.getRole() == 4) {
 										%>
 										</label> <select class="form-control" name="thirdMajor"
 											id="thirdMajor">
@@ -366,8 +364,6 @@
 											}
 										%>
 									</div>
-
-<<<<<<< HEAD
 							</div>
 							
 							<%
@@ -383,7 +379,7 @@
 							<div class="col-xs-12 col-sm-4">
 								<div class="form-group">
 									<label class="control-label">Minor:<%
-											if (u.getRole()== 1) {
+											if (u.getRole()== 1 || currUser.getRole() == 4) {
 									%> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
 									</label> <select class="form-control" name="minor" id="minor">
 										<option>Select</option>
@@ -432,7 +428,7 @@
 							<div class="col-xs-12 col-sm-4">
 								<div class="form-group">
 									<label class="control-label">Double Minor:<%
-											if (u.getRole()== 1) {
+											if (u.getRole()== 1 || currUser.getRole() == 4) {
 									%> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
 									</label> <select class="form-control" name="secondMinor"
 										id="secondMinor">
@@ -482,7 +478,7 @@
 							<div class="col-xs-12 col-sm-4">
 								<div class="form-group">
 									<label class="select-label">Third Minor:<%
-											if (u.getRole()== 1) {
+											if (u.getRole()== 1 || currUser.getRole() == 4) {
 									%> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
 									</label> <select class="form-control" name="thirdMinor" id="thirdMinor">
 										<option>Select</option>
@@ -516,10 +512,9 @@
 									%>
 								</div>
 
-							</div>
-=======
+
 								</div>
->>>>>>> a8b2d0573ca1915996e729764364c5421b8e1d91
+
 
 
 								<%
@@ -555,7 +550,7 @@
 								<div class="col-sm-6" align="center">
 									<img src="/content/img/empty-profile.png"
 										class="avatar img-circle img-thumbnail" alt="profilePic">
-									<input type="file" name="profile" id="" value=""> <br>
+									<%-- <input type="file" name="profile" id="" value=""> <br>--%>
 								</div>
 							</div>
 							<br>
@@ -573,14 +568,11 @@
 								<div class="form-group">
 									<label class="control-label">Biography:</label>
 									<textarea type="text" class="form-control" name="biography"
-										id="biography" placeholder="Enter Biography" rows="5">
-										<%
+										id="biography" placeholder="Enter Biography" rows="5"><%
 											if (u.getBiography() != null) {
-										%><%=u.getBiography()%>
-										<%
+										%><%=u.getBiography()%><%
 											}
-										%>
-									</textarea>
+										%></textarea>
 								</div>
 							</div>
 
@@ -621,7 +613,7 @@
 										}
 										//}
 									%>
-									<input type="file" accept="image/jpeg" name="profile" id=""
+									 <input type="file" accept="image/jpeg" name="profile" id=""
 										value=""> <br>
 								</div>
 							</div>
@@ -670,14 +662,11 @@
 								<div class="form-group">
 									<label class="control-label">Experience:</label>
 									<textarea type="text" class="form-control" name="experience"
-										id="experience" placeholder="Enter Experience" rows="5">
-										<%
+										id="experience" placeholder="Enter Experience" rows="5"><%
 											if (u.getExperience() != null) {
-										%><%=u.getExperience()%>
-										<%
+										%><%=u.getExperience()%><%
 											}
-										%>
-									</textarea>
+										%></textarea>
 								</div>
 							</div>
 							<%

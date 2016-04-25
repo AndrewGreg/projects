@@ -205,12 +205,11 @@ public class MajorDao extends BaseDao<Major> {
 		for (int i = 0; i < u.getConcentration().size(); i++) {
 			addConcentrationToUser(u.getConcentration().get(i), u);
 		}
-		
 		for (int i = 0; i < u.getMinor().size(); i++) {
 			addMinorToUser(u.getMinor().get(i), u);
 		}
 	}
-	
+
 	// TODO Check with Prof. Pollack
 	public void updateMinorByUser(User u) {
 

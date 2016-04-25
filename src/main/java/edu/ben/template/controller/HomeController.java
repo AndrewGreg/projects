@@ -166,8 +166,15 @@ public class HomeController extends BaseController {
 		// HOURS 1 for part time, 2 for full time
 		// -1 for empty, -2 for error
 		int startingSalary = startSalary == null ? -1
-				: (startSalary.matches("[0-9]{1,}") ? Integer.parseInt(startSalary) : -2);
-		int endingSalary = endSalary == null ? -1 : (endSalary.matches("[0-9]{1,}") ? Integer.parseInt(endSalary) : -2);
+				: (startSalary.replace(",", "").replace("$", "").replace(" ", "").trim()
+						.matches("[0-9]{1,9}") ? Integer.parseInt(
+								startSalary.replace(",", "").replace("$", "").replace(" ", "").trim())
+								: -2);
+		int endingSalary = endSalary == null ? -1
+				: (endSalary.replace(",", "").replace("$", "").replace(" ", "").trim()
+						.matches("[0-9]{1,9}") ? Integer.parseInt(
+								endSalary.replace(",", "").replace("$", "").replace(" ", "").trim())
+								: -2);
 
 		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
 				&& description.matches(".{2,}") && location != null && location.matches(".{2,}")
@@ -900,10 +907,10 @@ public class HomeController extends BaseController {
 	}
 
 	@RequestMapping(value = "/deleteEvent", method = RequestMethod.POST)
-	public String deleteEvent(Model model, @ModelAttribute("currentEvent") Event currentEvent, 
+	public String deleteEvent(Model model, @ModelAttribute("currentEvent") Event currentEvent,
 			RedirectAttributes redirectAttrs) {
 		getEventDao().deleteEvent(currentEvent.getId());
-		//model.addAttribute("eventDeletion", "true");
+		// model.addAttribute("eventDeletion", "true");
 		redirectAttrs.addFlashAttribute("eventDeletion", "true");
 		return "redirect:/eventsTemplate";
 	}
@@ -1216,15 +1223,14 @@ public class HomeController extends BaseController {
 		return "registration";
 	}
 
-
-
 	@RequestMapping(value = "/getImage/{id}", method = RequestMethod.GET)
-	public void image(Model model, @PathVariable Long id, HttpServletResponse response) throws SQLException, IOException {
-		
-		if(getImageUploadDao().getObjectByUserId(id) != null){
+	public void image(Model model, @PathVariable Long id, HttpServletResponse response)
+			throws SQLException, IOException {
+
+		if (getImageUploadDao().getObjectByUserId(id) != null) {
 			UploadFile profilePic = getImageUploadDao().getObjectByUserId(id);
-			//response.setContentType("image/jpeg");
-			//byte[] buff = new byte[1024];
+			// response.setContentType("image/jpeg");
+			// byte[] buff = new byte[1024];
 			byte[] pic = profilePic.getData();
 			InputStream in1 = new ByteArrayInputStream(pic);
 			IOUtils.copy(in1, response.getOutputStream());
@@ -1242,11 +1248,12 @@ public class HomeController extends BaseController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-	public String editPost(Model model, @PathVariable Long id, HttpServletResponse response) throws SQLException, IOException {
+	public String editPost(Model model, @PathVariable Long id, HttpServletResponse response)
+			throws SQLException, IOException {
 		// User in session.
 		User u = getCurrentUser();
 		User profileUser = getUserDao().getObjectById(id);
-		if(getImageUploadDao().getObjectByUserId(id) != null){
+		if (getImageUploadDao().getObjectByUserId(id) != null) {
 			UploadFile profilePic = getImageUploadDao().getObjectByUserId(id);
 			model.addAttribute("photo", profilePic);
 		}
@@ -1344,7 +1351,7 @@ public class HomeController extends BaseController {
 			@RequestParam("experience") String experience, @RequestParam("interests") ArrayList<String> interests,
 			@RequestParam("minor") String minor, @RequestParam("secondMinor") String secondMinor,
 			@RequestParam("thirdMinor") String thirdMinor, @RequestParam("password") String password,
-			@RequestParam("confirmPassword") String confirmPassword,@RequestParam("resume") MultipartFile resume, 
+			@RequestParam("confirmPassword") String confirmPassword, @RequestParam("resume") MultipartFile resume,
 			@RequestParam("profile") MultipartFile profile) throws IOException, SerialException, SQLException {
 
 		// VALIDATION
@@ -1410,7 +1417,7 @@ public class HomeController extends BaseController {
 			} catch (Exception e) {
 
 			}
-			
+
 			if (!resume.isEmpty()) {
 				UploadFile fileObj = new UploadFile();
 				fileObj.setFileName(resume.getOriginalFilename());
@@ -1418,12 +1425,12 @@ public class HomeController extends BaseController {
 				// "notes"));
 				// file.setType(multipartFile.getContentType());
 				byte[] bytes = resume.getBytes();
-				if(getFileUploadDao().getObjectByUserId(id) != null){
+				if (getFileUploadDao().getObjectByUserId(id) != null) {
 					getFileUploadDao().updateFile(fileObj);
 				}
 				fileObj.setData(bytes);
-				//Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-				//fileObj.setData((com.mysql.jdbc.Blob) blob);
+				// Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+				// fileObj.setData((com.mysql.jdbc.Blob) blob);
 				getFileUploadDao().addFile(fileObj);
 			}
 
@@ -1436,19 +1443,20 @@ public class HomeController extends BaseController {
 				// file.setType(multipartFile.getContentType());
 				byte[] bytes = profile.getBytes();
 				fileObj.setData(bytes);
-				if(getImageUploadDao().getObjectByUserId(id) != null){
+				if (getImageUploadDao().getObjectByUserId(id) != null) {
 					getImageUploadDao().updateImage(fileObj);
-				}else{
+				} else {
 					getImageUploadDao().addImage(fileObj);
 				}
-				//Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-				//fileObj.setData((com.mysql.jdbc.Blob) blob);
-				
-				 // gets the right photo from the user that uploaded it
-				 //UploadFile photoFileObj = getImageUploadDao().getObjectByUserId(profileUser.getId());
-				 // sets the image id to the user
-//				 profileUser.setImageId(photoFileObj.getId());
-//				 System.out.println(profileUser.getImageId());
+				// Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+				// fileObj.setData((com.mysql.jdbc.Blob) blob);
+
+				// gets the right photo from the user that uploaded it
+				// UploadFile photoFileObj =
+				// getImageUploadDao().getObjectByUserId(profileUser.getId());
+				// sets the image id to the user
+				// profileUser.setImageId(photoFileObj.getId());
+				// System.out.println(profileUser.getImageId());
 			}
 
 			// file.setFilename(multipartFile.getOriginalFilename());
@@ -1651,7 +1659,7 @@ public class HomeController extends BaseController {
 	public String deleteJob(Model model, @ModelAttribute("currentJob") Job currentJob,
 			RedirectAttributes redirectAttrs) {
 		getJobDao().deleteJob(currentJob.getId());
-		//model.addAttribute("jobDeletion", "true");
+		// model.addAttribute("jobDeletion", "true");
 		redirectAttrs.addFlashAttribute("jobDeletion", "true");
 		return "redirect:/jobs";
 	}
@@ -1684,15 +1692,15 @@ public class HomeController extends BaseController {
 	 * @throws SQLException
 	 */
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-	public String userProfile(Model model, @PathVariable Long id, HttpServletResponse response) throws IOException, SQLException {
+	public String userProfile(Model model, @PathVariable Long id, HttpServletResponse response)
+			throws IOException, SQLException {
 
 		User profileUser = getUserDao().getObjectById(id);
-		
-		if(getImageUploadDao().getObjectByUserId(id) != null){
+
+		if (getImageUploadDao().getObjectByUserId(id) != null) {
 			UploadFile profilePic = getImageUploadDao().getObjectByUserId(id);
 			model.addAttribute("photo", profilePic);
 		}
-			
 
 		profileUser.setMajor(getMajorDao().getMajorByUser(profileUser));
 		profileUser.setConcentration(getMajorDao().getConcentrationByUser(profileUser));
@@ -1706,7 +1714,6 @@ public class HomeController extends BaseController {
 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.POST)
 	public String userProfileUpload(Model model) throws Exception {
-
 
 		return "userProfile";
 	}
@@ -1821,7 +1828,7 @@ public class HomeController extends BaseController {
 
 			ArrayList<User> allUser = new ArrayList<User>();
 			allUser = getUserDao().getAll();
-			
+
 			for (User users : allUser) {
 				users.setMajor(getMajorDao().getMajorByUser(users));
 				users.setConcentration(getMajorDao().getConcentrationByUser(users));
@@ -1904,10 +1911,10 @@ public class HomeController extends BaseController {
 	}
 
 	@RequestMapping(value = "/testimonial", method = RequestMethod.POST)
-	public String testimonials(@RequestParam(value = "testimonial", required = false) String testimonial, Model model,
+	public String testimonials(@RequestParam("testimonial") String testimonial, Model model,
 			RedirectAttributes redirectAttrs) {
 
-		if (testimonial != null && testimonial.matches(".{10, 999}")) {
+		if (testimonial != null && testimonial.matches(".{10,999}")) {
 			User currentUser = getCurrentUser();
 			Testimonial newComment = new Testimonial(testimonial, currentUser);
 

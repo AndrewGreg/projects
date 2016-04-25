@@ -73,7 +73,7 @@
 													? (jobs.get(i).getPoster().getFirstName() + " " + jobs.get(i).getPoster().getLastName())
 													: "N/A";
 
-									if (hours == 1) {
+									if (hours == 2) {
 										hoursDisplay = "Full-time";
 										//payDisplay = "Salary";
 									} else {

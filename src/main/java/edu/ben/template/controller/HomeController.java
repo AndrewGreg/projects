@@ -147,8 +147,18 @@ public class HomeController extends BaseController {
 			countJob++;
 		}
 
+		ArrayList<Testimonial> testimonials;
+
+		try {
+			testimonials = getTestimonialDao().getAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+			testimonials = new ArrayList<Testimonial>();
+		}
+
 		model.addAttribute("events", eventDisplay);
 		model.addAttribute("jobs", jobDisplay);
+		model.addAttribute("testimonials", testimonials);
 		model.addAttribute("active", "index");
 
 		return "indexTemplate";
@@ -1142,6 +1152,9 @@ public class HomeController extends BaseController {
 					register.setExperience(experience);
 				}
 
+				register.setActive(true);
+				register.setToPublic(1);
+				
 				// FIX THE SALT
 				register.setSalt(password);
 				register.setPassword(pwEncoder.encode(password));

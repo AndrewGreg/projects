@@ -55,4 +55,13 @@ public class Testimonial {
 		this.poster = poster;
 	}
 
+	public String getShortDescription() {
+
+		if (testimonial.length() > 250) {
+			return testimonial.substring(0, 247) + "...";
+		} else {
+			return testimonial;
+		}
+	}
+
 }

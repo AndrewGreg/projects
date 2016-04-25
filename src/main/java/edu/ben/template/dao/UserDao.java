@@ -11,6 +11,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 
+import edu.ben.template.model.Event;
 import edu.ben.template.model.User;
 
 public class UserDao extends BaseDao<User> {
@@ -56,9 +57,16 @@ public class UserDao extends BaseDao<User> {
 				+ "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
 		try {
+			Long title;
+			try {
+				title = user.getTitleID() != -1 ? user.getTitleID() : null;
+			} catch (NullPointerException nEx) {
+				title = null;
+			}
+
 			jdbcTemplate.update(sql,
 					new Object[] { user.getbNumber(), user.getEmail(), user.getPersonalEmail(), user.getPassword(),
-							user.getSalt(), user.getTitleID(), user.getFirstName(), user.getLastName(), user.getRole(),
+							user.getSalt(), title, user.getFirstName(), user.getLastName(), user.getRole(),
 							user.getGraduationYear(), user.getOccupation(), user.getCompany(), user.getSuffix(),
 							user.getBiography(), user.getExperience(), user.isHidden(), user.isActive(),
 
@@ -66,7 +74,7 @@ public class UserDao extends BaseDao<User> {
 							user.isAdminVerified(), user.isGraduateVerified(), user.isCurrentGraduateVerified(),
 							user.getGraduateSchool(), user.getToPublic(), user.getReference() });
 		} catch (Exception e) {
-			/* Probably want to log this */
+			e.printStackTrace();
 		}
 	}
 
@@ -335,6 +343,59 @@ public class UserDao extends BaseDao<User> {
 		}
 		return;
 
+	}
+
+	/**
+	 * Add User to the event list.
+	 * 
+	 * @param currentUser
+	 * @param event
+	 */
+	public boolean addRsvp(User currentUser, Event event) {
+		boolean attend = false;
+		String sql = "INSERT INTO rsvp (event_id,user_id) VALUES (?,?)";
+		try {
+
+			jdbcTemplate.update(sql, new Object[] { event.getId(), currentUser.getId() });
+
+			attend = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return attend;
+	}
+
+	/**
+	 * Delete user from event list.
+	 * 
+	 * @param user
+	 * @param event
+	 */
+	public boolean deleteRsvp(User user, Event event) {
+		boolean attend = false;
+
+		String sql = "DELETE FROM rsvp WHERE event_id =? AND user_id = ?";
+		try {
+			jdbcTemplate.update(sql, event.getId(), user.getId());
+			 attend = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return attend;
+	}
+
+	public ArrayList<User> getAllByEvent(Event event) {
+
+		List<User> rsvp = new ArrayList<User>();
+		String sql = SEARCH + "user JOIN rsvp on user.id = rsvp.user_id WHERE rsvp.event_id = ?";
+
+		try {
+			rsvp = jdbcTemplate.query(sql, new Object[] { event.getId() }, getRowMapper());
+			return (ArrayList<User>) rsvp;
+		} catch (EmptyResultDataAccessException e) {
+			/* Probably want to log this */
+			return null;
+		}
 	}
 
 	@Override

@@ -4,12 +4,24 @@
 <%@ page import="edu.ben.template.model.User"%>
 <%@ page import="java.util.HashMap"%>
 <%
-	HashMap<String, String> errors;
-	if (request.getAttribute("errors") != null) {
-		errors = (HashMap<String, String>) request.getAttribute("errors");
-	} else {
-		errors = new HashMap<String, String>();
-	}
+HashMap<String, String> errors;
+if (request.getAttribute("errors") != null) {
+	errors = (HashMap<String, String>) request.getAttribute("errors");
+} else {
+	errors = new HashMap<String, String>();
+}
+
+String name = (request.getParameter("name") == null) ? "" : (String) request.getParameter("name");
+String company = (request.getParameter("company") == null) ? "" : (String) request.getParameter("company");
+String description = (request.getParameter("description") == null) ? ""
+		: (String) request.getParameter("description");
+String location = (request.getParameter("location") == null) ? ""
+		: (String) request.getParameter("location");
+String startSalary = (request.getParameter("startSalary") == null) ? ""
+		: (String) request.getParameter("startSalary");
+String endSalary = (request.getParameter("endSalary") == null) ? ""
+		: (String) request.getParameter("endSalary");
+String hours = (request.getParameter("hours") == null) ? "" : (String) request.getParameter("hours");
 %>
 
 <%
@@ -22,379 +34,218 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Edit a Job</title>
-
+<title>Edit a Job Posting</title>
 <jsp:include page="headerTemplate.jsp" />
 </head>
 <body>
-
- <div class="wrapper">
+	<div class="wrapper">
 		<jsp:include page="navBarTemplate.jsp" />
 
 		<!-- ******CONTENT****** -->
-		<div class="content container">
-			<div class="page-wrapper">
-				<header class="page-heading clearfix">
-				<h1 class="heading-title pull-left" style="color: white">Edit
-					a Job</h1>
+		<div class="content container content-container">
+			<div class="page-wrapper ben-container">
+				<header class="page-heading clearfix pageHeading">
+				<h1 class="heading-title pull-left">Edit a Job Posting</h1>
 				<div class="breadcrumbs pull-right">
 					<ul class="breadcrumbs-list">
 						<li class="breadcrumbs-label">You are here:</li>
 						<li><a href="/Alumni-Tracker/">Home</a><i class="fa fa-angle-right"></i></li>
 						<li><a href="/Alumni-Tracker/jobs">Jobs</a><i class="fa fa-angle-right"></i></li>
-						<li class="current" style="color: white">Edit a Job</li>
+						<li class="current">Edit Job</li>
 					</ul>
 				</div>
 				<!--//breadcrumbs--> </header>
-				<div class="container">
-					<div class="row">
-						<article class="contact-form col-md-8 col-sm-7  page-row">
-						<form action="/Alumni-Tracker/editAJob" method="POST"
-							name="editAJob">
+				<br>
+				<div class="row">
+					<div class="col-md-6 col-md-offset-3">
+						<form action="/Alumni-Tracker/editAJob/<%=editJob.getId() %>" method="POST" name="createJob">
 
-							<%
-								String name = (request.getParameter("name") == null) ? "" : (String) request.getParameter("name");
-								String company = (request.getParameter("company") == null) ? "" : (String) request.getParameter("company");
-								String description = (request.getParameter("description") == null) ? ""
-										: (String) request.getParameter("description");
-								String location = (request.getParameter("location") == null) ? "" : (String) request.getParameter("location");
-								String startSalary = (request.getParameter("startSalary") == null) ? "" : (String) request.getParameter("startSalary");
-								String endSalary = (request.getParameter("endSalary") == null) ? "" : (String) request.getParameter("endSalary");
-								String startWage = (request.getParameter("startWage") == null) ? "" : (String) request.getParameter("startWage");
-								String endWage = (request.getParameter("endWage") == null) ? "" : (String) request.getParameter("endWage");
-								String hours = (request.getParameter("hours") == null) ? "" : (String) request.getParameter("hours");
-								String startDate = (request.getParameter("startDate") == null) ? "" : (String) request.getParameter("startDate");
-								String endDate = (request.getParameter("endDate") == null) ? "" : (String) request.getParameter("endDate");
-							%>
+							<div class="row">
+								<!-- Input control group -->
+								<div class="form-group col-sm-12">
+									<!-- Title -->
+									<label class="control-label" for="name">*Job Name:</label>
+									<div class="controls">
+										<input type="text" id="name" name="name" placeholder="Name"
+											class="form-control" value="<%=editJob.getName()%>" autofocus>
 
+										<%
+											if (errors.get("name") != null) {
+										%>
 
-							<div class="form-group col-sm-6">
-								<label style="color: white">Job Name* </label><input type="text"
-									class="form-control" name="name" value="<%=editJob.getName()%>" required>
+										<span class="help-block" style="color: #e60000"> <%=errors.get("name")%></span>
 
-								<%
-									if (errors.get("name") != null) {
-								%>
-
-								<h6 style="color: red"><%=errors.get("name")%></h6>
-
-								<%
-									}
-								%>
-							</div>
-
-							<div class="form-group col-sm-6">
-								<label style="color: white">Company* </label><input type="text"
-									class="form-control" name="company" value="<%=editJob.getCompany()%>"
-									required>
-
-								<%
-									if (errors.get("company") != null) {
-								%>
-
-								<h6 style="color: red"><%=errors.get("company")%></h6>
-
-								<%
-									}
-								%>
-							</div>
-
-							<div class="form-group col-sm-6">
-								<label style="color: white">Location* </label><input type="text"
-									class="form-control" name="location" value="<%=location%>"
-									required>
-
-								<%
-									if (errors.get("location") != null) {
-								%>
-
-								<h6 style="color: red"><%=errors.get("location")%></h6>
-
-								<%
-									}
-								%>
-							</div>
-							
-							<div class="form-group col-sm-6">
-								<label style="color: white">Hours*(Enter Full Time as 1, Part Time as 2) </label><input type="text"
-									class="form-control" name="hours" value="<%=hours%>"
-									required>
-
-								<%
-									if (errors.get("hours") != null) {
-								%>
-
-								<h6 style="color: red"><%=errors.get("hours")%></h6>
-
-								<%
-									}
-								%>
-							</div>
-							
-							<div class="form-group col-sm-3">
-								<label style="color: white">Start Salary</label><input type="text"
-									class="form-control" name="startSalary" value="<%=startSalary%>"
-									required>
-
-								<%
-									if(request.getParameter("hours") != null){
-										if(request.getParameter("hours").equals("1")){
-											if (errors.get("startSalary") != null) {
-	
-								%>
-
-								<h6 style="color: red"><%=errors.get("startSalary")%></h6>
-
-								<%
+										<%
 											}
-										}
-									}
-								%>
+										%>
+
+									</div>
+								</div>
+								<!-- /Input control group -->
 							</div>
-							
-							<div class="form-group col-sm-3">
-								<label style="color: white">End Salary</label><input type="text"
-									class="form-control" name="endSalary" value="<%=endSalary%>"
-									required>
-								<%
-									if(request.getParameter("hours") != null){
-										if(request.getParameter("hours").equals("1")){
-											if (errors.get("endSalary") != null) {
-								%>
+							<br>
+							<div class="row">
+								<!-- Input control group -->
+								<div class="form-group col-sm-6">
+									<!-- Title -->
+									<label class="control-label" for="company">*Company:</label>
+									<div class="controls">
+										<input type="text" id="company" name="company"
+											placeholder="Company" class="form-control"
+											value="<%=editJob.getCompany()%>">
 
-								<h6 style="color: red"><%=errors.get("endSalary")%></h6>
+										<%
+											if (errors.get("company") != null) {
+										%>
 
-								<%
+										<span class="help-block" style="color: #e60000"> <%=errors.get("company")%></span>
+
+										<%
 											}
-										}
-									}
-								%>
-							</div>
-							
-							<div class="form-group col-sm-3">
-								<label style="color: white">Start Wage</label><input type="text"
-									class="form-control" name="startWage" value="<%=startWage%>"
-									required>
+										%>
 
-								<%
-									if(request.getParameter("hours") != null){
-										if(request.getParameter("hours").equals("2")){
-											if (errors.get("startWage") != null) {
-								%>
+									</div>
+								</div>
+								<!-- /Input control group -->
 
-								<h6 style="color: red"><%=errors.get("startWage")%></h6>
+								<!-- Input control group -->
+								<div class="form-group col-sm-6">
+									<!-- Title -->
+									<label class="control-label" for="location">*Location:</label>
+									<div class="controls">
+										<input type="text" id="location" name="location"
+											placeholder="Location" class="form-control"
+											value="<%=location%>">
 
-								<%
+										<%
+											if (errors.get("location") != null) {
+										%>
+
+										<span class="help-block" style="color: #e60000"> <%=errors.get("location")%></span>
+
+										<%
 											}
-										}
-									}
-								%>
+										%>
+
+									</div>
+								</div>
+								<!-- /Input control group -->
 							</div>
-							
-							<div class="form-group col-sm-3">
-								<label style="color: white">End Wage</label><input type="text"
-									class="form-control" name="endWage" value="<%=endWage%>"
-									required>
+							<br>
+							<div class="row">
+								<div class="form-group col-sm-6">
+									<!-- Input control group -->
 
-								<%
-									if(request.getParameter("hours") != null){
-										if(request.getParameter("hours").equals("2")){
-											if (errors.get("endWage") != null) {
-								%>
+									<!-- Title -->
+									<label class="control-label" for="hours">*Hours:</label>
+									<div class="controls">
+										<select name="hours" class="form-control" required>
+											<option value="1">Part-time</option>
+											<option value="2">Full-time</option>
+										</select>
+										<%
+											if (errors.get("hours") != null) {
+										%>
 
-								<h6 style="color: red"><%=errors.get("endWage")%></h6>
+										<span class="help-block" style="color: #e60000"> <%=errors.get("hours")%></span>
 
-								<%
+										<%
 											}
-										}
-									}
-								%>
-							</div>
-							
-							
-							
-							<div class="form-group col-sm-3">
-								<label style="color: white">Start Date*</label><input type="text"
-									class="form-control" name="startDate" value="<%=startDate%>"
-									required>
+										%>
+									</div>
+									<br>
+									<!-- /Input control group -->
+								</div>
+
+								<div class="form-group col-sm-3">
+									<!-- Input control group -->
+									<label class="control-label" for="startSalary">Start
+										Salary:</label>
+									<div class="controls">
+										<input type="number" id="startSalary" name="startSalary"
+											placeholder="$" class="form-control" value="<%=startSalary%>"
+											min="0" step="500" pattern="[0-9].">
+									</div>
+
+									<!-- /Input control group -->
+								</div>
+
+								<div class="form-group col-sm-3">
+									<!-- Input control group -->
+									<label class="control-label" for="endSalary">End
+										Salary:</label>
+									<div class="controls">
+										<input type="number" id="endSalary" name="endSalary"
+											placeholder="$" class="form-control" value="<%=endSalary%>"
+											min="0" step="500" pattern="[0-9].">
+									</div>
+
+									<!-- /Input control group -->
+								</div>
 
 								<%
-									if (errors.get("startDate") != null) {
+									if (errors.get("salary") != null) {
 								%>
 
-								<h6 style="color: red"><%=errors.get("startDate")%></h6>
-
-								<%
-									}
-								%>
-							</div>
-							
-							<div class="form-group col-sm-3">
-								<label style="color: white">End Date*</label><input type="text"
-									class="form-control" name="endDate" value="<%=endDate%>"
-									required>
-
-								<%
-									if (errors.get("endDate") != null) {
-								%>
-
-								<h6 style="color: red"><%=errors.get("endDate")%></h6>
-
-								<%
-									}
-								%>
-							</div>
-							
-							<div class="form-group col-sm-12">
-								<label style="color: white">Description </label>
-								<textarea class="form-control" rows="8" name="description"></textarea>
-
-								<%
-									if (errors.get("description") != null) {
-								%>
-
-								<h6 style="color: red"><%=errors.get("description")%></h6>
+								<span class="help-block" style="color: #e60000"> <%=errors.get("salary")%></span>
 
 								<%
 									}
 								%>
-
-								<br>
-								<button type="reset" class="btn btn-danger">Clear</button>
-								<button type="submit" class="btn btn-primary">Edit
-									posting</button>
 							</div>
+							<div class="row">
+								<!-- Input control group -->
+								<div class="form-group col-sm-12">
+									<!-- Title -->
+									<label class="control-label" for="description">*Description:</label>
+									<div class="controls">
+										<textarea rows="5" id="description" name="description"
+											placeholder="Job description and/or requirements."
+											class="form-control"><%=description%></textarea>
 
+										<%
+											if (errors.get("description") != null) {
+										%>
+
+										<span class="help-block" style="color: #e60000"> <%=errors.get("description")%></span>
+
+										<%
+											}
+										%>
+
+									</div>
+								</div>
+								<!-- /Input control group -->
+							</div>
+							<br>
+							<div class="row">
+								<!-- Input control group -->
+								<div class="form-group col-md-12">
+									<div class="checkbox">
+										<label> <input type="checkbox" name="public">
+											This is a public posting.
+										</label>
+										<div class="pull-right">
+											<button type="reset" class="btn btn-danger">Clear</button>
+											<button type="submit" class="btn btn-primary">Edit Job</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<br>
+							<div class="row">
+								<div class="col-md-4">
+									<span>* denotes required field.</span>
+								</div>
+							</div>
+							<br>
 						</form>
-						</article>
 					</div>
 				</div>
-
-			</div>
-		</div>
-	</div><!--//wrapper-->
-	<!-- ******FOOTER****** -->
-	<footer class="footer">
-	<div class="footer-content">
-		<div class="container">
-			<div class="row">
-				<div class="footer-col col-md-3 col-sm-4 about">
-					<div class="footer-col-inner">
-						<h3>About</h3>
-						<ul>
-							<li><a href="about.html"><i class="fa fa-caret-right"></i>About
-									us</a></li>
-							<li><a href="contact.html"><i class="fa fa-caret-right"></i>Contact
-									us</a></li>
-							<li><a href="privacy.html"><i class="fa fa-caret-right"></i>Privacy
-									policy</a></li>
-							<li><a href="terms-and-conditions.html"><i
-									class="fa fa-caret-right"></i>Terms & Conditions</a></li>
-						</ul>
-					</div>
-					<!--//footer-col-inner-->
-				</div>
-				<!--//foooter-col-->
-				<div class="footer-col col-md-6 col-sm-8 newsletter">
-					<div class="footer-col-inner">
-						<h3>Join our mailing list</h3>
-						<p>Subscribe to get our weekly newsletter delivered directly
-							to your inbox</p>
-						<form class="subscribe-form">
-							<div class="form-group">
-								<input type="email" class="form-control"
-									placeholder="Enter your email" />
-							</div>
-							<input class="btn btn-theme btn-subscribe" type="submit"
-								value="Subscribe">
-						</form>
-
-					</div>
-					<!--//footer-col-inner-->
-				</div>
-				<!--//foooter-col-->
-				<div class="footer-col col-md-3 col-sm-12 contact">
-					<div class="footer-col-inner">
-						<h3>Contact us</h3>
-						<div class="row">
-							<p class="adr clearfix col-md-12 col-sm-4">
-								<i class="fa fa-map-marker pull-left"></i> <span
-									class="adr-group pull-left"> <span
-									class="street-address">Benedictine University</span><br> <span
-									class="region">5700 College Rd</span><br> <span
-									class="postal-code">60532</span><br> <span
-									class="country-name">United States</span>
-								</span>
-							</p>
-							<p class="tel col-md-12 col-sm-4">
-								<i class="fa fa-phone"></i>(630) 829-6000
-							</p>
-							<p class="email col-md-12 col-sm-4">
-								<i class="fa fa-envelope"></i><a href="#">benedictine@university.com</a>
-							</p>
-						</div>
-					</div>
-					<!--//footer-col-inner-->
-				</div>
-				<!--//foooter-col-->
 			</div>
 		</div>
 	</div>
-	<!--//footer-content-->
-	<div class="bottom-bar">
-		<div class="container">
-			<div class="row">
-				<small class="copyright col-md-6 col-sm-12 col-xs-12">Copyright
-					@ 2014 College Green Online | Website template by <a href="#">3rd
-						Wave Media</a>
-				</small>
-				<ul class="social pull-right col-md-6 col-sm-12 col-xs-12">
-					<li><a href="https://twitter.com/BenU1887" target="_blank"><i
-							class="fa fa-twitter"></i></a></li>
-					<li><a href="https://www.facebook.com/BenedictineUniversity/"
-						target="_blank"><i class="fa fa-facebook"></i></a></li>
-					<li><a href="https://www.youtube.com/user/benu1887"
-						target="_blank"><i class="fa fa-youtube"></i></a></li>
-					<li><a
-						href="https://www.linkedin.com/company/benedictine-university"
-						target="_blank"><i class="fa fa-linkedin"></i></a></li>
-					<li><a
-						href="https://plus.google.com/113106216606814236277/posts"
-						target="_blank"><i class="fa fa-google-plus"></i></a></li>
-					<li><a href="https://www.instagram.com/benu1887/"
-						target="_blank"><i class="fa fa-instagram"></i></a></li>
-					<li class="row-end"><a href="https://www.ben.edu"
-						target="_blank"><i class="fa fa-university"></i></a></li>
-				</ul>
-				<!--//social-->
-			</div>
-			<!--//row-->
-		</div>
-		<!--//container-->
-	</div>
-	<!--//bottom-bar--> </footer>
-	<!--//footer-->
-
-	<!-- Javascript -->
-	<script type="text/javascript"
-		src="/Alumni-Tracker/content/templateAssets/assets/plugins/jquery-1.11.2.min.js"></script>
-	<script type="text/javascript"
-		src="/Alumni-Tracker/content/templateAssets/assets/plugins/jquery-migrate-1.2.1.min.js"></script>
-	<script type="text/javascript"
-		src="/Alumni-Tracker/content/templateAssets/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript"
-		src="/Alumni-Tracker/content/templateAssets/assets/plugins/bootstrap-hover-dropdown.min.js"></script>
-	<script type="text/javascript"
-		src="/Alumni-Tracker/content/templateAssets/assets/plugins/back-to-top.js"></script>
-	<script type="text/javascript"
-		src="/Alumni-Tracker/content/templateAssets/assets/plugins/jquery-placeholder/jquery.placeholder.js"></script>
-	<script type="text/javascript"
-		src="/Alumni-Tracker/content/templateAssets/assets/plugins/pretty-photo/js/jquery.prettyPhoto.js"></script>
-	<script type="text/javascript"
-		src="/Alumni-Tracker/content/templateAssets/assets/plugins/flexslider/jquery.flexslider-min.js"></script>
-	<script type="text/javascript"
-		src="/Alumni-Tracker/content/templateAssets/assets/plugins/jflickrfeed/jflickrfeed.min.js"></script>
-	<script type="text/javascript"
-		src="/Alumni-Tracker/content/templateAssets/assets/js/main.js"></script>
+	<!--//wrapper-->
+	<jsp:include page="footerTemplate.jsp" />
 </body>
 </html>

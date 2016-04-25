@@ -82,6 +82,7 @@ VALUES
 	(8, 'Nursing', 0),
 	(9, 'Fine Arts', 0),
 	(10, 'Music', 0);
+	
 
 
 INSERT INTO `event_interest` (`interest_id`, `event_id`)

@@ -17,7 +17,7 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.modal-header, h4, .close {
+.modal-header, .modalh4 , .close {
 	background-color: #444;
 	color: white !important;
 	text-align: center;
@@ -2451,4 +2451,10 @@ margin-left: 170px;
 
 #eventEndTime {
 	background-color: white;
+}
+
+#testimonialErrorMsg {
+color: #e60000;
+margin-left: 105px;
+margin-bottom: 80px;
 }

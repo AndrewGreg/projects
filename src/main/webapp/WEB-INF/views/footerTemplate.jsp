@@ -7,14 +7,14 @@
 					<div class="footer-col-inner">
 						<h3>About</h3>
 						<ul>
-							<li><a href="about.html"><i class="fa fa-caret-right"></i>About
-									us</a></li>
-							<li><a href="contact.html"><i class="fa fa-caret-right"></i>Contact
-									us</a></li>
-							<li><a href="privacy.html"><i class="fa fa-caret-right"></i>Privacy
-									policy</a></li>
-							<li><a href="terms-and-conditions.html"><i
-									class="fa fa-caret-right"></i>Terms & Conditions</a></li>
+							<li><a href="/Alumni-Tracker/content/img/BuMap.jpg"><i
+									class="fa fa-caret-right"></i>Campus Map</a></li>
+							<li><a href="/Alumni-Tracker/eventsTemplate"><i
+									class="fa fa-caret-right"></i>Events</a></li>
+							<li><a href="/Alumni-Tracker/jobsTemplate"><i
+									class="fa fa-caret-right"></i>Jobs</a></li>
+							<li><a href="/Alumni-Tracker/testimonialsList"><i
+									class="fa fa-caret-right"></i>Testimonials</a></li>
 						</ul>
 					</div>
 					<!--//footer-col-inner-->
@@ -162,6 +162,27 @@
 
 
 <%
+	String eventDeletion = request.getAttribute("eventDeletion") != null
+			? (String) request.getAttribute("eventDeletion")
+			: "";
+
+	if (eventDeletion.equals("true")) {
+%>
+<jsp:include page="deleteEventModal.jsp" />
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('#eventDeletion').modal('show');
+
+	});
+</script>
+
+<%
+	}
+%>
+
+
+<%
 	String jobCreation = request.getAttribute("jobCreation") != null
 			? (String) request.getAttribute("jobCreation")
 			: "";
@@ -173,6 +194,124 @@
 	$(document).ready(function() {
 
 		$('#jobCreation').modal('show');
+
+	});
+</script>
+
+<%
+	}
+%>
+
+
+<%
+	String jobDeletion = request.getAttribute("jobDeletion") != null
+			? (String) request.getAttribute("jobDeletion")
+			: "";
+
+	if (jobDeletion.equals("true")) {
+%>
+<jsp:include page="deleteJobModal.jsp" />
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('#jobDeletion').modal('show');
+	});
+</script>
+<%
+	}
+%>
+
+<%
+	String testimonialCreation = request.getAttribute("testimonialCreation") != null
+			? (String) request.getAttribute("testimonialCreation")
+			: "";
+
+	if (testimonialCreation.equals("true")) {
+%>
+<jsp:include page="testimonialCreationModal.jsp" />
+
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('#testimonialCreation').modal('show');
+	});
+</script>
+<%
+	}
+%>
+
+<%
+	String testimonialAttempt = request.getAttribute("testimonialAttempt") != null
+			? (String) request.getAttribute("testimonialAttempt")
+			: "";
+
+	if (testimonialAttempt.equals("failure")) {
+%>
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('#testimonialModal').modal('show');
+
+	});
+</script>
+
+<%
+	}
+%>
+
+<%
+	String addRsvp = request.getAttribute("addRsvp") != null ? (String) request.getAttribute("addRsvp") : "";
+
+	if (addRsvp.equals("true")) {
+%>
+
+<jsp:include page="rsvpAddModal.jsp" />
+
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('#addRsvp').modal('show');
+
+	});
+</script>
+
+<%
+	}
+%>
+
+
+<%
+	String rsvpListCheck = request.getAttribute("rsvpList") != null ? (String) request.getAttribute("rsvpList") : "";
+
+	if (rsvpListCheck.equals("true")) {
+%>
+
+<jsp:include page="rsvpList.jsp" />
+
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('#rsvpList').modal('show');
+
+	});
+</script>
+
+<%
+	}
+%>
+
+<%
+	String deleteRsvp = request.getAttribute("deleteRsvp") != null ? (String) request.getAttribute("deleteRsvp") : "";
+
+	if (deleteRsvp.equals("true")) {
+%>
+
+<jsp:include page="deleteRsvp.jsp" />
+
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('#deleteRsvp').modal('show');
 
 	});
 </script>

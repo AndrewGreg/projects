@@ -15,9 +15,8 @@ import com.mysql.jdbc.Blob;
 public class UploadFile {
     private long id;
     private String fileName;
-    private Blob data;
+    private byte[] data;
     private User profile;
-    private MultipartFile file;
 
 	
 
@@ -25,7 +24,7 @@ public class UploadFile {
     	super();
     }
  
-    public UploadFile(long id, String fileName, Blob data, User profile) {
+    public UploadFile(long id, String fileName, byte[] data, User profile) {
 		super();
 		this.id = id;
 		this.fileName = fileName;
@@ -54,12 +53,12 @@ public class UploadFile {
     }
  
     @Column(name = "FILE_DATA")
-    public Blob getData() {
+    public byte[] getData() {
         return data;
     }
  
-    public void setData(Blob data) {
-        this.data = data;
+    public void setData(byte[] bytes) {
+        this.data = bytes;
     }
     
     public User getProfile() {
@@ -70,11 +69,4 @@ public class UploadFile {
 		this.profile = profile;
 	}
 
-	public MultipartFile getFile() {
-		return file;
-	}
-
-	public void setFile(MultipartFile file) {
-		this.file = file;
-	}
 }

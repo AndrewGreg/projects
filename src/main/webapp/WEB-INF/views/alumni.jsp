@@ -82,12 +82,12 @@
 									<%
 										} else {
 											for (int i = 0; i < alumni.size(); i++) {
-
-												String firstName = alumni.get(i) != null && alumni.get(i).getFirstName() != null
+												if(alumni.get(i).isActive()){
+													String firstName = alumni.get(i) != null && alumni.get(i).getFirstName() != null
 														? alumni.get(i).getFirstName() : "N/A";
-												String lastName = alumni.get(i) != null && alumni.get(i).getLastName() != null
+													String lastName = alumni.get(i) != null && alumni.get(i).getLastName() != null
 														? alumni.get(i).getLastName() : "N/A";
-												String major = alumni.get(i) != null && alumni.get(i).getMajorAtIndex(0) != null
+													String major = alumni.get(i) != null && alumni.get(i).getMajorAtIndex(0) != null
 														&& alumni.get(i).getMajorAtIndex(0).getName() != null ? alumni.get(i).getFirstName()
 																: "N/A";
 									%>
@@ -102,7 +102,8 @@
 										<td align="center"><%=alumni.get(i).getGraduationYear()%></td>
 									</tr>
 									<%
-										}
+												}
+											}
 										}
 									%>
 								</tbody>
@@ -112,7 +113,7 @@
 								<ul class="pagination">
 									<%
 										int i = 0;
-										int count = (int) request.getAttribute("alumniCount");
+										int count = (Integer) request.getAttribute("alumniCount");
 										int pages = (count - 1) / 15;
 									%>
 									<%

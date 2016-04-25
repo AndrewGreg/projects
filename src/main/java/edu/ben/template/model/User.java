@@ -42,7 +42,7 @@ public class User implements UserDetails, CredentialsContainer {
 	private String password;
 	private String salt;
 
-	private long titleID;
+	private Long titleID;
 
 	private Long imageId;
 
@@ -129,12 +129,12 @@ public class User implements UserDetails, CredentialsContainer {
 	}
 
 	public User(String email, String personalEmail, Long id, int securityLevel, int bNumber, String password,
-			String salt, int titleID, long imageId, String firstName, String lastName, int role, int graduationYear,
+			String salt, Long titleID, long imageId, String firstName, String lastName, int role, int graduationYear,
 			String occupation, String company, String suffix, String biography, String experience, boolean hidden,
 			boolean active, DateTime created, DateTime lastActive, DateTime lastModified, String socialMedia,
-			String phoneNumber, String workNumber, boolean userVerified, boolean adminVerified, boolean graduateVerified,
-			boolean currentGraduateVerified, String graduateSchool, int toPublic, String reference,
-			DateTime lastLogin) {
+			String phoneNumber, String workNumber, boolean userVerified, boolean adminVerified,
+			boolean graduateVerified, boolean currentGraduateVerified, String graduateSchool, int toPublic,
+			String reference, DateTime lastLogin) {
 		super();
 		this.email = email;
 		this.personalEmail = personalEmail;
@@ -181,12 +181,12 @@ public class User implements UserDetails, CredentialsContainer {
 	}
 
 	public User(String email, String personalEmail, Long id, int securityLevel, int bNumber, String password,
-			String salt, int titleID, long imageId, String firstName, String lastName, int role, int graduationYear,
+			String salt, Long titleID, long imageId, String firstName, String lastName, int role, int graduationYear,
 			String occupation, String company, String suffix, String biography, String experience, boolean hidden,
 			boolean active, DateTime created, DateTime lastActive, DateTime lastModified, String socialMedia,
-			String phoneNumber, String workNumber, boolean userVerified, boolean adminVerified, boolean graduateVerified,
-			boolean currentGraduateVerified, String graduateSchool, int toPublic, String reference,
-			ArrayList<Major> major, ArrayList<Major> minor, ArrayList<Major> concentration,
+			String phoneNumber, String workNumber, boolean userVerified, boolean adminVerified,
+			boolean graduateVerified, boolean currentGraduateVerified, String graduateSchool, int toPublic,
+			String reference, ArrayList<Major> major, ArrayList<Major> minor, ArrayList<Major> concentration,
 			ArrayList<Interest> interest, DateTime lastLogin) {
 		super();
 		this.email = email;
@@ -342,7 +342,7 @@ public class User implements UserDetails, CredentialsContainer {
 	public void setTitleID(long titleID) {
 		this.titleID = titleID;
 	}
-	
+
 	public Long getImageId() {
 		return imageId;
 	}
@@ -786,13 +786,14 @@ public class User implements UserDetails, CredentialsContainer {
 		}
 		this.interest.add(interest);
 	}
-	
+
 	/**
 	 * Placeholder for a method to return the user's profile picture
+	 * 
 	 * @return profile picture of the user
 	 */
 	public Object getProfilePic() {
-		//TODO Design and implement this method
+		// TODO Design and implement this method
 		return null;
 	}
 

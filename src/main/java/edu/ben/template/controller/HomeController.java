@@ -1,5 +1,6 @@
 package edu.ben.template.controller;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,24 +18,35 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.rowset.serial.SerialException;
 
+import org.springframework.dao.TransientDataAccessResourceException;
+import org.apache.commons.io.IOUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
 import edu.ben.template.model.Event;
 import edu.ben.template.model.Interest;
 import edu.ben.template.model.Job;
 import edu.ben.template.model.Major;
+import edu.ben.template.model.Testimonial;
 import edu.ben.template.model.Title;
 import edu.ben.template.model.UploadFile;
 import edu.ben.template.model.User;
@@ -55,6 +67,21 @@ public class HomeController extends BaseController {
 	 *            is being passed in.
 	 */
 	public void sortUsers(ArrayList<User> user) {
+
+		Collections.sort(user, new Comparator<User>() {
+			@Override
+			public int compare(User o1, User o2) {
+				return o1.getFirstName().compareTo(o2.getFirstName());
+			}
+		});
+	}
+
+	/**
+	 * Sort all people in Rsvp List.
+	 * 
+	 * @param user
+	 */
+	public void sortRsvp(ArrayList<User> user) {
 
 		Collections.sort(user, new Comparator<User>() {
 			@Override
@@ -87,7 +114,7 @@ public class HomeController extends BaseController {
 	 * @return to the homepage template of Alumni Tracker.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String index(Model model) {
+	public String index(Model model) throws Exception {
 
 		ArrayList<Event> events;
 
@@ -125,6 +152,7 @@ public class HomeController extends BaseController {
 		model.addAttribute("active", "index");
 
 		return "indexTemplate";
+
 	}
 
 	@RequestMapping(value = "/createJobPosting", method = RequestMethod.GET)
@@ -156,8 +184,11 @@ public class HomeController extends BaseController {
 		// HOURS 1 for part time, 2 for full time
 		// -1 for empty, -2 for error
 		int startingSalary = startSalary == null ? -1
-				: (startSalary.matches("[0-9]{1,}") ? Integer.parseInt(startSalary) : -2);
-		int endingSalary = endSalary == null ? -1 : (endSalary.matches("[0-9]{1,}") ? Integer.parseInt(endSalary) : -2);
+				: (startSalary.replace(",", "").replace("$", "").replace(" ", "").trim().matches("[0-9]{1,9}")
+						? Integer.parseInt(startSalary.replace(",", "").replace("$", "").replace(" ", "").trim()) : -2);
+		int endingSalary = endSalary == null ? -1
+				: (endSalary.replace(",", "").replace("$", "").replace(" ", "").trim().matches("[0-9]{1,9}")
+						? Integer.parseInt(endSalary.replace(",", "").replace("$", "").replace(" ", "").trim()) : -2);
 
 		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
 				&& description.matches(".{2,}") && location != null && location.matches(".{2,}")
@@ -286,61 +317,135 @@ public class HomeController extends BaseController {
 		return "editJobTemplate";
 	}
 
-	@RequestMapping(value = "editAJob", method = RequestMethod.POST)
-	public String editAJobPost(Model model, @RequestParam("name") String name, @RequestParam("company") String company,
-			@RequestParam("description") String description, @RequestParam("location") String location,
-			@RequestParam("startSalary") int startSalary, @RequestParam("endSalary") int endSalary,
-			@RequestParam("startWage") float startWage, @RequestParam("endWage") float endWage,
-			@RequestParam("hours") int hours, @RequestParam("startDate") String startDate,
-			@RequestParam("endDate") String endDate, @ModelAttribute("editJob") Job editJob) {
+	@RequestMapping(value = "editAJob/{id}", method = RequestMethod.POST)
+	public String editAJobPost(Model model, @PathVariable Long id, @RequestParam("name") String name,
+			@RequestParam("company") String company, @RequestParam("location") String location,
+			@RequestParam("hours") int hours, @RequestParam("startSalary") String startSalary,
+			@RequestParam("endSalary") String endSalary, @RequestParam("description") String description,
+			@RequestParam(value = "public", required = false) boolean isPublic) {
+
+		// HOURS 1 for part time, 2 for full time
+		// -1 for empty, -2 for error
+		int startingSalary = startSalary == null ? -1
+				: (startSalary.matches("[0-9]{1,}") ? Integer.parseInt(startSalary) : -2);
+		int endingSalary = endSalary == null ? -1 : (endSalary.matches("[0-9]{1,}") ? Integer.parseInt(endSalary) : -2);
 
 		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
-				&& description.matches(".{2,}") && location != null && location.matches(".{2,}")) {
+				&& description.matches(".{2,}") && location != null && location.matches(".{2,}")
+				&& (hours == 1 || hours == 2) && startingSalary != -2 && endingSalary != -2) {
 
-			if (startSalary > 0 && endSalary > 0) {
-				editJob.setSalary(true);
-				editJob.setStart_salary(startSalary);
-				editJob.setEnd_salary(endSalary);
-				editJob.setStart_wage(0);
-				editJob.setEnd_wage(0);
+			User currentUser = getCurrentUser();
+			// (name, description, company, currentUser
+			Job editJob = getJobDao().getObjectById(id);
+			editJob.setName(name);
+			editJob.setDescription(description);
+			editJob.setCompany(company);
+
+			if (isPublic) {
+				editJob.setToPublic(1);
 			} else {
-				editJob.setSalary(false);
-				editJob.setStart_wage(startWage);
-				editJob.setEnd_wage(endWage);
-				editJob.setStart_salary(0);
-				editJob.setEnd_salary(0);
+				editJob.setToPublic(0);
 			}
+
+			editJob.setHours(hours);
+
+			if (startingSalary != -1 && endingSalary != -1 && startingSalary < endingSalary) {
+				editJob.setStart_salary(startingSalary);
+				editJob.setEnd_salary(endingSalary);
+			} else if (!(startingSalary < endingSalary)) {
+
+				HashMap<String, String> errors = new HashMap<String, String>();
+
+				if (name == null || !name.matches(".{2,}")) {
+					errors.put("name", "Input error on the job's name.");
+				}
+
+				if (company == null || !company.matches(".{2,}")) {
+					errors.put("company", "Input error on the job's company.");
+				}
+
+				if (description == null || !description.matches(".{2,}")) {
+					errors.put("description", "Input error on the job description.");
+				}
+
+				if (location == null || !location.matches(".{2,}")) {
+					errors.put("location", "Input error on the job's location.");
+				}
+
+				if (hours != 1 && hours != 2) {
+					errors.put("hours", "Input error on the job's work hours type.");
+				}
+
+				// -2 means error in the input
+				if (startingSalary == -2 || endingSalary == -2) {
+					errors.put("salary", "Input error on salaries.");
+				} else if (endingSalary < startingSalary) {
+					errors.put("salary", "Start salary must be less than the end salary.");
+				}
+
+				model.addAttribute("errors", errors);
+				model.addAttribute("active", "job");
+
+				return "editJobTemplate";
+			}
+
+			editJob.setLocation(location);
+
 			try {
 				getJobDao().updateJob(editJob);
-
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 
+			model.addAttribute("jobCreation", "true");
+
+			model.addAttribute("active", "job");
+
+			try {
+				ArrayList<Job> jobs = new ArrayList<Job>();
+				jobs = getJobDao().getAll();
+
+				model.addAttribute("jobs", jobs);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			model.addAttribute("active", "job");
 			return "redirect:/jobs";
+
 		} else {
+
 			HashMap<String, String> errors = new HashMap<String, String>();
 
 			if (name == null || !name.matches(".{2,}")) {
-				errors.put("name", "Error in the input for the job name.");
+				errors.put("name", "Input error on the job's name.");
 			}
 
 			if (company == null || !company.matches(".{2,}")) {
-				errors.put("company", "Error in the input for the job's company.");
-			}
-
-			if (location == null || !location.matches(".{2,}")) {
-				errors.put("location", "Error in the input for the job location.");
-			}
-			if (hours != 1 || hours != 2) {
-				errors.put("hours", "Error in the input for the job hours.");
+				errors.put("company", "Input error on the job's company.");
 			}
 
 			if (description == null || !description.matches(".{2,}")) {
-				errors.put("description", "Error in the input for the job description.");
+				errors.put("description", "Input error on the job description.");
+			}
+
+			if (location == null || !location.matches(".{2,}")) {
+				errors.put("location", "Input error on the job's location.");
+			}
+
+			if (hours != 1 && hours != 2) {
+				errors.put("hours", "Input error on the job's work hours type.");
+			}
+
+			// -2 means error in the input
+			if (startingSalary == -2 || endingSalary == -2) {
+				errors.put("salary", "Input error on salaries.");
+			} else if (endingSalary < startingSalary) {
+				errors.put("salary", "Start salary must be less than the end salary.");
 			}
 
 			model.addAttribute("errors", errors);
+			model.addAttribute("active", "job");
 
 			return "editJobTemplate";
 		}
@@ -568,52 +673,202 @@ public class HomeController extends BaseController {
 
 		model.addAttribute("editEvent", editEvent);
 
+		model.addAttribute("active", "event");
 		return "editEventTemplate";
 	}
 
-	@RequestMapping(value = "/editAnEvent", method = RequestMethod.POST)
-	public String editJobAPost(Model model, @RequestParam("name") String name, @RequestParam("company") String company,
-			@RequestParam("description") String description, @RequestParam("location") String location,
-			@RequestParam("date") String date, @ModelAttribute("editEvent") Event editEvent) {
+	@RequestMapping(value = "/editAnEvent/{id}", method = RequestMethod.POST)
+	public String editJobAPost(Model model, @PathVariable Long id, @RequestParam("name") String name,
+			@RequestParam("date") String dateStr, @RequestParam("description") String description,
+			@RequestParam("location") String location, @RequestParam("startTime") String startTime,
 
-		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
-				&& description.matches(".{2,}") && location != null && location.matches(".{2,}")) {
+			@RequestParam("endTime") String endTime,
+			@RequestParam(value = "public", required = false) boolean isPublic/*
+																				 * , @ModelAttribute
+																				 * (
+																				 * "editEvent")
+																				 * Event
+																				 * editEvent
+																				 */) {
 
-			String[] datePart = date.split("/");
+		Date currentDate = new Date(System.currentTimeMillis());
 
-			// Subtracted 1900 from year and 1 from month to offset the
+		if (name != null && name.matches(".{2,}") && description != null && description.matches(".{2,}")
+				&& location != null && location.matches(".{2,}") && dateStr != null
+				&& dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}") && startTime.matches("[0-9]{2}:[0-9]{2}")
+				&& endTime.matches("[0-9]{2}:[0-9]{2}")) {
+
+			int hour = 0;
+			int min = 1;
+
+			String[] startTDiv = startTime.split(":");
+			String[] endTDiv = endTime.split(":");
+
+			int startHour = Integer.parseInt(startTDiv[hour]);
+			int startMin = Integer.parseInt(startTDiv[min]);
+
+			int endHour = Integer.parseInt(endTDiv[hour]);
+			int endMin = Integer.parseInt(endTDiv[min]);
+
+			String[] datePart = dateStr.split("/");
+
+			// Subtracted 1900 from year and 1 from month to offset the //
 			// deprecated constructor
 			Date eventDate = new Date(Integer.parseInt(datePart[2]) - 1900, Integer.parseInt(datePart[0]) - 1,
 					Integer.parseInt(datePart[1]));
-			Date currentDate = new Date(System.currentTimeMillis());
+
+			// User u = getCurrentUser();
+			Event editEvent = getEventDao().getObjectById(id);
+
+			editEvent.setName(name);
+			editEvent.setDescription(description);
+			editEvent.setLocation(location);
+			// editEvent.setPoster(u);
+
+			// ERROR CHECK AFTER DATE FAILED
+			if (eventDate.compareTo(currentDate) <= 0) {
+
+				HashMap<String, String> errors = new HashMap<String, String>();
+
+				errors.put("date", "Error. The event's date must be after the current date.");
+
+				if (name == null || !name.matches(".{2,}")) {
+					errors.put("name", "Error in the input for the event name.");
+				}
+
+				if (location == null || !location.matches(".{2,}")) {
+					errors.put("location", "Error in the input for the events' location.");
+				}
+
+				if (description == null || !description.matches(".{2,}")) {
+					errors.put("description", "Error in the input for the event description.");
+				}
+
+				if ((startHour > endHour) || (startHour == endHour && startMin >= endMin)) {
+					errors.put("times", "Error. The event's starting time must happen before the ending time.");
+				}
+
+				model.addAttribute("errors", errors);
+
+				return "editEventTemplate";
+			}
+
+			// ERROR CHECK AFTER TIMES FAILED
+			if ((startHour > endHour) || (startHour == endHour && startMin >= endMin)) {
+
+				HashMap<String, String> errors = new HashMap<String, String>();
+
+				errors.put("times", "Error. The event's starting time must happen before the ending time.");
+
+				if (name == null || !name.matches(".{2,}")) {
+					errors.put("name", "Error in the input for the event name.");
+				}
+
+				if (location == null || !location.matches(".{2,}")) {
+					errors.put("location", "Error in the input for the event's location.");
+				}
+
+				if (description == null || !description.matches(".{2,}")) {
+					errors.put("description", "Error in the input for the event description.");
+				}
+
+				if (dateStr == null || !dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
+					errors.put("date", "Error in the input for the event's date.");
+				} else if (eventDate.compareTo(currentDate) <= 0) {
+					errors.put("date", "Error. The event's date must be after the current date.");
+				}
+
+				model.addAttribute("errors", errors);
+
+				return "editEventTemplate";
+
+			}
 
 			editEvent.setDate(eventDate);
+			editEvent.setStartTime(startTime);
+			editEvent.setEndTime(endTime);
+
+			if (isPublic) {
+				editEvent.setToPublic(1);
+			}
 
 			try {
 				getEventDao().updateEvent(editEvent);
-
 			} catch (Exception e) {
-
+				e.printStackTrace();
 			}
 
-			return "redirect:/events";
+			try {
+				ArrayList<Event> events = new ArrayList<Event>();
+				events = getEventDao().getAll();
+
+				model.addAttribute("events", events);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			model.addAttribute("eventCreation", "true");
+
+			return "eventsTemplate";
+
 		} else {
+
 			HashMap<String, String> errors = new HashMap<String, String>();
 
 			if (name == null || !name.matches(".{2,}")) {
-				errors.put("name", "Error in the input for the job name.");
-			}
-
-			if (company == null || !company.matches(".{2,}")) {
-				errors.put("company", "Error in the input for the job's company.");
+				errors.put("name", "Error in the input for the event name.");
 			}
 
 			if (location == null || !location.matches(".{2,}")) {
-				errors.put("location", "Error in the input for the event name.");
+				errors.put("location", "Error in the input for the events' location.");
 			}
 
 			if (description == null || !description.matches(".{2,}")) {
-				errors.put("description", "Error in the input for the job description.");
+				errors.put("description", "Error in the input for the event description.");
+			}
+
+			boolean nullDate = false;
+			if (dateStr == null || !dateStr.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
+				errors.put("date", "Error in the input for the event's date.");
+				nullDate = true;
+			}
+			if (!nullDate) {
+				String[] datePart = dateStr.split("/");
+				Date eventDate = null;
+				try {
+					eventDate = new Date(Integer.parseInt(datePart[2]) - 1900, Integer.parseInt(datePart[0]) - 1,
+							Integer.parseInt(datePart[1]));
+				} catch (Exception e) {
+					e.printStackTrace();
+
+					errors.put("date", "Invalid input for the event's date.");
+				}
+
+				if (eventDate == null || eventDate.compareTo(currentDate) <= 0) {
+					errors.put("date", "Error. The event's date must be after the current date.");
+				}
+			}
+
+			if (startTime == null || endTime == null || !startTime.matches("[0-9]{2}:[0-9]{2}")
+					|| !endTime.matches("[0-9]{2}:[0-9]{2}")) {
+				errors.put("times", "Invalid input for start time and/or end time.");
+			} else {
+				int hour = 0;
+				int min = 1;
+
+				String[] startTDiv = startTime.split(":");
+				String[] endTDiv = endTime.split(":");
+
+				int startHour = Integer.parseInt(startTDiv[hour]);
+				int startMin = Integer.parseInt(startTDiv[min]);
+
+				int endHour = Integer.parseInt(endTDiv[hour]);
+				int endMin = Integer.parseInt(endTDiv[min]);
+
+				if ((startHour > endHour) || (startHour == endHour && startMin >= endMin)) {
+					errors.put("times", "Error. The event's starting time must happen before the ending time.");
+				}
 			}
 
 			model.addAttribute("errors", errors);
@@ -642,6 +897,7 @@ public class HomeController extends BaseController {
 			e.printStackTrace();
 		}
 
+		model.addAttribute("active", "event");
 		return "eventsTemplate";
 
 	}
@@ -650,6 +906,8 @@ public class HomeController extends BaseController {
 	public String eventSingle(Model model, @PathVariable Long id) {
 
 		try {
+			// Arraylist<Event> e = getEventDao().getAllByUser(getCurrentUser(),
+			// event);
 
 			Event currentEvent = getEventDao().getObjectById(id);
 			model.addAttribute("currentEvent", currentEvent);
@@ -658,14 +916,52 @@ public class HomeController extends BaseController {
 			e.printStackTrace();
 		}
 
+		model.addAttribute("active", "event");
 		return "eventSingle";
 
 	}
 
 	@RequestMapping(value = "/deleteEvent", method = RequestMethod.POST)
-	public String deleteEvent(Model model, @ModelAttribute("currentEvent") Event currentEvent) {
+	public String deleteEvent(Model model, @ModelAttribute("currentEvent") Event currentEvent,
+			RedirectAttributes redirectAttrs) {
 		getEventDao().deleteEvent(currentEvent.getId());
+		// model.addAttribute("eventDeletion", "true");
+		redirectAttrs.addFlashAttribute("eventDeletion", "true");
 		return "redirect:/eventsTemplate";
+	}
+
+	@RequestMapping(value = "/addRsvp", method = RequestMethod.GET)
+	public String addRsvp(Model model, @ModelAttribute("currentUser") User currentUser,
+			@ModelAttribute("currentEvent") Event currentEvent, RedirectAttributes redirectAttrs)
+					throws MySQLIntegrityConstraintViolationException {
+
+		getUserDao().addRsvp(currentUser, currentEvent);
+
+		redirectAttrs.addFlashAttribute("addRsvp", "true");
+
+		return "redirect:/newEvents/" + currentEvent.getId();
+	}
+
+	@RequestMapping(value = "/deleteRsvp", method = RequestMethod.GET)
+	public String deleteRsvp(Model model, @ModelAttribute("currentUser") User currentUser,
+			@ModelAttribute("currentEvent") Event currentEvent, RedirectAttributes redirectAttrs) {
+
+		getUserDao().deleteRsvp(currentUser, currentEvent);
+		redirectAttrs.addFlashAttribute("deleteRsvp", "true");
+
+		return "redirect:/newEvents/" + currentEvent.getId();
+	}
+
+	@RequestMapping(value = "/rsvpList", method = RequestMethod.GET)
+	public String rsvpList(Model model, @ModelAttribute("currentUser") User currentUser,
+			@ModelAttribute("currentEvent") Event currentEvent, RedirectAttributes redirectAttrs) {
+
+		redirectAttrs.addFlashAttribute("rsvpListArray", getUserDao().getAllByEvent(currentEvent));
+
+		redirectAttrs.addFlashAttribute("rsvpList", "true");
+
+		return "redirect:/newEvents/" + currentEvent.getId();
+
 	}
 
 	/**
@@ -958,48 +1254,18 @@ public class HomeController extends BaseController {
 		return "registration";
 	}
 
-//	@RequestMapping(value = "/massRegister", method = RequestMethod.POST)
-//	public String massRegistration(Model model, HttpServletRequest request, HttpServletResponse response,
-//			@RequestParam CommonsMultipartFile[] multiple) throws IOException, SerialException, SQLException {
-//
-//		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-//		MultipartFile multipartFile = multipartRequest.getFile("multiple");
-//
-//		UploadFile file = new UploadFile();
-//		file.setFileName(multipartFile.getOriginalFilename());
-//		// file.setNotes(ServletRequestUtils.getStringParameter(request,
-//		// "notes"));
-//		// file.setType(multipartFile.getContentType());
-//		if (file != null) {
-//			byte[] bytes = multipartFile.getBytes();
-//			Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-//			file.setData((com.mysql.jdbc.Blob) blob);
-//			getUserDao().addMultiple(file.getFileName());
-//		}
-//		// model.addAttribute("active", "index");
-//		return "admin";
-//	}
-
 	@RequestMapping(value = "/getImage/{id}", method = RequestMethod.GET)
-	public void image(Model model, @PathVariable Long id) throws SQLException, IOException {
-		User profileUser = getUserDao().getObjectById(id);
-		// gets the image object based on the image id
-		if (profileUser.getImageId() != null) {
-			UploadFile userPhoto = getImageUploadDao().getObjectById(profileUser.getImageId());
-			// User userProfile = userPhoto.getProfile();
-			byte buff[] = new byte[1024];
-			Blob profilePic = userPhoto.getData();
-			// response.setContentType("image/jpeg, image/jpg, image/png,
-			// image/gif");
-			File newPic = new File("image.jpeg");
-			InputStream is = profilePic.getBinaryStream();
-			FileOutputStream fos = new FileOutputStream(newPic);
-			for (int i = is.read(buff); i != -1; i = is.read(buff)) {
-				fos.write(buff, 0, i);
-			}
-			is.close();
-			fos.close();
-			// model.addAttribute("photo", userPhoto);
+	public void image(Model model, @PathVariable Long id, HttpServletResponse response)
+			throws SQLException, IOException {
+
+		if (getImageUploadDao().getObjectByUserId(id) != null) {
+			UploadFile profilePic = getImageUploadDao().getObjectByUserId(id);
+			// response.setContentType("image/jpeg");
+			// byte[] buff = new byte[1024];
+			byte[] pic = profilePic.getData();
+			InputStream in1 = new ByteArrayInputStream(pic);
+			IOUtils.copy(in1, response.getOutputStream());
+			model.addAttribute("photo", profilePic);
 		}
 	}
 
@@ -1013,28 +1279,14 @@ public class HomeController extends BaseController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-	public String editPost(Model model, @PathVariable Long id) throws SQLException, IOException {
-
+	public String editPost(Model model, @PathVariable Long id, HttpServletResponse response)
+			throws SQLException, IOException {
 		// User in session.
 		User u = getCurrentUser();
 		User profileUser = getUserDao().getObjectById(id);
-		// gets the image object based on the image id
-		if (profileUser.getImageId() != null) {
-			UploadFile userPhoto = getImageUploadDao().getObjectById(profileUser.getImageId());
-			// User userProfile = userPhoto.getProfile();
-			byte buff[] = new byte[1024];
-			Blob profilePic = userPhoto.getData();
-			// response.setContentType("image/jpeg, image/jpg, image/png,
-			// image/gif");
-			File newPic = new File("image.jpeg");
-			InputStream is = profilePic.getBinaryStream();
-			FileOutputStream fos = new FileOutputStream(newPic);
-			for (int i = is.read(buff); i != -1; i = is.read(buff)) {
-				fos.write(buff, 0, i);
-			}
-			is.close();
-			fos.close();
-			model.addAttribute("photo", userPhoto);
+		if (getImageUploadDao().getObjectByUserId(id) != null) {
+			UploadFile profilePic = getImageUploadDao().getObjectByUserId(id);
+			model.addAttribute("photo", profilePic);
 		}
 		profileUser.setMajor(getMajorDao().getMajorByUser(profileUser));
 		profileUser.setConcentration(getMajorDao().getConcentrationByUser(profileUser));
@@ -1065,7 +1317,8 @@ public class HomeController extends BaseController {
 			exists = false;
 		}
 
-		model.addAttribute("user", profileUser);
+		model.addAttribute("currUser", u);
+		model.addAttribute("profileUser", profileUser);
 		model.addAttribute("majors", m);
 		model.addAttribute("minors", mi);
 		model.addAttribute("titles", t);
@@ -1131,98 +1384,113 @@ public class HomeController extends BaseController {
 			@RequestParam("experience") String experience, @RequestParam("interests") ArrayList<String> interests,
 			@RequestParam("minor") String minor, @RequestParam("secondMinor") String secondMinor,
 			@RequestParam("thirdMinor") String thirdMinor, @RequestParam("password") String password,
-			@RequestParam("confirmPassword") String confirmPassword/*
-																	 * ,
-																	 * HttpServletRequest
-																	 * request,
-																	 * HttpServletResponse
-																	 * response, @RequestParam
-																	 * CommonsMultipartFile
-																	 * []
-																	 * fileUpload,
-																	 * 
-																	 * @RequestParam
-																	 * ("file")
-																	 * MultipartFile
-																	 * []
-																	 * files, @RequestParam
-																	 * ("photo")
-																	 * File
-																	 * photo,
-																	 * 
-																	 * @RequestParam
-																	 * (
-																	 * "resume")
-																	 * File
-																	 * resume
-																	 */) throws IOException {
+			@RequestParam("confirmPassword") String confirmPassword, @RequestParam("resume") MultipartFile resume,
+			@RequestParam("profile") MultipartFile profile) throws IOException, SerialException, SQLException {
 
 
 		if (validateEditFormSubmission(password, confirmPassword, firstName, lastName, personalEmail)
 				&& Validator.validatePassword(password, false)) {
 
-			// User u = getUserDao().getObjectById(id);
+			// System.out.println(profileUser.getFirstName());
+			User profileUser = getUserDao().getObjectById(id);
 
-			User u = getCurrentUser();
+			// User profileUser = getCurrentUser();
 
 			if (Validator.validateSelect(graduationYear)) {
-				u.setGraduationYear((Integer.parseInt(graduationYear)));
+				profileUser.setGraduationYear((Integer.parseInt(graduationYear)));
 			}
 			if (!major.equals("Select") && !getMajorDao().getByName(major).equals(null)
 					&& getMajorDao().getByName(major) != null) {
-				u.addMajor(getMajorDao().getByName(major));
+				profileUser.addMajor(getMajorDao().getByName(major));
 			}
 			if (!doubleMajor.equals("Select") && !getMajorDao().getByName(doubleMajor).equals(null)
 					&& getMajorDao().getByName(doubleMajor) != null) {
-				u.addMajor(getMajorDao().getByName(doubleMajor));
+				profileUser.addMajor(getMajorDao().getByName(doubleMajor));
 			}
 			if (!thirdMajor.equals("Select") && !getMajorDao().getByName(thirdMajor).equals(null)
 					&& getMajorDao().getByName(thirdMajor) != null) {
-				u.addMajor(getMajorDao().getByName(thirdMajor));
+				profileUser.addMajor(getMajorDao().getByName(thirdMajor));
 			}
 
 			if (!minor.equals("Select") && !getMajorDao().getByName(minor).equals(null)
 					&& getMajorDao().getByName(minor) != null) {
-				u.addMinor(getMajorDao().getByName(minor));
+				profileUser.addMinor(getMajorDao().getByName(minor));
 			}
 			if (!secondMinor.equals("Select") && !getMajorDao().getByName(secondMinor).equals(null)
 					&& getMajorDao().getByName(secondMinor) != null) {
-				u.addMinor(getMajorDao().getByName(secondMinor));
+				profileUser.addMinor(getMajorDao().getByName(secondMinor));
 			}
 			if (!thirdMinor.equals("Select") && !getMajorDao().getByName(thirdMinor).equals(null)
 					&& getMajorDao().getByName(thirdMinor) != null) {
-				u.addMinor(getMajorDao().getByName(thirdMinor));
+				profileUser.addMinor(getMajorDao().getByName(thirdMinor));
 			}
 
 			if (!title.equals("Select") && !getTitleDao().getObjectByName(title).equals(null)) {
-				u.setTitleID(getTitleDao().getObjectByName(title).getId());
+				profileUser.setTitleID(getTitleDao().getObjectByName(title).getId());
 			}
-
+			//
 			if (!Validator.validateSelect(graduationYear)) {
-				u.setGraduationYear(0);
+				profileUser.setGraduationYear(0);
 			} else {
-				u.setGraduationYear(Integer.parseInt(graduationYear));
+				profileUser.setGraduationYear(Integer.parseInt(graduationYear));
 			}
 
 			// u.setTitle(title);
-			u.setFirstName(firstName);
-			u.setLastName(lastName);
-			u.setSuffix(suffix);
-			u.setPersonalEmail(personalEmail);
-			u.setOccupation(occupation);
-			u.setBio(biography);
-			u.setExperience(experience);
+			profileUser.setFirstName(firstName);
+			profileUser.setLastName(lastName);
+			profileUser.setSuffix(suffix);
+			profileUser.setPersonalEmail(personalEmail);
+			profileUser.setOccupation(occupation);
+			profileUser.setBio(biography);
+			profileUser.setExperience(experience);
 
 			try {
-				getUserDao().updateUser(u);
-				getMajorDao().updateMajorsByUser(u);
+				getUserDao().updateUser(profileUser);
+				getMajorDao().updateMajorsByUser(profileUser);
 			} catch (Exception e) {
 
 			}
 
-			// MultipartHttpServletRequest multipartRequest =
-			// (MultipartHttpServletRequest) request;
-			// MultipartFile multipartFile = multipartRequest.getFile("file");
+			if (!resume.isEmpty()) {
+				UploadFile fileObj = new UploadFile();
+				fileObj.setFileName(resume.getOriginalFilename());
+				// file.setNotes(ServletRequestUtils.getStringParameter(request,
+				// "notes"));
+				// file.setType(multipartFile.getContentType());
+				byte[] bytes = resume.getBytes();
+				if (getFileUploadDao().getObjectByUserId(id) != null) {
+					getFileUploadDao().updateFile(fileObj);
+				}
+				fileObj.setData(bytes);
+				// Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+				// fileObj.setData((com.mysql.jdbc.Blob) blob);
+				getFileUploadDao().addFile(fileObj);
+			}
+
+			if (!profile.isEmpty()) {
+				UploadFile fileObj = new UploadFile();
+				fileObj.setFileName(profile.getOriginalFilename());
+				fileObj.setProfile(profileUser);
+				// file.setNotes(ServletRequestUtils.getStringParameter(request,
+				// "notes"));
+				// file.setType(multipartFile.getContentType());
+				byte[] bytes = profile.getBytes();
+				fileObj.setData(bytes);
+				if (getImageUploadDao().getObjectByUserId(id) != null) {
+					getImageUploadDao().updateImage(fileObj);
+				} else {
+					getImageUploadDao().addImage(fileObj);
+				}
+				// Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+				// fileObj.setData((com.mysql.jdbc.Blob) blob);
+
+				// gets the right photo from the user that uploaded it
+				// UploadFile photoFileObj =
+				// getImageUploadDao().getObjectByUserId(profileUser.getId());
+				// sets the image id to the user
+				// profileUser.setImageId(photoFileObj.getId());
+				// System.out.println(profileUser.getImageId());
+			}
 
 			// file.setFilename(multipartFile.getOriginalFilename());
 			// file.setNotes(ServletRequestUtils.getStringParameter(request,
@@ -1286,75 +1554,60 @@ public class HomeController extends BaseController {
 			// }
 			// }
 			
-			
+		
 			// TODO PLACE FILE HERE
 
-			getInterestDao().clearUserInterest(u);
-			u.clearInterest();
+			getInterestDao().clearUserInterest(profileUser);
+			profileUser.clearInterest();
 
 			for (String i : interests) {
 				try {
 					Interest interest = getInterestDao().getByName(i);
-					getInterestDao().addInterestToUser(u, interest);
-					u.addInterest(interest);
-				} catch (Exception e) {
-
-				}
-			}
-
-			// TODO PLACE FILE HERE
-
-			getInterestDao().clearUserInterest(u);
-			u.clearInterest();
-
-			for (String i : interests) {
-				try {
-					Interest interest = getInterestDao().getByName(i);
-					getInterestDao().addInterestToUser(u, interest);
-					u.addInterest(interest);
+					getInterestDao().addInterestToUser(profileUser, interest);
+					profileUser.addInterest(interest);
 				} catch (Exception e) {
 
 				}
 			}
 
 			if (validatePassword(password, confirmPassword)) {
-				u.setPassword(pwEncoder.encode(password));
+				profileUser.setPassword(pwEncoder.encode(password));
 			}
 
 			try {
-				getUserDao().updateUser(u);
-				getMajorDao().updateMajorsByUser(u);
+				getUserDao().updateUser(profileUser);
+				getMajorDao().updateMajorsByUser(profileUser);
 			} catch (Exception e) {
 
 			}
 
-			return "redirect:/user/" + u.getId();
+			return "redirect:/user/" + profileUser.getId();
 		}
 
 		HashMap<String, String> e = new HashMap<String, String>();// TODO
 
 		ArrayList<Major> m = getMajorDao().getAllMajors();
 
-		User u = getCurrentUser();
-		// User profileUser = getUserDao().getObjectById(id);
+		// u = getCurrentUser();
+		User profileUser = getUserDao().getObjectById(id);
 
 		// u.setMajor(getMajorDao().getMajorByUser(u));
 		// u.setConcentration(getMajorDao().getConcentrationByUser(u));
 		// u.setMinor(getMajorDao().getMinorByUser(u));
 
-		u.setMajor(getMajorDao().getMajorByUser(u));
-		u.setConcentration(getMajorDao().getConcentrationByUser(u));
-		u.setMinor(getMajorDao().getMinorByUser(u));
+		profileUser.setMajor(getMajorDao().getMajorByUser(profileUser));
+		profileUser.setConcentration(getMajorDao().getConcentrationByUser(profileUser));
+		profileUser.setMinor(getMajorDao().getMinorByUser(profileUser));
 
 		// Change this to a u.setTitle(); --> Refactor TitleId To a String
 
-		Title t = getTitleDao().getObjectById(u.getTitleID());
+		Title t = getTitleDao().getObjectById(profileUser.getTitleID());
 
 		ArrayList<Major> ma = getMajorDao().getAllMajors();
 		ArrayList<Major> mi = getMajorDao().getAllMajors();
 		ArrayList<Title> titles = getTitleDao().getAll();
 		ArrayList<Interest> i = getInterestDao().getAll();
-		ArrayList<Interest> uI = getInterestDao().getAllByUser(u);
+		ArrayList<Interest> uI = getInterestDao().getAllByUser(profileUser);
 		ArrayList<Interest> interests2 = new ArrayList<Interest>();
 
 		Boolean exists = false;
@@ -1391,30 +1644,28 @@ public class HomeController extends BaseController {
 			error.put("fName", "Invalid Email Address");
 
 
+		getInterestDao().clearUserInterest(profileUser);
+		profileUser.clearInterest();
 
-
-
-		getInterestDao().clearUserInterest(u);
-		u.clearInterest();
 
 		for (String newInterest : interests) {
 			try {
 				Interest interest = getInterestDao().getByName(newInterest);
-				getInterestDao().addInterestToUser(u, interest);
-				u.addInterest(interest);
+				getInterestDao().addInterestToUser(profileUser, interest);
+				profileUser.addInterest(interest);
 			} catch (Exception ex) {
 
 			}
 		}
 
 
-		u.setSuffix(suffix);
-		u.setOccupation(occupation);
-		u.setBio(biography);
-		u.setExperience(experience);
+		profileUser.setSuffix(suffix);
+		profileUser.setOccupation(occupation);
+		profileUser.setBio(biography);
+		profileUser.setExperience(experience);
 
+		model.addAttribute("user", profileUser);
 
-		model.addAttribute("user", u);
 		model.addAttribute("majors", ma);
 		model.addAttribute("minors", mi);
 		model.addAttribute("titles", titles);
@@ -1438,13 +1689,17 @@ public class HomeController extends BaseController {
 			e.printStackTrace();
 		}
 
+		model.addAttribute("active", "job");
 		return "jobsSingleTemplate";
 
 	}
 
 	@RequestMapping(value = "/deleteJob", method = RequestMethod.POST)
-	public String deleteJob(Model model, @ModelAttribute("currentJob") Job currentJob) {
+	public String deleteJob(Model model, @ModelAttribute("currentJob") Job currentJob,
+			RedirectAttributes redirectAttrs) {
 		getJobDao().deleteJob(currentJob.getId());
+		// model.addAttribute("jobDeletion", "true");
+		redirectAttrs.addFlashAttribute("jobDeletion", "true");
 		return "redirect:/jobs";
 	}
 
@@ -1476,28 +1731,14 @@ public class HomeController extends BaseController {
 	 * @throws SQLException
 	 */
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-	public String userProfile(Model model, @PathVariable Long id) throws IOException, SQLException {
+	public String userProfile(Model model, @PathVariable Long id, HttpServletResponse response)
+			throws IOException, SQLException {
 
 		User profileUser = getUserDao().getObjectById(id);
 
-		// User profileUser = getUserDao().getObjectById(id);
-		// gets the image object based on the image id
-		if (profileUser.getImageId() != null) {
-			UploadFile userPhoto = getImageUploadDao().getObjectById(profileUser.getImageId());
-			// User userProfile = userPhoto.getProfile();
-			byte buff[] = new byte[1024];
-			Blob profilePic = userPhoto.getData();
-			// response.setContentType("image/jpeg, image/jpg, image/png,
-			// image/gif");
-			File newPic = new File("image.jpeg");
-			InputStream is = profilePic.getBinaryStream();
-			FileOutputStream fos = new FileOutputStream(newPic);
-			for (int i = is.read(buff); i != -1; i = is.read(buff)) {
-				fos.write(buff, 0, i);
-			}
-			is.close();
-			fos.close();
-			model.addAttribute("photo", userPhoto);
+		if (getImageUploadDao().getObjectByUserId(id) != null) {
+			UploadFile profilePic = getImageUploadDao().getObjectByUserId(id);
+			model.addAttribute("photo", profilePic);
 		}
 
 		profileUser.setMajor(getMajorDao().getMajorByUser(profileUser));
@@ -1511,19 +1752,8 @@ public class HomeController extends BaseController {
 	}
 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.POST)
-	public String userProfileUpload(Model model, @RequestParam CommonsMultipartFile[] fileUpload) throws Exception {
+	public String userProfileUpload(Model model) throws Exception {
 
-		// if (fileUpload != null && fileUpload.length > 0) {
-		// for (CommonsMultipartFile aFile : fileUpload){
-
-		// System.out.println("Saving file: " + aFile.getOriginalFilename());
-
-		// UploadFile uploadFile = new UploadFile();
-		// uploadFile.setFileName(aFile.getOriginalFilename());
-		// uploadFile.setData(aFile.getBytes());
-		// fileUploadDao.save(uploadFile);
-		// }
-		// }
 		return "userProfile";
 	}
 
@@ -1637,27 +1867,6 @@ public class HomeController extends BaseController {
 
 			ArrayList<User> allUser = new ArrayList<User>();
 			allUser = getUserDao().getAll();
-			//
-			// User profileUser = getUserDao().getObjectById(id);
-			// // gets the image object based on the image id
-			// if (profileUser.getImageId() != null) {
-			// UploadFile userPhoto =
-			// getImageUploadDao().getObjectById(profileUser.getImageId());
-			// // User userProfile = userPhoto.getProfile();
-			// byte buff[] = new byte[1024];
-			// Blob profilePic = userPhoto.getData();
-			// // response.setContentType("image/jpeg, image/jpg, image/png,
-			// // image/gif");
-			// File newPic = new File("image.jpeg");
-			// InputStream is = profilePic.getBinaryStream();
-			// FileOutputStream fos = new FileOutputStream(newPic);
-			// for (int i = is.read(buff); i != -1; i = is.read(buff)) {
-			// fos.write(buff, 0, i);
-			// }
-			// is.close();
-			// fos.close();
-			// //model.addAttribute("photo", userPhoto);
-			// }
 
 			for (User users : allUser) {
 				users.setMajor(getMajorDao().getMajorByUser(users));
@@ -1701,7 +1910,7 @@ public class HomeController extends BaseController {
 		profileUser.setHidden(true);
 
 		getUserDao().updateUser(profileUser);
-		return "admin";
+		return "redirect:/allUsers";
 	}
 
 	@PreAuthorize("isAuthenticated()")
@@ -1739,4 +1948,48 @@ public class HomeController extends BaseController {
 				&& Validator.validateName(firstName) && Validator.validateName(lastName)
 				&& Validator.validateEmail(personalEmail, false));
 	}
+
+	@RequestMapping(value = "/testimonial", method = RequestMethod.POST)
+	public String testimonials(@RequestParam("testimonial") String testimonial, Model model,
+			RedirectAttributes redirectAttrs) {
+
+		if (testimonial != null && testimonial.matches(".{10,999}")) {
+			User currentUser = getCurrentUser();
+			Testimonial newComment = new Testimonial(testimonial, currentUser);
+
+			getTestimonialDao().addTestimonial(newComment);
+
+			redirectAttrs.addFlashAttribute("testimonialCreation", "true");
+
+			if (getCurrentUser() != null) {
+				return "redirect:/user/" + getCurrentUser().getId();
+			}
+
+			else {
+				return "redirect:/";
+			}
+		} else {
+
+			String errors = "";
+
+			if (testimonial == null || testimonial.length() < 10) {
+				errors = "The testimonial needs to be at least 10 characters long.";
+			} else {
+				errors = "The testimonial you posted is too long.";
+			}
+
+			redirectAttrs.addFlashAttribute("errors", errors);
+			redirectAttrs.addFlashAttribute("testimonialAttempt", "failure");
+
+			if (getCurrentUser() != null) {
+				return "redirect:/user/" + getCurrentUser().getId();
+			}
+
+			else {
+				return "redirect:/";
+			}
+		}
+
+	}
+
 }

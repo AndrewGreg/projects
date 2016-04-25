@@ -548,9 +548,9 @@
 
 							<div class="text-center">
 								<div class="col-sm-6" align="center">
-									<img src="/content/img/empty-profile.png"
+									<%--<img src="/content/img/empty-profile.png"
 										class="avatar img-circle img-thumbnail" alt="profilePic">
-									<%-- <input type="file" name="profile" id="" value=""> <br>--%>
+									 <input type="file" name="profile" id="" value=""> <br>--%>
 								</div>
 							</div>
 							<br>
@@ -568,11 +568,14 @@
 								<div class="form-group">
 									<label class="control-label">Biography:</label>
 									<textarea type="text" class="form-control" name="biography"
-										id="biography" placeholder="Enter Biography" rows="5"><%
+										id="biography" placeholder="Enter Biography" rows="5">
+										<%
 											if (u.getBiography() != null) {
-										%><%=u.getBiography()%><%
+										%><%=u.getBiography()%>
+										<%
 											}
-										%></textarea>
+										%>
+									</textarea>
 								</div>
 							</div>
 
@@ -602,18 +605,18 @@
 										if (request.getAttribute("photo") == null) {
 											//if(photo.getData() == null){
 									%>
-									<img src="/Alumni-Tracker/content/img/empty-profile.png"
-										class="avatar img-circle img-thumbnail" alt="profilePic">
+										<img src="/Alumni-Tracker/content/img/empty-profile.png"
+											class="avatar img-circle img-thumbnail" alt="profilePic">
 									<%
 										} else {
 									%>
-									<img src="/getImage/<%=photo.getId()%>.jpeg"
+									<img src="/Alumni-Tracker/getImage/<%=photo.getProfile().getId()%>.do" width="128" height="128"
 										class="avatar img-circle img-thumbnail" alt="profilePic">
 									<%
 										}
 										//}
 									%>
-									 <input type="file" accept="image/jpeg" name="profile" id=""
+									 <input type="file" accept="image/*" name="profile" id=""
 										value=""> <br>
 								</div>
 							</div>
@@ -662,11 +665,14 @@
 								<div class="form-group">
 									<label class="control-label">Experience:</label>
 									<textarea type="text" class="form-control" name="experience"
-										id="experience" placeholder="Enter Experience" rows="5"><%
+										id="experience" placeholder="Enter Experience" rows="5">
+										<%
 											if (u.getExperience() != null) {
-										%><%=u.getExperience()%><%
+										%><%=u.getExperience()%>
+										<%
 											}
-										%></textarea>
+										%>
+									</textarea>
 								</div>
 							</div>
 							<%
@@ -697,7 +703,7 @@
 
 							<br>
 							<div class="col-sm-6" align="left">
-								<label>Upload Resume:</label> <input type="file" name="resume"
+								<label>Upload Resume:</label> <input type="file"  accept=".docx, .pdf" name="resume"
 									id="" value=""> <br>
 							</div>
 							<!--  <button class="btn btn-primary" name="Upload" value="Upload"

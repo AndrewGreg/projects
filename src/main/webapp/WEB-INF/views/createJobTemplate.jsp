@@ -38,20 +38,24 @@
 		<div class="content container content-container">
 			<div class="page-wrapper ben-container">
 				<header class="page-heading clearfix pageHeading">
-				<h1 class="heading-title pull-left">Create a Job Posting</h1>
-				<div class="breadcrumbs pull-right">
-					<ul class="breadcrumbs-list">
-						<li class="breadcrumbs-label">You are here:</li>
-						<li><a href="/Alumni-Tracker/">Home</a><i class="fa fa-angle-right"></i></li>
-						<li><a href="/Alumni-Tracker/jobs">Jobs</a><i class="fa fa-angle-right"></i></li>
-						<li class="current">Create Job</li>
-					</ul>
-				</div>
-				<!--//breadcrumbs--> </header>
+					<h1 class="heading-title pull-left">Create a Job Posting</h1>
+					<div class="breadcrumbs pull-right">
+						<ul class="breadcrumbs-list">
+							<li class="breadcrumbs-label">You are here:</li>
+							<li><a href="/Alumni-Tracker/">Home</a><i
+								class="fa fa-angle-right"></i></li>
+							<li><a href="/Alumni-Tracker/jobs">Jobs</a><i
+								class="fa fa-angle-right"></i></li>
+							<li class="current">Create Job</li>
+						</ul>
+					</div>
+					<!--//breadcrumbs-->
+				</header>
 				<br>
 				<div class="row">
 					<div class="col-md-6 col-md-offset-3">
-						<form action="/Alumni-Tracker/createJobPosting" method="POST" name="createJob">
+						<form action="/Alumni-Tracker/createJobPosting" method="POST"
+							name="createJob">
 
 							<div class="row">
 								<!-- Input control group -->
@@ -154,10 +158,10 @@
 									<!-- Input control group -->
 									<label class="control-label" for="startSalary">Start
 										Salary:</label>
-									<div class="controls">
-										<input type="number" id="startSalary" name="startSalary"
+									<div class="controls" data-name="startSalary">
+										<input type="text" id="startSalary" name="startSalary"
 											placeholder="$" class="form-control" value="<%=startSalary%>"
-											min="0" step="500" pattern="[0-9].">
+											pattern="[0-9].">
 									</div>
 
 									<!-- /Input control group -->
@@ -167,10 +171,10 @@
 									<!-- Input control group -->
 									<label class="control-label" for="endSalary">End
 										Salary:</label>
-									<div class="controls">
-										<input type="number" id="endSalary" name="endSalary"
+									<div class="controls" data-name="endSalary">
+										<input type="text" id="endSalary" name="endSalary"
 											placeholder="$" class="form-control" value="<%=endSalary%>"
-											min="0" step="500" pattern="[0-9].">
+											pattern="[0-9].">
 									</div>
 
 									<!-- /Input control group -->
@@ -194,7 +198,7 @@
 									<div class="controls">
 										<textarea rows="5" id="description" name="description"
 											placeholder="Job description and/or requirements."
-											class="form-control" value="<%=description%>"></textarea>
+											class="form-control"><%=description%></textarea>
 
 										<%
 											if (errors.get("description") != null) {
@@ -220,15 +224,17 @@
 										</label>
 										<div class="pull-right">
 											<button type="reset" class="btn btn-danger">Clear</button>
-											<button type="submit" class="btn btn-primary">Post Job</button>
+											<button type="submit" class="btn btn-primary">Post
+												Job</button>
 										</div>
 									</div>
 								</div>
 							</div>
 							<br>
 							<div class="row">
-								<div class="col-md-4">
-									<span>* denotes required field.</span>
+								<div class="col-md-8">
+									<span>* denotes required field.</span><br> <span>Start
+										and end salaries do not support cents ('.' on the input).</span>
 								</div>
 							</div>
 							<br>

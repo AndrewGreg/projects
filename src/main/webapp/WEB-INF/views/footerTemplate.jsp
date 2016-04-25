@@ -219,3 +219,43 @@
 <%
 	}
 %>
+
+<%
+	String rsvpListCheck = request.getAttribute("rsvpList") != null ? (String) request.getAttribute("rsvpList") : "";
+
+	if (rsvpListCheck.equals("true")) {
+%>
+
+<jsp:include page="rsvpList.jsp" />
+
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('#rsvpList').modal('show');
+
+	});
+</script>
+
+<%
+	}
+%>
+
+<%
+	String deleteRsvp = request.getAttribute("deleteRsvp") != null ? (String) request.getAttribute("deleteRsvp") : "";
+
+	if (deleteRsvp.equals("true")) {
+%>
+
+<jsp:include page="deleteRsvp.jsp" />
+
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('#deleteRsvp').modal('show');
+
+	});
+</script>
+
+<%
+	}
+%>

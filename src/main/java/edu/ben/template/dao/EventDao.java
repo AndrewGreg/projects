@@ -252,19 +252,21 @@ public class EventDao extends BaseDao<Event> {
 	}
 
 	/**
+	 * Display the list of events the user is going to.(make under profile)
 	 * 
 	 * @return
 	 */
-	public ArrayList<Event> getAllByUser(User u) {
+	public ArrayList<Event> getAllByUser(User u,Event event) {
 
 		List<Event> rsvp = new ArrayList<Event>();
+		
 		String sql = SEARCH + "event JOIN rsvp on event.id = rsvp.event_id WHERE rsvp.user_id = ?";
 
 		try {
-			rsvp = jdbcTemplate.query(sql, new Object[] { u.getId() }, getRowMapper());
+			rsvp = jdbcTemplate.query(sql, new Object[] { u.getId(), event.getId()}, getRowMapper());
 			return (ArrayList<Event>) rsvp;
-		} catch (EmptyResultDataAccessException e) {
-			/* Probably want to log this */
+		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}

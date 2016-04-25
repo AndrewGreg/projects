@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.rowset.serial.SerialException;
 
+import org.springframework.dao.TransientDataAccessResourceException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -36,6 +37,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
 import edu.ben.template.model.Event;
 import edu.ben.template.model.Interest;
@@ -62,6 +65,21 @@ public class HomeController extends BaseController {
 	 *            is being passed in.
 	 */
 	public void sortUsers(ArrayList<User> user) {
+
+		Collections.sort(user, new Comparator<User>() {
+			@Override
+			public int compare(User o1, User o2) {
+				return o1.getFirstName().compareTo(o2.getFirstName());
+			}
+		});
+	}
+
+	/**
+	 * Sort all people in Rsvp List.
+	 * 
+	 * @param user
+	 */
+	public void sortRsvp(ArrayList<User> user) {
 
 		Collections.sort(user, new Comparator<User>() {
 			@Override
@@ -884,6 +902,8 @@ public class HomeController extends BaseController {
 	public String eventSingle(Model model, @PathVariable Long id) {
 
 		try {
+			// Arraylist<Event> e = getEventDao().getAllByUser(getCurrentUser(),
+			// event);
 
 			Event currentEvent = getEventDao().getObjectById(id);
 			model.addAttribute("currentEvent", currentEvent);
@@ -899,19 +919,36 @@ public class HomeController extends BaseController {
 
 	@RequestMapping(value = "/addRsvp", method = RequestMethod.GET)
 	public String addRsvp(Model model, @ModelAttribute("currentUser") User currentUser,
-			@ModelAttribute("currentEvent") Event currentEvent, RedirectAttributes redirectAttrs) {
-		//if(currentUser.getId() != getUserDao().getAllByEvent(currentEvent).size()){
+			@ModelAttribute("currentEvent") Event currentEvent, RedirectAttributes redirectAttrs)
+					throws MySQLIntegrityConstraintViolationException {
+
 		getUserDao().addRsvp(currentUser, currentEvent);
+
 		redirectAttrs.addFlashAttribute("addRsvp", "true");
-		//}
+
 		return "redirect:/newEvents/" + currentEvent.getId();
 	}
 
 	@RequestMapping(value = "/deleteRsvp", method = RequestMethod.GET)
 	public String deleteRsvp(Model model, @ModelAttribute("currentUser") User currentUser,
-			@ModelAttribute("currentEvent") Event currentEvent) {
+			@ModelAttribute("currentEvent") Event currentEvent, RedirectAttributes redirectAttrs) {
+
 		getUserDao().deleteRsvp(currentUser, currentEvent);
+		redirectAttrs.addFlashAttribute("deleteRsvp", "true");
+
 		return "redirect:/newEvents/" + currentEvent.getId();
+	}
+
+	@RequestMapping(value = "/rsvpList", method = RequestMethod.GET)
+	public String rsvpList(Model model, @ModelAttribute("currentUser") User currentUser,
+			@ModelAttribute("currentEvent") Event currentEvent, RedirectAttributes redirectAttrs) {
+
+		redirectAttrs.addFlashAttribute("rsvpListArray", getUserDao().getAllByEvent(currentEvent));
+
+		redirectAttrs.addFlashAttribute("rsvpList", "true");
+
+		return "redirect:/newEvents/" + currentEvent.getId();
+
 	}
 
 	/**
@@ -1958,32 +1995,30 @@ public class HomeController extends BaseController {
 				&& Validator.validateName(firstName) && Validator.validateName(lastName)
 				&& Validator.validateEmail(personalEmail, false));
 	}
-	
+
 	@RequestMapping(value = "/testimonial", method = RequestMethod.POST)
-	public String testimonials(@RequestParam("testimonial") String testimonial, Model model, RedirectAttributes redirectAttrs) {
-		
-		//TODO CHECK MAX SIZE OF TESTIMONIAL 1000 characters
-		if(testimonial != null && testimonial.matches("")) {
+	public String testimonials(@RequestParam("testimonial") String testimonial, Model model,
+			RedirectAttributes redirectAttrs) {
+
+		// TODO CHECK MAX SIZE OF TESTIMONIAL 1000 characters
+		if (testimonial != null && testimonial.matches("")) {
 			User currentUser = getCurrentUser();
 			Testimonial newComment = new Testimonial(testimonial, currentUser);
-			
-			//TODO ADD TO THE DATABASE
-			
+
+			// TODO ADD TO THE DATABASE
+
 			model.addAttribute("testimonialCreation", "true");
-			//TODO RETURN SOMETHING (EITHER TESTIMONIAL LIST, OR PROFILE
-			
+			// TODO RETURN SOMETHING (EITHER TESTIMONIAL LIST, OR PROFILE
+
 			redirectAttrs.addFlashAttribute("testimonialCreation", "true");
 			return "indexTemplate";
 		} else {
-			//TODO CREATE HASHMAP AND ERROR CHECK
+			// TODO CREATE HASHMAP AND ERROR CHECK
 		}
-		
-		
-		
-		
+
 		model.addAttribute("testimonialCreation", "true");
-		//TODO RETURN PROFILE WITH ERROR
+		// TODO RETURN PROFILE WITH ERROR
 		return "indexTemplate";
 	}
-	
+
 }

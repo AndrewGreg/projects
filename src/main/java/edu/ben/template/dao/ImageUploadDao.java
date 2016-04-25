@@ -1,11 +1,18 @@
 package edu.ben.template.dao;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -24,11 +31,22 @@ public class ImageUploadDao extends BaseDao<UploadFile> {
 	}
 
 	public void addImage(UploadFile image) {
-
+		
 		String sql = "INSERT INTO image (id, file, user_id) VALUES (?, ?, ?)";
-
-		jdbcTemplate.update(sql, new Object[] { image.getId(), image.getData(), image.getProfile().getId()});
-
+		try{
+			jdbcTemplate.update(sql, new Object[] { image.getId(), image.getData(), image.getProfile().getId()});
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateImage(UploadFile image){
+		String sql = "UPDATE image SET file = ? WHERE user_id = ?";
+		try{
+			jdbcTemplate.update(sql, new Object[] { image.getData(), image.getProfile().getId() });
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	public UploadFile getObjectByUserId(Long id){
@@ -48,16 +66,14 @@ public class ImageUploadDao extends BaseDao<UploadFile> {
 				//look up the object
 				String sql = "SELECT * FROM image WHERE user_id = ?;";
 				object = this.jdbcTemplate.queryForObject(sql, new Object[] { id }, getRowMapper());
-//				InputStream stream = new BufferedInputStream(pic.getBinaryStream());
-//				ByteArrayOutputStream byteArrayOutputStream = new 
-//						return profilePic;
-			
-			}catch(Exception e){
-				e.printStackTrace();
+
+			}catch(EmptyResultDataAccessException e){
+				return null;
 			}
 		}
 		return object;
 	}
+
 	
 	public UploadFile getObjectById(Long id) {
 		return this.getImageById(id, false);
@@ -69,7 +85,7 @@ public class ImageUploadDao extends BaseDao<UploadFile> {
 			/* Probably want to log this */
 			return null;
 		}
-		UploadFile object = null;	
+		UploadFile object = null;
 		
 		if(object == null){
 			try{
@@ -96,7 +112,7 @@ public class ImageUploadDao extends BaseDao<UploadFile> {
 				// map result set to object
 				UploadFile image = new UploadFile();
 				image.setId(rs.getLong("id"));
-				image.setData((Blob) rs.getBlob("file"));
+				image.setData(rs.getBytes("file"));
 				
 				// Grabs the id of the user of the profile pic.
 				// Displays pic of user.
@@ -114,10 +130,10 @@ public class ImageUploadDao extends BaseDao<UploadFile> {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
 				PreparedStatement ps = connection.prepareStatement(
-						"insert into file (id, file) values (?,?) " + "on duplicate key update file = values(file)",
+						"insert into file (id, file) values (?,?,?) " + "on duplicate key update file = values(file)",
 						new String[] { "id" });
 				ps.setLong(1, image.getId());
-				ps.setBlob(2, image.getData());
+				ps.setBinaryStream(2, new ByteArrayInputStream(image.getData()));
 				return ps;
 			}
 		};

@@ -2452,3 +2452,9 @@ margin-left: 170px;
 #eventEndTime {
 	background-color: white;
 }
+
+#testimonialErrorMsg {
+color: #e60000;
+margin-left: 105px;
+margin-bottom: 80px;
+}

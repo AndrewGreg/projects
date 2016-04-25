@@ -162,6 +162,27 @@
 
 
 <%
+	String eventDeletion = request.getAttribute("eventDeletion") != null
+			? (String) request.getAttribute("eventDeletion")
+			: "";
+
+	if (eventDeletion.equals("true")) {
+%>
+<jsp:include page="deleteEventModal.jsp" />
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('#eventDeletion').modal('show');
+
+	});
+</script>
+
+<%
+	}
+%>
+
+
+<%
 	String jobCreation = request.getAttribute("jobCreation") != null
 			? (String) request.getAttribute("jobCreation")
 			: "";
@@ -177,6 +198,25 @@
 	});
 </script>
 
+<%
+	}
+%>
+
+
+<%
+	String jobDeletion = request.getAttribute("jobDeletion") != null
+			? (String) request.getAttribute("jobDeletion")
+			: "";
+
+	if (jobDeletion.equals("true")) {
+%>
+<jsp:include page="deleteJobModal.jsp" />
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('#jobDeletion').modal('show');
+	});
+</script>
 <%
 	}
 %>
@@ -201,6 +241,25 @@
 %>
 
 <%
+	String testimonialAttempt = request.getAttribute("testimonialAttempt") != null
+			? (String) request.getAttribute("testimonialAttempt")
+			: "";
+
+	if (testimonialAttempt.equals("failure")) {
+%>
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('#testimonialModal').modal('show');
+
+	});
+</script>
+
+<%
+	}
+%>
+
+<%
 	String addRsvp = request.getAttribute("addRsvp") != null ? (String) request.getAttribute("addRsvp") : "";
 
 	if (addRsvp.equals("true")) {
@@ -219,6 +278,7 @@
 <%
 	}
 %>
+
 
 <%
 	String rsvpListCheck = request.getAttribute("rsvpList") != null ? (String) request.getAttribute("rsvpList") : "";

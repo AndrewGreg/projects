@@ -364,6 +364,18 @@
 
 									<%
 										for (int i = 0; i < testimonials.size(); i++) {
+											String testimonial = testimonials.get(i) != null && testimonials.get(i).getShortDescription() != null
+													? testimonials.get(i).getShortDescription() : "N/A";
+											String name = testimonials.get(i) != null && testimonials.get(i).getPoster() != null
+													&& testimonials.get(i).getPoster().getFirstName() != null
+													&& testimonials.get(i).getPoster().getLastName() != null
+															? testimonials.get(i).getPoster().getFirstName() + " "
+																	+ testimonials.get(i).getPoster().getLastName()
+															: "N/A";
+											String major = testimonials.get(i) != null && testimonials.get(i).getPoster() != null
+													&& testimonials.get(i).getPoster().getMajorAtIndex(0) != null
+													&& testimonials.get(i).getPoster().getMajorAtIndex(0).getName() != null
+															? testimonials.get(i).getPoster().getMajorAtIndex(0).getName() : "N/A";
 									%>
 
 									<%
@@ -379,69 +391,27 @@
 											%>
 											<blockquote class="quote">
 												<p>
-													<i class="fa fa-quote-left"></i>I’m very happy interdum
-													eget ipsum. Nunc pulvinar ut nulla eget sollicitudin. In
-													hac habitasse platea dictumst. Integer mattis varius ipsum,
-													posuere posuere est porta vel. Integer metus ligula,
-													blandit ut fermentum a, rhoncus in ligula. Duis luctus.
-												</p>
+													<i class="fa fa-quote-left"></i><%=testimonial%></p>
 											</blockquote>
 											<div class="row">
 												<p class="people col-md-8 col-sm-3 col-xs-8">
-													<span class="name">Marissa Spencer</span><br /> <span
-														class="title">Curabitur commodo</span>
+													<span class="name"><%=name%></span><br /> <span
+														class="title"><%=major%></span>
 												</p>
-												<img class="profile col-md-4 pull-right"
-													src="/Alumni-Tracker/content/templateAssets/assets/images/testimonials/profile-1.png"
-													alt="" />
+												<img class="profile col-md-4 pull-right testimonial-picture"
+													src="/Alumni-Tracker/content/img/empty-profile.png" alt="Profile Picture"/>
 											</div>
 										</div>
 										<!--//item-->
 										<%
 											}
+
+											if (testimonials.size() == 0) {
 										%>
-										<div class="item">
-											<blockquote class="quote">
-												<p>
-													<i class="fa fa-quote-left"></i> I'm very pleased commodo
-													gravida ultrices. Sed massa leo, aliquet non velit eu,
-													volutpat vulputate odio. Interdum et malesuada fames ac
-													ante ipsum primis in faucibus. Suspendisse porttitor metus
-													eros, ut fringilla nulla auctor a.
-												</p>
-											</blockquote>
-											<div class="row">
-												<p class="people col-md-8 col-sm-3 col-xs-8">
-													<span class="name">Marco Antonio</span><br /> <span
-														class="title"> Gravida ultrices</span>
-												</p>
-												<img class="profile col-md-4 pull-right"
-													src="/Alumni-Tracker/content/templateAssets/assets/images/testimonials/profile-2.png"
-													alt="" />
-											</div>
-										</div>
-										<!--//item-->
-										<div class="item">
-											<blockquote class="quote">
-												<p>
-													<i class="fa fa-quote-left"></i> I'm delighted commodo
-													gravida ultrices. Sed massa leo, aliquet non velit eu,
-													volutpat vulputate odio. Interdum et malesuada fames ac
-													ante ipsum primis in faucibus. Suspendisse porttitor metus
-													eros, ut fringilla nulla auctor a.
-												</p>
-											</blockquote>
-											<div class="row">
-												<p class="people col-md-8 col-sm-3 col-xs-8">
-													<span class="name">Kate White</span><br /> <span
-														class="title"> Gravida ultrices</span>
-												</p>
-												<img class="profile col-md-4 pull-right"
-													src="/Alumni-Tracker/content/templateAssets/assets/images/testimonials/profile-3.png"
-													alt="" />
-											</div>
-										</div>
-										<!--//item-->
+										<span>No testimonials to show.</span>
+										<%
+											}
+										%>
 
 									</div>
 									<!--//carousel-inner-->

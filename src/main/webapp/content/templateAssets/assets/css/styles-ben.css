@@ -17,7 +17,7 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.modal-header, .modalh4 , .close {
+.modal-header, .modalh4, .close {
 	background-color: #444;
 	color: white !important;
 	text-align: center;
@@ -2387,22 +2387,21 @@ ul.custom-list-style li {
 }
 
 .row-link {
-	cursor: pointer; 
+	cursor: pointer;
 }
 
-.results tr[visible='false'],
-.no-result{
-  display:none;
+.results tr[visible='false'], .no-result {
+	display: none;
 }
 
-.results tr[visible='true']{
-  display:table-row;
+.results tr[visible='true'] {
+	display: table-row;
 }
 
-.counter{
-  padding:8px; 
-  color:#ccc;
-  margin-top: 5px;
+.counter {
+	padding: 8px;
+	color: #ccc;
+	margin-top: 5px;
 }
 
 #profile-pic {
@@ -2417,8 +2416,8 @@ ul.custom-list-style li {
 }
 
 #loginErrorMsg {
-color: #e60000;
-margin-left: 170px;
+	color: #e60000;
+	margin-left: 170px;
 }
 
 #editLink {
@@ -2454,7 +2453,11 @@ margin-left: 170px;
 }
 
 #testimonialErrorMsg {
-color: #e60000;
-margin-left: 105px;
-margin-bottom: 80px;
+	color: #e60000;
+	margin-left: 105px;
+	margin-bottom: 80px;
+}
+
+.testimonial-picture {
+	border-radius: 50%;
 }

@@ -129,8 +129,18 @@ public class HomeController extends BaseController {
 			countJob++;
 		}
 
+		ArrayList<Testimonial> testimonials;
+
+		try {
+			testimonials = getTestimonialDao().getAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+			testimonials = new ArrayList<Testimonial>();
+		}
+
 		model.addAttribute("events", eventDisplay);
 		model.addAttribute("jobs", jobDisplay);
+		model.addAttribute("testimonials", testimonials);
 		model.addAttribute("active", "index");
 
 		return "indexTemplate";
@@ -166,15 +176,11 @@ public class HomeController extends BaseController {
 		// HOURS 1 for part time, 2 for full time
 		// -1 for empty, -2 for error
 		int startingSalary = startSalary == null ? -1
-				: (startSalary.replace(",", "").replace("$", "").replace(" ", "").trim()
-						.matches("[0-9]{1,9}") ? Integer.parseInt(
-								startSalary.replace(",", "").replace("$", "").replace(" ", "").trim())
-								: -2);
+				: (startSalary.replace(",", "").replace("$", "").replace(" ", "").trim().matches("[0-9]{1,9}")
+						? Integer.parseInt(startSalary.replace(",", "").replace("$", "").replace(" ", "").trim()) : -2);
 		int endingSalary = endSalary == null ? -1
-				: (endSalary.replace(",", "").replace("$", "").replace(" ", "").trim()
-						.matches("[0-9]{1,9}") ? Integer.parseInt(
-								endSalary.replace(",", "").replace("$", "").replace(" ", "").trim())
-								: -2);
+				: (endSalary.replace(",", "").replace("$", "").replace(" ", "").trim().matches("[0-9]{1,9}")
+						? Integer.parseInt(endSalary.replace(",", "").replace("$", "").replace(" ", "").trim()) : -2);
 
 		if (name != null && name.matches(".{2,}") && company != null && company.matches(".{2,}") && description != null
 				&& description.matches(".{2,}") && location != null && location.matches(".{2,}")
@@ -1112,6 +1118,9 @@ public class HomeController extends BaseController {
 					register.setExperience(experience);
 				}
 
+				register.setActive(true);
+				register.setToPublic(1);
+				
 				// FIX THE SALT
 				register.setSalt(password);
 				register.setPassword(pwEncoder.encode(password));

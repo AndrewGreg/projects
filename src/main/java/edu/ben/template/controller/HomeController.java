@@ -1154,7 +1154,7 @@ public class HomeController extends BaseController {
 
 				register.setActive(true);
 				register.setToPublic(1);
-				
+
 				// FIX THE SALT
 				register.setSalt(password);
 				register.setPassword(pwEncoder.encode(password));
@@ -1391,13 +1391,16 @@ public class HomeController extends BaseController {
 			@RequestParam("suffix") String suffix, @RequestParam("personalEmail") String personalEmail,
 			@RequestParam("graduationYear") String graduationYear, @RequestParam("major") String major,
 			@RequestParam("doubleMajor") String doubleMajor, @RequestParam("thirdMajor") String thirdMajor,
-			@RequestParam("occupation") String occupation, @RequestParam("biography") String biography,
-			@RequestParam("experience") String experience, @RequestParam("interests") ArrayList<String> interests,
-			@RequestParam("minor") String minor, @RequestParam("secondMinor") String secondMinor,
-			@RequestParam("thirdMinor") String thirdMinor, @RequestParam("password") String password,
+			@RequestParam("occupation") String occupation, @RequestParam("company") String company,
+			@RequestParam("biography") String biography, @RequestParam("experience") String experience,
+			@RequestParam("interests") ArrayList<String> interests, @RequestParam("minor") String minor,
+			@RequestParam("secondMinor") String secondMinor, @RequestParam("thirdMinor") String thirdMinor,
+			@RequestParam(value="display", required = false, defaultValue = "null") String display, @RequestParam("password") String password,
 			@RequestParam("confirmPassword") String confirmPassword, @RequestParam("resume") MultipartFile resume,
 			@RequestParam("profile") MultipartFile profile) throws IOException, SerialException, SQLException {
 
+		
+		
 		if (validateEditFormSubmission(password, confirmPassword, firstName, lastName, personalEmail)
 				&& Validator.validatePassword(password, false)) {
 
@@ -1447,7 +1450,6 @@ public class HomeController extends BaseController {
 				profileUser.setGraduationYear(Integer.parseInt(graduationYear));
 			}
 
-			// u.setTitle(title);
 			profileUser.setFirstName(firstName);
 			profileUser.setLastName(lastName);
 			profileUser.setSuffix(suffix);
@@ -1455,6 +1457,12 @@ public class HomeController extends BaseController {
 			profileUser.setOccupation(occupation);
 			profileUser.setBio(biography);
 			profileUser.setExperience(experience);
+			profileUser.setCompany(company);
+			if (display != null && !display.equals("null") && !display.equals(null)){
+				profileUser.setToPublic(1);
+			} else {
+				profileUser.setToPublic(0);
+			}
 
 			try {
 				getUserDao().updateUser(profileUser);
@@ -1671,6 +1679,12 @@ public class HomeController extends BaseController {
 		profileUser.setOccupation(occupation);
 		profileUser.setBio(biography);
 		profileUser.setExperience(experience);
+		profileUser.setCompany(company);
+		if (display != null && !display.equals("null") && !display.equals(null)){
+			profileUser.setToPublic(1);
+		} else {
+			profileUser.setToPublic(0);
+		}
 
 		model.addAttribute("user", profileUser);
 

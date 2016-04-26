@@ -487,8 +487,7 @@ public class HomeController extends BaseController {
 			@RequestParam("date") String dateStr, @RequestParam("description") String description,
 			@RequestParam("location") String location, @RequestParam("startTime") String startTime,
 
-			@RequestParam("endTime") String endTime,
-			@RequestParam(value = "public", required = false) boolean isPublic) {
+	@RequestParam("endTime") String endTime, @RequestParam(value = "public", required = false) boolean isPublic) {
 
 		// TODO FINISH THIS METHOD
 		Date currentDate = new Date(System.currentTimeMillis());
@@ -693,14 +692,13 @@ public class HomeController extends BaseController {
 			@RequestParam("date") String dateStr, @RequestParam("description") String description,
 			@RequestParam("location") String location, @RequestParam("startTime") String startTime,
 
-			@RequestParam("endTime") String endTime,
-			@RequestParam(value = "public", required = false) boolean isPublic/*
-																				 * , @ModelAttribute
-																				 * (
-																				 * "editEvent")
-																				 * Event
-																				 * editEvent
-																				 */) {
+	@RequestParam("endTime") String endTime, @RequestParam(value = "public", required = false) boolean isPublic/*
+																												 * , @ModelAttribute
+																												 * (
+																												 * "editEvent")
+																												 * Event
+																												 * editEvent
+																												 */) {
 
 		Date currentDate = new Date(System.currentTimeMillis());
 
@@ -1386,20 +1384,23 @@ public class HomeController extends BaseController {
 	 * @throws SQLException
 	 * @throws SerialException
 	 */
+
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
 	public String edit(Model model, @PathVariable Long id, @RequestParam("title") String title,
 			@RequestParam("fName") String firstName, @RequestParam("lName") String lastName,
 			@RequestParam("suffix") String suffix, @RequestParam("personalEmail") String personalEmail,
 			@RequestParam("graduationYear") String graduationYear, @RequestParam("major") String major,
 			@RequestParam("doubleMajor") String doubleMajor, @RequestParam("thirdMajor") String thirdMajor,
-			@RequestParam("occupation") String occupation, @RequestParam("biography") String biography,
-			@RequestParam("experience") String experience, @RequestParam("interests") ArrayList<String> interests,
-			@RequestParam("minor") String minor, @RequestParam("secondMinor") String secondMinor,
-			@RequestParam("thirdMinor") String thirdMinor, @RequestParam("password") String password,
+			@RequestParam("occupation") String occupation, @RequestParam("company") String company,
+			@RequestParam("biography") String biography, @RequestParam("experience") String experience,
+			@RequestParam("interests") ArrayList<String> interests, @RequestParam("minor") String minor,
+			@RequestParam("secondMinor") String secondMinor, @RequestParam("thirdMinor") String thirdMinor,
+			@RequestParam(value="display", required = false, defaultValue = "null") String display, @RequestParam("password") String password,
 			@RequestParam("confirmPassword") String confirmPassword, @RequestParam("resume") MultipartFile resume,
 			@RequestParam("profile") MultipartFile profile) throws IOException, SerialException, SQLException {
 
-		// VALIDATION
+		
+		
 		if (validateEditFormSubmission(password, confirmPassword, firstName, lastName, personalEmail)
 				&& Validator.validatePassword(password, false)) {
 
@@ -1437,7 +1438,9 @@ public class HomeController extends BaseController {
 				profileUser.addMinor(getMajorDao().getByName(thirdMinor));
 			}
 
-			if (!title.equals("Select") && !getTitleDao().getObjectByName(title).equals(null)) {
+			if (title.equals("Select")) {
+				profileUser.setTitleID(-1);
+			} else if (!title.equals("Select") && !getTitleDao().getObjectByName(title).equals(null)) {
 				profileUser.setTitleID(getTitleDao().getObjectByName(title).getId());
 			}
 			//
@@ -1447,7 +1450,6 @@ public class HomeController extends BaseController {
 				profileUser.setGraduationYear(Integer.parseInt(graduationYear));
 			}
 
-			// u.setTitle(title);
 			profileUser.setFirstName(firstName);
 			profileUser.setLastName(lastName);
 			profileUser.setSuffix(suffix);
@@ -1455,6 +1457,12 @@ public class HomeController extends BaseController {
 			profileUser.setOccupation(occupation);
 			profileUser.setBio(biography);
 			profileUser.setExperience(experience);
+			profileUser.setCompany(company);
+			if (display != null && !display.equals("null") && !display.equals(null)){
+				profileUser.setToPublic(1);
+			} else {
+				profileUser.setToPublic(0);
+			}
 
 			try {
 				getUserDao().updateUser(profileUser);
@@ -1641,6 +1649,7 @@ public class HomeController extends BaseController {
 		if (!Validator.validatePasswordsMatch(password, confirmPassword))
 			error.put("password", "Passwords Must Match!");
 		else if (!Validator.isNull(password) && !Validator.validatePassword(password, false))
+
 			error.put("password", "Password Is Not Long Enough!");// TODO Change
 																	// when
 																	// regex
@@ -1670,8 +1679,15 @@ public class HomeController extends BaseController {
 		profileUser.setOccupation(occupation);
 		profileUser.setBio(biography);
 		profileUser.setExperience(experience);
+		profileUser.setCompany(company);
+		if (display != null && !display.equals("null") && !display.equals(null)){
+			profileUser.setToPublic(1);
+		} else {
+			profileUser.setToPublic(0);
+		}
 
 		model.addAttribute("user", profileUser);
+
 		model.addAttribute("majors", ma);
 		model.addAttribute("minors", mi);
 		model.addAttribute("titles", titles);

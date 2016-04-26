@@ -70,7 +70,7 @@ public class UserDao extends BaseDao<User> {
 							user.getGraduationYear(), user.getOccupation(), user.getCompany(), user.getSuffix(),
 							user.getBiography(), user.getExperience(), user.isHidden(), user.isActive(),
 
-							user.getSocialMedia(), user.getPhoneNumber(), user.getWorkNumber(), user.isUserVerified(),
+					user.getSocialMedia(), user.getPhoneNumber(), user.getWorkNumber(), user.isUserVerified(),
 							user.isAdminVerified(), user.isGraduateVerified(), user.isCurrentGraduateVerified(),
 							user.getGraduateSchool(), user.getToPublic(), user.getReference() });
 		} catch (Exception e) {
@@ -326,6 +326,27 @@ public class UserDao extends BaseDao<User> {
 
 	public void updateUser(User user) {
 
+		if (user.getTitleID() == -1) {
+			String sql = "UPDATE user SET `bnumber`=?, `email`=?, `personal_email`=?, `password`=?, `salt`=?, `title_id`= null, `first_name`=?, `last_name`=?, `role`=?, `graduation_year`=?, `occupation`=?, `company`=?, `suffix`=?, `biography`=?, `experience`=?, `hidden`=?, `active`=?, `social_media`=?, `phone_number`=?, `work_number`=?, `user_verified`=?, `admin_verified`=?, `graduate_verified`=?, `current_graduate_verified`=?, `graduate_school`=?, `public`=?, `reference`=? WHERE `id`=?;";
+
+			try {
+				jdbcTemplate.update(sql,
+						new Object[] { user.getbNumber(), user.getEmail(), user.getPersonalEmail(), user.getPassword(),
+								user.getSalt(), user.getFirstName(), user.getLastName(), user.getRole(),
+								user.getGraduationYear(), user.getOccupation(), user.getCompany(), user.getSuffix(),
+								user.getBiography(), user.getExperience(), user.isHidden(), user.isActive(),
+								user.getSocialMedia(), user.getPhoneNumber(), user.getWorkNumber(),
+								user.isUserVerified(), user.isAdminVerified(), user.isGraduateVerified(),
+								user.isCurrentGraduateVerified(), user.getGraduateSchool(), user.getToPublic(),
+								user.getReference(), user.getId() });
+			} catch (Exception e) {
+				/* Probably want to log this */
+				e.printStackTrace();
+			}
+			return;
+
+		}
+
 		String sql = "UPDATE user SET `bnumber`=?, `email`=?, `personal_email`=?, `password`=?, `salt`=?, `title_id`=?, `first_name`=?, `last_name`=?, `role`=?, `graduation_year`=?, `occupation`=?, `company`=?, `suffix`=?, `biography`=?, `experience`=?, `hidden`=?, `active`=?, `social_media`=?, `phone_number`=?, `work_number`=?, `user_verified`=?, `admin_verified`=?, `graduate_verified`=?, `current_graduate_verified`=?, `graduate_school`=?, `public`=?, `reference`=? WHERE `id`=?;";
 
 		try {
@@ -341,7 +362,6 @@ public class UserDao extends BaseDao<User> {
 			/* Probably want to log this */
 			e.printStackTrace();
 		}
-		return;
 
 	}
 
@@ -377,7 +397,7 @@ public class UserDao extends BaseDao<User> {
 		String sql = "DELETE FROM rsvp WHERE event_id =? AND user_id = ?";
 		try {
 			jdbcTemplate.update(sql, event.getId(), user.getId());
-			 attend = true;
+			attend = true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

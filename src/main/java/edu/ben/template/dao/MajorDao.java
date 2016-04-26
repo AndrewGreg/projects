@@ -205,7 +205,6 @@ public class MajorDao extends BaseDao<Major> {
 		for (int i = 0; i < u.getConcentration().size(); i++) {
 			addConcentrationToUser(u.getConcentration().get(i), u);
 		}
-
 		for (int i = 0; i < u.getMinor().size(); i++) {
 			addMinorToUser(u.getMinor().get(i), u);
 		}
@@ -270,7 +269,7 @@ public class MajorDao extends BaseDao<Major> {
 	public void addMinorToUser(Major major, User u) {
 
 		String sql = "INSERT INTO user_major (user_id,major_id,minor) VALUES (?,?,1);";
-
+		
 		try {
 			jdbcTemplate.update(sql, u.getId(), major.getId());
 			return;

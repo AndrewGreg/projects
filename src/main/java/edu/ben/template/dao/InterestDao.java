@@ -59,7 +59,7 @@ public class InterestDao extends BaseDao<Interest> {
 			return null;
 		}
 	}
-
+	
 	public Interest getByName(String name) {
 
 		String sql = "SELECT * FROM interest WHERE name = ?;";
@@ -72,6 +72,7 @@ public class InterestDao extends BaseDao<Interest> {
 			return null;
 		}
 	}
+
 
 	public ArrayList<Interest> getAllByUser(User u) {
 
@@ -161,7 +162,7 @@ public class InterestDao extends BaseDao<Interest> {
 			/* Probably should log this */
 		}
 	}
-
+	
 	public void clearUserInterest(User user) {
 
 		String sql = "DELETE FROM user_interest where user_id = ?;";
@@ -173,6 +174,7 @@ public class InterestDao extends BaseDao<Interest> {
 			/* Probably should log this */
 		}
 	}
+
 
 	public void updateInterest(Interest interest) {
 

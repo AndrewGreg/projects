@@ -22,7 +22,7 @@
 	ArrayList<Title> t = (ArrayList<Title>) request.getAttribute("titles");
 	ArrayList<Interest> i = (ArrayList<Interest>) request.getAttribute("interests");
 	ArrayList<Interest> uI = (ArrayList<Interest>) request.getAttribute("userInterests");
-	
+
 	HashMap<String, String> errors = (HashMap<String, String>) request.getAttribute("errors");
 %>
 
@@ -46,7 +46,8 @@
 						<h3 class="text-center text-danger">Edit My Account</h3>
 						<h4 class="text-center"><%=u.getEmail()%></h4>
 
-						<form action="/Alumni-Tracker/edit/<%=u.getId()%>" method="post" enctype="multipart/form-data">
+						<form action="/Alumni-Tracker/edit/<%=u.getId()%>" method="post"
+							enctype="multipart/form-data">
 
 							<%
 								if (errors != null && errors.get("title") != null) {
@@ -57,7 +58,7 @@
 							<%
 								}
 							%>
-							
+
 							<%
 								if (errors != null && errors.get("fName") != null) {
 							%>
@@ -67,7 +68,7 @@
 							<%
 								}
 							%>
-							
+
 							<%
 								if (errors != null && errors.get("lName") != null) {
 							%>
@@ -87,7 +88,7 @@
 												for (Title e : t) {
 										%>
 										<option
-											<%if (!title.equals(null) && title.getName().equals(e.getName())) {%>
+											<%if (title != null && !title.equals(null) && title.getName().equals(e.getName())) {%>
 											selected <%}%>><%=e.getName()%></option>
 										<%
 											}
@@ -364,153 +365,157 @@
 											}
 										%>
 									</div>
-							</div>
-							
-							<%
-								if (errors != null && errors.get("minor") != null) {
-							%>
-							<div class="col-xs-12">
-								<p class="alert alert-danger text-center"><%=errors.get("minor")%></p>
-							</div>
-							<%
-								}
-							%>
+								</div>
 
-							<div class="col-xs-12 col-sm-4">
-								<div class="form-group">
-									<label class="control-label">Minor:<%
-											if (u.getRole()== 1 || currUser.getRole() == 4) {
-									%> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-									</label> <select class="form-control" name="minor" id="minor">
-										<option>Select</option>
-										<%
-											if (mi != null && mi.size() != 0) {
+								<%
+									if (errors != null && errors.get("minor") != null) {
+								%>
+								<div class="col-xs-12">
+									<p class="alert alert-danger text-center"><%=errors.get("minor")%></p>
+								</div>
+								<%
+									}
+								%>
+
+								<div class="col-xs-12 col-sm-4">
+									<div class="form-group">
+										<label class="control-label">Minor:<%
+											if (u.getRole() == 1 || currUser.getRole() == 4) {
+										%> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+										</label> <select class="form-control" name="minor" id="minor">
+											<option>Select</option>
+											<%
+												if (mi != null && mi.size() != 0) {
 														for (Major minor : mi) {
-										%>
-										<option
-											<%if (u.getMinor() != null && u.getMinor().size() > 0 && u.getMinor().get(0) != null
-									&& u.getMinor().get(0).getName().equals(minor.getName())) {%>
-											selected <%}%>><%=minor.getName()%></option>
-										<%
-											}
+											%>
+											<option
+												<%if (u.getMinor() != null && u.getMinor().size() > 0 && u.getMinor().get(0) != null
+								&& u.getMinor().get(0).getName().equals(minor.getName())) {%>
+												selected <%}%>><%=minor.getName()%></option>
+											<%
+												}
 													}
-										%>
-									</select>
-									<%
-										} else if (u.getRole() == 2) {
-									%>
-									<div class="" ><input type="hidden" name="minor" id="minor">
+											%>
+										</select>
 										<%
-											if (u.getRole() == 2 && u.getMinor().size() > 0 && u.getMinor().get(0) != null) {
-												%>
-										<h3><%=u.getMinor().get(0).getName()%></h3>
+											} else if (u.getRole() == 2) {
+										%>
+										<div class="">
+											<input type="hidden" name="minor" id="minor">
+											<%
+												if (u.getRole() == 2 && u.getMinor().size() > 0 && u.getMinor().get(0) != null) {
+											%>
+											<h3><%=u.getMinor().get(0).getName()%></h3>
+											<%
+												}
+											%>
+										</div>
 										<%
 											}
 										%>
 									</div>
-									<%
-										}
-									%>
+
 								</div>
 
-							</div>
+								<%
+									if (errors != null && errors.get("secondMinor") != null) {
+								%>
+								<div class="col-xs-12">
+									<p class="alert alert-danger text-center"><%=errors.get("secondMinor")%></p>
+								</div>
+								<%
+									}
+								%>
 
-							<%
-								if (errors != null && errors.get("secondMinor") != null) {
-							%>
-							<div class="col-xs-12">
-								<p class="alert alert-danger text-center"><%=errors.get("secondMinor")%></p>
-							</div>
-							<%
-								}
-							%>
-
-							<div class="col-xs-12 col-sm-4">
-								<div class="form-group">
-									<label class="control-label">Double Minor:<%
-											if (u.getRole()== 1 || currUser.getRole() == 4) {
-									%> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-									</label> <select class="form-control" name="secondMinor"
-										id="secondMinor">
-										<option>Select</option>
-										<%
-											if (mi != null && mi.size() != 0) {
+								<div class="col-xs-12 col-sm-4">
+									<div class="form-group">
+										<label class="control-label">Double Minor:<%
+											if (u.getRole() == 1 || currUser.getRole() == 4) {
+										%> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+										</label> <select class="form-control" name="secondMinor"
+											id="secondMinor">
+											<option>Select</option>
+											<%
+												if (mi != null && mi.size() != 0) {
 														for (Major minor : mi) {
-										%>
-										<option
-											<%if (u.getMinor() != null && u.getMinor().size() > 1 && u.getMinor().get(1) != null
-									&& u.getMinor().get(1).getName().equals(minor.getName())) {%>
-											selected <%}%>><%=minor.getName()%></option>
-										<%
-											}
+											%>
+											<option
+												<%if (u.getMinor() != null && u.getMinor().size() > 1 && u.getMinor().get(1) != null
+								&& u.getMinor().get(1).getName().equals(minor.getName())) {%>
+												selected <%}%>><%=minor.getName()%></option>
+											<%
+												}
 													}
-										%>
-									</select>
-									<%
-										} else if (u.getRole() == 2) {
-									%>
-									<div class="" ><input type="hidden" name="secondMinor" id="secondMinor">
+											%>
+										</select>
 										<%
-											if (u.getRole() == 2 && u.getMinor().size() > 1 && u.getMinor().get(1) != null) {
-												%>
-										<h3><%=u.getMinor().get(1).getName()%></h3>
+											} else if (u.getRole() == 2) {
+										%>
+										<div class="">
+											<input type="hidden" name="secondMinor" id="secondMinor">
+											<%
+												if (u.getRole() == 2 && u.getMinor().size() > 1 && u.getMinor().get(1) != null) {
+											%>
+											<h3><%=u.getMinor().get(1).getName()%></h3>
+											<%
+												}
+											%>
+										</div>
 										<%
 											}
 										%>
 									</div>
-									<%
-										}
-									%>
+
 								</div>
 
-							</div>
+								<%
+									if (errors != null && errors.get("thirdMinor") != null) {
+								%>
+								<div class="col-xs-12">
+									<p class="alert alert-danger text-center"><%=errors.get("thirdMinor")%></p>
+								</div>
+								<%
+									}
+								%>
 
-							<%
-								if (errors != null && errors.get("thirdMinor") != null) {
-							%>
-							<div class="col-xs-12">
-								<p class="alert alert-danger text-center"><%=errors.get("thirdMinor")%></p>
-							</div>
-							<%
-								}
-							%>
-
-							<div class="col-xs-12 col-sm-4">
-								<div class="form-group">
-									<label class="select-label">Third Minor:<%
-											if (u.getRole()== 1 || currUser.getRole() == 4) {
-									%> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-									</label> <select class="form-control" name="thirdMinor" id="thirdMinor">
-										<option>Select</option>
-										<%
-											if (mi != null && mi.size() != 0) {
+								<div class="col-xs-12 col-sm-4">
+									<div class="form-group">
+										<label class="select-label">Third Minor:<%
+											if (u.getRole() == 1 || currUser.getRole() == 4) {
+										%> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+										</label> <select class="form-control" name="thirdMinor"
+											id="thirdMinor">
+											<option>Select</option>
+											<%
+												if (mi != null && mi.size() != 0) {
 														for (Major minor : mi) {
-										%>
-										<option
-											<%if (u.getMinor() != null && u.getMinor().size() > 2 && u.getMinor().get(2) != null
-									&& u.getMinor().get(2).getName().equals(minor.getName())) {%>
-											selected <%}%>><%=minor.getName()%></option>
-										<%
-											}
+											%>
+											<option
+												<%if (u.getMinor() != null && u.getMinor().size() > 2 && u.getMinor().get(2) != null
+								&& u.getMinor().get(2).getName().equals(minor.getName())) {%>
+												selected <%}%>><%=minor.getName()%></option>
+											<%
+												}
 													}
-										%>
-									</select>
-									<%
-										} else if (u.getRole() == 2) {
-									%>
-									<div class="" ><input type="hidden" name="thirdMinor" id="thirdMinor">
+											%>
+										</select>
 										<%
-											if (u.getRole() == 2 && u.getMinor().size() > 2 && u.getMinor().get(2) != null) {
-												%>
-										<h3><%=u.getMinor().get(2).getName()%></h3>
+											} else if (u.getRole() == 2) {
+										%>
+										<div class="">
+											<input type="hidden" name="thirdMinor" id="thirdMinor">
+											<%
+												if (u.getRole() == 2 && u.getMinor().size() > 2 && u.getMinor().get(2) != null) {
+											%>
+											<h3><%=u.getMinor().get(2).getName()%></h3>
+											<%
+												}
+											%>
+										</div>
 										<%
 											}
 										%>
 									</div>
-									<%
-										}
-									%>
-								</div>
 
 
 								</div>
@@ -541,8 +546,27 @@
 									<label class="control-label">Occupation:</label> <input
 										type="text" class="form-control" name="occupation"
 										id="occupation" placeholder="Enter Occupation"
-										<%if (u.getOccupation() != null) {%>
+										<%if (u.getOccupation() != null && !u.getOccupation().equals("") ) {%>
 										value="<%=u.getOccupation()%>" <%}%> />
+								</div>
+							</div>
+							
+							<%
+								if (errors != null && errors.get("company") != null) {
+							%>
+							<div class="col-xs-12">
+								<p class="alert alert-danger text-center"><%=errors.get("company")%></p>
+							</div>
+							<%
+								}
+							%>
+							<div class="col-xs-12">
+								<div class="form-group">
+									<label class="control-label">Company:</label> <input
+										type="text" class="form-control" name="company"
+										id="company" placeholder="Enter Company"
+										<%if (u.getCompany() != null && !u.getCompany().equals("") ) {%>
+										value="<%=u.getCompany()%>" <%}%> />
 								</div>
 							</div>
 
@@ -568,14 +592,11 @@
 								<div class="form-group">
 									<label class="control-label">Biography:</label>
 									<textarea type="text" class="form-control" name="biography"
-										id="biography" placeholder="Enter Biography" rows="5">
-										<%
-											if (u.getBiography() != null) {
-										%><%=u.getBiography()%>
-										<%
+										id="biography" placeholder="Enter Biography" rows="5"><%
+											if (u.getBiography() != null && !u.getBiography().equals("") ) {
+										%><%=u.getBiography()%><%
 											}
-										%>
-									</textarea>
+										%></textarea>
 								</div>
 							</div>
 
@@ -583,7 +604,7 @@
 							<div class="text-center">
 								<div class="col-sm-6" align="center">
 
-<%--
+									<%--
 								<%
 									if(request.getAttribute("photo") == null){
 										//if(photo.getData() == null){
@@ -605,18 +626,20 @@
 										if (request.getAttribute("photo") == null) {
 											//if(photo.getData() == null){
 									%>
-										<img src="/Alumni-Tracker/content/img/empty-profile.png"
-											class="avatar img-circle img-thumbnail" alt="profilePic">
+									<img src="/Alumni-Tracker/content/img/empty-profile.png"
+										class="avatar img-circle img-thumbnail" alt="profilePic">
 									<%
 										} else {
 									%>
-									<img src="/Alumni-Tracker/getImage/<%=photo.getProfile().getId()%>.do" width="128" height="128"
+									<img
+										src="/Alumni-Tracker/getImage/<%=photo.getProfile().getId()%>.do"
+										width="128" height="128"
 										class="avatar img-circle img-thumbnail" alt="profilePic">
 									<%
 										}
 										//}
 									%>
-									 <input type="file" accept="image/*" name="profile" id=""
+									<input type="file" accept="image/*" name="profile" id=""
 										value=""> <br>
 								</div>
 							</div>
@@ -634,24 +657,32 @@
 							%>
 							<div class="col-xs-6">
 								<div class="form-group">
-									<label class="control-label">Areas of Interest: </label>
-									
-								
-								<select multiple class="form-control" name="interests" id = "interests" size="5">
-								<% if (!i.equals(null)) {
-									for (Interest interest: uI)						{%>
-								 <option value="<%=interest.getName() %>" selected><%=interest.getName()%></option>
-								<%}} %>
-								<% if (!i.equals(null)) {
-									for (Interest interest: i)						{%>
-								 <option value="<%=interest.getName() %>" ><%=interest.getName()%></option>
-								<%}} %>
-								</select>
-								<small><b>Note:</b> Hold "ctrl" to select multiple</small>
+									<label class="control-label">Areas of Interest: </label> <select
+										multiple class="form-control" name="interests" id="interests"
+										size="5">
+										<%
+											if (!i.equals(null)) {
+												for (Interest interest : uI) {
+										%>
+										<option value="<%=interest.getName()%>" selected><%=interest.getName()%></option>
+										<%
+											}
+											}
+										%>
+										<%
+											if (!i.equals(null)) {
+												for (Interest interest : i) {
+										%>
+										<option value="<%=interest.getName()%>"><%=interest.getName()%></option>
+										<%
+											}
+											}
+										%>
+									</select> <small><b>Note:</b> Hold "ctrl" to select multiple</small>
 								</div>
 							</div>
 							<br>
-							
+
 							<%
 								if (errors != null && errors.get("experience") != null) {
 							%>
@@ -665,14 +696,19 @@
 								<div class="form-group">
 									<label class="control-label">Experience:</label>
 									<textarea type="text" class="form-control" name="experience"
-										id="experience" placeholder="Enter Experience" rows="5">
-										<%
-											if (u.getExperience() != null) {
-										%><%=u.getExperience()%>
-										<%
+										id="experience" placeholder="Enter Experience" rows="5"><%
+											if (u.getExperience() != null && !u.getExperience().equals("")) {
+										%><%=u.getExperience()%><%
 											}
-										%>
-									</textarea>
+										%></textarea>
+								</div>
+							</div>
+							
+							<div class="col-xs-12">
+								<div class="form-group">
+									<input type="checkbox" id="display" name="display" value="bool"
+									<% if (u.getToPublic() == 1) { %>checked<%} %>
+									> Allow my information to be displayed in the directory!
 								</div>
 							</div>
 							<%
@@ -691,7 +727,8 @@
 										type="password" class="form-control" name="password"
 										id="password" placeholder="Enter Password" />
 								</div>
-								<small><b>Note:</b> Password is not required for profile changes</small>
+								<small><b>Note:</b> Password is not required for profile
+									changes</small>
 							</div>
 							<div class="col-xs-12 col-sm-6">
 								<div class="form-group">
@@ -703,8 +740,8 @@
 
 							<br>
 							<div class="col-sm-6" align="left">
-								<label>Upload Resume:</label> <input type="file"  accept=".docx, .pdf" name="resume"
-									id="" value=""> <br>
+								<label>Upload Resume:</label> <input type="file"
+									accept=".docx, .pdf" name="resume" id="" value=""> <br>
 							</div>
 							<!--  <button class="btn btn-primary" name="Upload" value="Upload"
 								type="Submit">Upload</button>-->

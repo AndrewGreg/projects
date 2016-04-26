@@ -96,7 +96,6 @@
 										<td align="center"><img id="empty-profile-pic"
 											src="/Alumni-Tracker/content/img/empty-profile.png"
 											alt="Empty profile picture"></td>
-											
 										<td align="center"><%=firstName%></td>
 										<td align="center"><%=lastName%></td>
 										<td align="center"><%=major%></td>

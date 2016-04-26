@@ -649,6 +649,16 @@ public class User implements UserDetails, CredentialsContainer {
 		return null;
 
 	}
+	
+	public Major getMinorAtIndex(int i) {
+
+		if (i < this.minor.size()) {
+			return this.minor.get(i);
+		}
+
+		return null;
+
+	}
 
 	public void setMajor(ArrayList<Major> major) {
 		this.major = major;

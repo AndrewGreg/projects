@@ -13,7 +13,7 @@
 									class="fa fa-caret-right"></i>Events</a></li>
 							<li><a href="/Alumni-Tracker/jobsTemplate"><i
 									class="fa fa-caret-right"></i>Jobs</a></li>
-							<li><a href="/Alumni-Tracker/testimonialsList"><i
+							<li><a href="/Alumni-Tracker/testimonialList"><i
 									class="fa fa-caret-right"></i>Testimonials</a></li>
 						</ul>
 					</div>
@@ -281,7 +281,9 @@
 
 
 <%
-	String rsvpListCheck = request.getAttribute("rsvpList") != null ? (String) request.getAttribute("rsvpList") : "";
+	String rsvpListCheck = request.getAttribute("rsvpList") != null
+			? (String) request.getAttribute("rsvpList")
+			: "";
 
 	if (rsvpListCheck.equals("true")) {
 %>
@@ -301,7 +303,9 @@
 %>
 
 <%
-	String deleteRsvp = request.getAttribute("deleteRsvp") != null ? (String) request.getAttribute("deleteRsvp") : "";
+	String deleteRsvp = request.getAttribute("deleteRsvp") != null
+			? (String) request.getAttribute("deleteRsvp")
+			: "";
 
 	if (deleteRsvp.equals("true")) {
 %>

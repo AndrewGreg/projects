@@ -5,7 +5,7 @@
 <%@ page import="edu.ben.template.model.User"%>
 <%@ page import="java.util.ArrayList"%>
 <%
-	User currentUser = (User)request.getAttribute("currentUser");
+	User currentUser = (User) request.getAttribute("currentUser");
 	ArrayList<Job> jobs;
 	if (request.getAttribute("jobs") != null) {
 		jobs = (ArrayList<Job>) request.getAttribute("jobs");
@@ -90,10 +90,7 @@
 
 								</div>
 								<div class="panel-body">
-
-
 									<%=description%>
-
 								</div>
 								<ul class="list-group">
 									<li class="list-group-item"><strong>Location: </strong><a
@@ -101,8 +98,7 @@
 											class="fa fa-map-marker"></i><%=location%></a></li>
 
 									<li class="list-group-item"><strong>Salary:</strong> <i
-											class="fa fa-usd"></i><%=startSalary%>
-										- <%=endSalary%></li>
+										class="fa fa-usd"></i><%=startSalary%> - <%=endSalary%></li>
 
 								</ul>
 								<div class="panel-footer">
@@ -119,6 +115,13 @@
 								</div>
 							</div>
 							<!--//panel-->
+							<%
+								}
+
+								if (jobs.size() == 0) {
+							%>
+							<h4>We could not find any jobs to display.</h4>
+
 							<%
 								}
 							%>
@@ -175,10 +178,10 @@
 									if (currentUser != null) {
 								%>
 
-								
-									<a class="btn btn-theme" href="/Alumni-Tracker/createJobPosting"><i
-										class="fa fa-plus"></i>Create Posting</a>
-								
+
+								<a class="btn btn-theme" href="/Alumni-Tracker/createJobPosting"><i
+									class="fa fa-plus"></i>Create Posting</a>
+
 
 								<%
 									} else {

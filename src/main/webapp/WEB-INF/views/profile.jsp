@@ -105,7 +105,7 @@
 
 										</div>
 										<ul class="list-group">
-											<li class="list-group-item"><strong>Role:</strong> <%
+											<li class="list-group-item"><strong>Role: </strong> <%
  	if (profileUser.getRole() == 1) {
  %>Student <%
  	} else if (profileUser.getRole() == 2) {
@@ -116,7 +116,7 @@
  %>Administrator <%
  	}
  %></li>
-											<li class="list-group-item"><strong>Major:</strong> <%
+											<li class="list-group-item"><strong>Major: </strong> <%
  	if (profileUser.getMajorAtIndex(0) != null && profileUser.getMajorAtIndex(0).getName() != null) {
  %><%=profileUser.getMajorAtIndex(0).getName()%> <%
  	} else {
@@ -127,14 +127,14 @@
 											<%
 												if (profileUser.getMajorAtIndex(1) != null && profileUser.getMajorAtIndex(1).getName() != null) {
 											%><li class="list-group-item"><strong> Double
-													Major:</strong><%=profileUser.getMajorAtIndex(1).getName()%></li>
+													Major: </strong><%=profileUser.getMajorAtIndex(1).getName()%></li>
 											<%
 												}
 											%>
 											<%
 												if (profileUser.getMajorAtIndex(2) != null && profileUser.getMajorAtIndex(2).getName() != null) {
 											%><li class="list-group-item"><strong> Third
-													Major:</strong><%=profileUser.getMajorAtIndex(2).getName()%></li>
+													Major: </strong><%=profileUser.getMajorAtIndex(2).getName()%></li>
 											<%
 												}
 											%>
@@ -143,7 +143,7 @@
 
 											<%
 												if (profileUser.getMinorAtIndex(0) != null && profileUser.getMinorAtIndex(0).getName() != null) {
-											%><li class="list-group-item"><strong> Minor:</strong> <%=profileUser.getMinorAtIndex(0).getName()%></li>
+											%><li class="list-group-item"><strong> Minor: </strong><%=profileUser.getMinorAtIndex(0).getName()%></li>
 											<%
 												}
 											%>
@@ -151,7 +151,7 @@
 											<%
 												if (profileUser.getMinorAtIndex(1) != null && profileUser.getMinorAtIndex(1).getName() != null) {
 											%><li class="list-group-item"><strong> Double
-													Minor:</strong> <%=profileUser.getMinorAtIndex(1).getName()%></li>
+													Minor: </strong><%=profileUser.getMinorAtIndex(1).getName()%></li>
 											<%
 												}
 											%>
@@ -159,13 +159,13 @@
 											<%
 												if (profileUser.getMinorAtIndex(2) != null && profileUser.getMinorAtIndex(2).getName() != null) {
 											%><li class="list-group-item"><strong> Third
-													Minor:</strong> <%=profileUser.getMinorAtIndex(2).getName()%></li>
+													Minor: </strong><%=profileUser.getMinorAtIndex(2).getName()%></li>
 											<%
 												}
 											%>
 
 											<li class="list-group-item"><strong>Graduation
-													Year:</strong> <%
+													Year: </strong><%
  	if (profileUser.getGraduationYear() > 1800) {
  %><%=profileUser.getGraduationYear()%> <%
  	} else {
@@ -173,7 +173,7 @@
  	}
  %></li>
 
-											<li class="list-group-item"><strong>Occupation:</strong>
+											<li class="list-group-item"><strong>Occupation: </strong>
 												<%
 													if (profileUser.getOccupation() != null && !profileUser.getOccupation().equals("")) {
 												%><%=profileUser.getOccupation()%> <%
@@ -182,14 +182,14 @@
  	}
  %></li>
 
-											<li class="list-group-item"><strong>Company:</strong> <%
+											<li class="list-group-item"><strong>Company: </strong> <%
  	if (profileUser.getCompany() != null && !profileUser.getCompany().equals("")) {
  %><%=profileUser.getCompany()%> <%
  	} else {
  %>No user company.<%
  	}
  %></li>
-											<li class="list-group-item"><strong>Experience:</strong>
+											<li class="list-group-item"><strong>Experience: </strong>
 												<%
 													if (profileUser.getExperience() != null && !profileUser.getExperience().equals("")) {
 												%><%=profileUser.getExperience()%> <%
@@ -200,7 +200,7 @@
 										</ul>
 
 										<div class="panel-body">
-											<strong>Biography:</strong>
+											<strong>Biography: </strong>
 											<%
 												if (profileUser.getBiography() != null && !profileUser.getBiography().equals("")) {
 											%><%=profileUser.getBiography()%>

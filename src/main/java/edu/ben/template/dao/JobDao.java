@@ -156,15 +156,16 @@ public class JobDao extends BaseDao<Job> {
 	public ArrayList<Job> getSearchByJobName(String name) {
 
 		List<Job> jobs = new ArrayList<Job>();
-		String sql = "SELECT name FROM job WHERE name LIKE '%name%' ORDER BY name";
+		String sql = "SELECT * FROM job WHERE name LIKE '% %'";
+		//String sql = "SELECT name FROM job WHERE name LIKE '%?%' ORDER BY name";
 
 		try {
 			// Test this.
-			jobs = jdbcTemplate.query(sql, new Object[] { name }, getRowMapper());
+			jobs = jdbcTemplate.query(sql, getRowMapper());
 
 			return (ArrayList<Job>) jobs;
-		} catch (EmptyResultDataAccessException e) {
-
+		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}

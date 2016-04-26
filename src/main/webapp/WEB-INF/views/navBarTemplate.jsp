@@ -2,7 +2,7 @@
 
 <%
 	User currentUser = (User) request.getAttribute("currentUser");
-	String active = request.getAttribute("active") != null ? (String)request.getAttribute("active") : "";
+	String active = request.getAttribute("active") != null ? (String) request.getAttribute("active") : "";
 %>
 
 <!-- ******HEADER****** -->
@@ -33,8 +33,11 @@
 
 				<!-- Trigger the modal with a button -->
 				<button type="button" class="btn btn-theme top-bar-btn"
-					data-toggle="modal" data-target="#loginModal"><i class="fa fa-lock"></i> Login</button>
-				<a href="/Alumni-Tracker/register" class="btn btn-theme top-bar-btn"><i class="fa fa-pencil"></i> Register</a>
+					data-toggle="modal" data-target="#loginModal">
+					<i class="fa fa-lock"></i> Login
+				</button>
+				<a href="/Alumni-Tracker/register" class="btn btn-theme top-bar-btn"><i
+					class="fa fa-pencil"></i> Register</a>
 
 				<jsp:include page="loginModal.jsp" />
 
@@ -49,8 +52,11 @@
 						<%=currentUser.getFirstName()%>! &nbsp<i class="fa fa-angle-down"></i>
 					</button>
 					<ul class="dropdown-menu profile-dropdown">
-						<li><a class="profile-dropdown-link" href="/Alumni-Tracker/user/<%=currentUser.getId()%>">My Profile</a></li>
-						<li><a class="profile-dropdown-link" href="/Alumni-Tracker/logout">Logout</a></li>
+						<li><a class="profile-dropdown-link"
+							href="/Alumni-Tracker/user/<%=currentUser.getId()%>">My
+								Profile</a></li>
+						<li><a class="profile-dropdown-link"
+							href="/Alumni-Tracker/logout">Logout</a></li>
 					</ul>
 				</div>
 				<%
@@ -65,8 +71,8 @@
 	<div class="header-main container">
 		<h1 class="logo col-md-4 col-sm-4">
 			<a href="/Alumni-Tracker/"><img id="logo"
-				src="/Alumni-Tracker/content/img/benu-logo.svg" alt="Benedictine University"
-				style="width: 300px"></a>
+				src="/Alumni-Tracker/content/img/benu-logo.svg"
+				alt="Benedictine University" style="width: 300px"></a>
 		</h1>
 		<!--//logo-->
 		<div class="info col-md-8 col-sm-8"></div>
@@ -92,31 +98,39 @@
 		<!--//navbar-header-->
 		<div class="navbar-collapse collapse" id="navbar-collapse">
 			<ul class="nav navbar-nav">
-				<li class="<% if (active.equals("index")) {%>active<% }%> nav-item"><a href="/Alumni-Tracker/"><i class="fa fa-home"></i> Home</a></li>
-				<li class="<% if (active.equals("faculty")) {%>active<% }%> nav-item"><a href="/Alumni-Tracker/faculty"><i class="fa fa-user"></i> Faculty</a></li>
+				<li class="<%if (active.equals("index")) {%>active<%}%> nav-item"><a
+					href="/Alumni-Tracker/"><i class="fa fa-home"></i> Home</a></li>
+				<li
+					class="<%if (active.equals("faculty")) {%>active<%}%> nav-item"><a
+					href="/Alumni-Tracker/faculty"><i class="fa fa-user"></i>
+						Faculty</a></li>
 
 				<%
 					if (currentUser != null) {
 				%>
-				<li class="<% if (active.equals("alumni")) {%>active<% }%> nav-item"><a href="/Alumni-Tracker/alumni"><i class="fa fa-user"></i> Alumni</a></li>
+				<li class="<%if (active.equals("alumni")) {%>active<%}%> nav-item"><a
+					href="/Alumni-Tracker/alumni"><i class="fa fa-user"></i> Alumni</a></li>
 				<%
-					}
-					
-				%>
-				
-				<%
-					if (currentUser != null) {
-						if(currentUser.getRole() == 4){
-				%>
-					<li class="<% if (active.equals("users")) {%>active<% }%> nav-item"><a href="/Alumni-Tracker/allUsers"><i class="fa fa-user"></i> Manage Users</a></li>
-				<%
-						}
 					}
 				%>
 
-				<li class="<% if (active.equals("event")) {%>active<% }%> nav-item dropdown"><a class="dropdown-toggle"
-					data-toggle="dropdown" data-hover="dropdown" data-delay="0"
-					data-close-others="false" href="#"><i class="fa fa-calendar"></i> Events <i
+				<%
+					if (currentUser != null) {
+						if (currentUser.getRole() == 4) {
+				%>
+				<li class="<%if (active.equals("users")) {%>active<%}%> nav-item"><a
+					href="/Alumni-Tracker/allUsers"><i class="fa fa-user"></i>
+						Manage Users</a></li>
+				<%
+					}
+					}
+				%>
+
+				<li
+					class="<%if (active.equals("event")) {%>active<%}%> nav-item dropdown"><a
+					class="dropdown-toggle" data-toggle="dropdown"
+					data-hover="dropdown" data-delay="0" data-close-others="false"
+					href="#"><i class="fa fa-calendar"></i> Events <i
 						class="fa fa-angle-down"></i></a>
 					<ul class="dropdown-menu">
 
@@ -128,14 +142,17 @@
 						<%
 							} else {
 						%>
-						<li><a href="/Alumni-Tracker/eventsTemplate">View Public Events</a></li>
+						<li><a href="/Alumni-Tracker/eventsTemplate">View Public
+								Events</a></li>
 						<%
 							}
 						%>
 					</ul></li>
-				<li class="<% if (active.equals("job")) {%>active<% }%> nav-item dropdown"><a class="dropdown-toggle"
-					data-toggle="dropdown" data-hover="dropdown" data-delay="0"
-					data-close-others="false" href="#"><i class="fa fa-suitcase"></i> Jobs<i
+				<li
+					class="<%if (active.equals("job")) {%>active<%}%> nav-item dropdown"><a
+					class="dropdown-toggle" data-toggle="dropdown"
+					data-hover="dropdown" data-delay="0" data-close-others="false"
+					href="#"><i class="fa fa-suitcase"></i> Jobs<i
 						class="fa fa-angle-down"></i></a>
 					<ul class="dropdown-menu">
 
@@ -143,15 +160,21 @@
 							if (currentUser != null) {
 						%>
 						<li><a href="/Alumni-Tracker/jobs">View Job Postings</a></li>
-						<li><a href="/Alumni-Tracker/createJobPosting">Create a Job Posting</a></li>
+						<li><a href="/Alumni-Tracker/createJobPosting">Create a
+								Job Posting</a></li>
 						<%
 							} else {
 						%>
-						<li><a href="/Alumni-Tracker/jobs">View Public Job Postings</a></li>
+						<li><a href="/Alumni-Tracker/jobs">View Public Job
+								Postings</a></li>
 						<%
 							}
 						%>
 					</ul></li>
+				<li
+					class="<%if (active.equals("testimonial")) {%>active<%}%> nav-item"><a
+					href="/Alumni-Tracker/testimonialList"><i
+						class="fa fa-comments"></i> Testimonials</a></li>
 			</ul>
 			<!--//nav-->
 		</div>

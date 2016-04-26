@@ -550,6 +550,25 @@
 										value="<%=u.getOccupation()%>" <%}%> />
 								</div>
 							</div>
+							
+							<%
+								if (errors != null && errors.get("company") != null) {
+							%>
+							<div class="col-xs-12">
+								<p class="alert alert-danger text-center"><%=errors.get("company")%></p>
+							</div>
+							<%
+								}
+							%>
+							<div class="col-xs-12">
+								<div class="form-group">
+									<label class="control-label">Company:</label> <input
+										type="text" class="form-control" name="company"
+										id="company" placeholder="Enter Company"
+										<%if (u.getCompany() != null && !u.getCompany().equals("") ) {%>
+										value="<%=u.getCompany()%>" <%}%> />
+								</div>
+							</div>
 
 							<div class="text-center">
 								<div class="col-sm-6" align="center">
@@ -682,6 +701,14 @@
 										%><%=u.getExperience()%><%
 											}
 										%></textarea>
+								</div>
+							</div>
+							
+							<div class="col-xs-12">
+								<div class="form-group">
+									<input type="checkbox" id="display" name="display" value="bool"
+									<% if (u.getToPublic() == 1) { %>checked<%} %>
+									> Allow my information to be displayed in the directory!
 								</div>
 							</div>
 							<%

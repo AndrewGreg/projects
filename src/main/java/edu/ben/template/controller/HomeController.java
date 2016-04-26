@@ -1156,7 +1156,7 @@ public class HomeController extends BaseController {
 
 				register.setActive(true);
 				register.setToPublic(1);
-				
+
 				// FIX THE SALT
 				register.setSalt(password);
 				register.setPassword(pwEncoder.encode(password));
@@ -1709,6 +1709,13 @@ public class HomeController extends BaseController {
 		return "redirect:/jobs";
 	}
 
+	/**
+	 * Controller method that returns the job list display page
+	 * 
+	 * @param model
+	 *            passed in
+	 * @return job list display page
+	 */
 	@RequestMapping(value = "/jobs", method = RequestMethod.GET)
 	public String jobs(Model model) {
 		try {
@@ -1955,6 +1962,17 @@ public class HomeController extends BaseController {
 				&& Validator.validateEmail(personalEmail, false));
 	}
 
+	/**
+	 * Testimonial controller method
+	 * 
+	 * @param testimonial
+	 *            to be submitted
+	 * @param model
+	 *            being passed in
+	 * @param redirectAttrs
+	 *            object to add the redirect attributes to
+	 * @return redirect to the user's profile page
+	 */
 	@RequestMapping(value = "/testimonial", method = RequestMethod.POST)
 	public String testimonials(@RequestParam("testimonial") String testimonial, Model model,
 			RedirectAttributes redirectAttrs) {
@@ -1995,7 +2013,44 @@ public class HomeController extends BaseController {
 				return "redirect:/";
 			}
 		}
+	}
 
+	/**
+	 * Testimonial list display controller method
+	 * 
+	 * @param model
+	 *            being passed in
+	 * @return testimonial list page
+	 */
+	@RequestMapping(value = "/testimonialList", method = RequestMethod.GET)
+	public String testimonialList(Model model) {
+
+		ArrayList<Testimonial> testimonials = getTestimonialDao().getAll();
+
+		model.addAttribute("testimonials", testimonials);
+		model.addAttribute("active", "testimonial");
+
+		return "testimonialList";
+	}
+
+	/**
+	 * Controller method processing the job search form on the home page.
+	 * 
+	 * @param model
+	 *            being passed in
+	 * @return job list page
+	 */
+	@RequestMapping(value = "/jobSearch", method = RequestMethod.POST)
+	public String jobSearch(@RequestParam("jobSearch") String search, Model model) {
+
+		search = search != null ? search : "";
+
+		ArrayList<Job> jobs = getJobDao().getSearchByJobName(search);
+
+		model.addAttribute("jobs", jobs);
+
+		model.addAttribute("active", "job");
+		return "jobsTemplate";
 	}
 
 }

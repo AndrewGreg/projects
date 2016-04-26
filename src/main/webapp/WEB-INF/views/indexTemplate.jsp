@@ -256,13 +256,13 @@
 							<span class="line">Job Finder</span>
 						</h1>
 						<div class="section-content">
-							<form class="course-finder-form" action="#" method="POST">
+							<form class="course-finder-form"
+								action="/Alumni-Tracker/jobSearch" method="POST">
 								<div class="row">
 									<div class="form-group col-md-8 col-md-offset-2">
 										<input type="text" id="jobSearch" name="jobSearch"
 											placeholder="Search keywords..." class="form-control">
 									</div>
-
 								</div>
 								<button type="submit" class="btn btn-theme pull-right">
 									<i class="fa fa-search"></i> Search
@@ -399,7 +399,8 @@
 														class="title"><%=major%></span>
 												</p>
 												<img class="profile col-md-4 pull-right testimonial-picture"
-													src="/Alumni-Tracker/content/img/empty-profile.png" alt="Profile Picture"/>
+													src="/Alumni-Tracker/content/img/empty-profile.png"
+													alt="Profile Picture" />
 											</div>
 										</div>
 										<!--//item-->

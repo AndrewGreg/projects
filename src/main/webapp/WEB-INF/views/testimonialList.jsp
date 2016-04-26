@@ -80,7 +80,7 @@
 								if (testimonials.size() == 0) {
 							%>
 
-							<h4>There are currently no testimonials to be displayed.</h4>
+							<h4>We could not find any testimonials to display.</h4>
 
 							<%
 								}

@@ -1157,6 +1157,7 @@ public class HomeController extends BaseController {
 				register.setActive(true);
 				register.setToPublic(1);
 				
+				
 				// FIX THE SALT
 				register.setSalt(password);
 				register.setPassword(pwEncoder.encode(password));

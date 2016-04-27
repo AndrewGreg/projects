@@ -762,6 +762,16 @@ public class User implements UserDetails, CredentialsContainer {
 		}
 		this.concentration.add(concentration);
 	}
+	
+	public Major getConcentrationAtIndex(int i) {
+
+		if (i < this.concentration.size()) {
+			return this.concentration.get(i);
+		}
+
+		return null;
+
+	}
 
 	public ArrayList<Interest> getInterest() {
 		return interest;

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="edu.ben.template.model.User"%>
+<%@page import="edu.ben.template.model.Major"%>
 <%@page import="edu.ben.template.model.Title"%>
 <%@page import="edu.ben.template.model.UploadFile"%>
 <%
@@ -125,11 +126,37 @@
  %></li>
 
 											<%
+												if (profileUser.getConcentration() != null && !profileUser.getConcentration().equals(null)){
+												if (profileUser.getMajorAtIndex(0) != null && profileUser.getMajorAtIndex(0).getName() != null) {
+													
+												for (Major con: profileUser.getConcentration()){
+													if (con.getParent().getName().equals(profileUser.getMajorAtIndex(0).getName())){
+											%>
+												
+											
+											<li class="list-group-item"><strong>Concentration: </strong><%=con.getName()%></li>
+											<%
+												}}}}
+											%>
+											<%
 												if (profileUser.getMajorAtIndex(1) != null && profileUser.getMajorAtIndex(1).getName() != null) {
 											%><li class="list-group-item"><strong> Double
 													Major: </strong><%=profileUser.getMajorAtIndex(1).getName()%></li>
 											<%
 												}
+											%>
+																						<%
+												if (profileUser.getConcentration() != null && !profileUser.getConcentration().equals(null)){
+												if (profileUser.getMajorAtIndex(1) != null && profileUser.getMajorAtIndex(1).getName() != null) {
+													
+												for (Major con: profileUser.getConcentration()){
+													if (con.getParent().getName().equals(profileUser.getMajorAtIndex(1).getName())){
+											%>
+												
+											
+											<li class="list-group-item"><strong>Concentration: </strong><%=con.getName()%></li>
+											<%
+												}}}}
 											%>
 											<%
 												if (profileUser.getMajorAtIndex(2) != null && profileUser.getMajorAtIndex(2).getName() != null) {
@@ -137,6 +164,19 @@
 													Major: </strong><%=profileUser.getMajorAtIndex(2).getName()%></li>
 											<%
 												}
+											%>
+											<%
+												if (profileUser.getConcentration() != null && !profileUser.getConcentration().equals(null)){
+												if (profileUser.getMajorAtIndex(2) != null && profileUser.getMajorAtIndex(2).getName() != null) {
+													
+												for (Major con: profileUser.getConcentration()){
+													if (con.getParent().getName().equals(profileUser.getMajorAtIndex(2).getName())){
+											%>
+												
+											
+											<li class="list-group-item"><strong>Concentration: </strong><%=con.getName()%></li>
+											<%
+												}}}}
 											%>
 
 											<!-- ADD CONCENTRATION -->

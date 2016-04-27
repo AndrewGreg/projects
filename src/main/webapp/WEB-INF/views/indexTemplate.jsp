@@ -364,6 +364,7 @@
 
 									<%
 										for (int i = 0; i < testimonials.size(); i++) {
+											if(testimonials.get(i).getPoster().isActive()){
 											String testimonial = testimonials.get(i) != null && testimonials.get(i).getShortDescription() != null
 													? testimonials.get(i).getShortDescription() : "N/A";
 											String name = testimonials.get(i) != null && testimonials.get(i).getPoster() != null
@@ -406,6 +407,7 @@
 										<!--//item-->
 										<%
 											}
+										}
 
 											if (testimonials.size() == 0) {
 										%>

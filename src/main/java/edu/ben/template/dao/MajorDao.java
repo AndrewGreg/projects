@@ -58,10 +58,10 @@ public class MajorDao extends BaseDao<Major> {
 		}
 	}
 
-	public Major getByName(String name) {
+	public Major getMajorByName(String name) {
 
 		Major major = new Major();
-		String sql = "SELECT * FROM major WHERE name = ? LIMIT 1";
+		String sql = "SELECT * FROM major WHERE name = ? AND concentration = 0 && major_id IS NULL LIMIT 1";
 
 		try {
 			major = jdbcTemplate.queryForObject(sql, new Object[] { name }, getRowMapper());
@@ -71,6 +71,21 @@ public class MajorDao extends BaseDao<Major> {
 			return null;
 		}
 	}
+	
+	public Major getConcentrationByName(String name) {
+
+		Major major = new Major();
+		String sql = "SELECT * FROM major WHERE name = ? AND concentration = 1 AND major_id IS NOT NULL LIMIT 1";
+
+		try {
+			major = jdbcTemplate.queryForObject(sql, new Object[] { name }, getRowMapper());
+			return major;
+		} catch (EmptyResultDataAccessException e) {
+			/* Probably want to log this */
+			return null;
+		}
+	}
+
 
 	public ArrayList<Major> getAllMajors() {
 
@@ -114,6 +129,22 @@ public class MajorDao extends BaseDao<Major> {
 			return null;
 		}
 	}
+	
+	public Major getMajorByConcentration(Major m) {
+
+		Major major = new Major();
+		String sql = "Select m.id, m.name, m.major_id, m.concentration FROM major m Join major c WHERE m.id = c.major_id AND c.name = ? LIMIT 1;";
+
+		try {
+			major = jdbcTemplate.queryForObject(sql, new Object[] { m.getName() }, getRowMapper());
+			return major;
+			
+		} catch (EmptyResultDataAccessException e) {
+			/* Probably want to log this */
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	public ArrayList<Major> getMajorByUser(User u) {
 
@@ -142,6 +173,8 @@ public class MajorDao extends BaseDao<Major> {
 			return null;
 		}
 	}
+	
+	
 
 	public ArrayList<Major> getConcentrationByUser(User u) {
 
@@ -156,6 +189,8 @@ public class MajorDao extends BaseDao<Major> {
 			return (ArrayList<Major>) concentrations;
 		} catch (EmptyResultDataAccessException e) {
 			/* Probably want to log this */
+			
+			e.printStackTrace();
 
 			return null;
 		}

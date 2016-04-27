@@ -1301,11 +1301,10 @@ public class HomeController extends BaseController {
 			model.addAttribute("photo", profilePic);
 		}
 		profileUser.setMajor(getMajorDao().getMajorByUser(profileUser));
-		profileUser.setConcentration(getMajorDao().getConcentrationByUser(profileUser));
 		profileUser.setMinor(getMajorDao().getMinorByUser(profileUser));
 
-		// Change this to a u.setTitle(); --> Refactor TitleId To a String
-
+		
+		
 		Title title = getTitleDao().getObjectById(u.getTitleID());
 
 		ArrayList<Major> m = getMajorDao().getAllMajors();
@@ -1314,6 +1313,25 @@ public class HomeController extends BaseController {
 		ArrayList<Interest> i = getInterestDao().getAll();
 		ArrayList<Interest> uI = getInterestDao().getAllByUser(profileUser);
 		ArrayList<Interest> interests = new ArrayList<Interest>();
+
+		ArrayList<ArrayList<Major>> c = new ArrayList<ArrayList<Major>>();
+		for (Major major : m) {
+			ArrayList<Major> temp = getMajorDao().getConcentrationByMajor(major);
+			for (Major e: temp){
+				e.setParent(major);
+			}
+			c.add(temp);
+		}
+		
+		ArrayList<Major> con = getMajorDao().getConcentrationByUser(profileUser);
+		if (con != null && !con.equals(null)){
+			for (Major concen: con){
+				concen.setParent(getMajorDao().getMajorByConcentration(concen));
+			}
+		}
+		
+		profileUser.setConcentration(con);
+		
 
 		Boolean exists = false;
 
@@ -1337,6 +1355,8 @@ public class HomeController extends BaseController {
 		model.addAttribute("title", title);
 		model.addAttribute("interests", interests);
 		model.addAttribute("userInterests", uI);
+		model.addAttribute("concentrations", c);
+		model.addAttribute("userConcentrations", con);
 
 		// For User Error Checking
 		HashMap<String, String> e = new HashMap<String, String>();
@@ -1389,22 +1409,31 @@ public class HomeController extends BaseController {
 	public String edit(Model model, @PathVariable Long id, @RequestParam("title") String title,
 			@RequestParam("fName") String firstName, @RequestParam("lName") String lastName,
 			@RequestParam("suffix") String suffix, @RequestParam("personalEmail") String personalEmail,
-			@RequestParam("graduationYear") String graduationYear, @RequestParam("major") String major,
-			@RequestParam("doubleMajor") String doubleMajor, @RequestParam("thirdMajor") String thirdMajor,
+			@RequestParam(value = "graduationYear", required = false) String graduationYear,
+			@RequestParam(value = "major", required = false) String major,
+			@RequestParam(value = "doubleMajor", required = false) String doubleMajor,
+			@RequestParam(value = "thirdMajor", required = false) String thirdMajor,
 			@RequestParam("occupation") String occupation, @RequestParam("company") String company,
 			@RequestParam("biography") String biography, @RequestParam("experience") String experience,
-			@RequestParam("interests") ArrayList<String> interests, @RequestParam("minor") String minor,
-			@RequestParam("secondMinor") String secondMinor, @RequestParam("thirdMinor") String thirdMinor,
-			@RequestParam(value="display", required = false, defaultValue = "null") String display, @RequestParam("password") String password,
-			@RequestParam("confirmPassword") String confirmPassword, @RequestParam("resume") MultipartFile resume,
-			@RequestParam("profile") MultipartFile profile) throws IOException, SerialException, SQLException {
+			@RequestParam(value = "concentration", required = false) String concentration,
+			@RequestParam(value = "doubleConcentration", required = false) String doubleConcentration,
+			@RequestParam(value = "thirdConcentration", required = false) String thirdConcentration,
+			@RequestParam(value = "interests", required = false, defaultValue = "null") ArrayList<String> interests,
+			@RequestParam(value = "minor", required = false) String minor,
+			@RequestParam(value = "secondMinor", required = false) String secondMinor,
+			@RequestParam(value = "thirdMinor", required = false) String thirdMinor,
+			@RequestParam(value = "display", required = false, defaultValue = "null") String display,
+			@RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword,
+			@RequestParam("resume") MultipartFile resume, @RequestParam("profile") MultipartFile profile)
+					throws IOException, SerialException, SQLException {
+		
 
 		
-		
+
 		if (validateEditFormSubmission(password, confirmPassword, firstName, lastName, personalEmail)
 				&& Validator.validatePassword(password, false)) {
 
-			// System.out.println(profileUser.getFirstName());
+			
 			User profileUser = getUserDao().getObjectById(id);
 
 			// User profileUser = getCurrentUser();
@@ -1412,30 +1441,46 @@ public class HomeController extends BaseController {
 			if (Validator.validateSelect(graduationYear)) {
 				profileUser.setGraduationYear((Integer.parseInt(graduationYear)));
 			}
-			if (!major.equals("Select") && !getMajorDao().getByName(major).equals(null)
-					&& getMajorDao().getByName(major) != null) {
-				profileUser.addMajor(getMajorDao().getByName(major));
+			if (!major.equals("Select") && !getMajorDao().getMajorByName(major).equals(null)
+					&& getMajorDao().getMajorByName(major) != null) {
+				profileUser.addMajor(getMajorDao().getMajorByName(major));
 			}
-			if (!doubleMajor.equals("Select") && !getMajorDao().getByName(doubleMajor).equals(null)
-					&& getMajorDao().getByName(doubleMajor) != null) {
-				profileUser.addMajor(getMajorDao().getByName(doubleMajor));
+			if (!doubleMajor.equals("Select") && !getMajorDao().getMajorByName(doubleMajor).equals(null)
+					&& getMajorDao().getMajorByName(doubleMajor) != null) {
+				profileUser.addMajor(getMajorDao().getMajorByName(doubleMajor));
 			}
-			if (!thirdMajor.equals("Select") && !getMajorDao().getByName(thirdMajor).equals(null)
-					&& getMajorDao().getByName(thirdMajor) != null) {
-				profileUser.addMajor(getMajorDao().getByName(thirdMajor));
+			if (!thirdMajor.equals("Select") && !getMajorDao().getMajorByName(thirdMajor).equals(null)
+					&& getMajorDao().getMajorByName(thirdMajor) != null) {
+				profileUser.addMajor(getMajorDao().getMajorByName(thirdMajor));
+			}
+			
+			if (!concentration.equals("Select") && !getMajorDao().getConcentrationByName(concentration).equals(null)
+					&& getMajorDao().getConcentrationByName(concentration) != null) {
+				profileUser.addConcentration(getMajorDao().getConcentrationByName(concentration));
+			}
+			
+			if (!doubleConcentration.equals("Select") && !getMajorDao().getConcentrationByName(doubleConcentration).equals(null)
+					&& getMajorDao().getConcentrationByName(doubleConcentration) != null) {
+				profileUser.addConcentration(getMajorDao().getConcentrationByName(doubleConcentration));
+				
+			}
+			
+			if (!thirdConcentration.equals("Select") && !getMajorDao().getConcentrationByName(thirdConcentration).equals(null)
+					&& getMajorDao().getConcentrationByName(thirdConcentration) != null) {
+				profileUser.addConcentration(getMajorDao().getConcentrationByName(thirdConcentration));
 			}
 
-			if (!minor.equals("Select") && !getMajorDao().getByName(minor).equals(null)
-					&& getMajorDao().getByName(minor) != null) {
-				profileUser.addMinor(getMajorDao().getByName(minor));
+			if (!minor.equals("Select") && !getMajorDao().getMajorByName(minor).equals(null)
+					&& getMajorDao().getMajorByName(minor) != null) {
+				profileUser.addMinor(getMajorDao().getMajorByName(minor));
 			}
-			if (!secondMinor.equals("Select") && !getMajorDao().getByName(secondMinor).equals(null)
-					&& getMajorDao().getByName(secondMinor) != null) {
-				profileUser.addMinor(getMajorDao().getByName(secondMinor));
+			if (!secondMinor.equals("Select") && !getMajorDao().getMajorByName(secondMinor).equals(null)
+					&& getMajorDao().getMajorByName(secondMinor) != null) {
+				profileUser.addMinor(getMajorDao().getMajorByName(secondMinor));
 			}
-			if (!thirdMinor.equals("Select") && !getMajorDao().getByName(thirdMinor).equals(null)
-					&& getMajorDao().getByName(thirdMinor) != null) {
-				profileUser.addMinor(getMajorDao().getByName(thirdMinor));
+			if (!thirdMinor.equals("Select") && !getMajorDao().getMajorByName(thirdMinor).equals(null)
+					&& getMajorDao().getMajorByName(thirdMinor) != null) {
+				profileUser.addMinor(getMajorDao().getMajorByName(thirdMinor));
 			}
 
 			if (title.equals("Select")) {
@@ -1458,7 +1503,7 @@ public class HomeController extends BaseController {
 			profileUser.setBio(biography);
 			profileUser.setExperience(experience);
 			profileUser.setCompany(company);
-			if (display != null && !display.equals("null") && !display.equals(null)){
+			if (display != null && !display.equals("null") && !display.equals(null)) {
 				profileUser.setToPublic(1);
 			} else {
 				profileUser.setToPublic(0);
@@ -1468,7 +1513,6 @@ public class HomeController extends BaseController {
 				getUserDao().updateUser(profileUser);
 				getMajorDao().updateMajorsByUser(profileUser);
 			} catch (Exception e) {
-
 			}
 
 			if (!resume.isEmpty()) {
@@ -1610,10 +1654,6 @@ public class HomeController extends BaseController {
 		// u = getCurrentUser();
 		User profileUser = getUserDao().getObjectById(id);
 
-		// u.setMajor(getMajorDao().getMajorByUser(u));
-		// u.setConcentration(getMajorDao().getConcentrationByUser(u));
-		// u.setMinor(getMajorDao().getMinorByUser(u));
-
 		profileUser.setMajor(getMajorDao().getMajorByUser(profileUser));
 		profileUser.setConcentration(getMajorDao().getConcentrationByUser(profileUser));
 		profileUser.setMinor(getMajorDao().getMinorByUser(profileUser));
@@ -1628,6 +1668,12 @@ public class HomeController extends BaseController {
 		ArrayList<Interest> i = getInterestDao().getAll();
 		ArrayList<Interest> uI = getInterestDao().getAllByUser(profileUser);
 		ArrayList<Interest> interests2 = new ArrayList<Interest>();
+
+		// TODO get concentration by user
+		ArrayList<ArrayList<Major>> c = new ArrayList<ArrayList<Major>>();
+		for (Major maj : m) {
+			c.add(getMajorDao().getConcentrationByMajor(maj));
+		}
 
 		Boolean exists = false;
 
@@ -1680,7 +1726,7 @@ public class HomeController extends BaseController {
 		profileUser.setBio(biography);
 		profileUser.setExperience(experience);
 		profileUser.setCompany(company);
-		if (display != null && !display.equals("null") && !display.equals(null)){
+		if (display != null && !display.equals("null") && !display.equals(null)) {
 			profileUser.setToPublic(1);
 		} else {
 			profileUser.setToPublic(0);
@@ -1695,6 +1741,7 @@ public class HomeController extends BaseController {
 		model.addAttribute("interests", interests2);
 		model.addAttribute("userInterests", uI);
 		model.addAttribute("errors", error);
+		model.addAttribute("concentrations", c);
 		return "edit";
 
 	}
@@ -1764,7 +1811,17 @@ public class HomeController extends BaseController {
 		}
 
 		profileUser.setMajor(getMajorDao().getMajorByUser(profileUser));
-		profileUser.setConcentration(getMajorDao().getConcentrationByUser(profileUser));
+		ArrayList<Major> con = getMajorDao().getConcentrationByUser(profileUser);
+		
+		if (con != null && !con.equals(null)){
+			for (Major concen: con){
+				concen.setParent(getMajorDao().getMajorByConcentration(concen));
+			}
+		}
+		
+		profileUser.setConcentration(con);
+		
+		//TODO remove
 		profileUser.setMinor(getMajorDao().getMinorByUser(profileUser));
 		Title currentUserTitle = getTitleDao().getObjectById(profileUser.getTitleID());
 		model.addAttribute("profileUser", profileUser);

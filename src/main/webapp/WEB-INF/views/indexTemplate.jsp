@@ -42,6 +42,7 @@
 	<div class="wrapper">
 
 		<jsp:include page="navBarTemplate.jsp" />
+		
 
 		<!-- ******CONTENT****** -->
 		<div class="content container">
@@ -134,6 +135,7 @@
 
 								<%
 									for (int i = 0; i < jobs.size(); i++) {
+										if(jobs.get(i).getPoster().isActive()){
 
 										Long jobId = jobs.get(i) != null && jobs.get(i).getId() != 0 ? jobs.get(i).getId() : -1L;
 										String jobName = jobs.get(i) != null && jobs.get(i).getName() != null ? jobs.get(i).getName() : "NA";
@@ -163,6 +165,7 @@
 								<!--//news-item-->
 
 								<%
+										}
 									}
 
 									if (jobs.size() == 0) {
@@ -195,6 +198,7 @@
 
 							<%
 								for (int i = 0; i < events.size() && i < 4; i++) {
+									if(events.get(i).getPoster().isActive()){
 									Long eventId = events.get(i) != null && events.get(i).getId() != 0 ? events.get(i).getId() : -1L;
 									String eventName = events.get(i) != null && events.get(i).getName() != null ? events.get(i).getName()
 											: "NA";
@@ -230,6 +234,7 @@
 							<!--event-item-->
 
 							<%
+									}
 								}
 
 								if (events.size() == 0) {
@@ -364,7 +369,7 @@
 
 									<%
 										for (int i = 0; i < testimonials.size(); i++) {
-											if(testimonials.get(i).getPoster().isActive()){
+											/*  if(!testimonials.get(i).getPoster().isHidden()){  */ 
 											String testimonial = testimonials.get(i) != null && testimonials.get(i).getShortDescription() != null
 													? testimonials.get(i).getShortDescription() : "N/A";
 											String name = testimonials.get(i) != null && testimonials.get(i).getPoster() != null
@@ -406,14 +411,14 @@
 										</div>
 										<!--//item-->
 										<%
-											}
+										/* 	}  */
 										}
 
-											if (testimonials.size() == 0) {
-										%>
+											if (testimonials.size() == 0) {%>
 										<span>No testimonials to show.</span>
 										<%
-											}
+											
+										}
 										%>
 
 									</div>

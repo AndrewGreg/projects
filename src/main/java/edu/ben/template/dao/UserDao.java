@@ -28,7 +28,6 @@ public class UserDao extends BaseDao<User> {
 
 	public User getObjectById(long userId, boolean complete) {
 		if (userId == 0) {
-			/* Probably want to log this */
 			return null;
 		}
 		User object = null;
@@ -39,7 +38,7 @@ public class UserDao extends BaseDao<User> {
 				String sql = "SELECT * FROM user WHERE id = ?";
 				object = this.jdbcTemplate.queryForObject(sql, new Object[] { userId }, getRowMapper());
 			} catch (EmptyResultDataAccessException e) {
-				/* Probably want to log this */
+				e.printStackTrace();
 				return null;
 			}
 		}
@@ -70,7 +69,7 @@ public class UserDao extends BaseDao<User> {
 							user.getGraduationYear(), user.getOccupation(), user.getCompany(), user.getSuffix(),
 							user.getBiography(), user.getExperience(), user.isHidden(), user.isActive(),
 
-					user.getSocialMedia(), user.getPhoneNumber(), user.getWorkNumber(), user.isUserVerified(),
+							user.getSocialMedia(), user.getPhoneNumber(), user.getWorkNumber(), user.isUserVerified(),
 							user.isAdminVerified(), user.isGraduateVerified(), user.isCurrentGraduateVerified(),
 							user.getGraduateSchool(), user.getToPublic(), user.getReference() });
 		} catch (Exception e) {
@@ -78,7 +77,6 @@ public class UserDao extends BaseDao<User> {
 		}
 	}
 
-	// TODO Not Tested in Sprint 3
 	public void addMultiple(String file) {
 
 		User user = new User();
@@ -92,17 +90,21 @@ public class UserDao extends BaseDao<User> {
 						user.getBiography(), user.getExperience(), user.getId(), });
 	}
 
+	/**
+	 * 
+	 * @return all users from the database.
+	 */
 	public ArrayList<User> getAll() {
 
 		List<User> users = new ArrayList<User>();
-		String sql = "SELECT * from user";
+		String sql = SEARCH + "user";
 
 		try {
 			users = jdbcTemplate.query(sql, getRowMapper());
 
 			return (ArrayList<User>) users;
 		} catch (EmptyResultDataAccessException e) {
-			/* Probably want to log this */
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -115,7 +117,7 @@ public class UserDao extends BaseDao<User> {
 	public ArrayList<User> getAllStudents() {
 
 		List<User> users = new ArrayList<User>();
-		String sql = "SELECT * from user WHERE role = '1'";
+		String sql = SEARCH + "user WHERE role = '1'";
 
 		try {
 			users = jdbcTemplate.query(sql, getRowMapper());
@@ -126,19 +128,18 @@ public class UserDao extends BaseDao<User> {
 		}
 	}
 
-	public int getStudentCount() {
+	public ArrayList<User> getStudentCount() {
 
-		int count = 0;
-		String sql = "SELECT COUNT(*) FROM user WHERE role = '1';";
+		List<User> users = new ArrayList<User>();
+		String sql = "SELECT COUNT(*) FROM user WHERE role = '1'";
 
 		try {
+			users = jdbcTemplate.query(sql, getRowMapper());
 
-			count = jdbcTemplate.queryForInt(sql, getRowMapper());
-			return count;
-
+			return (ArrayList<User>) users;
 		} catch (EmptyResultDataAccessException e) {
 
-			return count;
+			return null;
 		}
 	}
 
@@ -150,7 +151,7 @@ public class UserDao extends BaseDao<User> {
 	public ArrayList<User> getAllAlumni() {
 
 		List<User> users = new ArrayList<User>();
-		String sql = "SELECT * from user WHERE role = '2'";
+		String sql = SEARCH + "user WHERE role = '2'";
 
 		try {
 			users = jdbcTemplate.query(sql, getRowMapper());
@@ -162,10 +163,11 @@ public class UserDao extends BaseDao<User> {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public int getAlumniCount() {
 
 		int count = 0;
-		String sql = "SELECT COUNT(*) FROM user WHERE role = '2';";
+		String sql = "SELECT COUNT(*) FROM user WHERE role = '2'";
 
 		try {
 
@@ -186,7 +188,7 @@ public class UserDao extends BaseDao<User> {
 	public ArrayList<User> getAllFaculty() {
 
 		List<User> users = new ArrayList<User>();
-		String sql = "SELECT * from user WHERE role = '3'";
+		String sql = SEARCH + "user WHERE role = '3'";
 
 		try {
 			users = jdbcTemplate.query(sql, getRowMapper());
@@ -198,6 +200,7 @@ public class UserDao extends BaseDao<User> {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public int getFacultyCount() {
 
 		int count = 0;
@@ -219,7 +222,7 @@ public class UserDao extends BaseDao<User> {
 		User u = null;
 		try {
 
-			String sql = "SELECT * FROM user WHERE email = ? LIMIT 1";
+			String sql = SEARCH + "user WHERE email = ? LIMIT 1";
 			u = jdbcTemplate.queryForObject(sql, new Object[] { email }, getRowMapper());
 		} catch (Exception e) {
 			return null;
@@ -313,7 +316,7 @@ public class UserDao extends BaseDao<User> {
 
 		User u = null;
 		try {
-			String sql = "SELECT * FROM user WHERE personal_email = ? LIMIT 1";
+			String sql = SEARCH + "user WHERE personal_email = ? LIMIT 1";
 			u = jdbcTemplate.queryForObject(sql, new Object[] { email }, getRowMapper());
 		} catch (EmptyResultDataAccessException e) {
 			return null;
@@ -321,8 +324,6 @@ public class UserDao extends BaseDao<User> {
 		return u;
 
 	}
-
-	// TODO GET ACCOUNT
 
 	public void updateUser(User user) {
 
@@ -359,7 +360,7 @@ public class UserDao extends BaseDao<User> {
 							user.isAdminVerified(), user.isGraduateVerified(), user.isCurrentGraduateVerified(),
 							user.getGraduateSchool(), user.getToPublic(), user.getReference(), user.getId() });
 		} catch (Exception e) {
-			/* Probably want to log this */
+
 			e.printStackTrace();
 		}
 
@@ -453,11 +454,6 @@ public class UserDao extends BaseDao<User> {
 				user.setGraduateSchool(rs.getString("graduate_school"));
 				user.setToPublic(rs.getInt("public"));
 				user.setReference(rs.getString("reference"));
-
-				// user.setCreated(rs.getDateTime("created"));
-				// user.setLastActive(rs.getDateTime("lastActive"));
-				// user.setLastModified(rs.getDateTime("lastModified"));
-				// user.setLastLogin(rs.getDateTime("lastLogin"));
 
 				return user;
 			}

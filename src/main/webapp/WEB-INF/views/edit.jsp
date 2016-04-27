@@ -107,6 +107,10 @@ $.each(dropdown, function(i, val) {
 });
 
 <%
+if (u.getRole() < 3 ){
+%>
+
+<%
 	if (u.getMajor() != null && u.getMajor().size() > 0 && u.getMajor().get(0) != null){
 %>
 
@@ -172,6 +176,20 @@ if (u.getMajor() != null && u.getMajor().size() > 2 && u.getMajor().get(2) != nu
 <%
 }
 %>
+
+<%
+}else {
+%>
+
+$('#majorOne').hide();
+$('#majorTwo').hide();
+$('#majorThree').hide();
+$('#minors').hide();
+
+<%
+}
+%>
+
 
 
 $('#major').on('load', function() {
@@ -743,6 +761,8 @@ $('#thirdMajor').on('load', function() {
 								</div>
 								</div>
 
+
+							<div class="row" id="minors">
 								<%
 									if (errors != null && errors.get("minor") != null) {
 								%>
@@ -894,6 +914,7 @@ $('#thirdMajor').on('load', function() {
 									</div>
 
 
+								</div>
 								</div>
 
 

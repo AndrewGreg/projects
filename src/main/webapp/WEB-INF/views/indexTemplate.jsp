@@ -134,7 +134,7 @@
 							<div class="item active">
 
 								<%
-									for (int i = 0; i < jobs.size(); i++) {
+									for (int i = 0; i < jobs.size() && i < 6; i++) {
 										if(jobs.get(i).getPoster().isActive()){
 
 										Long jobId = jobs.get(i) != null && jobs.get(i).getId() != 0 ? jobs.get(i).getId() : -1L;
@@ -197,8 +197,10 @@
 						<div class="section-content">
 
 							<%
-								for (int i = 0; i < events.size() && i < 4; i++) {
+								int j = 0;
+								for (int i = 0; i < events.size() && j < 4; i++) {
 									if(events.get(i).getPoster().isActive()){
+										j++;
 									Long eventId = events.get(i) != null && events.get(i).getId() != 0 ? events.get(i).getId() : -1L;
 									String eventName = events.get(i) != null && events.get(i).getName() != null ? events.get(i).getName()
 											: "NA";

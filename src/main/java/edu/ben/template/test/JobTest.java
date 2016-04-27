@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp.BasicDataSource;
-import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -15,7 +14,6 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.ben.template.dao.JobDao;
-import edu.ben.template.dao.UserDao;
 import edu.ben.template.model.Job;
 import edu.ben.template.model.User;
 import junit.framework.AssertionFailedError;
@@ -25,15 +23,13 @@ public class JobTest {
 	@Autowired
 	private JobDao jobDao = new JobDao();
 
-	@Autowired
-	private UserDao uDao = new UserDao();
-
-	@Test
-	@Transactional
-	@Rollback(true)
-	public void test() {
-		Assert.assertEquals(null, null);
-	}
+	
+	// @Test
+	// @Transactional
+	// @Rollback(true)
+	// public void test() {
+	// assert.assertEquals();//Assert.assertEquals(null, null);
+	// }
 
 	// @org.junit.Test
 	// @Transactional

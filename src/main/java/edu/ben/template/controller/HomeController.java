@@ -125,15 +125,19 @@ public class HomeController extends BaseController {
 		ArrayList<Event> eventDisplay = new ArrayList<Event>();
 		int countEvent = 0;
 		for (int i = events.size() - 1; i >= 0 && countEvent < 4; i--) {
+			if(events.get(i).getPoster().isActive()){
 			eventDisplay.add(events.get(i));
 			countEvent++;
+			}
 		}
 
 		ArrayList<Job> jobDisplay = new ArrayList<Job>();
 		int countJob = 0;
 		for (int i = jobs.size() - 1; i >= 0 && countJob < 6; i--) {
+			if(jobs.get(i).getPoster().isActive()){
 			jobDisplay.add(jobs.get(i));
 			countJob++;
+			}
 		}
 
 		ArrayList<Testimonial> testimonials , tempTestimonials;
@@ -144,11 +148,6 @@ public class HomeController extends BaseController {
 			e.printStackTrace();
 			tempTestimonials = new ArrayList<Testimonial>();
 		}
-
-		//for loop through tempTestimonials
-		
-		// if passes requirements
-		//		add to testimonials
 		
 		
 		model.addAttribute("events", eventDisplay);

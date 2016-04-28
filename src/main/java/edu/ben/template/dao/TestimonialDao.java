@@ -96,7 +96,7 @@ public class TestimonialDao extends BaseDao<Testimonial> {
 		return;
 	}
 
-	public void deleteTestimonial(Long id) {
+	public void deleteTestimonial(User id) {
 
 		String sql = "DELETE FROM testimonial WHERE id = ?";
 		try {
@@ -115,7 +115,8 @@ public class TestimonialDao extends BaseDao<Testimonial> {
 	public ArrayList<Testimonial> getAll() {
 
 		List<Testimonial> testimonial = new ArrayList<Testimonial>();
-		String sql = SEARCH + "testimonial ORDER BY testimonial DESC";
+		String sql = SEARCH
+				+ "testimonial join user WHERE user.id = testimonial.user_id AND active = 1 AND hidden = 0 ORDER BY testimonial DESC";
 
 		try {
 			testimonial = jdbcTemplate.query(sql, getRowMapper());
@@ -177,10 +178,8 @@ public class TestimonialDao extends BaseDao<Testimonial> {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
 				PreparedStatement ps = connection
-						.prepareStatement(
-								"insert into testimonial (id, testimonial) values (?,?) "
-										+ "on duplicate key update user_id = values(user_id)",
-								new String[] { "id" });
+						.prepareStatement("insert into testimonial (id, testimonial) values (?,?) "
+								+ "on duplicate key update user_id = values(user_id)", new String[] { "id" });
 				ps.setLong(1, testimonial.getId());
 				ps.setString(2, testimonial.getTestimonial());
 				return ps;

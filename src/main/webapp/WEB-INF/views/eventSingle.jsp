@@ -90,13 +90,12 @@
 
 							<section class="widget has-divider">
 								<h3 class="section-heading text-highlight">RSVP!</h3>
-								<h4><a class="btn btn-theme" href ="/Alumni-Tracker/rsvpList">Rsvp List</a></h4>
+								<h4><a class="btn btn-theme" href ="/Alumni-Tracker/rsvpList">RSVP List</a></h4>
 								
 
 								<%
 									if (currentUser != null) {
-										
-										//if(flag == true){
+									
 								%>
 								<a class="btn btn-theme" href="/Alumni-Tracker/addRsvp"><i
 									class="fa fa-send-o"></i>Attend</a>

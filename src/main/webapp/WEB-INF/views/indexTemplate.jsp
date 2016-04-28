@@ -134,7 +134,7 @@
 							<div class="item active">
 
 								<%
-									for (int i = 0; i < jobs.size() && i < 6; i++) {
+									for (int i = 0; i < jobs.size(); i++) {
 										if(jobs.get(i).getPoster().isActive()){
 
 										Long jobId = jobs.get(i) != null && jobs.get(i).getId() != 0 ? jobs.get(i).getId() : -1L;
@@ -197,10 +197,10 @@
 						<div class="section-content">
 
 							<%
-								int j = 0;
-								for (int i = 0; i < events.size() && j < 4; i++) {
+								
+								for (int i = 0; i < events.size() && i < 4; i++) {
 									if(events.get(i).getPoster().isActive()){
-										j++;
+										
 									Long eventId = events.get(i) != null && events.get(i).getId() != 0 ? events.get(i).getId() : -1L;
 									String eventName = events.get(i) != null && events.get(i).getName() != null ? events.get(i).getName()
 											: "NA";
@@ -371,7 +371,7 @@
 
 									<%
 										for (int i = 0; i < testimonials.size(); i++) {
-											/*  if(!testimonials.get(i).getPoster().isHidden()){  */ 
+											 if(testimonials.get(i).getPoster().isActive()){  
 											String testimonial = testimonials.get(i) != null && testimonials.get(i).getShortDescription() != null
 													? testimonials.get(i).getShortDescription() : "N/A";
 											String name = testimonials.get(i) != null && testimonials.get(i).getPoster() != null
@@ -413,7 +413,7 @@
 										</div>
 										<!--//item-->
 										<%
-										/* 	}  */
+											 }
 										}
 
 											if (testimonials.size() == 0) {%>

@@ -117,7 +117,7 @@ public class UserDao extends BaseDao<User> {
 	public ArrayList<User> getAllStudents() {
 
 		List<User> users = new ArrayList<User>();
-		String sql = SEARCH + "user WHERE role = '1'";
+		String sql = SEARCH + "user WHERE active = 1 AND hidden = 0 AND role = 1";
 
 		try {
 			users = jdbcTemplate.query(sql, getRowMapper());
@@ -151,7 +151,7 @@ public class UserDao extends BaseDao<User> {
 	public ArrayList<User> getAllAlumni() {
 
 		List<User> users = new ArrayList<User>();
-		String sql = SEARCH + "user WHERE role = '2'";
+		String sql = SEARCH + "WHERE active = 1 AND hidden = 0 AND role = 2";
 
 		try {
 			users = jdbcTemplate.query(sql, getRowMapper());
@@ -188,7 +188,7 @@ public class UserDao extends BaseDao<User> {
 	public ArrayList<User> getAllFaculty() {
 
 		List<User> users = new ArrayList<User>();
-		String sql = SEARCH + "user WHERE role = '3'";
+		String sql = SEARCH + "user WHERE active = 1 AND hidden = 0 AND role = 3";
 
 		try {
 			users = jdbcTemplate.query(sql, getRowMapper());
@@ -341,7 +341,6 @@ public class UserDao extends BaseDao<User> {
 								user.isCurrentGraduateVerified(), user.getGraduateSchool(), user.getToPublic(),
 								user.getReference(), user.getId() });
 			} catch (Exception e) {
-				/* Probably want to log this */
 				e.printStackTrace();
 			}
 			return;
@@ -364,6 +363,25 @@ public class UserDao extends BaseDao<User> {
 			e.printStackTrace();
 		}
 
+	}
+
+	/**
+	 * Delete user from System.
+	 * 
+	 * @param user
+	 * @param event
+	 */
+	public boolean deleteUser(User user) {
+		boolean flag = false;
+
+		String sql = "DELETE FROM user WHERE user_id =?";
+		try {
+			jdbcTemplate.update(sql, user.getId());
+			flag = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return flag;
 	}
 
 	/**
@@ -414,7 +432,7 @@ public class UserDao extends BaseDao<User> {
 			rsvp = jdbcTemplate.query(sql, new Object[] { event.getId() }, getRowMapper());
 			return (ArrayList<User>) rsvp;
 		} catch (EmptyResultDataAccessException e) {
-			/* Probably want to log this */
+			e.printStackTrace();
 			return null;
 		}
 	}

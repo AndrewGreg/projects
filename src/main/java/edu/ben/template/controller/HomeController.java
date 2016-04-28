@@ -127,6 +127,7 @@ public class HomeController extends BaseController {
 		for (int i = events.size() - 1; i >= 0 && countEvent < 4; i--) {
 			if(events.get(i).getPoster().isActive()){
 			eventDisplay.add(events.get(i));
+			
 			countEvent++;
 			}
 		}
@@ -134,10 +135,10 @@ public class HomeController extends BaseController {
 		ArrayList<Job> jobDisplay = new ArrayList<Job>();
 		int countJob = 0;
 		for (int i = jobs.size() - 1; i >= 0 && countJob < 6; i--) {
-			if(jobs.get(i).getPoster().isActive()){
+			
 			jobDisplay.add(jobs.get(i));
+			
 			countJob++;
-			}
 		}
 
 		ArrayList<Testimonial> testimonials , tempTestimonials;
@@ -1996,6 +1997,24 @@ public class HomeController extends BaseController {
 		getUserDao().updateUser(profileUser);
 		return "redirect:/allUsers";
 	}
+	
+	
+	
+//	/**
+//	 * Displays all the users in the system.
+//	 * 
+//	 * @param model
+//	 *            being passed in.
+//	 * @return the alumni list page.
+//	 */
+//	@RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
+//	public String removeUser(Model model, @ModelAttribute("profileUser") User profileUser) {
+//		profileUser.setActive(false);
+//		profileUser.setHidden(true);
+//
+//		getUserDao().updateUser(profileUser);
+//		return "redirect:/allUsers";
+//	}
 
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/somethingSecret", method = RequestMethod.GET)

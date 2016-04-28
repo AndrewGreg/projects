@@ -777,7 +777,7 @@ $('#thirdMajor').on('load', function() {
 									<div class="form-group">
 										<label class="control-label">Minor:<%
 											if (u.getRole() == 1 || currUser.getRole() == 4) {
-										%> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+										%> 
 										</label> <select class="form-control" name="minor" id="minor">
 											<option>Select</option>
 											<%

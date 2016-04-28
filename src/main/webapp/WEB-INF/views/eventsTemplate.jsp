@@ -47,6 +47,7 @@
 
 							<%
 								for (int i = 0; i < events.size(); i++) {
+									if(events.get(i).getPoster().isActive()){
 
 									String name = events.get(i).getName() != null ? events.get(i).getName() : "No event name";
 									String location = events.get(i).getLocation() != null ? events.get(i).getLocation() : "No Location";
@@ -101,6 +102,7 @@
 							<!--//events-item-->
 
 							<%
+									}
 								}
 							%>
 						</div>

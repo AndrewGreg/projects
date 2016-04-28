@@ -5,7 +5,6 @@ import java.sql.Date;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp.BasicDataSource;
-import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -26,12 +25,13 @@ public class EventTest {
 	@Autowired
 	private InterestDao interestDao = new InterestDao();
 
-	@Test
-	@Transactional
-	@Rollback(true)
-	public void test() {
-		Assert.assertEquals(null, null);
-	}
+	// @SuppressWarnings("deprecation")
+	// @Test
+	// @Transactional
+	// @Rollback(true)
+	// public void test() {
+	// Assert.assertEquals(null, null);
+	// }
 
 	@Test
 	@Transactional

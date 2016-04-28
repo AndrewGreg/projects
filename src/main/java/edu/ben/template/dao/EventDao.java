@@ -131,7 +131,8 @@ public class EventDao extends BaseDao<Event> {
 	public ArrayList<Event> getAll() {
 
 		List<Event> events = new ArrayList<Event>();
-		String sql = SEARCH + "event WHERE date >= NOW() ORDER BY date DESC";
+		String sql = SEARCH
+				+ "event join user WHERE user.id = event.user_id AND active = 1 AND date >= NOW() ORDER BY date DESC";
 
 		try {
 			events = jdbcTemplate.query(sql, getRowMapper());
@@ -256,14 +257,14 @@ public class EventDao extends BaseDao<Event> {
 	 * 
 	 * @return
 	 */
-	public ArrayList<Event> getAllByUser(User u,Event event) {
+	public ArrayList<Event> getAllByUser(User u, Event event) {
 
 		List<Event> rsvp = new ArrayList<Event>();
-		
+
 		String sql = SEARCH + "event JOIN rsvp on event.id = rsvp.event_id WHERE rsvp.user_id = ?";
 
 		try {
-			rsvp = jdbcTemplate.query(sql, new Object[] { u.getId(), event.getId()}, getRowMapper());
+			rsvp = jdbcTemplate.query(sql, new Object[] { u.getId(), event.getId() }, getRowMapper());
 			return (ArrayList<Event>) rsvp;
 		} catch (Exception e) {
 			e.printStackTrace();

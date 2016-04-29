@@ -512,45 +512,58 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 
 insert into title (id, name) values (1,"Mr.");
-insert into title (id, name) values (2,"Mrs.");
-insert into title (id, name) values (3,"Miss.");
-insert into title (id, name) values (4,"Dr.");
+insert into title (id, name) values (2,"Ms.");
+insert into title (id, name) values (3,"Mrs.");
+insert into title (id, name) values (4,"Miss.");
+insert into title (id, name) values (5,"Prof.");
+insert into title (id, name) values (6,"Dr.");
+insert into title (id, name) values (7,"Br.");
+insert into title (id, name) values (8,"Sr..");
+insert into title (id, name) values (9,"Fr.");
+insert into title (id, name) values (10,"Rev.");
+insert into title (id, name) values (11,"Elder");
+
+
 
 insert into reason (id,name) values (1,"Student Error");
 insert into reason (id,name) values (2,"Curriculum Change");
-insert into reason (id,name) values (3,"Finnancial");
+insert into reason (id,name) values (3,"Financial");
 
 INSERT INTO `user` (`id`, `title_id`, `bnumber`, `email`, `personal_email`, `password`, `salt`, `first_name`, `last_name`, `role`, `graduation_year`, `occupation`, `suffix`, `biography`, `experience`, `hidden`, `active`, `created`, `last_active`, `last_modified`, `social_media`, `phone_number`)
-VALUES (1, 1, 2160102, 'example@ben.edu', 'example@yahoo.com',    'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Chris', 'Detloff',   2, 1999, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(297)528-1989'),
-	(2, 1, 2160102, 'example2@ben.edu', 'example2@yahoo.com',      'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Donald', 'Kirk',     2, 1999, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(414)616-3587'),
-	(3, 1, 2160102, 'alumni@ben.edu', 'alumniuser@yahoo.com',      'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Bob', 'Doe',         2, 2014, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(524)244-7345'),
-	(4, 1, 2160102, 'alumni2@ben.edu', 'alumniuser2@yahoo.com',    'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Joe', 'Chang',       2, 2004, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(793)628-4031'),
-	(5, 1, 2160102, 'alumni3@ben.edu', 'alumniuser3@yahoo.com',    'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Matt', 'Wang',       2, 2006, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(359)511-2331'),
-	(6, 1, 2160102, 'alumni4@ben.edu', 'alumniuser4@yahoo.com',    'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Miguel', 'Magoo',    2, 2009, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(176)118-7600'),
-	(7, 1, 2160102, 'alumni5@ben.edu', 'alumniuser5@yahoo.com',    'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Peter', 'Hebda',     2, 2011, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(604)626-0040'),
-	(8, 1, 2160102, 'alumni6@ben.edu', 'alumniuser6@yahoo.com',    'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'John', 'Duh',        2, 2012, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(834)405-4982'),
-	(9, 1, 2160102, 'alumni7@ben.edu', 'alumniuser7@yahoo.com',    'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Frank', 'Tank',      2, 2013, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(490)218-8669'),
-	(10, 1, 2160102, 'alumni8@ben.edu', 'alumniuser8@yahoo.com',   'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Don', 'Juan',        2, 1969, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(569)244-5043'),
-	(11, 1, 2160102, 'alumni9@ben.edu', 'alumniuser9@yahoo.com',   'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Andrew', 'Gregory',  2, 1935, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(862)384-1492'),
-	(12, 1, 2160102, 'alumni10@ben.edu', 'alumniuser10@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Andy', 'Boy',        2, 2014, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(558)211-9755'),
-	(13, 1, 2160102, 'alumni11@ben.edu', 'alumniuser11@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Hines', 'Ward',      2, 2004, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(228)972-9242'),
-	(14, 1, 2160102, 'alumni12@ben.edu', 'alumniuser12@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Brett', 'Favre',     2, 2006, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(760)910-2218'),
-	(15, 1, 2160102, 'alumni13@ben.edu', 'alumniuser13@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'John', 'Madden',     2, 2009, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(287)568-0318'),
-	(16, 1, 2160102, 'alumni14@ben.edu', 'alumniuser14@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Michael', 'Jordan',  2, 2011, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(445)853-6603'),
-	(17, 1, 2160102, 'alumni15@ben.edu', 'alumniuser15@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Walter', 'Payton',   2, 2012, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(833)416-0671'),
-	(18, 1, 2160102, 'alumni16@ben.edu', 'alumniuser16@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Sammy', 'Sosa',      2, 2013, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(892)823-3321'),
-	(19, 1, 2160102, 'alumni18@ben.edu', 'alumniuser18@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Harry', 'Potter',    2, 1935, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(167)726-4327'),
-	(20, 3, 2160102, 'alumni19@ben.edu', 'alumniuser19@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Lisa', 'Hotwagner',  2, 2002, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(327)541-2840'),
-	(21, 1, 2160102, 'alumni20@ben.edu', 'alumniuser20@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Kate', 'Upton',      2, 1943, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(830)348-0868'),
-	(22, 1, 2160102, 'alumni21@ben.edu', 'alumniuser21@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Michael', 'Jackson', 2, 2001, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(955)154-7290'),
-	(23, 1, 2160102, 'alumni22@ben.edu', 'alumniuser22@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Brian', 'Mcknight',  2, 2012, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(220)592-8713'),
-	(24, 2, 2160102, 'alumni23@ben.edu', 'alumniuser23@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Mariah', 'Carey',    2, 2008, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(668)982-6044'),
-	(25, 1, 2160102, 'alumni24@ben.edu', 'alumniuser24@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Barrack', 'Obama',   2, 1976, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(345)791-8272');
+VALUES 
+	(1, 1, 2160102, 'chrisd@ben.edu', 'chris@yahoo.com',    'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Chris', 'Detloff',   2, 1999, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(297)528-1989'),
+	(2, 1, 2160102, 'donaldk@ben.edu', 'donald@yahoo.com',      'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Donald', 'Kirk',     2, 1999, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(414)616-3587'),
+	(3, 1, 2160102, 'bobS@ben.edu', 'alumniuser@yahoo.com',      'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Bob', 'Saggot',         2, 2014, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(524)244-7345'),
+	(4, 1, 2160102, 'joeC@ben.edu', 'alumniuser2@yahoo.com',    'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Joe', 'Chang',       2, 2004, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(793)628-4031'),
+	(5, 1, 2160102, 'mattW@ben.edu', 'alumniuser3@yahoo.com',    'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Matt', 'Wang',       2, 2006, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(359)511-2331'),
+	(6, 1, 2160102, 'mikeM@ben.edu', 'alumniuser4@yahoo.com',    'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Mike', 'Magoo',    2, 2009, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(176)118-7600'),
+	(7, 1, 2160102, 'peterH@ben.edu', 'alumniuser5@yahoo.com',    'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Peter', 'Hebda',     2, 2011, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(604)626-0040'),
+	(8, 1, 2160102, 'johnS@ben.edu', 'alumniuser6@yahoo.com',    'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'John', 'Smith',        2, 2012, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(834)405-4982'),
+	(9, 1, 2160102, 'frankT@ben.edu', 'alumniuser7@yahoo.com',    'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Frank', 'Tank',      2, 2013, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(490)218-8669'),
+	(10, 1, 2160102, 'donJ@ben.edu', 'alumniuser8@yahoo.com',   'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Don', 'Juan',        2, 1969, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(569)244-5043'),
+	(11, 1, 2160102, 'andrewG@ben.edu', 'alumniuser9@yahoo.com',   'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Andrew', 'Gregory',  2, 1935, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(862)384-1492'),
+	(12, 1, 2160102, 'andyB@ben.edu', 'alumniuser10@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Andy', 'Boy',        2, 2014, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(558)211-9755'),
+	(13, 1, 2160102, 'hinesW@ben.edu', 'alumniuser11@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Hines', 'Ward',      2, 2004, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(228)972-9242'),
+	(14, 1, 2160102, 'brettF@ben.edu', 'alumniuser12@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Brett', 'Favre',     2, 2006, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(760)910-2218'),
+	(15, 1, 2160102, 'johnM@ben.edu', 'alumniuser13@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'John', 'Madden',     2, 2009, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(287)568-0318'),
+	(16, 1, 2160102, 'michaelJo@ben.edu', 'alumniuser14@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Michael', 'Jordan',  2, 2011, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(445)853-6603'),
+	(17, 1, 2160102, 'WalterP@ben.edu', 'alumniuser15@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Walter', 'Payton',   2, 2012, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(833)416-0671'),
+	(18, 1, 2160102, 'sammyS@ben.edu', 'alumniuser16@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Sammy', 'Sosa',      2, 2013, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(892)823-3321'),
+	(19, 1, 2160102, 'harryP@ben.edu', 'alumniuser18@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Harry', 'Potter',    2, 1935, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(167)726-4327'),
+	(20, 3, 2160102, 'lisaT@ben.edu', 'alumniuser19@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Lisa', 'Turner',  2, 2002, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(327)541-2840'),
+	(21, 1, 2160102, 'kateU@ben.edu', 'alumniuser20@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Kate', 'Upton',      2, 1943, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(830)348-0868'),
+	(22, 1, 2160102, 'michaelJ@ben.edu', 'alumniuser21@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Michael', 'Jackson', 2, 2001, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(955)154-7290'),
+	(23, 1, 2160102, 'brianM@ben.edu', 'alumniuser22@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Brian', 'Mcknight',  2, 2012, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(220)592-8713'),
+	(24, 2, 2160102, 'mariahC@ben.edu', 'alumniuser23@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Mariah', 'Carey',    2, 2008, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(668)982-6044'),
+	(25, 1, 2160102, 'barrackO@ben.edu', 'alumniuser24@yahoo.com', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Barrack', 'Obama',   2, 1976, NULL, NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, '(345)791-8272');
 
 insert into user (id, email,password,salt,first_name, last_name, role, title_id) values (29,'student@ben.edu', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Sam', 'Student', 1, 1);
 insert into user (id, email,password,salt,first_name, last_name, role, title_id) values (30,'alumni.account@ben.edu', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Al', 'Alumni', 2, 1);
 insert into user (id, email,password,salt,first_name, last_name, role, title_id) values (31,'faculty@ben.edu', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Phil', 'Phaculty', 3, 1);
-insert into user (id, email,password,salt,first_name, last_name, role, title_id) values (32,'admin@ben.edu', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Alice', 'Admin', 4, 2);
+insert into user (id, email,password,salt,first_name, last_name, role, title_id) values (32,'cdetloff@ben.edu', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Donald', 'Kirk', 4, 2);
+insert into user (id, email,password,salt,first_name, last_name, role, title_id) values (33,'dkirk@ben.edu', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Chris', 'Detloff', 4, 2);
+insert into user (id, email,password,salt,first_name, last_name, role, title_id) values (34,'agregory@ben.edu', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Andrew', 'Gregory', 4, 2);
+insert into user (id, email,password,salt,first_name, last_name, role, title_id) values (35,'jdieck@ben.edu', 'a13d4b8b59ff5768129bc50083ac6ecc16078be5bdf0d462577399d6a10b2a73a084bc1cb4930e72', 'null', 'Jose', 'Dieck', 4, 2);
 
 INSERT INTO hours (id,classification) values (1, "part time");
 INSERT INTO hours (id,classification) values (2, "full time");
@@ -683,13 +696,13 @@ VALUES
 (70, 'Pre-Physical', 1, 42),
 (71, 'Pre-Occupational Therapy', 1, 42),
 (72, 'Biology', 1, 44),
-(73, 'Business and Economics', 1, 9),
-(74, 'Chemistry', 1, 9),
-(75, 'English Language and Literature', 1, 9),
-(76, 'Mathematics', 1, 9),
-(77, 'Physics', 1, 9),
-(78, 'Social Science', 1, 9),
-(79, 'Spanish', 1, 9),
+(73, 'Business and Economics', 0, NULL),
+(74, 'Chemistry', 0, NULL),
+(75, 'English Language and Literature', 0, NULL),
+(76, 'Mathematics',0, NULL),
+(77, 'Physics', 0, NULL),
+(78, 'Social Science', 0, NULL),
+(79, 'Spanish', 0, NULL),
 (80, 'Criminal Justice', 1, 46),
 (81, 'Medical Spanish', 1, 47),
 (82, 'Anthropology', 0,NULL),
@@ -699,7 +712,12 @@ VALUES
 (86, 'Secondary Education', 0,NULL),
 (87, 'Social Work', 0,NULL),
 (88, 'Sports Management', 0,NULL),
-(89, 'Sports Marketing', 0,NULL);
+(89, 'Sports Marketing', 0,NULL),
+(90, 'Allied Health Sciences Concentration', 1,4),
+(91, 'Clinical Exercise Physiology Concentration', 1,4),
+(92, 'Environmental Science Concentration', 1,4),
+(93, 'Liberal Arts Concentration', 1,4),
+(94, 'Sports Marketing', 0,NULL);
 	
 	
 	INSERT INTO `user_major` (`user_id`, `major_id`, `minor`)
@@ -732,7 +750,10 @@ VALUES
 	(29, 1, 0),
 	(30, 3, 0),
 	(31, 1, 0),
-	(32, 2, 0);
+	(32, 2, 0),
+	(33, 3, 0),
+	(34, 1, 0),
+	(35, 2, 0);
 
 INSERT INTO `user_interest` (`user_id`, `interest_id`)
 VALUES
@@ -764,4 +785,7 @@ VALUES
 	(29, 1),
 	(30, 1),
 	(31, 1),
-	(32, 1);
+	(32, 1),
+	(33, 1),
+	(34, 1),
+	(35, 1);

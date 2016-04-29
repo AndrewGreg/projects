@@ -151,7 +151,7 @@ public class UserDao extends BaseDao<User> {
 	public ArrayList<User> getAllAlumni() {
 
 		List<User> users = new ArrayList<User>();
-		String sql = SEARCH + "WHERE active = 1 AND hidden = 0 AND role = 2";
+		String sql = SEARCH + "user WHERE active = 1 AND hidden = 0 AND role = 2";
 
 		try {
 			users = jdbcTemplate.query(sql, getRowMapper());

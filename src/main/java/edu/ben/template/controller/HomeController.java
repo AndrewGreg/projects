@@ -136,11 +136,10 @@ public class HomeController extends BaseController {
 		for (int i = jobs.size() - 1; i >= 0 && countJob < 6; i--) {
 
 			jobDisplay.add(jobs.get(i));
-
 			countJob++;
 		}
 
-		ArrayList<Testimonial> testimonials, tempTestimonials;
+		ArrayList<Testimonial> tempTestimonials;
 
 		try {
 			tempTestimonials = getTestimonialDao().getAll();
@@ -981,8 +980,8 @@ public class HomeController extends BaseController {
 	public String deleteEvent(Model model, @ModelAttribute("currentEvent") Event currentEvent,
 			RedirectAttributes redirectAttrs) {
 		getEventDao().deleteEvent(currentEvent.getId());
-		// model.addAttribute("eventDeletion", "true");
 		redirectAttrs.addFlashAttribute("eventDeletion", "true");
+
 		return "redirect:/eventsTemplate";
 	}
 
@@ -1000,8 +999,10 @@ public class HomeController extends BaseController {
 	public String addRsvp(Model model, @ModelAttribute("currentUser") User currentUser,
 			@ModelAttribute("currentEvent") Event currentEvent, RedirectAttributes redirectAttrs)
 					throws MySQLIntegrityConstraintViolationException {
-
+		currentUser.setGraduateVerified(true);
 		getUserDao().addRsvp(currentUser, currentEvent);
+		getUserDao().getAllByEvent(currentEvent);
+		redirectAttrs.addFlashAttribute("addRsvpArray", getUserDao().getAllByEvent(currentEvent));
 
 		redirectAttrs.addFlashAttribute("addRsvp", "true");
 
@@ -1020,7 +1021,7 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/deleteRsvp", method = RequestMethod.GET)
 	public String deleteRsvp(Model model, @ModelAttribute("currentUser") User currentUser,
 			@ModelAttribute("currentEvent") Event currentEvent, RedirectAttributes redirectAttrs) {
-
+		currentUser.setGraduateVerified(false);
 		getUserDao().deleteRsvp(currentUser, currentEvent);
 		redirectAttrs.addFlashAttribute("deleteRsvp", "true");
 
@@ -2005,11 +2006,11 @@ public class HomeController extends BaseController {
 	}
 
 	/**
-	 * Displays all the users in the system.
+	 * Deactivates the account.
 	 * 
 	 * @param model
 	 *            being passed in.
-	 * @return the alumni list page.
+	 * @return
 	 */
 	@RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
 	public String deleteUser(Model model, @ModelAttribute("profileUser") User profileUser) {
@@ -2017,6 +2018,22 @@ public class HomeController extends BaseController {
 		profileUser.setHidden(true);
 
 		getUserDao().updateUser(profileUser);
+		return "redirect:/allUsers";
+	}
+
+	/**
+	 * Reactivate the user account.
+	 * 
+	 * @param model
+	 *            being passed in.
+	 * @return the alumni list page.
+	 */
+	@RequestMapping(value = "/reactivateAccount", method = RequestMethod.POST)
+	public String reactivateAccount(Model model, @ModelAttribute("profileUser") User profileUser) {
+		// profileUser.setActive(true);
+		// profileUser.setHidden(false);
+
+		getUserDao().reactivateUser(profileUser);
 		return "redirect:/allUsers";
 	}
 

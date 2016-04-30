@@ -436,6 +436,44 @@ public class UserDao extends BaseDao<User> {
 			return null;
 		}
 	}
+	
+	/**
+	 * Retrieve all the users that are deactivated.
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public ArrayList<User> getAllHiddenAccounts(User user) {
+
+		List<User> rsvp = new ArrayList<User>();
+		String sql = SEARCH + "user WHERE active = 0 AND hidden = 1";
+
+		try {
+			rsvp = jdbcTemplate.query(sql, new Object[] { user.getId() }, getRowMapper());
+			return (ArrayList<User>) rsvp;
+		} catch (EmptyResultDataAccessException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/**
+	 * Sets user account active again.
+	 * 
+	 * @param user
+	 */
+	public boolean reactivateUser(User user) {
+		boolean activated = false;
+
+		String sql = "UPDATE user SET active= 1, hidden= 0  WHERE id = ?";
+		try {
+			jdbcTemplate.update(sql,user.getId());
+			activated = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return activated;
+	}
 
 	@Override
 	public RowMapper<User> getRowMapper() {

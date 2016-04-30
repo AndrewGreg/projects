@@ -3,11 +3,12 @@
 
 <%@page import="edu.ben.template.model.Event"%>
 <%@page import="edu.ben.template.model.User"%>
+<%@page import="edu.ben.template.dao.UserDao"%>
 
 
 <%
 	User currentUser = (User) request.getAttribute("currentUser");
-	//boolean flag = (boolean) request.getAttribute("addRsvp");
+	UserDao user = (UserDao) request.getAttribute("user");
 %>
 <%
 	Event currentEvent = (Event) request.getAttribute("currentEvent");
@@ -38,6 +39,21 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script>
+function setColor(btn, color){
+    var count=1;
+    var property = document.getElementById(btn);
+    if (count == 0){
+        property.style.backgroundColor = "#4CAF50"
+        count=1;        
+    }
+    else{
+        property.style.backgroundColor = "black"
+        count=0;
+    }
+
+}
+</script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><%=name%></title>
 <jsp:include page="headerTemplate.jsp" />
@@ -92,18 +108,17 @@
 								<h3 class="section-heading text-highlight">RSVP!</h3>
 								<h4><a class="btn btn-theme" href ="/Alumni-Tracker/rsvpList">RSVP List</a></h4>
 								
-
 								<%
-									if (currentUser != null) {
-									
-								%>
+									if (currentUser != null) {%>
+								
 								<a class="btn btn-theme" href="/Alumni-Tracker/addRsvp"><i
 									class="fa fa-send-o"></i>Attend</a>
-										
 								
 									<a class="btn btn-theme" href="/Alumni-Tracker/deleteRsvp"><i
 									class="fa fa-ban"></i>Not Going </a>
-									<%} %> 
+									<%}
+								
+									%> 
 
 							</section>
 
@@ -167,6 +182,7 @@
 
 							<%
 								}
+							
 							%>
 
 						</aside>

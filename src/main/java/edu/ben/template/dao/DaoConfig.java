@@ -16,6 +16,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.fasterxml.jackson.module.afterburner.AfterburnerModule;
 
+import edu.ben.template.model.EmailGenerator;
+
 
 /**
  * DI config for controllers. Loaded from the <tt>WebApp</tt> class. This is a
@@ -342,7 +344,33 @@ public class DaoConfig {
 		return dao;
 	}
 
+	@Bean
+	public EmailGenerator emailGenerator() {
+		// create new object mapper
+		Properties props = System.getProperties();
 
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		try {
+			props.load(classLoader.getResourceAsStream("config.properties"));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		String host = props.getProperty("EMAIL_HOST");
+		String port = props.getProperty("EMAIL_PORT");
+		String debug = props.getProperty("EMAIL_DEBUG");
+		final String username = props.getProperty("EMAIL_ADDRESS");
+		final String password = props.getProperty("EMAIL_PASSWORD");
+		
+		
+		EmailGenerator generator = new EmailGenerator();
+		generator.setHost(host);
+		generator.setPort(port);
+		generator.setDebug(debug);
+		generator.setUsername(username);
+		generator.setPassword(password);
+		
+		return generator;
+	}
 
 	@Bean
 	public ObjectMapper objectMapper() {

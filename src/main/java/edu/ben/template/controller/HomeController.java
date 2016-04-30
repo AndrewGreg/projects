@@ -1231,8 +1231,9 @@ public class HomeController extends BaseController {
 				register.setPassword(pwEncoder.encode(password));
 
 				try {
+
 					EmailGenerator.generateAccountCreationEmail(benEmail, tempPassword);
-//					getUserDao().addUser(register);
+					getUserDao().addUser(register);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

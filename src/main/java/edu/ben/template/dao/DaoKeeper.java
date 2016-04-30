@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Import;
 //import edu.ben.template.dao.UserDao;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import edu.ben.template.model.EmailGenerator;
+
 /**
  * this is here to just hold all the dao objects
  */
@@ -41,6 +43,16 @@ public class DaoKeeper {
 	private ContactDao contactDao;
 	@Autowired
 	private TestimonialDao testimonialDao;
+	@Autowired
+	private EmailGenerator emailGenerator;
+
+	public EmailGenerator getEmailGenerator() {
+		return emailGenerator;
+	}
+
+	public void setEmailGenerator(EmailGenerator emailGenerator) {
+		this.emailGenerator = emailGenerator;
+	}
 
 	public ObjectMapper getObjectMapper() {
 		return objectMapper;

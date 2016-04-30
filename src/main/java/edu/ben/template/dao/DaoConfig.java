@@ -36,7 +36,8 @@ public class DaoConfig {
 		
 		Class.forName("com.mysql.jdbc.Driver");
 		
-		Properties props = new Properties();ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		Properties props = new Properties();
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		props.load(classLoader.getResourceAsStream("config.properties"));
 		String MYSQL_PREFIX = props.getProperty("MYSQL_PREFIX");
 		String HOST = props.getProperty("HOST");

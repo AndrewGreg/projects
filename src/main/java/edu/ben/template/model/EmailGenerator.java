@@ -1,5 +1,6 @@
 package edu.ben.template.model;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
 
@@ -14,10 +15,10 @@ import javax.mail.internet.MimeMessage;
 
 public class EmailGenerator {
 
-//
-//	public EmailGenerator() {
-//		super();
-//	}
+
+	public EmailGenerator() {
+		super();
+	}
 
 	public static void generateAccountCreationEmail(String email, String pass) {
 
@@ -25,17 +26,28 @@ public class EmailGenerator {
 		final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
 		// Get a Properties object
 		Properties props = System.getProperties();
-		props.setProperty("mail.smtp.host", "smtp.gmail.com");
+		
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		try {
+			props.load(classLoader.getResourceAsStream("config.properties"));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		String host = props.getProperty("EMAIL_HOST");
+		String port = props.getProperty("EMAIL_PORT");
+		String debug = props.getProperty("EMAIL_DEBUG");
+		final String username = props.getProperty("EMAIL_ADDRESS");
+		final String password = props.getProperty("EMAIL_PASSWORD");
+		
+		props.setProperty("mail.smtp.host", host);
 		props.setProperty("mail.smtp.socketFactory.class", SSL_FACTORY);
 		props.setProperty("mail.smtp.socketFactory.fallback", "false");
-		props.setProperty("mail.smtp.port", "465");
-		props.setProperty("mail.smtp.socketFactory.port", "465");
+		props.setProperty("mail.smtp.port",port);
+		props.setProperty("mail.smtp.socketFactory.port",port);
 		props.put("mail.smtp.auth", "true");
-		props.put("mail.debug", "true");
+		props.put("mail.debug", debug);
 		props.put("mail.store.protocol", "pop3");
 		props.put("mail.transport.protocol", "smtp");
-		final String username = "benedictineAlumniTracker@gmail.com";//
-		final String password = "TeamElg00g";
 		try {
 			Session session = Session.getDefaultInstance(props, new Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
@@ -48,8 +60,8 @@ public class EmailGenerator {
 
 			// -- Set the FROM and TO fields --
 			msg.setFrom(new InternetAddress(username));
-			//Personal Email for debugging
-			msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("chitown042@gmail.com", false));
+			//Site Email for debugging
+			msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(username, false));
 //			msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email, false));
 			msg.setSubject("Benedictine University's Alumnitracker Account Verification");
 			msg.setText(

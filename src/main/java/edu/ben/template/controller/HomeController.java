@@ -30,6 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
+import edu.ben.template.model.EmailGenerator;
 import edu.ben.template.model.Event;
 import edu.ben.template.model.Interest;
 import edu.ben.template.model.Job;
@@ -1230,7 +1231,7 @@ public class HomeController extends BaseController {
 				register.setPassword(pwEncoder.encode(password));
 
 				try {
-//					getEmailGenerator().generateAccountCreationEmail(benEmail, tempPassword);
+					EmailGenerator.generateAccountCreationEmail(benEmail, tempPassword);
 //					getUserDao().addUser(register);
 				} catch (Exception e) {
 					e.printStackTrace();

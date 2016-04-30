@@ -1225,8 +1225,16 @@ public class HomeController extends BaseController {
 				register.setActive(true);
 				register.setToPublic(1);
 
-				register.setSalt(password);
+				String tempPassword = randomString();
+				register.setSalt(tempPassword);
 				register.setPassword(pwEncoder.encode(password));
+
+				try {
+//					getEmailGenerator().generateAccountCreationEmail(benEmail, tempPassword);
+//					getUserDao().addUser(register);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
 				try {
 					getUserDao().addUser(register);
@@ -2146,5 +2154,19 @@ public class HomeController extends BaseController {
 		model.addAttribute("active", "job");
 		return "jobsTemplate";
 	}
+	
+	public static String randomString() {
+		String ALPHA_NUMERIC_STRING = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		StringBuilder s = new StringBuilder();
+		int i = 0;
+		while (i < STRING_LENGTH) {
+			int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
+			s.append(ALPHA_NUMERIC_STRING.charAt(character));
+			i++;
+		}
+		return s.toString();
+	}
+	
+	public final static int STRING_LENGTH = 8;
 
 }

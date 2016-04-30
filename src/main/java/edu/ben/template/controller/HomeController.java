@@ -1555,6 +1555,10 @@ public class HomeController extends BaseController {
 			} else {
 				profileUser.setGraduationYear(Integer.parseInt(graduationYear));
 			}
+			
+			if (personalEmail.equals("")){
+				personalEmail = null;
+			}
 
 			profileUser.setFirstName(firstName);
 			profileUser.setLastName(lastName);

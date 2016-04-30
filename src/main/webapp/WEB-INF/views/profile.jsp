@@ -50,7 +50,7 @@
 								<%=profileUser.getLastName()%></h1>
 							<div class="pull-right">
 								<%
-									if (currentUser.getRole() == 4) {
+									if (currentUser.getRole() == 4 && profileUser.isActive()) {
 								%>
 								<form action="/Alumni-Tracker/deleteUser" method="POST"
 									name="deleteUser">
@@ -59,8 +59,13 @@
 								</form>
 
 								<%
-									}
+									} else if (currentUser.getRole() == 4 && profileUser.isHidden()){
 								%>
+								<form action="/Alumni-Tracker/reactivateAccount" method="POST"
+									name="reactivateAccount">
+									<button type="submit" class="btn btn-primary">Reactivate User</button>
+								</form>
+								<%} %>
 							</div>
 
 							<div class="breadcrumbs pull-right" id="breadcrumbs-profile">

@@ -106,7 +106,6 @@ public class HomeController extends BaseController {
 	public String index(Model model) throws Exception {
 
 		ArrayList<Event> events;
-		
 
 		try {
 			events = getEventDao().getAll();
@@ -126,23 +125,22 @@ public class HomeController extends BaseController {
 		ArrayList<Event> eventDisplay = new ArrayList<Event>();
 		int countEvent = 0;
 		for (int i = events.size() - 1; i >= 0 && countEvent < 4; i--) {
-			if(events.get(i).getPoster().isActive()){
-			eventDisplay.add(events.get(i));
-			
-			countEvent++;
+			if (events.get(i).getPoster().isActive()) {
+				eventDisplay.add(events.get(i));
+
+				countEvent++;
 			}
 		}
 
 		ArrayList<Job> jobDisplay = new ArrayList<Job>();
 		int countJob = 0;
 		for (int i = jobs.size() - 1; i >= 0 && countJob < 6; i--) {
-			
+
 			jobDisplay.add(jobs.get(i));
-			
 			countJob++;
 		}
 
-		ArrayList<Testimonial> testimonials , tempTestimonials;
+		ArrayList<Testimonial> tempTestimonials;
 
 		try {
 			tempTestimonials = getTestimonialDao().getAll();
@@ -150,13 +148,12 @@ public class HomeController extends BaseController {
 			e.printStackTrace();
 			tempTestimonials = new ArrayList<Testimonial>();
 		}
-		
-		
+
 		model.addAttribute("events", eventDisplay);
 		model.addAttribute("jobs", jobDisplay);
 		model.addAttribute("testimonials", tempTestimonials);
 		model.addAttribute("active", "index");
-		
+
 		return "indexTemplate";
 
 	}
@@ -984,8 +981,8 @@ public class HomeController extends BaseController {
 	public String deleteEvent(Model model, @ModelAttribute("currentEvent") Event currentEvent,
 			RedirectAttributes redirectAttrs) {
 		getEventDao().deleteEvent(currentEvent.getId());
-		// model.addAttribute("eventDeletion", "true");
 		redirectAttrs.addFlashAttribute("eventDeletion", "true");
+
 		return "redirect:/eventsTemplate";
 	}
 
@@ -1003,8 +1000,10 @@ public class HomeController extends BaseController {
 	public String addRsvp(Model model, @ModelAttribute("currentUser") User currentUser,
 			@ModelAttribute("currentEvent") Event currentEvent, RedirectAttributes redirectAttrs)
 					throws MySQLIntegrityConstraintViolationException {
-
+		currentUser.setGraduateVerified(true);
 		getUserDao().addRsvp(currentUser, currentEvent);
+		getUserDao().getAllByEvent(currentEvent);
+		redirectAttrs.addFlashAttribute("addRsvpArray", getUserDao().getAllByEvent(currentEvent));
 
 		redirectAttrs.addFlashAttribute("addRsvp", "true");
 
@@ -1023,7 +1022,7 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/deleteRsvp", method = RequestMethod.GET)
 	public String deleteRsvp(Model model, @ModelAttribute("currentUser") User currentUser,
 			@ModelAttribute("currentEvent") Event currentEvent, RedirectAttributes redirectAttrs) {
-
+		currentUser.setGraduateVerified(false);
 		getUserDao().deleteRsvp(currentUser, currentEvent);
 		redirectAttrs.addFlashAttribute("deleteRsvp", "true");
 
@@ -1040,6 +1039,30 @@ public class HomeController extends BaseController {
 
 		return "redirect:/newEvents/" + currentEvent.getId();
 
+	}
+
+	/**
+	 * Displays all events that the poster created.
+	 * 
+	 * @param model
+	 *            being passed in.
+	 * @return the page returning all the events being posted.
+	 */
+	@RequestMapping(value = "/rsvpEventList", method = RequestMethod.GET)
+	public String rsvpEventList(Model model, @ModelAttribute("profileUser") User profileUser) {
+
+		ArrayList<Event> events;
+		try {
+			events = getEventDao().getAllByUser(profileUser);
+			sortEvents(events);
+			model.addAttribute("events", events);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		model.addAttribute("active", "event");
+		return "rsvpEventList";
 	}
 
 	/**
@@ -1937,7 +1960,7 @@ public class HomeController extends BaseController {
 			ArrayList<User> facultyList = new ArrayList<User>();
 
 			for (int i = page * 15; i < page * 15 + 15; i++) {
-				
+
 				if (i < facTemp.size()) {
 					facultyList.add(facTemp.get(i));
 				}
@@ -1997,11 +2020,11 @@ public class HomeController extends BaseController {
 	}
 
 	/**
-	 * Displays all the users in the system.
+	 * Deactivates the account.
 	 * 
 	 * @param model
 	 *            being passed in.
-	 * @return the alumni list page.
+	 * @return
 	 */
 	@RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
 	public String deleteUser(Model model, @ModelAttribute("profileUser") User profileUser) {
@@ -2011,24 +2034,46 @@ public class HomeController extends BaseController {
 		getUserDao().updateUser(profileUser);
 		return "redirect:/allUsers";
 	}
-	
-	
-	
-//	/**
-//	 * Displays all the users in the system.
-//	 * 
-//	 * @param model
-//	 *            being passed in.
-//	 * @return the alumni list page.
-//	 */
-//	@RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
-//	public String removeUser(Model model, @ModelAttribute("profileUser") User profileUser) {
-//		profileUser.setActive(false);
-//		profileUser.setHidden(true);
-//
-//		getUserDao().updateUser(profileUser);
-//		return "redirect:/allUsers";
-//	}
+
+	/**
+	 * Reactivate the user account.
+	 * 
+	 * @param model
+	 *            being passed in.
+	 * @return the alumni list page.
+	 */
+	@RequestMapping(value = "/reactivateAccount", method = RequestMethod.POST)
+	public String reactivateAccount(Model model, @ModelAttribute("profileUser") User profileUser) {
+		// profileUser.setActive(true);
+		// profileUser.setHidden(false);
+
+		getUserDao().reactivateUser(profileUser);
+		return "redirect:/allUsers";
+	}
+
+	/**
+	 * Displays all events that the poster created.
+	 * 
+	 * @param model
+	 *            being passed in.
+	 * @return the page returning all the events being posted.
+	 */
+	@RequestMapping(value = "/myEvents", method = RequestMethod.GET)
+	public String myEvents(Model model, @ModelAttribute("profileUser") User profileUser) {
+
+		ArrayList<Event> events;
+		try {
+			events = getEventDao().getByPoster(getCurrentUser());
+			sortEvents(events);
+			model.addAttribute("events", events);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		model.addAttribute("active", "event");
+		return "userEventList";
+	}
 
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/somethingSecret", method = RequestMethod.GET)
@@ -2081,7 +2126,7 @@ public class HomeController extends BaseController {
 
 		if (testimonial != null && testimonial.matches(".{10,999}")) {
 			User currentUser = getCurrentUser();
-			
+
 			Testimonial newComment = new Testimonial(testimonial, currentUser);
 
 			getTestimonialDao().addTestimonial(newComment);
@@ -2116,7 +2161,7 @@ public class HomeController extends BaseController {
 				return "redirect:/";
 			}
 		}
-		
+
 	}
 
 	/**

@@ -49,12 +49,16 @@
 						class="btn btn-theme top-bar-btn dropdown-toggle"
 						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Welcome back
-						<%=currentUser.getFirstName()%>! &nbsp<i class="fa fa-angle-down"></i>
+						<%=currentUser.getFirstName()%>! &nbsp;<i class="fa fa-angle-down"></i>
 					</button>
 					<ul class="dropdown-menu profile-dropdown">
 						<li><a class="profile-dropdown-link"
 							href="/Alumni-Tracker/user/<%=currentUser.getId()%>">My
 								Profile</a></li>
+						<li><a class="profile-dropdown-link"
+							href="/Alumni-Tracker/myEvents">My Events</a></li>
+						<li><a class="profile-dropdown-link"
+							href="/Alumni-Tracker/rsvpEventList">RSVP Events</a></li>
 						<li><a class="profile-dropdown-link"
 							href="/Alumni-Tracker/logout">Logout</a></li>
 					</ul>

@@ -43,16 +43,7 @@ public class DaoKeeper {
 	private ContactDao contactDao;
 	@Autowired
 	private TestimonialDao testimonialDao;
-	@Autowired
-	private EmailGenerator emailGenerator;
 
-	public EmailGenerator getEmailGenerator() {
-		return emailGenerator;
-	}
-
-	public void setEmailGenerator(EmailGenerator emailGenerator) {
-		this.emailGenerator = emailGenerator;
-	}
 
 	public ObjectMapper getObjectMapper() {
 		return objectMapper;

@@ -1251,17 +1251,13 @@ public class HomeController extends BaseController {
 
 				String tempPassword = randomString();
 				register.setSalt(tempPassword);
-				register.setPassword(pwEncoder.encode(password));
+				register.setPassword(pwEncoder.encode(tempPassword));
+				
+				
 
 				try {
 
 					EmailGenerator.generateAccountCreationEmail(benEmail, tempPassword);
-					getUserDao().addUser(register);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				try {
 					getUserDao().addUser(register);
 				} catch (Exception e) {
 					e.printStackTrace();

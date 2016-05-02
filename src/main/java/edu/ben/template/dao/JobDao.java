@@ -156,15 +156,14 @@ public class JobDao extends BaseDao<Job> {
 	public ArrayList<Job> getSearchByJobName(String name) {
 
 		List<Job> jobs = new ArrayList<Job>();
-		String sql = "SELECT name FROM job WHERE name LIKE '%name%' ORDER BY name";
+		String sql = "SELECT * FROM job WHERE name LIKE ? ORDER BY name";
 
 		try {
-			// Test this.
-			jobs = jdbcTemplate.query(sql, new Object[] { name }, getRowMapper());
+			jobs = jdbcTemplate.query(sql, new Object[] { "%" + name + "%" }, getRowMapper());
 
 			return (ArrayList<Job>) jobs;
-		} catch (EmptyResultDataAccessException e) {
-
+		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -202,7 +201,7 @@ public class JobDao extends BaseDao<Job> {
 
 		List<Job> jobs = new ArrayList<Job>();
 		String sql = SEARCH
-				+ "job WHERE job.start_wage is NOT NULL AND job.end_wage is NOT NULL order by job.start_wage desc Limit 6";
+				+ "job WHERE job.start_wage is NOT NULL AND job.end_wage is NOT NULL order by job.start_wage  ASC Limit 6";
 
 		try {
 			jobs = jdbcTemplate.query(sql, getRowMapper());
@@ -225,14 +224,14 @@ public class JobDao extends BaseDao<Job> {
 
 		List<Job> jobs = new ArrayList<Job>();
 		String sql = SEARCH
-				+ "job WHERE job.start_salary is NOT NULL AND job.end_salary is NOT NULL order by job.start_salary ASC Limit 6";
+				+ "job join user WHERE user.id = job.user_id AND active = 1 AND job.start_salary is NOT NULL AND job.salary is NOT NULL order by job.start_salary ASC";
 
 		try {
 			jobs = jdbcTemplate.query(sql, getRowMapper());
 
 			return (ArrayList<Job>) jobs;
 		} catch (EmptyResultDataAccessException e) {
-
+			e.printStackTrace();
 			return null;
 		}
 	}

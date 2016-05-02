@@ -762,6 +762,16 @@ public class User implements UserDetails, CredentialsContainer {
 		}
 		this.concentration.add(concentration);
 	}
+	
+	public Major getConcentrationAtIndex(int i) {
+
+		if (i < this.concentration.size()) {
+			return this.concentration.get(i);
+		}
+
+		return null;
+
+	}
 
 	public ArrayList<Interest> getInterest() {
 		return interest;
@@ -816,5 +826,6 @@ public class User implements UserDetails, CredentialsContainer {
 				+ ", interest=" + (interest != null ? interest.subList(0, Math.min(interest.size(), maxLen)) : null)
 				+ ", lastLogin=" + lastLogin + "]";
 	}
+
 
 }

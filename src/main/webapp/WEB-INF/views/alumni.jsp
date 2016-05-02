@@ -82,7 +82,7 @@
 									<%
 										} else {
 											for (int i = 0; i < alumni.size(); i++) {
-												if(alumni.get(i).isActive()){
+												if(alumni.get(i).isActive() && alumni.get(i).getToPublic() ==1 ){
 													String firstName = alumni.get(i) != null && alumni.get(i).getFirstName() != null
 														? alumni.get(i).getFirstName() : "N/A";
 													String lastName = alumni.get(i) != null && alumni.get(i).getLastName() != null
@@ -99,7 +99,11 @@
 										<td align="center"><%=firstName%></td>
 										<td align="center"><%=lastName%></td>
 										<td align="center"><%=major%></td>
+										<%if (alumni.get(i).getGraduationYear() != 0) {%>
 										<td align="center"><%=alumni.get(i).getGraduationYear()%></td>
+										<%}else { %>
+										<td align="center">N/A</td>
+										<%} %>
 									</tr>
 									<%
 												}

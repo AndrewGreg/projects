@@ -49,12 +49,16 @@
 						class="btn btn-theme top-bar-btn dropdown-toggle"
 						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Welcome back
-						<%=currentUser.getFirstName()%>! &nbsp<i class="fa fa-angle-down"></i>
+						<%=currentUser.getFirstName()%>! &nbsp;<i class="fa fa-angle-down"></i>
 					</button>
 					<ul class="dropdown-menu profile-dropdown">
 						<li><a class="profile-dropdown-link"
 							href="/Alumni-Tracker/user/<%=currentUser.getId()%>">My
 								Profile</a></li>
+						<li><a class="profile-dropdown-link"
+							href="/Alumni-Tracker/myEvents">My Events</a></li>
+						<li><a class="profile-dropdown-link"
+							href="/Alumni-Tracker/rsvpEventList">RSVP Events</a></li>
 						<li><a class="profile-dropdown-link"
 							href="/Alumni-Tracker/logout">Logout</a></li>
 					</ul>
@@ -100,8 +104,7 @@
 			<ul class="nav navbar-nav">
 				<li class="<%if (active.equals("index")) {%>active<%}%> nav-item"><a
 					href="/Alumni-Tracker/"><i class="fa fa-home"></i> Home</a></li>
-				<li
-					class="<%if (active.equals("faculty")) {%>active<%}%> nav-item"><a
+				<li class="<%if (active.equals("faculty")) {%>active<%}%> nav-item"><a
 					href="/Alumni-Tracker/faculty"><i class="fa fa-user"></i>
 						Faculty</a></li>
 
@@ -138,7 +141,17 @@
 							if (currentUser != null) {
 						%>
 						<li><a href="/Alumni-Tracker/eventsTemplate">View Events</a></li>
+
+						<%
+							if (currentUser != null && currentUser.getRole() > 2) {
+						%>
+
 						<li><a href="/Alumni-Tracker/createNewEvent">Create Event</a></li>
+
+						<%
+							}
+						%>
+
 						<%
 							} else {
 						%>
@@ -160,8 +173,15 @@
 							if (currentUser != null) {
 						%>
 						<li><a href="/Alumni-Tracker/jobs">View Job Postings</a></li>
+
+						<%
+							if (currentUser != null && currentUser.getRole() > 1) {
+						%>
 						<li><a href="/Alumni-Tracker/createJobPosting">Create a
 								Job Posting</a></li>
+						<%
+							}
+						%>
 						<%
 							} else {
 						%>

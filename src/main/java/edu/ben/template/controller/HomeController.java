@@ -1,11 +1,8 @@
 package edu.ben.template.controller;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Blob;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,34 +11,26 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.rowset.serial.SerialException;
 
-import org.springframework.dao.TransientDataAccessResourceException;
 import org.apache.commons.io.IOUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
+import edu.ben.template.model.EmailGenerator;
 import edu.ben.template.model.Event;
 import edu.ben.template.model.Interest;
 import edu.ben.template.model.Job;
@@ -136,35 +125,45 @@ public class HomeController extends BaseController {
 		ArrayList<Event> eventDisplay = new ArrayList<Event>();
 		int countEvent = 0;
 		for (int i = events.size() - 1; i >= 0 && countEvent < 4; i--) {
-			eventDisplay.add(events.get(i));
-			countEvent++;
+			if (events.get(i).getPoster().isActive()) {
+				eventDisplay.add(events.get(i));
+
+				countEvent++;
+			}
 		}
 
 		ArrayList<Job> jobDisplay = new ArrayList<Job>();
 		int countJob = 0;
 		for (int i = jobs.size() - 1; i >= 0 && countJob < 6; i--) {
+
 			jobDisplay.add(jobs.get(i));
 			countJob++;
 		}
 
-		ArrayList<Testimonial> testimonials;
+		ArrayList<Testimonial> tempTestimonials;
 
 		try {
-			testimonials = getTestimonialDao().getAll();
+			tempTestimonials = getTestimonialDao().getAll();
 		} catch (Exception e) {
 			e.printStackTrace();
-			testimonials = new ArrayList<Testimonial>();
+			tempTestimonials = new ArrayList<Testimonial>();
 		}
 
 		model.addAttribute("events", eventDisplay);
 		model.addAttribute("jobs", jobDisplay);
-		model.addAttribute("testimonials", testimonials);
+		model.addAttribute("testimonials", tempTestimonials);
 		model.addAttribute("active", "index");
 
 		return "indexTemplate";
 
 	}
 
+	/**
+	 * User creates a job.
+	 * 
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/createJobPosting", method = RequestMethod.GET)
 	public String createJob(Model model) {
 		model.addAttribute("active", "job");
@@ -318,15 +317,36 @@ public class HomeController extends BaseController {
 		}
 	}
 
+	/**
+	 * Get Method to edit a job.
+	 * 
+	 * @param model
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping(value = "/editAJob/{id}", method = RequestMethod.GET)
 	public String editAJob(Model model, @PathVariable Long id) {
 		Job editJob = getJobDao().getObjectById(id);
-		// Long jobId = editJob.getId();
+
 		model.addAttribute("editJob", editJob);
-		// model.addAttribute("editJobId", jobId);
 		return "editJobTemplate";
 	}
 
+	/**
+	 * Post method to edit a Job.
+	 * 
+	 * @param model
+	 * @param id
+	 * @param name
+	 * @param company
+	 * @param location
+	 * @param hours
+	 * @param startSalary
+	 * @param endSalary
+	 * @param description
+	 * @param isPublic
+	 * @return
+	 */
 	@RequestMapping(value = "editAJob/{id}", method = RequestMethod.POST)
 	public String editAJobPost(Model model, @PathVariable Long id, @RequestParam("name") String name,
 			@RequestParam("company") String company, @RequestParam("location") String location,
@@ -345,7 +365,6 @@ public class HomeController extends BaseController {
 				&& (hours == 1 || hours == 2) && startingSalary != -2 && endingSalary != -2) {
 
 			User currentUser = getCurrentUser();
-			// (name, description, company, currentUser
 			Job editJob = getJobDao().getObjectById(id);
 			editJob.setName(name);
 			editJob.setDescription(description);
@@ -487,7 +506,8 @@ public class HomeController extends BaseController {
 			@RequestParam("date") String dateStr, @RequestParam("description") String description,
 			@RequestParam("location") String location, @RequestParam("startTime") String startTime,
 
-	@RequestParam("endTime") String endTime, @RequestParam(value = "public", required = false) boolean isPublic) {
+			@RequestParam("endTime") String endTime,
+			@RequestParam(value = "public", required = false) boolean isPublic) {
 
 		// TODO FINISH THIS METHOD
 		Date currentDate = new Date(System.currentTimeMillis());
@@ -677,6 +697,13 @@ public class HomeController extends BaseController {
 		}
 	}
 
+	/**
+	 * Get method to send the request to edit an event.
+	 * 
+	 * @param model
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping(value = "/editAnEvent/{id}", method = RequestMethod.GET)
 	public String editAnEvent(Model model, @PathVariable Long id) {
 		Event editEvent = getEventDao().getObjectById(id);
@@ -687,18 +714,26 @@ public class HomeController extends BaseController {
 		return "editEventTemplate";
 	}
 
+	/**
+	 * Post Method to edit an event.
+	 * 
+	 * @param model
+	 * @param id
+	 * @param name
+	 * @param dateStr
+	 * @param description
+	 * @param location
+	 * @param startTime
+	 * @param endTime
+	 * @param isPublic
+	 * @return
+	 */
 	@RequestMapping(value = "/editAnEvent/{id}", method = RequestMethod.POST)
 	public String editJobAPost(Model model, @PathVariable Long id, @RequestParam("name") String name,
 			@RequestParam("date") String dateStr, @RequestParam("description") String description,
 			@RequestParam("location") String location, @RequestParam("startTime") String startTime,
-
-	@RequestParam("endTime") String endTime, @RequestParam(value = "public", required = false) boolean isPublic/*
-																												 * , @ModelAttribute
-																												 * (
-																												 * "editEvent")
-																												 * Event
-																												 * editEvent
-																												 */) {
+			@RequestParam("endTime") String endTime,
+			@RequestParam(value = "public", required = false) boolean isPublic) {
 
 		Date currentDate = new Date(System.currentTimeMillis());
 
@@ -911,13 +946,17 @@ public class HomeController extends BaseController {
 
 	}
 
+	/**
+	 * User displays a new event.
+	 * 
+	 * @param model
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping(value = "/newEvents/{id}", method = RequestMethod.GET)
 	public String eventSingle(Model model, @PathVariable Long id) {
 
 		try {
-			// Arraylist<Event> e = getEventDao().getAllByUser(getCurrentUser(),
-			// event);
-
 			Event currentEvent = getEventDao().getObjectById(id);
 			model.addAttribute("currentEvent", currentEvent);
 
@@ -930,31 +969,60 @@ public class HomeController extends BaseController {
 
 	}
 
+	/**
+	 * Allows user to delete their event.
+	 * 
+	 * @param model
+	 * @param currentEvent
+	 * @param redirectAttrs
+	 * @return
+	 */
 	@RequestMapping(value = "/deleteEvent", method = RequestMethod.POST)
 	public String deleteEvent(Model model, @ModelAttribute("currentEvent") Event currentEvent,
 			RedirectAttributes redirectAttrs) {
 		getEventDao().deleteEvent(currentEvent.getId());
-		// model.addAttribute("eventDeletion", "true");
 		redirectAttrs.addFlashAttribute("eventDeletion", "true");
+
 		return "redirect:/eventsTemplate";
 	}
 
+	/**
+	 * Allows user to be added to Rsvp list.
+	 * 
+	 * @param model
+	 * @param currentUser
+	 * @param currentEvent
+	 * @param redirectAttrs
+	 * @return
+	 * @throws MySQLIntegrityConstraintViolationException
+	 */
 	@RequestMapping(value = "/addRsvp", method = RequestMethod.GET)
 	public String addRsvp(Model model, @ModelAttribute("currentUser") User currentUser,
 			@ModelAttribute("currentEvent") Event currentEvent, RedirectAttributes redirectAttrs)
 					throws MySQLIntegrityConstraintViolationException {
-
+		currentUser.setGraduateVerified(true);
 		getUserDao().addRsvp(currentUser, currentEvent);
+		getUserDao().getAllByEvent(currentEvent);
+		redirectAttrs.addFlashAttribute("addRsvpArray", getUserDao().getAllByEvent(currentEvent));
 
 		redirectAttrs.addFlashAttribute("addRsvp", "true");
 
 		return "redirect:/newEvents/" + currentEvent.getId();
 	}
 
+	/**
+	 * Allows user to be removed from Rsvp List.
+	 * 
+	 * @param model
+	 * @param currentUser
+	 * @param currentEvent
+	 * @param redirectAttrs
+	 * @return
+	 */
 	@RequestMapping(value = "/deleteRsvp", method = RequestMethod.GET)
 	public String deleteRsvp(Model model, @ModelAttribute("currentUser") User currentUser,
 			@ModelAttribute("currentEvent") Event currentEvent, RedirectAttributes redirectAttrs) {
-
+		currentUser.setGraduateVerified(false);
 		getUserDao().deleteRsvp(currentUser, currentEvent);
 		redirectAttrs.addFlashAttribute("deleteRsvp", "true");
 
@@ -971,6 +1039,30 @@ public class HomeController extends BaseController {
 
 		return "redirect:/newEvents/" + currentEvent.getId();
 
+	}
+
+	/**
+	 * Displays all events that the poster created.
+	 * 
+	 * @param model
+	 *            being passed in.
+	 * @return the page returning all the events being posted.
+	 */
+	@RequestMapping(value = "/rsvpEventList", method = RequestMethod.GET)
+	public String rsvpEventList(Model model, @ModelAttribute("profileUser") User profileUser) {
+
+		ArrayList<Event> events;
+		try {
+			events = getEventDao().getAllByUser(profileUser);
+			sortEvents(events);
+			model.addAttribute("events", events);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		model.addAttribute("active", "event");
+		return "rsvpEventList";
 	}
 
 	/**
@@ -1152,14 +1244,20 @@ public class HomeController extends BaseController {
 					register.setExperience(experience);
 				}
 
+				// We can play with this for future settings for admin to
+				// activate an account.
 				register.setActive(true);
 				register.setToPublic(1);
 
-				// FIX THE SALT
-				register.setSalt(password);
-				register.setPassword(pwEncoder.encode(password));
+				String tempPassword = randomString();
+				register.setSalt(tempPassword);
+				register.setPassword(pwEncoder.encode(tempPassword));
+				
+				
 
 				try {
+
+					EmailGenerator.generateAccountCreationEmail(benEmail, tempPassword);
 					getUserDao().addUser(register);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -1301,10 +1399,7 @@ public class HomeController extends BaseController {
 			model.addAttribute("photo", profilePic);
 		}
 		profileUser.setMajor(getMajorDao().getMajorByUser(profileUser));
-		profileUser.setConcentration(getMajorDao().getConcentrationByUser(profileUser));
 		profileUser.setMinor(getMajorDao().getMinorByUser(profileUser));
-
-		// Change this to a u.setTitle(); --> Refactor TitleId To a String
 
 		Title title = getTitleDao().getObjectById(u.getTitleID());
 
@@ -1314,6 +1409,24 @@ public class HomeController extends BaseController {
 		ArrayList<Interest> i = getInterestDao().getAll();
 		ArrayList<Interest> uI = getInterestDao().getAllByUser(profileUser);
 		ArrayList<Interest> interests = new ArrayList<Interest>();
+
+		ArrayList<ArrayList<Major>> c = new ArrayList<ArrayList<Major>>();
+		for (Major major : m) {
+			ArrayList<Major> temp = getMajorDao().getConcentrationByMajor(major);
+			for (Major e : temp) {
+				e.setParent(major);
+			}
+			c.add(temp);
+		}
+
+		ArrayList<Major> con = getMajorDao().getConcentrationByUser(profileUser);
+		if (con != null && !con.equals(null)) {
+			for (Major concen : con) {
+				concen.setParent(getMajorDao().getMajorByConcentration(concen));
+			}
+		}
+
+		profileUser.setConcentration(con);
 
 		Boolean exists = false;
 
@@ -1337,6 +1450,8 @@ public class HomeController extends BaseController {
 		model.addAttribute("title", title);
 		model.addAttribute("interests", interests);
 		model.addAttribute("userInterests", uI);
+		model.addAttribute("concentrations", c);
+		model.addAttribute("userConcentrations", con);
 
 		// For User Error Checking
 		HashMap<String, String> e = new HashMap<String, String>();
@@ -1384,58 +1499,78 @@ public class HomeController extends BaseController {
 	 * @throws SQLException
 	 * @throws SerialException
 	 */
-
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
 	public String edit(Model model, @PathVariable Long id, @RequestParam("title") String title,
 			@RequestParam("fName") String firstName, @RequestParam("lName") String lastName,
 			@RequestParam("suffix") String suffix, @RequestParam("personalEmail") String personalEmail,
-			@RequestParam("graduationYear") String graduationYear, @RequestParam("major") String major,
-			@RequestParam("doubleMajor") String doubleMajor, @RequestParam("thirdMajor") String thirdMajor,
+			@RequestParam(value = "graduationYear", required = false) String graduationYear,
+			@RequestParam(value = "major", required = false) String major,
+			@RequestParam(value = "doubleMajor", required = false) String doubleMajor,
+			@RequestParam(value = "thirdMajor", required = false) String thirdMajor,
 			@RequestParam("occupation") String occupation, @RequestParam("company") String company,
 			@RequestParam("biography") String biography, @RequestParam("experience") String experience,
-			@RequestParam("interests") ArrayList<String> interests, @RequestParam("minor") String minor,
-			@RequestParam("secondMinor") String secondMinor, @RequestParam("thirdMinor") String thirdMinor,
-			@RequestParam(value="display", required = false, defaultValue = "null") String display, @RequestParam("password") String password,
-			@RequestParam("confirmPassword") String confirmPassword, @RequestParam("resume") MultipartFile resume,
-			@RequestParam("profile") MultipartFile profile) throws IOException, SerialException, SQLException {
+			@RequestParam(value = "concentration", required = false) String concentration,
+			@RequestParam(value = "doubleConcentration", required = false) String doubleConcentration,
+			@RequestParam(value = "thirdConcentration", required = false) String thirdConcentration,
+			@RequestParam(value = "interests", required = false, defaultValue = "null") ArrayList<String> interests,
+			@RequestParam(value = "minor", required = false) String minor,
+			@RequestParam(value = "secondMinor", required = false) String secondMinor,
+			@RequestParam(value = "thirdMinor", required = false) String thirdMinor,
+			@RequestParam(value = "display", required = false, defaultValue = "null") String display,
+			@RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword,
+			@RequestParam("resume") MultipartFile resume, @RequestParam("profile") MultipartFile profile)
+					throws IOException, SerialException, SQLException {
 
-		
-		
 		if (validateEditFormSubmission(password, confirmPassword, firstName, lastName, personalEmail)
 				&& Validator.validatePassword(password, false)) {
 
-			// System.out.println(profileUser.getFirstName());
 			User profileUser = getUserDao().getObjectById(id);
-
-			// User profileUser = getCurrentUser();
 
 			if (Validator.validateSelect(graduationYear)) {
 				profileUser.setGraduationYear((Integer.parseInt(graduationYear)));
 			}
-			if (!major.equals("Select") && !getMajorDao().getByName(major).equals(null)
-					&& getMajorDao().getByName(major) != null) {
-				profileUser.addMajor(getMajorDao().getByName(major));
+			if (!major.equals("Select") && !getMajorDao().getMajorByName(major).equals(null)
+					&& getMajorDao().getMajorByName(major) != null) {
+				profileUser.addMajor(getMajorDao().getMajorByName(major));
 			}
-			if (!doubleMajor.equals("Select") && !getMajorDao().getByName(doubleMajor).equals(null)
-					&& getMajorDao().getByName(doubleMajor) != null) {
-				profileUser.addMajor(getMajorDao().getByName(doubleMajor));
+			if (!doubleMajor.equals("Select") && !getMajorDao().getMajorByName(doubleMajor).equals(null)
+					&& getMajorDao().getMajorByName(doubleMajor) != null) {
+				profileUser.addMajor(getMajorDao().getMajorByName(doubleMajor));
 			}
-			if (!thirdMajor.equals("Select") && !getMajorDao().getByName(thirdMajor).equals(null)
-					&& getMajorDao().getByName(thirdMajor) != null) {
-				profileUser.addMajor(getMajorDao().getByName(thirdMajor));
+			if (!thirdMajor.equals("Select") && !getMajorDao().getMajorByName(thirdMajor).equals(null)
+					&& getMajorDao().getMajorByName(thirdMajor) != null) {
+				profileUser.addMajor(getMajorDao().getMajorByName(thirdMajor));
 			}
 
-			if (!minor.equals("Select") && !getMajorDao().getByName(minor).equals(null)
-					&& getMajorDao().getByName(minor) != null) {
-				profileUser.addMinor(getMajorDao().getByName(minor));
+			if (!concentration.equals("Select") && !getMajorDao().getConcentrationByName(concentration).equals(null)
+					&& getMajorDao().getConcentrationByName(concentration) != null) {
+				profileUser.addConcentration(getMajorDao().getConcentrationByName(concentration));
 			}
-			if (!secondMinor.equals("Select") && !getMajorDao().getByName(secondMinor).equals(null)
-					&& getMajorDao().getByName(secondMinor) != null) {
-				profileUser.addMinor(getMajorDao().getByName(secondMinor));
+
+			if (!doubleConcentration.equals("Select")
+					&& !getMajorDao().getConcentrationByName(doubleConcentration).equals(null)
+					&& getMajorDao().getConcentrationByName(doubleConcentration) != null) {
+				profileUser.addConcentration(getMajorDao().getConcentrationByName(doubleConcentration));
+
 			}
-			if (!thirdMinor.equals("Select") && !getMajorDao().getByName(thirdMinor).equals(null)
-					&& getMajorDao().getByName(thirdMinor) != null) {
-				profileUser.addMinor(getMajorDao().getByName(thirdMinor));
+
+			if (!thirdConcentration.equals("Select")
+					&& !getMajorDao().getConcentrationByName(thirdConcentration).equals(null)
+					&& getMajorDao().getConcentrationByName(thirdConcentration) != null) {
+				profileUser.addConcentration(getMajorDao().getConcentrationByName(thirdConcentration));
+			}
+
+			if (!minor.equals("Select") && !getMajorDao().getMajorByName(minor).equals(null)
+					&& getMajorDao().getMajorByName(minor) != null) {
+				profileUser.addMinor(getMajorDao().getMajorByName(minor));
+			}
+			if (!secondMinor.equals("Select") && !getMajorDao().getMajorByName(secondMinor).equals(null)
+					&& getMajorDao().getMajorByName(secondMinor) != null) {
+				profileUser.addMinor(getMajorDao().getMajorByName(secondMinor));
+			}
+			if (!thirdMinor.equals("Select") && !getMajorDao().getMajorByName(thirdMinor).equals(null)
+					&& getMajorDao().getMajorByName(thirdMinor) != null) {
+				profileUser.addMinor(getMajorDao().getMajorByName(thirdMinor));
 			}
 
 			if (title.equals("Select")) {
@@ -1449,6 +1584,10 @@ public class HomeController extends BaseController {
 			} else {
 				profileUser.setGraduationYear(Integer.parseInt(graduationYear));
 			}
+			
+			if (personalEmail.equals("")){
+				personalEmail = null;
+			}
 
 			profileUser.setFirstName(firstName);
 			profileUser.setLastName(lastName);
@@ -1458,7 +1597,7 @@ public class HomeController extends BaseController {
 			profileUser.setBio(biography);
 			profileUser.setExperience(experience);
 			profileUser.setCompany(company);
-			if (display != null && !display.equals("null") && !display.equals(null)){
+			if (display != null && !display.equals("null") && !display.equals(null)) {
 				profileUser.setToPublic(1);
 			} else {
 				profileUser.setToPublic(0);
@@ -1468,22 +1607,17 @@ public class HomeController extends BaseController {
 				getUserDao().updateUser(profileUser);
 				getMajorDao().updateMajorsByUser(profileUser);
 			} catch (Exception e) {
-
 			}
 
 			if (!resume.isEmpty()) {
 				UploadFile fileObj = new UploadFile();
 				fileObj.setFileName(resume.getOriginalFilename());
-				// file.setNotes(ServletRequestUtils.getStringParameter(request,
-				// "notes"));
-				// file.setType(multipartFile.getContentType());
 				byte[] bytes = resume.getBytes();
 				if (getFileUploadDao().getObjectByUserId(id) != null) {
 					getFileUploadDao().updateFile(fileObj);
 				}
 				fileObj.setData(bytes);
-				// Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-				// fileObj.setData((com.mysql.jdbc.Blob) blob);
+
 				getFileUploadDao().addFile(fileObj);
 			}
 
@@ -1491,9 +1625,6 @@ public class HomeController extends BaseController {
 				UploadFile fileObj = new UploadFile();
 				fileObj.setFileName(profile.getOriginalFilename());
 				fileObj.setProfile(profileUser);
-				// file.setNotes(ServletRequestUtils.getStringParameter(request,
-				// "notes"));
-				// file.setType(multipartFile.getContentType());
 				byte[] bytes = profile.getBytes();
 				fileObj.setData(bytes);
 				if (getImageUploadDao().getObjectByUserId(id) != null) {
@@ -1501,80 +1632,8 @@ public class HomeController extends BaseController {
 				} else {
 					getImageUploadDao().addImage(fileObj);
 				}
-				// Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-				// fileObj.setData((com.mysql.jdbc.Blob) blob);
 
-				// gets the right photo from the user that uploaded it
-				// UploadFile photoFileObj =
-				// getImageUploadDao().getObjectByUserId(profileUser.getId());
-				// sets the image id to the user
-				// profileUser.setImageId(photoFileObj.getId());
-				// System.out.println(profileUser.getImageId());
 			}
-
-			// file.setFilename(multipartFile.getOriginalFilename());
-			// file.setNotes(ServletRequestUtils.getStringParameter(request,
-			// "notes"));
-			// file.setType(multipartFile.getContentType());
-
-			// if (resume != null) {
-			// // if (files[0] != null) {
-			// UploadFile resumeFile = new UploadFile();
-			// (resumeFile).setData(multipartFile.getBytes());
-			// getFileUploadDao().addFile(resumeFile);
-			// }
-			//
-			// if (photo != null) {
-			// // if (files[1] != null) {
-			// UploadFile photoFile = new UploadFile();
-			// (photoFile).setData(multipartFile.getBytes());
-			// getImageUploadDao().addImage(photoFile);
-			// }
-
-			// if (resumeUpload != null) {
-			// MultipartHttpServletRequest multipartRequest =
-			// (MultipartHttpServletRequest) request;
-			// MultipartFile multipartFile = multipartRequest.getFile("resume");
-			// // if (files[0] != null) {
-			// UploadFile resumeFile = new UploadFile();
-			// byte[] bytes = multipartFile.getBytes();
-			// Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-			// resumeFile.setData((com.mysql.jdbc.Blob) blob);
-			// getFileUploadDao().addFile(resumeFile);
-			// }
-			//
-			// if (profileUpload != null) {
-			// MultipartHttpServletRequest multipartRequest =
-			// (MultipartHttpServletRequest) request;
-			// MultipartFile multipartFile =
-			// multipartRequest.getFile("profile");
-			// // if (files[1] != null) {
-			// UploadFile photoFile = new UploadFile();
-			// byte[] bytes = multipartFile.getBytes();
-			// Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-			// photoFile.setData((com.mysql.jdbc.Blob) blob);
-			// getImageUploadDao().addImage(photoFile);
-			// // gets the right photo from the user that uploaded it
-			// UploadFile photoFileObj =
-			// getImageUploadDao().getObjectByUserId(profileUser.getId());
-			// // sets the image id to the user
-			// profileUser.setImageId(photoFileObj.getId());
-			// }
-
-			// if (fileUpload != null && fileUpload.length > 0) {
-			// for (CommonsMultipartFile aFile : fileUpload){
-
-			// System.out.println("Saving file: " +
-			// aFile.getOriginalFilename());
-
-			// UploadFile uploadFile = new UploadFile();
-			// uploadFile.setFileName(aFile.getOriginalFilename());
-			// uploadFile.setData(aFile.getBytes());
-			// getFileUploadDao().addFile(uploadFile);
-			// }
-			// }
-
-			// TODO PLACE FILE HERE
 
 			getInterestDao().clearUserInterest(profileUser);
 			profileUser.clearInterest();
@@ -1603,16 +1662,12 @@ public class HomeController extends BaseController {
 			return "redirect:/user/" + profileUser.getId();
 		}
 
-		HashMap<String, String> e = new HashMap<String, String>();// TODO
+		HashMap<String, String> e = new HashMap<String, String>();
 
 		ArrayList<Major> m = getMajorDao().getAllMajors();
 
 		// u = getCurrentUser();
 		User profileUser = getUserDao().getObjectById(id);
-
-		// u.setMajor(getMajorDao().getMajorByUser(u));
-		// u.setConcentration(getMajorDao().getConcentrationByUser(u));
-		// u.setMinor(getMajorDao().getMinorByUser(u));
 
 		profileUser.setMajor(getMajorDao().getMajorByUser(profileUser));
 		profileUser.setConcentration(getMajorDao().getConcentrationByUser(profileUser));
@@ -1628,6 +1683,12 @@ public class HomeController extends BaseController {
 		ArrayList<Interest> i = getInterestDao().getAll();
 		ArrayList<Interest> uI = getInterestDao().getAllByUser(profileUser);
 		ArrayList<Interest> interests2 = new ArrayList<Interest>();
+
+		// TODO get concentration by user
+		ArrayList<ArrayList<Major>> c = new ArrayList<ArrayList<Major>>();
+		for (Major maj : m) {
+			c.add(getMajorDao().getConcentrationByMajor(maj));
+		}
 
 		Boolean exists = false;
 
@@ -1650,10 +1711,7 @@ public class HomeController extends BaseController {
 			error.put("password", "Passwords Must Match!");
 		else if (!Validator.isNull(password) && !Validator.validatePassword(password, false))
 
-			error.put("password", "Password Is Not Long Enough!");// TODO Change
-																	// when
-																	// regex
-																	// does
+			error.put("password", "Password Is Not Long Enough!");
 
 		if (!Validator.validateName(firstName))
 			error.put("fName", "Invalid First Name");
@@ -1680,7 +1738,7 @@ public class HomeController extends BaseController {
 		profileUser.setBio(biography);
 		profileUser.setExperience(experience);
 		profileUser.setCompany(company);
-		if (display != null && !display.equals("null") && !display.equals(null)){
+		if (display != null && !display.equals("null") && !display.equals(null)) {
 			profileUser.setToPublic(1);
 		} else {
 			profileUser.setToPublic(0);
@@ -1695,13 +1753,20 @@ public class HomeController extends BaseController {
 		model.addAttribute("interests", interests2);
 		model.addAttribute("userInterests", uI);
 		model.addAttribute("errors", error);
+		model.addAttribute("concentrations", c);
 		return "edit";
 
 	}
 
+	/**
+	 * Displays that current job.
+	 * 
+	 * @param model
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping(value = "/jobs/{id}", method = RequestMethod.GET)
 	public String jobsSingle(Model model, @PathVariable Long id) {
-
 		try {
 
 			Job currentJob = getJobDao().getObjectById(id);
@@ -1716,11 +1781,18 @@ public class HomeController extends BaseController {
 
 	}
 
+	/**
+	 * Allows user to delete the job.
+	 * 
+	 * @param model
+	 * @param currentJob
+	 * @param redirectAttrs
+	 * @return
+	 */
 	@RequestMapping(value = "/deleteJob", method = RequestMethod.POST)
 	public String deleteJob(Model model, @ModelAttribute("currentJob") Job currentJob,
 			RedirectAttributes redirectAttrs) {
 		getJobDao().deleteJob(currentJob.getId());
-		// model.addAttribute("jobDeletion", "true");
 		redirectAttrs.addFlashAttribute("jobDeletion", "true");
 		return "redirect:/jobs";
 	}
@@ -1771,7 +1843,16 @@ public class HomeController extends BaseController {
 		}
 
 		profileUser.setMajor(getMajorDao().getMajorByUser(profileUser));
-		profileUser.setConcentration(getMajorDao().getConcentrationByUser(profileUser));
+		ArrayList<Major> con = getMajorDao().getConcentrationByUser(profileUser);
+
+		if (con != null && !con.equals(null)) {
+			for (Major concen : con) {
+				concen.setParent(getMajorDao().getMajorByConcentration(concen));
+			}
+		}
+
+		profileUser.setConcentration(con);
+
 		profileUser.setMinor(getMajorDao().getMinorByUser(profileUser));
 		Title currentUserTitle = getTitleDao().getObjectById(profileUser.getTitleID());
 		model.addAttribute("profileUser", profileUser);
@@ -1780,6 +1861,13 @@ public class HomeController extends BaseController {
 		return "profile";
 	}
 
+	/**
+	 * Return the profile of the user.
+	 * 
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.POST)
 	public String userProfileUpload(Model model) throws Exception {
 
@@ -1799,7 +1887,7 @@ public class HomeController extends BaseController {
 		try {
 
 			ArrayList<User> alumni = new ArrayList<User>();
-			alumni = getUserDao().getAll();
+			alumni = getUserDao().getAllAlumni();
 
 			for (User users : alumni) {
 				users.setMajor(getMajorDao().getMajorByUser(users));
@@ -1868,6 +1956,7 @@ public class HomeController extends BaseController {
 			ArrayList<User> facultyList = new ArrayList<User>();
 
 			for (int i = page * 15; i < page * 15 + 15; i++) {
+
 				if (i < facTemp.size()) {
 					facultyList.add(facTemp.get(i));
 				}
@@ -1927,11 +2016,11 @@ public class HomeController extends BaseController {
 	}
 
 	/**
-	 * Displays all the users in the system.
+	 * Deactivates the account.
 	 * 
 	 * @param model
 	 *            being passed in.
-	 * @return the alumni list page.
+	 * @return
 	 */
 	@RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
 	public String deleteUser(Model model, @ModelAttribute("profileUser") User profileUser) {
@@ -1940,6 +2029,46 @@ public class HomeController extends BaseController {
 
 		getUserDao().updateUser(profileUser);
 		return "redirect:/allUsers";
+	}
+
+	/**
+	 * Reactivate the user account.
+	 * 
+	 * @param model
+	 *            being passed in.
+	 * @return the alumni list page.
+	 */
+	@RequestMapping(value = "/reactivateAccount", method = RequestMethod.POST)
+	public String reactivateAccount(Model model, @ModelAttribute("profileUser") User profileUser) {
+		// profileUser.setActive(true);
+		// profileUser.setHidden(false);
+
+		getUserDao().reactivateUser(profileUser);
+		return "redirect:/allUsers";
+	}
+
+	/**
+	 * Displays all events that the poster created.
+	 * 
+	 * @param model
+	 *            being passed in.
+	 * @return the page returning all the events being posted.
+	 */
+	@RequestMapping(value = "/myEvents", method = RequestMethod.GET)
+	public String myEvents(Model model, @ModelAttribute("profileUser") User profileUser) {
+
+		ArrayList<Event> events;
+		try {
+			events = getEventDao().getByPoster(getCurrentUser());
+			sortEvents(events);
+			model.addAttribute("events", events);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		model.addAttribute("active", "event");
+		return "userEventList";
 	}
 
 	@PreAuthorize("isAuthenticated()")
@@ -1972,10 +2101,8 @@ public class HomeController extends BaseController {
 	private boolean validateEditFormSubmission(String password, String confirmPassword, String firstName,
 			String lastName, String personalEmail) {
 
-		return (Validator.validatePasswordsMatch(password, confirmPassword)
-				// && Validator.validatePassword(password, false)
-				&& Validator.validateName(firstName) && Validator.validateName(lastName)
-				&& Validator.validateEmail(personalEmail, false));
+		return (Validator.validatePasswordsMatch(password, confirmPassword) && Validator.validateName(firstName)
+				&& Validator.validateName(lastName) && Validator.validateEmail(personalEmail, false));
 	}
 
 	/**
@@ -1995,6 +2122,7 @@ public class HomeController extends BaseController {
 
 		if (testimonial != null && testimonial.matches(".{10,999}")) {
 			User currentUser = getCurrentUser();
+
 			Testimonial newComment = new Testimonial(testimonial, currentUser);
 
 			getTestimonialDao().addTestimonial(newComment);
@@ -2029,6 +2157,7 @@ public class HomeController extends BaseController {
 				return "redirect:/";
 			}
 		}
+
 	}
 
 	/**
@@ -2068,5 +2197,19 @@ public class HomeController extends BaseController {
 		model.addAttribute("active", "job");
 		return "jobsTemplate";
 	}
+	
+	public static String randomString() {
+		String ALPHA_NUMERIC_STRING = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		StringBuilder s = new StringBuilder();
+		int i = 0;
+		while (i < STRING_LENGTH) {
+			int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
+			s.append(ALPHA_NUMERIC_STRING.charAt(character));
+			i++;
+		}
+		return s.toString();
+	}
+	
+	public final static int STRING_LENGTH = 8;
 
 }

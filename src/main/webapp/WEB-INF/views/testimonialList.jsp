@@ -46,6 +46,7 @@
 
 							<%
 								for (int i = 0; i < testimonials.size(); i++) {
+									if(testimonials.get(i).getPoster().isActive()){
 
 									String testimonial = testimonials.get(i) != null && testimonials.get(i).getTestimonial() != null
 											? testimonials.get(i).getTestimonial() : "N/A";
@@ -75,6 +76,7 @@
 							</div>
 
 							<%
+									}
 								}
 
 								if (testimonials.size() == 0) {

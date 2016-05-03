@@ -329,7 +329,7 @@
 	<build>
 		<resources>
 			<resource>
-				<directory>${workspace}\${project}\src\main\resources
+				<directory>${workspace}\${project}\config
 				</directory>
 			</resource>
 		</resources>

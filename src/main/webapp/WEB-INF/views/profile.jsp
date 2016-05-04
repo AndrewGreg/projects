@@ -302,7 +302,7 @@
 										<p>
 											<i class="fa fa-certificate"></i>Suffix:
 											<%
-												if (profileUser.getSuffix() != null) {
+												if (profileUser.getSuffix() != null && !profileUser.getSuffix().equals("")) {
 											%>
 											<%=profileUser.getSuffix()%>
 											<%
@@ -337,7 +337,7 @@
 
 										<p class="email">
 											<i class="fa fa-envelope"></i>Personal E-mail: <a
-												href="<%if (profileUser.getPersonalEmail() != null) {%>
+												href="<%if (profileUser.getPersonalEmail() != null && !profileUser.getPersonalEmail().equals("")) {%>
 										mailto:<%=profileUser.getPersonalEmail()%>? 
 										<%} else {%> # 
 										<%}%>">

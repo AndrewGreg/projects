@@ -89,12 +89,13 @@
 						<aside
 							class="page-sidebar  col-md-3 col-md-offset-1 col-sm-4 col-sm-offset-1">
 
-							<section class="widget has-divider">
-								<h3 class="section-heading text-highlight">Hiring?</h3>
 
 								<%
-									if (currentUser != null) {
+									if (currentUser != null && currentUser.getRole() > 1) {
+										
 								%>
+								<section class="widget has-divider">
+								<h3 class="section-heading text-highlight">Hiring?</h3>
 
 
 								<a class="btn btn-theme" href="/Alumni-Tracker/createJobPosting"><i
@@ -102,9 +103,14 @@
 
 
 								<%
-									} else {
+									} else if (currentUser != null && currentUser.getRole() == 1) {
 								%>
+								<section class="widget has-divider">
+								<h3 class="section-heading text-highlight">Interested?</h3>
 
+								<p>If you are interested in a job, feel free to email the owner of the job posting.</p>
+								
+								<%} else{ %>
 								<p>You are viewing this page as a guest. If you want to
 									create a new job posting, please log in.</p>
 								<%

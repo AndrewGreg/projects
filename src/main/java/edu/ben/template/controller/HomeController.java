@@ -2049,7 +2049,7 @@ public class HomeController extends BaseController {
 
 		ArrayList<Event> events;
 		try {
-			events = getEventDao().getByPoster(getCurrentUser());
+			events = getEventDao().getByPoster(profileUser);
 			sortEvents(events);
 			model.addAttribute("events", events);
 

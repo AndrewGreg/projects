@@ -31,7 +31,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Edit My Account!</title>
+<title>Edit Account</title>
 <jsp:include page="headerTemplate.jsp" />
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>
@@ -393,7 +393,7 @@ $('#thirdMajor').on('load', function() {
 				<div class="panel panel-success">
 
 					<div class="panel-body">
-						<h3 class="text-center text-danger">Edit My Account</h3>
+						<h3 class="text-center text-danger">Edit Account</h3>
 						<h4 class="text-center"><%=u.getEmail()%></h4>
 
 						<form action="/Alumni-Tracker/edit/<%=u.getId()%>" method="post"
@@ -1142,10 +1142,17 @@ $('#thirdMajor').on('load', function() {
 							</div>
 							<!--  <button class="btn btn-primary" name="Upload" value="Upload"
 								type="Submit">Upload</button>-->
-							<div class="col-xs-9"></div>
+							<div class="col-xs-6"></div>
+							<div class="col-xs-3">
+								<button type="reset" onclick="location.href='/Alumni-Tracker/user/<%=u.getId()%>'"
+									class="btn btn btn-danger btn-lg btn-block">
+									<b>Cancel</b>
+								</button>
+							</div>	
+							
 							<div class="col-xs-3">
 								<button type="submit"
-									class="btn btn btn-danger btn-lg btn-block">
+									class="btn btn btn-success btn-lg btn-block">
 									<b>Submit Changes</b>
 								</button>
 							</div>

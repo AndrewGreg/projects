@@ -355,6 +355,7 @@ public class DaoConfig {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+		
 //		String host = props.getProperty("EMAIL_HOST");
 //		String port = props.getProperty("EMAIL_PORT");
 //		String debug = props.getProperty("EMAIL_DEBUG");

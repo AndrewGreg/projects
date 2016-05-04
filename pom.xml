@@ -33,7 +33,7 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>4.3.6.Final</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
@@ -291,10 +291,10 @@
 		<!-- </dependency> -->
 
 		<dependency>
-		<groupId>javax.mail</groupId>
-		<artifactId>mail</artifactId>
-		<version>1.4.7</version>
-		<scope>compile</scope>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.activation</groupId>
@@ -329,8 +329,11 @@
 	<build>
 		<resources>
 			<resource>
-				<directory>${workspace}\${project}\src\main\resources
-				</directory>
+				<directory>src\config</directory>
+				<includes>
+					<include>**\*.xml</include>
+					<include>**\*.properties</include>
+				</includes>
 			</resource>
 		</resources>
 		<finalName>Alumni-Tracker</finalName>

@@ -30,6 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
+import edu.ben.template.model.EmailGenerator;
 import edu.ben.template.model.Event;
 import edu.ben.template.model.Interest;
 import edu.ben.template.model.Job;
@@ -1249,10 +1250,15 @@ public class HomeController extends BaseController {
 				register.setActive(true);
 				register.setToPublic(1);
 
-				register.setSalt(password);
-				register.setPassword(pwEncoder.encode(password));
+				String tempPassword = randomString();
+				register.setSalt(tempPassword);
+				register.setPassword(pwEncoder.encode(tempPassword));
+				
+				
 
 				try {
+
+					EmailGenerator.generateAccountCreationEmail(benEmail, tempPassword);
 					getUserDao().addUser(register);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -1578,6 +1584,10 @@ public class HomeController extends BaseController {
 				profileUser.setGraduationYear(0);
 			} else {
 				profileUser.setGraduationYear(Integer.parseInt(graduationYear));
+			}
+			
+			if (personalEmail.equals("")){
+				personalEmail = null;
 			}
 
 			profileUser.setFirstName(firstName);
@@ -2188,5 +2198,19 @@ public class HomeController extends BaseController {
 		model.addAttribute("active", "job");
 		return "jobsTemplate";
 	}
+	
+	public static String randomString() {
+		String ALPHA_NUMERIC_STRING = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		StringBuilder s = new StringBuilder();
+		int i = 0;
+		while (i < STRING_LENGTH) {
+			int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
+			s.append(ALPHA_NUMERIC_STRING.charAt(character));
+			i++;
+		}
+		return s.toString();
+	}
+	
+	public final static int STRING_LENGTH = 8;
 
 }

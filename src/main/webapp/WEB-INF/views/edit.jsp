@@ -398,6 +398,35 @@ $('#thirdMajor').on('load', function() {
 
 						<form action="/Alumni-Tracker/edit/<%=u.getId()%>" method="post"
 							enctype="multipart/form-data">
+					
+						<%if(currUser.getRole() == 4) {%>
+						<div class="col-xs-12 col-sm-1">
+								<div class="control-group">
+								<!-- Change Role of user if they are an admin. -->
+						
+									<label class="control-label" >Role:</label>
+									<select class="form-control" name="role" id="role">
+											
+											<%if(u.getRole() != 0) {%>
+											 <option value="1">Student</option>
+											 <option value="2">Alumnus/Alumna</option>
+											 <option value="3">Faculty</option> 
+											 <option value="4">Admin</option>
+											<option selected value="<%=u.getRole() %>"><%=u.getRole()%></option>
+										
+											<%} %>
+											
+								<%} %>
+										</select>
+										
+									</div>
+								</div>
+								
+							
+							
+							
+							
+							
 
 							<%
 								if (errors != null && errors.get("title") != null) {

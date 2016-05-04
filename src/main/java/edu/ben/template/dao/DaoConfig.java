@@ -38,25 +38,25 @@ public class DaoConfig {
 		
 		Class.forName("com.mysql.jdbc.Driver");
 		
-		Properties props = new Properties();
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		props.load(classLoader.getResourceAsStream("config.properties"));
-		String MYSQL_PREFIX = props.getProperty("MYSQL_PREFIX");
-		String HOST = props.getProperty("HOST");
-		String PORT = props.getProperty("PORT");
-		String DB_NAME = props.getProperty("DB_NAME");
-		String USERNAME = props.getProperty("USERNAME");
-		String PASSWORD = props.getProperty("PASSWORD");
+//		Properties props = new Properties();
+//		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+//		props.load(classLoader.getResourceAsStream("config.properties"));
+//		String MYSQL_PREFIX = props.getProperty("MYSQL_PREFIX");
+//		String HOST = props.getProperty("HOST");
+//		String PORT = props.getProperty("PORT");
+//		String DB_NAME = props.getProperty("DB_NAME");
+//		String USERNAME = props.getProperty("USERNAME");
+//		String PASSWORD = props.getProperty("PASSWORD");
 	
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource.setUrl(MYSQL_PREFIX + HOST + ":" + PORT + "/" + DB_NAME);
+//		dataSource.setUrl(MYSQL_PREFIX + HOST + ":" + PORT + "/" + DB_NAME);
 		// }
 		// org.apache.tomcat.jdbc.pool.DataSource dataSource = new
 		// org.apache.tomcat.jdbc.pool.DataSource();
 		// dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		// dataSource.setUrl("jdbc:mysql://localhost:3306/dbname");
-		dataSource.setUsername(USERNAME);
-		dataSource.setPassword(PASSWORD);
+		dataSource.setUrl("jdbc:mysql://localhost:3306/alumnitracker");
+		dataSource.setUsername("alumniTracker");
+		dataSource.setPassword("alumnitracker");
 		dataSource.setValidationQuery("select id from user limit 1");
 		// dataSource.setValidationInterval(30000);
 		// dataSource.setLogValidationErrors(true);
@@ -355,12 +355,19 @@ public class DaoConfig {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		String host = props.getProperty("EMAIL_HOST");
-		String port = props.getProperty("EMAIL_PORT");
-		String debug = props.getProperty("EMAIL_DEBUG");
-		final String username = props.getProperty("EMAIL_ADDRESS");
-		final String password = props.getProperty("EMAIL_PASSWORD");
+//		String host = props.getProperty("EMAIL_HOST");
+//		String port = props.getProperty("EMAIL_PORT");
+//		String debug = props.getProperty("EMAIL_DEBUG");
+//		final String username = props.getProperty("EMAIL_ADDRESS");
+//		final String password = props.getProperty("EMAIL_PASSWORD");
+//		
 		
+		
+		String host = "smtp.gmail.com";
+		String port = "465";
+		String debug = "false";
+		final String username = "benedictineAlumniTracker@gmail.com";
+		final String password = "TeamElg00g";
 		
 		EmailGenerator generator = new EmailGenerator();
 		generator.setHost(host);

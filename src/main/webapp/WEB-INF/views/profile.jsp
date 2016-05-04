@@ -112,23 +112,23 @@
 										</div>
 										<ul class="list-group">
 											<li class="list-group-item"><strong>Role: </strong> <%
- 	if (profileUser.getRole() == 1) {
- %>Student <%
- 	} else if (profileUser.getRole() == 2) {
- %>Alumni <%
- 	} else if (profileUser.getRole() == 3) {
- %>Faculty <%
- 	} else {
- %>Administrator <%
- 	}
- %></li>
+										 	if (profileUser.getRole() == 1) {
+										 %>Student <%
+										 	} else if (profileUser.getRole() == 2) {
+										 %>Alumni <%
+										 	} else if (profileUser.getRole() == 3) {
+										 %>Faculty <%
+										 	} else {
+										 %>Administrator <%
+										 	}
+										 %></li>
 											<li class="list-group-item"><strong>Major: </strong> <%
- 	if (profileUser.getMajorAtIndex(0) != null && profileUser.getMajorAtIndex(0).getName() != null) {
- %><%=profileUser.getMajorAtIndex(0).getName()%> <%
- 	} else {
- %>Undecided <%
- 	}
- %></li>
+											 	if (profileUser.getMajorAtIndex(0) != null && profileUser.getMajorAtIndex(0).getName() != null) {
+											 %><%=profileUser.getMajorAtIndex(0).getName()%> <%
+											 	} else {
+											 %>Undecided <%
+											 	}
+											 %></li>
 
 											<%
 												if (profileUser.getConcentration() != null && !profileUser.getConcentration().equals(null)){
@@ -211,37 +211,37 @@
 
 											<li class="list-group-item"><strong>Graduation
 													Year: </strong><%
- 	if (profileUser.getGraduationYear() > 1800) {
- %><%=profileUser.getGraduationYear()%> <%
- 	} else {
- %>To be determined.<%
- 	}
- %></li>
+											 	if (profileUser.getGraduationYear() > 1800) {
+											 %><%=profileUser.getGraduationYear()%> <%
+											 	} else {
+											 %>To be determined.<%
+											 	}
+											 %></li>
 
 											<li class="list-group-item"><strong>Occupation: </strong>
 												<%
 													if (profileUser.getOccupation() != null && !profileUser.getOccupation().equals("")) {
 												%><%=profileUser.getOccupation()%> <%
- 	} else {
- %>No user occupation.<%
- 	}
- %></li>
+											 	} else {
+											 %>No user occupation.<%
+											 	}
+											 %></li>
 
 											<li class="list-group-item"><strong>Company: </strong> <%
- 	if (profileUser.getCompany() != null && !profileUser.getCompany().equals("")) {
- %><%=profileUser.getCompany()%> <%
- 	} else {
- %>No user company.<%
- 	}
- %></li>
+											 	if (profileUser.getCompany() != null && !profileUser.getCompany().equals("")) {
+											 %><%=profileUser.getCompany()%> <%
+											 	} else {
+											 %>No user company.<%
+											 	}
+											 %></li>
 											<li class="list-group-item"><strong>Experience: </strong>
 												<%
 													if (profileUser.getExperience() != null && !profileUser.getExperience().equals("")) {
 												%><%=profileUser.getExperience()%> <%
- 	} else {
- %>No user experience.<%
- 	}
- %></li>
+												 	} else {
+												 %>No user experience.<%
+												 	}
+												 %></li>
 										</ul>
 
 										<div class="panel-body">
@@ -302,7 +302,7 @@
 										<p>
 											<i class="fa fa-certificate"></i>Suffix:
 											<%
-												if (profileUser.getSuffix() != null && !profileUser.getSuffix().equals("")) {
+												if (profileUser.getSuffix() != null) {
 											%>
 											<%=profileUser.getSuffix()%>
 											<%
@@ -328,26 +328,26 @@
 												<%
 													if (profileUser.getEmail() != null) {
 												%> <%=profileUser.getEmail()%> <%
- 	} else {
- %> None <%
- 	}
- %>
+												 	} else {
+												 %> None <%
+												 	}
+												 %>
 											</a>
 										</p>
 
 										<p class="email">
 											<i class="fa fa-envelope"></i>Personal E-mail: <a
-												href="<%if (profileUser.getPersonalEmail() != null && !profileUser.getPersonalEmail().equals("")) {%>
+												href="<%if (profileUser.getPersonalEmail() != null) {%>
 										mailto:<%=profileUser.getPersonalEmail()%>? 
 										<%} else {%> # 
 										<%}%>">
 												<%
 													if (profileUser.getPersonalEmail() != null) {
 												%> <%=profileUser.getPersonalEmail()%> <%
- 	} else {
- %> None <%
- 	}
- %>
+												 	} else {
+												 %> None <%
+												 	}
+												 %>
 											</a>
 										</p>
 										<%

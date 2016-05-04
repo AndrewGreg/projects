@@ -1,0 +1,23 @@
+				Server Documentation
+
+SSH Hostname: 10.0.2.27
+SSH Username: dkirk
+SSH Password: alumni
+
+Server: Tomcat 7
+Database: MySql 5.7.11
+
+MySql Hostname: 127.0.0.1
+MySql Server Port: 3306
+
+Access Database
+Username: alumniTracker
+Password: alumnitracker
+
+Using Tunnel: dkirk@10.0.2.27
+
+Jenkins version:1x
+Jenkins Username: dkirk
+Jenkins Password: alumni
+
+OS: Centos7

@@ -55,8 +55,10 @@
 						<li><a class="profile-dropdown-link"
 							href="/Alumni-Tracker/user/<%=currentUser.getId()%>">My
 								Profile</a></li>
+								<%if(currentUser.getRole() > 2){ %>
 						<li><a class="profile-dropdown-link"
 							href="/Alumni-Tracker/myEvents">My Events</a></li>
+							<%} %>
 						<li><a class="profile-dropdown-link"
 							href="/Alumni-Tracker/rsvpEventList">RSVP Events</a></li>
 						<li><a class="profile-dropdown-link"

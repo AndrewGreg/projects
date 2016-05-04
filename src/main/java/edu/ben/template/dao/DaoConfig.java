@@ -347,14 +347,14 @@ public class DaoConfig {
 	@Bean
 	public EmailGenerator emailGenerator() {
 		// create new object mapper
-		Properties props = System.getProperties();
+		//Properties props = System.getProperties();
 
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		try {
-			props.load(classLoader.getResourceAsStream("config.properties"));
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+//		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+//		try {
+//			props.load(classLoader.getResourceAsStream("config.properties"));
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
+//		}
 //		String host = props.getProperty("EMAIL_HOST");
 //		String port = props.getProperty("EMAIL_PORT");
 //		String debug = props.getProperty("EMAIL_DEBUG");

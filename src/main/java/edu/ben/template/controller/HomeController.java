@@ -835,6 +835,7 @@ public class HomeController extends BaseController {
 				editEvent.setToPublic(1);
 			}
 
+			
 			try {
 				getEventDao().updateEvent(editEvent);
 			} catch (Exception e) {
@@ -1048,11 +1049,11 @@ public class HomeController extends BaseController {
 	 * @return the page returning all the events being posted.
 	 */
 	@RequestMapping(value = "/rsvpEventList", method = RequestMethod.GET)
-	public String rsvpEventList(Model model, @ModelAttribute("profileUser") User profileUser) {
+	public String rsvpEventList(Model model) {
 
 		ArrayList<Event> events;
 		try {
-			events = getEventDao().getAllByUser(profileUser);
+			events = getEventDao().getAllByUser(getCurrentUser());
 			sortEvents(events);
 			model.addAttribute("events", events);
 
@@ -2045,11 +2046,11 @@ public class HomeController extends BaseController {
 	 * @return the page returning all the events being posted.
 	 */
 	@RequestMapping(value = "/myEvents", method = RequestMethod.GET)
-	public String myEvents(Model model, @ModelAttribute("profileUser") User profileUser) {
+	public String myEvents(Model model) {
 
 		ArrayList<Event> events;
 		try {
-			events = getEventDao().getByPoster(profileUser);
+			events = getEventDao().getByPoster(getCurrentUser());
 			sortEvents(events);
 			model.addAttribute("events", events);
 

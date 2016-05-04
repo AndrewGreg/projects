@@ -154,25 +154,29 @@
 										University organized by student groups or faculty.</p>
 								</div>
 							</section>
-							<section class="widget has-divider">
-								<h3 class="section-heading text-highlight">Create your own
-									event!</h3>
+							
 
 								<%
-									if (user != null) {
+									if (user != null && user.getRole() > 2) {
 								%>
-
+								<section class="widget has-divider">
+								<h3 class="section-heading text-highlight">Create your own
+									event!</h3>
 
 								<a class="btn btn-theme" href="/Alumni-Tracker/createNewEvent"><i
 									class="fa fa-calendar"></i>Create Event</a>
 
 
 								<%
-									} else {
+									} else if (user != null && user.getRole() < 3) {
 								%>
+								<section class="widget has-divider">
+								<h3 class="section-heading text-highlight">Interested?</h3>
 
+								<p>Please at a look at all of the upcoming up for the next week.</p>
+								<%} else{ %>
 								<p>You are viewing this page as a guest. If you want to
-									create a new event, please log in.</p>
+									create a new job posting, please log in.</p>
 								<%
 									}
 								%>

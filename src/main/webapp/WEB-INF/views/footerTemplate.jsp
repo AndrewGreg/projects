@@ -260,9 +260,11 @@
 %>
 
 <%
-	String addRsvp = request.getAttribute("addRsvp") != null ? (String) request.getAttribute("addRsvp") : "";
+	String addRsvpCheck = request.getAttribute("addRsvp") != null
+			? (String) request.getAttribute("addRsvp")
+			: "";
 
-	if (addRsvp.equals("true")) {
+	if (addRsvpCheck.equals("true")) {
 %>
 
 <jsp:include page="rsvpAddModal.jsp" />

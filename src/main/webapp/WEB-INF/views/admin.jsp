@@ -83,7 +83,7 @@
 											String role = "";
 
 											for (int i = 0; i < users.size(); i++) {
-												if(users.get(i).isActive()){
+												//if(users.get(i).isActive()){
 													if(users.get(i).getRole() == 1){
 														role = "Student";
 													}else if(users.get(i).getRole() == 2){
@@ -104,7 +104,12 @@
 
 									<tr class='clickable-row row-link'
 										data-href='/Alumni-Tracker/user/<%=users.get(i).getId()%>'
-										<%if (i % 2 == 1) {%> style="background-color: #E8E8E8" <%}%>>
+										<%if (i % 2 == 1) {%> 
+										style="background-color: #E8E8E8" 
+										<%}%>
+										<%if (users.get(i).isHidden()){ %>
+										style="background-color: red"
+										<%} %>>
 										<td><img id="empty-profile-pic"
 											src="/Alumni-Tracker/content/img/empty-profile.png"
 											alt="Empty profile picture"></td>
@@ -117,7 +122,7 @@
 
 												}
 											}
-										}
+									//	}
 									%>
 								</tbody>
 							</table>

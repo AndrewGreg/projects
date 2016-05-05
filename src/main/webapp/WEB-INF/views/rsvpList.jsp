@@ -34,7 +34,7 @@
 									<tr>
 										<th class="text-center">First Name</th>
 										<th class="text-center">Last Name </th>
-										<th class="text-center">Role</th>
+										<th class="text-center">Status</th>
 									</tr>
 									<tr class="warning no-result">
 										<td colspan="4"><i class="fa fa-warning"></i> No one has

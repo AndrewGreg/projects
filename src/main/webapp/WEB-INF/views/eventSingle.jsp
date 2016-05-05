@@ -3,11 +3,12 @@
 
 <%@page import="edu.ben.template.model.Event"%>
 <%@page import="edu.ben.template.model.User"%>
+<%@page import="edu.ben.template.dao.UserDao"%>
 
 
 <%
 	User currentUser = (User) request.getAttribute("currentUser");
-	//boolean flag = (boolean) request.getAttribute("addRsvp");
+	UserDao user = (UserDao) request.getAttribute("user");
 %>
 <%
 	Event currentEvent = (Event) request.getAttribute("currentEvent");
@@ -38,6 +39,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><%=name%></title>
 <jsp:include page="headerTemplate.jsp" />
@@ -52,7 +54,7 @@
 			<div class="page-wrapper">
 				<header class="page-heading clearfix ben-container">
 					<h1 class="heading-title pull-left"><%=name%></h1>
-					
+
 					<div class="breadcrumbs pull-right">
 						<ul class="breadcrumbs-list">
 							<li class="breadcrumbs-label">You are here:</li>
@@ -90,21 +92,23 @@
 
 							<section class="widget has-divider">
 								<h3 class="section-heading text-highlight">RSVP!</h3>
-								<h4><a class="btn btn-theme" href ="/Alumni-Tracker/rsvpList">Rsvp List</a></h4>
-								
+								<h4>
+									<a class="btn btn-theme" href="/Alumni-Tracker/rsvpList">RSVP
+										List</a>
+								</h4>
 
 								<%
 									if (currentUser != null) {
-										
-										//if(flag == true){
 								%>
+
 								<a class="btn btn-theme" href="/Alumni-Tracker/addRsvp"><i
-									class="fa fa-send-o"></i>Attend</a>
-										
-								
-									<a class="btn btn-theme" href="/Alumni-Tracker/deleteRsvp"><i
-									class="fa fa-ban"></i>Not Going </a>
-									<%} %> 
+									class="fa fa-send-o"></i>Attend</a> <a class="btn btn-theme"
+									href="/Alumni-Tracker/deleteRsvp"> <i class="fa fa-ban"></i>Not
+									Going
+								</a>
+								<%
+									}
+								%>
 
 							</section>
 

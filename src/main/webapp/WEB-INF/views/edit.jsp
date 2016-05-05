@@ -22,6 +22,7 @@
 	ArrayList<Title> t = (ArrayList<Title>) request.getAttribute("titles");
 	ArrayList<Interest> i = (ArrayList<Interest>) request.getAttribute("interests");
 	ArrayList<Interest> uI = (ArrayList<Interest>) request.getAttribute("userInterests");
+	ArrayList<ArrayList<Major>> c = (ArrayList<ArrayList<Major>>) request.getAttribute("concentrations");
 
 	HashMap<String, String> errors = (HashMap<String, String>) request.getAttribute("errors");
 %>
@@ -32,6 +33,355 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Edit My Account!</title>
 <jsp:include page="headerTemplate.jsp" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+    
+
+var majors = [
+
+              
+	<% if (m != null && c != null) {
+	for (int j = 0; j < m.size(); j++){ %>
+	{
+		name: '<%=m.get(j).getName()%>',
+		c : [<%for (int k =0; k < c.get(j).size(); k++){%>
+		     	"<%=c.get(j).get(k).getName()%>",
+		     <%}%>
+		     ]
+		
+	},
+	<%}}%>
+
+];
+
+function findMajor(name) {
+  var i = 0,
+    len = majors.length;
+  for (i; i < len; i += 1) {
+    if (majors[i].name === name) {
+      return majors[i];
+    }
+  }
+  return null;
+};
+
+function addConcentration(value, text) {
+  if (value !== '') {
+
+    $("#concentration").append('<option value="' + value + '">' + text + '</option>');
+  }
+}
+
+function addDoubleConcentration(value, text) {
+  if (value !== '') {
+
+    $("#doubleConcentration").append('<option value="' + value + '">' + text + '</option>');
+  }
+}
+
+function addThirdConcentration(value, text) {
+  if (value !== '') {
+
+    $("#thirdConcentration").append('<option value="' + value + '">' + text + '</option>');
+  }
+}
+
+var dropdown = [],
+  i = 0,
+  len = majors.length;
+for (i; i < len; i += 1) {
+  dropdown.push(majors[i].name);
+}
+
+$.each(dropdown, function(i, val) {
+  $("#major").append("<option value=\"" + val + "\">" + val + "</option>");
+});
+
+$.each(dropdown, function(i, val) {
+  $("#doubleMajor").append("<option value=\"" + val + "\">" + val + "</option>");
+});
+
+$.each(dropdown, function(i, val) {
+  $("#thirdMajor").append("<option value=\"" + val + "\">" + val + "</option>");
+});
+
+<%
+if (u.getRole() < 3 ){
+%>
+
+<%
+	if (u.getMajor() != null && u.getMajor().size() > 0 && u.getMajor().get(0) != null){
+%>
+
+	$('[name=major]').val('<%=u.getMajor().get(0).getName()%>');
+	$(function () {
+	    $("select#major").load();
+	    <%
+		if (u.getConcentration() != null && !u.getConcentration().equals(null)){
+		
+			for (Major con: u.getConcentration()){
+				if (con.getParent().getName().equals(u.getMajorAtIndex(0).getName())){
+		%>
+		$('[name=concentration]').val('<%=con.getName()%>'); 
+		<%
+		}}}
+		%>
+	});
+	
+<%
+	}
+%>
+
+<%
+	if (u.getMajor() != null && u.getMajor().size() > 1 && u.getMajor().get(1) != null){
+%>
+			$('[name=doubleMajor]').val('<%=u.getMajor().get(1).getName()%>');
+			$(function () {
+			    $("select#doubleMajor").load();
+			    <%
+				if (u.getConcentration() != null && !u.getConcentration().equals(null)){
+				
+					for (Major con: u.getConcentration()){
+						if (con.getParent().getName().equals(u.getMajorAtIndex(1).getName())){
+				%>
+				$('[name=doubleConcentration]').val('<%=con.getName()%>'); 
+				<%
+				}}}
+				%>
+			});
+
+<%
+}
+%>
+
+<%
+if (u.getMajor() != null && u.getMajor().size() > 2 && u.getMajor().get(2) != null){
+%>
+		$('[name=thirdMajor]').val('<%=u.getMajor().get(2).getName()%>');
+		$(function () {
+		    $("select#thirdMajor").load();
+		    <%
+			if (u.getConcentration() != null && !u.getConcentration().equals(null)){
+			
+				for (Major con: u.getConcentration()){
+					if (con.getParent().getName().equals(u.getMajorAtIndex(2).getName())){
+			%>
+			$('[name=thirdConcentration]').val('<%=con.getName()%>'); 
+			<%
+			}}}
+			%>
+		});
+
+<%
+}
+%>
+
+<%
+}else {
+%>
+
+$('#majorOne').hide();
+$('#majorTwo').hide();
+$('#majorThree').hide();
+$('#minors').hide();
+
+<%
+}
+%>
+
+
+
+$('#major').on('load', function() {
+	  var optionSelected = $("option:selected", this);
+	  var valueSelected = this.value;
+	  if (valueSelected !== 'Select') {
+	    $('#concentration').children().slice(1).remove();
+	    var selectedMajor = findMajor(valueSelected);
+	    var i = 0,
+	      len = selectedMajor.c.length;
+	    $('#majorTwo').show();
+	    if (len > 0) {
+	      for (i; i < len; i += 1) {
+	        addConcentration(selectedMajor.c[i], selectedMajor.c[i]);
+	      }
+	      $('#concentration').show();
+	      $('#concentrationLabel').show();
+	      
+	    } else {
+	      $('#concentration').hide();
+	      $('#concentrationLabel').hide();
+	    }
+	  } else {
+	    $('#concentration').hide();
+	    $('#concentrationLabel').hide();
+	    $('#majorTwo').hide();
+	    $('#majorThree').hide();
+	  }
+	});
+	
+$('#major').on('load', function() {
+	  var optionSelected = $("option:selected", this);
+	  var valueSelected = this.value;
+	  if (valueSelected !== 'Select') {
+	    $('#concentration').children().slice(1).remove();
+	    var selectedMajor = findMajor(valueSelected);
+	    var i = 0,
+	      len = selectedMajor.c.length;
+	    $('#majorTwo').show();
+	    if (len > 0) {
+	      for (i; i < len; i += 1) {
+	        addConcentration(selectedMajor.c[i], selectedMajor.c[i]);
+	      }
+	      $('#concentration').show();
+	      $('#concentrationLabel').show();
+	      
+	    } else {
+	      $('#concentration').hide();
+	      $('#concentrationLabel').hide();
+	    }
+	  } else {
+	    $('#concentration').hide();
+	    $('#concentrationLabel').hide();
+	    $('#majorTwo').hide();
+	    $('#majorThree').hide();
+	  }
+	});
+
+$('#major').on('change', function() {
+  var optionSelected = $("option:selected", this);
+  var valueSelected = this.value;
+  if (valueSelected !== 'Select') {
+    $('#concentration').children().slice(1).remove();
+    var selectedMajor = findMajor(valueSelected);
+    var i = 0,
+      len = selectedMajor.c.length;
+    $('#majorTwo').fadeIn();
+    if (len > 0) {
+      for (i; i < len; i += 1) {
+        addConcentration(selectedMajor.c[i], selectedMajor.c[i]);
+      }
+      $('#concentration').fadeIn();
+      $('#concentrationLabel').fadeIn();
+      
+    } else {
+      $('#concentration').fadeOut();
+      $('#concentrationLabel').fadeOut();
+    }
+  } else {
+    $('#concentration').fadeOut();
+    $('#concentrationLabel').fadeOut();
+    $('#majorTwo').fadeOut();
+    $('#majorThree').fadeOut();
+  }
+});
+
+$('#doubleMajor').on('load', function() {
+	  var optionSelected = $("option:selected", this);
+	  var valueSelected = this.value;
+	  if (valueSelected !== 'Select') {
+	    $('#doubleConcentration').children().slice(1).remove();
+	    var selectedMajor = findMajor(valueSelected);
+	    var i = 0,
+	      len = selectedMajor.c.length;
+	    $('#majorThree').show();
+	    if (len > 0) {
+	      for (i; i < len; i += 1) {
+	        addDoubleConcentration(selectedMajor.c[i], selectedMajor.c[i]);
+	      }
+	      $('#doubleConcentration').show();
+	      $('#doubleConcentrationLabel').show();
+	     
+	    } else {
+	      $('#doubleConcentration').hide();
+	      $('#doubleConcentrationLabel').hide();
+	    }
+	  } else {
+	    $('#doubleConcentration').hide();
+	    $('#doubleConcentrationLabel').hide();
+	    $('#majorThree').hide();
+	  }
+	});
+
+$('#doubleMajor').on('change', function() {
+  var optionSelected = $("option:selected", this);
+  var valueSelected = this.value;
+  if (valueSelected !== 'Select') {
+    $('#doubleConcentration').children().slice(1).remove();
+    var selectedMajor = findMajor(valueSelected);
+    var i = 0,
+      len = selectedMajor.c.length;
+    $('#majorThree').fadeIn();
+    if (len > 0) {
+      for (i; i < len; i += 1) {
+        addDoubleConcentration(selectedMajor.c[i], selectedMajor.c[i]);
+      }
+      $('#doubleConcentration').fadeIn();
+      $('#doubleConcentrationLabel').fadeIn();
+     
+    } else {
+      $('#doubleConcentration').fadeOut();
+      $('#doubleConcentrationLabel').fadeOut();
+    }
+  } else {
+    $('#doubleConcentration').fadeOut();
+    $('#doubleConcentrationLabel').fadeOut();
+    $('#majorThree').fadeOut();
+  }
+});
+
+$('#thirdMajor').on('change', function() {
+  var optionSelected = $("option:selected", this);
+  var valueSelected = this.value;
+  if (valueSelected !== 'Select') {
+    $('#thirdConcentration').children().slice(1).remove();
+    var selectedMajor = findMajor(valueSelected);
+    var i = 0,
+      len = selectedMajor.c.length;
+    if (len > 0) {
+      for (i; i < len; i += 1) {
+        addThirdConcentration(selectedMajor.c[i], selectedMajor.c[i]);
+      }
+      $('#thirdConcentration').fadeIn();
+      $('#thirdConcentrationLabel').fadeIn();
+      
+    } else {
+      $('#thirdConcentration').fadeOut();
+      $('#thirdConcentrationLabel').fadeOut();
+    }
+  } else {
+    $('#thirdConcentration').fadeOut();
+    $('#thirdConcentrationLabel').fadeOut();
+  }
+});
+
+$('#thirdMajor').on('load', function() {
+	  var optionSelected = $("option:selected", this);
+	  var valueSelected = this.value;
+	  if (valueSelected !== 'Select') {
+	    $('#thirdConcentration').children().slice(1).remove();
+	    var selectedMajor = findMajor(valueSelected);
+	    var i = 0,
+	      len = selectedMajor.c.length;
+	    if (len > 0) {
+	      for (i; i < len; i += 1) {
+	        addThirdConcentration(selectedMajor.c[i], selectedMajor.c[i]);
+	      }
+	      $('#thirdConcentration').show();
+	      $('#thirdConcentrationLabel').show();
+	      
+	    } else {
+	      $('#thirdConcentration').hide();
+	      $('#thirdConcentrationLabel').hide();
+	    }
+	  } else {
+	    $('#thirdConcentration').hide();
+	    $('#thirdConcentrationLabel').hide();
+	  }
+	});
+
+});
+</script>
 </head>
 <body>
 	<jsp:include page="navBarTemplate.jsp" />
@@ -174,7 +524,8 @@
 								<%
 									}
 								%>
-								<div class="ccol-xs-12 col-sm-3">
+								<div class="row" id="majorOne">
+								<div class="ccol-xs-12 col-sm-2">
 									<div class="form-group">
 										<label class="control-label">Graduation Year:<%
 											if (u.getRole() == 1 || currUser.getRole() == 4) {
@@ -226,13 +577,13 @@
 									}
 								%>
 
-								<div class="col-xs-12 col-sm-3">
+								<div class="col-xs-12 col-sm-4">
 									<div class="form-group">
-										<label class="control-label">Major:<%
+										<label class="control-label" >Major:</label><%
 											if (u.getRole() == 1 || currUser.getRole() == 4) {
 										%>
-										</label> <select class="form-control" name="major" id="major">
-											<option>Select</option>
+										<select class="form-control" name="major" id="major">
+											<%-- <option>Select</option>
 											<%
 												if (m != null && m.size() != 0) {
 														for (Major major : m) {
@@ -245,7 +596,10 @@
 												}
 													}
 											%>
-										</select>
+										</select> --%>
+										
+      											<option value="Select">Select</option>
+  										  </select>	
 										<%
 											} else if (u.getRole() == 2) {
 										%>
@@ -265,7 +619,17 @@
 									</div>
 
 								</div>
+								
+								<div class="col-xs-12 col-sm-6">								
+									<div class="form-group" id="concentrationGroup">
+										<label class="control-label" id="concentrationLabel" style="display:none;">Concentration:</label>
+								    <select class="form-control" name="concentration" id="concentration" style="display:none;">
+								      <option value="Select">Select</option>
+								    </select>
+									</div>
+								</div>
 
+								</div>
 								<%
 									if (errors != null && errors.get("doubleMajor") != null) {
 								%>
@@ -276,14 +640,16 @@
 									}
 								%>
 
-								<div class="col-xs-12 col-sm-3">
+								<%--CHANGE VISIBILITY FOR USER WITH MAJOR ALREADY --%>
+								<div class="row" id="majorTwo" style="display:none;">
+								<div class="col-xs-12 col-sm-6">
 									<div class="form-group">
-										<label class="control-label">Double Major:<%
+										<label class="control-label">Double Major:</label><%
 											if (u.getRole() == 1 || currUser.getRole() == 4) {
 										%>
-										</label> <select class="form-control" name="doubleMajor"
+										 <select class="form-control doubleMajor" name="doubleMajor"
 											id="doubleMajor">
-											<option>Select</option>
+											<%-- <option>Select</option>
 											<%
 												if (m != null && m.size() != 0) {
 														for (Major major : m) {
@@ -296,7 +662,10 @@
 												}
 													}
 											%>
-										</select>
+										</select>--%>
+										
+											<option value="Select">Select</option>
+  										</select>	
 										<%
 											} else if (u.getRole() == 2) {
 										%>
@@ -316,6 +685,16 @@
 									</div>
 
 								</div>
+								
+								<div class="col-xs-12 col-sm-6">								
+									<div class="form-group">
+										<label class="control-label" id="doubleConcentrationLabel" style="display:none;">Concentration:</label>
+								    <select class="form-control" name="doubleConcentration" id="doubleConcentration" style="display:none;">
+								      <option value="Select">Select</option>
+								    </select>
+									</div>
+								</div>
+								</div>
 
 								<%
 									if (errors != null && errors.get("thirdMajor") != null) {
@@ -327,14 +706,15 @@
 									}
 								%>
 
-								<div class="col-xs-12 col-sm-3">
+								<div class="row" id="majorThree" style="display:none;">
+								<div class="col-xs-12 col-sm-6">
 									<div class="form-group">
-										<label class="select-label">Third Major:<%
+										<label class="select-label">Third Major:</label><%
 											if (u.getRole() == 1 || currUser.getRole() == 4) {
 										%>
-										</label> <select class="form-control" name="thirdMajor"
+										 <select class="form-control" name="thirdMajor"
 											id="thirdMajor">
-											<option>Select</option>
+											<%--<option>Select</option>
 											<%
 												if (m != null && m.size() != 0) {
 														for (Major major : m) {
@@ -347,7 +727,11 @@
 												}
 													}
 											%>
-										</select>
+										</select> --%>
+										
+											<option value="Select">Select</option>
+  										</select>
+										
 										<%
 											} else if (u.getRole() == 2) {
 										%>
@@ -366,7 +750,19 @@
 										%>
 									</div>
 								</div>
+								
+								<div class="col-xs-12 col-sm-6">								
+									<div class="form-group">
+										<label class="control-label" id="thirdConcentrationLabel" style="display:none;">Concentration:</label>
+								    <select class="form-control" name="thirdConcentration" id="thirdConcentration" style="display:none;">
+								      <option value="Select">Select</option>
+								    </select>
+									</div>
+								</div>
+								</div>
 
+
+							<div class="row" id="minors">
 								<%
 									if (errors != null && errors.get("minor") != null) {
 								%>
@@ -381,7 +777,7 @@
 									<div class="form-group">
 										<label class="control-label">Minor:<%
 											if (u.getRole() == 1 || currUser.getRole() == 4) {
-										%> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+										%> 
 										</label> <select class="form-control" name="minor" id="minor">
 											<option>Select</option>
 											<%
@@ -518,6 +914,7 @@
 									</div>
 
 
+								</div>
 								</div>
 
 

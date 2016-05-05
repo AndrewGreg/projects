@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@ page import="edu.ben.template.model.Event"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@ page import="edu.ben.template.model.Event"%>
 <%@ page import="edu.ben.template.model.User"%>
 <%@ page import="java.util.ArrayList"%>
 <%
-	User user = (User) request.getAttribute("currentUser");
+	User user = (User) request.getAttribute("profileUser");
 	ArrayList<Event> events;
 	if (request.getAttribute("events") != null) {
 		events = (ArrayList<Event>) request.getAttribute("events");
@@ -15,8 +15,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Events</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>My RSVP Events</title>
 <jsp:include page="headerTemplate.jsp" />
 </head>
 <body>
@@ -29,7 +29,7 @@
 		<div class="content container content-container">
 			<div class="page-wrapper ben-container">
 				<header class="page-heading clearfix pageHeading">
-					<h1 class="heading-title pull-left">Events</h1>
+					<h1 class="heading-title pull-left">My RSVP Events</h1>
 					<div class="breadcrumbs pull-right">
 						<ul class="breadcrumbs-list">
 							<li class="breadcrumbs-label">You are here:</li>

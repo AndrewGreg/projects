@@ -46,6 +46,7 @@
 							<br>
 							<%
 								for (int i = 0; i < jobs.size(); i++) {
+									if(jobs.get(i).getPoster().isActive()){
 
 									String name = jobs.get(i) != null && jobs.get(i).getName() != null ? jobs.get(i).getName() : "";
 									String company = jobs.get(i) != null && jobs.get(i).getCompany() != null ? jobs.get(i).getCompany()
@@ -116,6 +117,7 @@
 							</div>
 							<!--//panel-->
 							<%
+									}
 								}
 
 								if (jobs.size() == 0) {

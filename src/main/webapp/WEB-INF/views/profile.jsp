@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="edu.ben.template.model.User"%>
+<%@page import="edu.ben.template.model.Major"%>
 <%@page import="edu.ben.template.model.Title"%>
 <%@page import="edu.ben.template.model.UploadFile"%>
 <%
@@ -49,7 +50,7 @@
 								<%=profileUser.getLastName()%></h1>
 							<div class="pull-right">
 								<%
-									if (currentUser.getRole() == 4) {
+									if (currentUser.getRole() == 4 && profileUser.isActive()) {
 								%>
 								<div class="row">
 									<div class="col-xs-6 .col-sm-5">
@@ -60,6 +61,22 @@
 										<form action="/Alumni-Tracker/deleteUser" method="POST"
 											name="deleteUser">
 											<button type="submit" class="btn btn-theme">Delete
+												User</button>
+										</form>
+									</div>
+								</div>
+								<%
+									} else if (currentUser.getRole() == 4 && profileUser.isHidden()) {
+								%>
+								<div class="row">
+									<div class="col-xs-6 .col-sm-5">
+										<a class="btn btn-theme pull-left"
+											href="/Alumni-Tracker/register">Register User</a>
+									</div>
+									<div class="col-xs-6 .col-sm-5">
+										<form action="/Alumni-Tracker/reactivateAccount" method="POST"
+											name="reactivateAccount">
+											<button type="submit" class="btn btn-primary">Reactivate
 												User</button>
 										</form>
 									</div>
@@ -133,6 +150,23 @@
  %></li>
 
 											<%
+												if (profileUser.getConcentration() != null && !profileUser.getConcentration().equals(null)) {
+													if (profileUser.getMajorAtIndex(0) != null && profileUser.getMajorAtIndex(0).getName() != null) {
+
+														for (Major con : profileUser.getConcentration()) {
+															if (con.getParent().getName().equals(profileUser.getMajorAtIndex(0).getName())) {
+											%>
+
+
+											<li class="list-group-item"><strong>Concentration:
+											</strong><%=con.getName()%></li>
+											<%
+												}
+														}
+													}
+												}
+											%>
+											<%
 												if (profileUser.getMajorAtIndex(1) != null && profileUser.getMajorAtIndex(1).getName() != null) {
 											%><li class="list-group-item"><strong> Double
 													Major: </strong><%=profileUser.getMajorAtIndex(1).getName()%></li>
@@ -140,10 +174,44 @@
 												}
 											%>
 											<%
+												if (profileUser.getConcentration() != null && !profileUser.getConcentration().equals(null)) {
+													if (profileUser.getMajorAtIndex(1) != null && profileUser.getMajorAtIndex(1).getName() != null) {
+
+														for (Major con : profileUser.getConcentration()) {
+															if (con.getParent().getName().equals(profileUser.getMajorAtIndex(1).getName())) {
+											%>
+
+
+											<li class="list-group-item"><strong>Concentration:
+											</strong><%=con.getName()%></li>
+											<%
+												}
+														}
+													}
+												}
+											%>
+											<%
 												if (profileUser.getMajorAtIndex(2) != null && profileUser.getMajorAtIndex(2).getName() != null) {
 											%><li class="list-group-item"><strong> Third
 													Major: </strong><%=profileUser.getMajorAtIndex(2).getName()%></li>
 											<%
+												}
+											%>
+											<%
+												if (profileUser.getConcentration() != null && !profileUser.getConcentration().equals(null)) {
+													if (profileUser.getMajorAtIndex(2) != null && profileUser.getMajorAtIndex(2).getName() != null) {
+
+														for (Major con : profileUser.getConcentration()) {
+															if (con.getParent().getName().equals(profileUser.getMajorAtIndex(2).getName())) {
+											%>
+
+
+											<li class="list-group-item"><strong>Concentration:
+											</strong><%=con.getName()%></li>
+											<%
+												}
+														}
+													}
 												}
 											%>
 

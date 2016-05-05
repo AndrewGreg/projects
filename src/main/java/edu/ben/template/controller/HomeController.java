@@ -1979,7 +1979,7 @@ public class HomeController extends BaseController {
 	 * @throws SQLException
 	 */
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-	public String userProfile(Model model, @PathVariable Long id, HttpServletResponse response)
+	public String userProfile(Model model, @PathVariable Long id)
 			throws IOException, SQLException {
 
 		User profileUser = getUserDao().getObjectById(id);
@@ -1999,11 +1999,14 @@ public class HomeController extends BaseController {
 		}
 
 		profileUser.setConcentration(con);
+		
+		ArrayList<Interest> inter = getInterestDao().getAllByUser(profileUser);
 
 		profileUser.setMinor(getMajorDao().getMinorByUser(profileUser));
-		Title currentUserTitle = getTitleDao().getObjectById(profileUser.getTitleID());
+		Title profileUserTitle = getTitleDao().getObjectById(profileUser.getTitleID());
 		model.addAttribute("profileUser", profileUser);
-		model.addAttribute("title", currentUserTitle);
+		model.addAttribute("title", profileUserTitle);
+		model.addAttribute("interests", inter);
 
 		return "profile";
 	}

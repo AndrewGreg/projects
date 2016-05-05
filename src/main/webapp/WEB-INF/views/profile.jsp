@@ -3,12 +3,15 @@
 <%@page import="edu.ben.template.model.User"%>
 <%@page import="edu.ben.template.model.Major"%>
 <%@page import="edu.ben.template.model.Title"%>
+<%@page import="edu.ben.template.model.Interest"%>
+<%@ page import="java.util.ArrayList"%>
 <%@page import="edu.ben.template.model.UploadFile"%>
 <%
 	UploadFile photo = (UploadFile) request.getAttribute("photo");
 	User currentUser = (User) request.getAttribute("currentUser");
 	User profileUser = (User) request.getAttribute("profileUser");
 	Title userTitle = (Title) request.getAttribute("title");
+	ArrayList<Interest> interests = (ArrayList<Interest>) request.getAttribute("interests");
 %>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
@@ -255,7 +258,29 @@
 												}
 											%>
 										</div>
-									</div>							
+									
+									
+									
+									<%
+										if (interests != null && !interests.equals(null) && interests.size() > 0 && !interests.get(0).equals(null)){
+									%>
+											<li class="list-group-item"><strong>Interests include: </strong>
+											<%
+												for (int j = 0; j < interests.size(); j++){
+													if (j != (interests.size()-1)){
+											%><%=interests.get(j).getName()%>, <%
+													} else {
+											%><%=interests.get(j).getName()%><%
+													}}
+											%></li>
+									
+									
+									<%
+										}
+									%>
+									
+									</div>
+																
 									<%
 												if (currentUser.getRole() == 4 && currentUser.getId() == profileUser.getId()) {
 									%>

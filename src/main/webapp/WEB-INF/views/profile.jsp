@@ -51,15 +51,23 @@
 								<%
 									if (currentUser.getRole() == 4) {
 								%>
-								<form action="/Alumni-Tracker/deleteUser" method="POST"
-									name="deleteUser">
-									<button type="submit" class="btn btn-primary">Delete
-										User</button>
-								</form>
-
+								<div class="row">
+									<div class="col-xs-6 .col-sm-5">
+										<a class="btn btn-theme pull-left"
+											href="/Alumni-Tracker/register">Register User</a>
+									</div>
+									<div class="col-xs-6 .col-sm-5">
+										<form action="/Alumni-Tracker/deleteUser" method="POST"
+											name="deleteUser">
+											<button type="submit" class="btn btn-theme">Delete
+												User</button>
+										</form>
+									</div>
+								</div>
 								<%
 									}
 								%>
+
 							</div>
 
 							<div class="breadcrumbs pull-right" id="breadcrumbs-profile">
@@ -165,7 +173,7 @@
 											%>
 
 											<li class="list-group-item"><strong>Graduation
-													Year: </strong><%
+													Year: </strong> <%
  	if (profileUser.getGraduationYear() > 1800) {
  %><%=profileUser.getGraduationYear()%> <%
  	} else {
@@ -173,10 +181,10 @@
  	}
  %></li>
 
-											<li class="list-group-item"><strong>Occupation: </strong>
-												<%
-													if (profileUser.getOccupation() != null && !profileUser.getOccupation().equals("")) {
-												%><%=profileUser.getOccupation()%> <%
+											<li class="list-group-item"><strong>Occupation:
+											</strong> <%
+ 	if (profileUser.getOccupation() != null && !profileUser.getOccupation().equals("")) {
+ %><%=profileUser.getOccupation()%> <%
  	} else {
  %>No user occupation.<%
  	}
@@ -189,10 +197,10 @@
  %>No user company.<%
  	}
  %></li>
-											<li class="list-group-item"><strong>Experience: </strong>
-												<%
-													if (profileUser.getExperience() != null && !profileUser.getExperience().equals("")) {
-												%><%=profileUser.getExperience()%> <%
+											<li class="list-group-item"><strong>Experience:
+											</strong> <%
+ 	if (profileUser.getExperience() != null && !profileUser.getExperience().equals("")) {
+ %><%=profileUser.getExperience()%> <%
  	} else {
  %>No user experience.<%
  	}

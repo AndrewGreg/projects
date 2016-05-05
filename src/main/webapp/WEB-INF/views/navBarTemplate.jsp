@@ -100,19 +100,25 @@
 			<ul class="nav navbar-nav">
 				<li class="<%if (active.equals("index")) {%>active<%}%> nav-item"><a
 					href="/Alumni-Tracker/"><i class="fa fa-home"></i> Home</a></li>
-				<li
-					class="<%if (active.equals("faculty")) {%>active<%}%> nav-item"><a
-					href="/Alumni-Tracker/faculty"><i class="fa fa-user"></i>
-						Faculty</a></li>
 
-				<%
-					if (currentUser != null) {
-				%>
-				<li class="<%if (active.equals("alumni")) {%>active<%}%> nav-item"><a
-					href="/Alumni-Tracker/alumni"><i class="fa fa-user"></i> Alumni</a></li>
-				<%
-					}
-				%>
+				<li
+					class="<%if (active.equals("faculty") || active.equals("alumni")) {%>active<%}%> nav-item dropdown"><a
+					class="dropdown-toggle" data-toggle="dropdown"
+					data-hover="dropdown" data-delay="0" data-close-others="false"
+					href="#"><i class="fa fa-user"></i> Directories <i
+						class="fa fa-angle-down"></i></a>
+					<ul class="dropdown-menu">
+
+						<li><a href="/Alumni-Tracker/faculty"> Faculty</a></li>
+						<%
+							if (currentUser != null) {
+						%>
+						<li><a href="/Alumni-Tracker/alumni"> Alumni</a></li>
+						<li><a href="/Alumni-Tracker/students"> Students</a></li>
+						<%
+							}
+						%>
+					</ul></li>
 
 				<%
 					if (currentUser != null) {

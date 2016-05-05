@@ -4,7 +4,10 @@
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="edu.ben.template.model.Major"%>
 <%@ page import="edu.ben.template.model.Title"%>
+<%@ page import="edu.ben.template.model.User"%>
 <%
+	User currentUser = (User) request.getAttribute("currentUser");
+
 	HashMap<String, String> errors;
 	if (request.getAttribute("errors") != null) {
 		errors = (HashMap<String, String>) request.getAttribute("errors");
@@ -44,8 +47,6 @@
 	String phone = (request.getParameter("phone") == null) ? "" : (String) request.getParameter("phone");
 	String workPhone = (request.getParameter("workPhone") == null) ? ""
 			: (String) request.getParameter("workPhone");
-	String gradSchool = (request.getParameter("gradSchool") == null) ? ""
-			: (String) request.getParameter("gradSchool");
 	String linkedin = (request.getParameter("linkedin") == null) ? ""
 			: (String) request.getParameter("linkedin");
 	String major = (request.getParameter("major") == null) ? "" : (String) request.getParameter("major");
@@ -106,12 +107,6 @@
 										class="btn btn-default btn-circle" disabled="disabled">3</a>
 									<p>Employment Info</p>
 								</div>
-								<div class="stepwizard-step">
-									<a href="#step-4" type="button"
-										class="btn btn-default btn-circle" disabled="disabled">4</a>
-									<p>Complete</p>
-								</div>
-
 							</div>
 						</div>
 						<form action="/Alumni-Tracker/register" method="POST"
@@ -396,10 +391,19 @@
 
 									<div class="controls" data-name="standing">
 										<select name="standing" id="standing" class="form-control">
-
+											<option value="-1">Select a standing</option>
 											<option value="1">Student</option>
 											<option value="2">Alumnus/Alumna</option>
 											<option value="3">Faculty</option>
+
+											<%
+												if (currentUser != null && currentUser.getRole() == 4) {
+											%>
+											<option value="4">Administrator</option>
+											<%
+												}
+											%>
+
 										</select>
 
 										<%
@@ -453,35 +457,10 @@
 								<!-- Input control group -->
 								<div class="control-group">
 									<!-- Title -->
-									<label class="control-label" for="gradSchool">Graduate
-										School:</label>
-									<div class="controls" data-name="gradSchool">
-										<input type="text" id="gradSchool" name="gradSchool"
-											placeholder="Benedictine University" class="form-control"
-											value="<%=gradSchool%>">
-
-										<%
-											if (errors.get("gradSchool") != null) {
-										%>
-
-										<span class="help-block" style="color: #e60000"> <%=errors.get("gradSchool")%></span>
-
-										<%
-											}
-										%>
-
-									</div>
-								</div>
-								<br>
-								<!-- /Input control group -->
-
-								<!-- Input control group -->
-								<div class="control-group">
-									<!-- Title -->
 									<label class="control-label" for="major">*Major:</label>
 									<div class="controls" data-name="major">
 										<select name="major" class="form-control" required>
-
+											<option value="-1">Select a major</option>
 											<%
 												String majorName = "";
 												for (int i = 0; i < majorList.size(); i++) {
@@ -594,53 +573,7 @@
 								<div>
 									<p>* denotes required field.</p>
 								</div>
-								<button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
-							</div>
 
-							<div class="row setup-content" id="step-4">
-
-								<h3>Complete Registration</h3>
-								<br>
-
-								<!-- Input control group -->
-								<div class="control-group">
-									<!-- Title -->
-									<label class="control-label" for="password">*Password:</label>
-									<div class="controls" data-name="password">
-										<input type="password" id="password" name="password"
-											placeholder="Password" class="form-control">
-									</div>
-								</div>
-								<br>
-								<!-- /Input control group -->
-
-								<!-- Input control group -->
-								<div class="control-group">
-									<!-- Title -->
-									<label class="control-label" for="passConfirm">*Confirm
-										Password:</label>
-									<div class="controls" data-name="passConfirm">
-										<input type="password" id="passConfirm" name="passConfirm"
-											placeholder="Confirm Password" class="form-control">
-
-										<%
-											if (errors.get("passwords") != null) {
-										%>
-
-										<span class="help-block" style="color: #e60000"> <%=errors.get("passwords")%></span>
-
-										<%
-											}
-										%>
-
-									</div>
-								</div>
-								<br>
-								<!-- /Input control group -->
-
-								<div>
-									<p>* denotes required field.</p>
-								</div>
 								<div class="pull-right">
 									<button type="submit" class="btn btn-primary">Register</button>
 								</div>

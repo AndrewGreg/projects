@@ -279,10 +279,22 @@ public class MajorDao extends BaseDao<Major> {
 
 	public void addConcentration(Major major) {
 
-		String sql = "INSERT INTO major (name, concentration, major_id) VALUES (?,?,?);";
+		String sql = "INSERT INTO major (name, concentration, major_id) VALUES (?,1,?);";
 
 		try {
-			jdbcTemplate.update(sql, major.getName(), major.isConcentration(), major.getParent().getId());
+			jdbcTemplate.update(sql, major.getName(), major.getParent().getId());
+			return;
+		} catch (Exception e) {
+			/* Probably should log this */
+		}
+	}
+	
+	public void addConcentration(Major major, Major parent) {
+
+		String sql = "INSERT INTO major (name, concentration, major_id) VALUES (?,1,?);";
+
+		try {
+			jdbcTemplate.update(sql, major.getName(), parent.getId());
 			return;
 		} catch (Exception e) {
 			/* Probably should log this */

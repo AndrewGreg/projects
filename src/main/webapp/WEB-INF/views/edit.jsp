@@ -55,6 +55,19 @@ var majors = [
 
 ];
 
+var minors = [
+
+              
+          	<% if (mi != null) {
+          	for (int j = 0; j < m.size(); j++){ %>
+          	{
+          		name: '<%=mi.get(j).getName()%>',
+
+          	},
+          	<%}}%>
+
+          ];
+
 function findMajor(name) {
   var i = 0,
     len = majors.length;
@@ -94,6 +107,13 @@ for (i; i < len; i += 1) {
   dropdown.push(majors[i].name);
 }
 
+var dropdown2 = [],
+i = 0,
+len = minors.length;
+for (i; i < len; i += 1) {
+dropdown.push(minors[i].name);
+}
+
 $.each(dropdown, function(i, val) {
   $("#major").append("<option value=\"" + val + "\">" + val + "</option>");
 });
@@ -104,6 +124,18 @@ $.each(dropdown, function(i, val) {
 
 $.each(dropdown, function(i, val) {
   $("#thirdMajor").append("<option value=\"" + val + "\">" + val + "</option>");
+});
+
+$.each(dropdown, function(i, val) {
+  $("#minor").append("<option value=\"" + val + "\">" + val + "</option>");
+});
+	
+$.each(dropdown, function(i, val) {
+  $("#secondMinor").append("<option value=\"" + val + "\">" + val + "</option>");
+});
+	
+$.each(dropdown, function(i, val) {
+  $("#thirdMinor").append("<option value=\"" + val + "\">" + val + "</option>");
 });
 
 <%
@@ -178,6 +210,41 @@ if (u.getMajor() != null && u.getMajor().size() > 2 && u.getMajor().get(2) != nu
 %>
 
 <%
+	if (u.getMinor() != null && u.getMinor().size() > 0 && u.getMinor().get(0) != null){
+
+
+%>
+	$('[name=minor]').val('<%=u.getMinor().get(0).getName()%>');
+
+<%
+	}
+%>
+
+<%
+if (u.getMinor() != null && u.getMinor().size() > 1 && u.getMinor().get(1) != null){
+
+
+%>
+$('[name=secondMinor]').val('<%=u.getMinor().get(1).getName()%>');
+
+<%
+}
+%>
+
+
+<%
+if (u.getMinor() != null && u.getMinor().size() > 2 && u.getMinor().get(2) != null){
+
+
+%>
+$('[name=thirdMinor]').val('<%=u.getMinor().get(2).getName()%>');
+
+<%
+}
+%>
+
+
+<%
 }else {
 %>
 
@@ -191,6 +258,60 @@ $('#minors').hide();
 %>
 
 
+
+$('#minor').on('load', function() {
+	  var optionSelected = $("option:selected", this);
+	  var valueSelected = this.value;
+	  if (valueSelected !== 'Select') {
+	    $('#secondMinor').show()
+	    $('#secondMinorLabel').show()
+	  } else {
+		 $('#secondMinor').hide()
+		 $('#secondMinorLabel').hide()
+	    $('#thirdMinor').hide();
+	    $('#thirdMinorLabel').hide();
+	  }
+	});
+	
+$('#minor').on('change', function() {
+	  var optionSelected = $("option:selected", this);
+	  var valueSelected = this.value;
+	  if (valueSelected !== 'Select') {
+	    $('#secondMinor').fadeIn()
+	    $('#secondMinorLabel').fadeIn()
+	  } else {
+		$('#secondMinor').fadeOut()
+		$('#secondMinorLabel').fadeOut()
+	    $('#thirdMinor').fadeOut();
+	    $('#thirdMinorLabel').fadeOut();
+	  }
+	});
+	
+	
+$('#secondMinor').on('load', function() {
+	  var optionSelected = $("option:selected", this);
+	  var valueSelected = this.value;
+	  if (valueSelected !== 'Select') {
+	    $('#thirdMinor').show();
+	    $('#thirdMinorLabel').show();
+	  } else {
+		$('#thirdMinor').hide();
+		$('#thirdMinorLabel').hide();
+	  }
+	});
+	
+
+$('#secondMinor').on('change', function() {
+	  var optionSelected = $("option:selected", this);
+	  var valueSelected = this.value;
+	  if (valueSelected !== 'Select') {
+	    $('#thirdMinor').fadeIn();
+	    $('#thirdMinorLabel').fadeIn();
+	  } else {
+		$('#thirdMinor').fadeOut();
+		$('#thirdMinorLabel').fadeOut();
+	  }
+	});
 
 $('#major').on('load', function() {
 	  var optionSelected = $("option:selected", this);
@@ -220,33 +341,7 @@ $('#major').on('load', function() {
 	  }
 	});
 	
-$('#major').on('load', function() {
-	  var optionSelected = $("option:selected", this);
-	  var valueSelected = this.value;
-	  if (valueSelected !== 'Select') {
-	    $('#concentration').children().slice(1).remove();
-	    var selectedMajor = findMajor(valueSelected);
-	    var i = 0,
-	      len = selectedMajor.c.length;
-	    $('#majorTwo').show();
-	    if (len > 0) {
-	      for (i; i < len; i += 1) {
-	        addConcentration(selectedMajor.c[i], selectedMajor.c[i]);
-	      }
-	      $('#concentration').show();
-	      $('#concentrationLabel').show();
-	      
-	    } else {
-	      $('#concentration').hide();
-	      $('#concentrationLabel').hide();
-	    }
-	  } else {
-	    $('#concentration').hide();
-	    $('#concentrationLabel').hide();
-	    $('#majorTwo').hide();
-	    $('#majorThree').hide();
-	  }
-	});
+
 
 $('#major').on('change', function() {
   var optionSelected = $("option:selected", this);
@@ -422,12 +517,6 @@ $('#thirdMajor').on('load', function() {
 									</div>
 								</div>
 								
-							
-							
-							
-							
-							
-
 							<%
 								if (errors != null && errors.get("title") != null) {
 							%>
@@ -538,7 +627,6 @@ $('#thirdMajor').on('load', function() {
 							<%
 								if (u.getRole() == 4) {
 							%>
-							<!-- DOES THIS WORK?? -->
 							<div visibility="hidden">
 
 								<%
@@ -612,7 +700,9 @@ $('#thirdMajor').on('load', function() {
 											if (u.getRole() == 1 || currUser.getRole() == 4) {
 										%>
 										<select class="form-control" name="major" id="major">
-											<%-- <option>Select</option>
+											<%-- 
+											--LEAVING FOR EXAMPLE--
+											<option>Select</option>
 											<%
 												if (m != null && m.size() != 0) {
 														for (Major major : m) {
@@ -669,7 +759,6 @@ $('#thirdMajor').on('load', function() {
 									}
 								%>
 
-								<%--CHANGE VISIBILITY FOR USER WITH MAJOR ALREADY --%>
 								<div class="row" id="majorTwo" style="display:none;">
 								<div class="col-xs-12 col-sm-6">
 									<div class="form-group">
@@ -678,21 +767,6 @@ $('#thirdMajor').on('load', function() {
 										%>
 										 <select class="form-control doubleMajor" name="doubleMajor"
 											id="doubleMajor">
-											<%-- <option>Select</option>
-											<%
-												if (m != null && m.size() != 0) {
-														for (Major major : m) {
-											%>
-											<option
-												<%if (u.getMajor() != null && u.getMajor().size() > 1 && u.getMajor().get(1) != null
-								&& u.getMajor().get(1).getName().equals(major.getName())) {%>
-												selected <%}%>><%=major.getName()%></option>
-											<%
-												}
-													}
-											%>
-										</select>--%>
-										
 											<option value="Select">Select</option>
   										</select>	
 										<%
@@ -743,21 +817,6 @@ $('#thirdMajor').on('load', function() {
 										%>
 										 <select class="form-control" name="thirdMajor"
 											id="thirdMajor">
-											<%--<option>Select</option>
-											<%
-												if (m != null && m.size() != 0) {
-														for (Major major : m) {
-											%>
-											<option
-												<%if (u.getMajor() != null && u.getMajor().size() > 2 && u.getMajor().get(2) != null
-								&& u.getMajor().get(2).getName().equals(major.getName())) {%>
-												selected <%}%>><%=major.getName()%></option>
-											<%
-												}
-													}
-											%>
-										</select> --%>
-										
 											<option value="Select">Select</option>
   										</select>
 										
@@ -802,25 +861,14 @@ $('#thirdMajor').on('load', function() {
 									}
 								%>
 
+								<!-- CHANGE LABEL IN IF STATEMENT? -->
 								<div class="col-xs-12 col-sm-4">
 									<div class="form-group">
-										<label class="control-label">Minor:<%
+										<label class="control-label" name="minorLabel" id="minorLabel" >Minor:</label><%
 											if (u.getRole() == 1 || currUser.getRole() == 4) {
 										%> 
-										</label> <select class="form-control" name="minor" id="minor">
-											<option>Select</option>
-											<%
-												if (mi != null && mi.size() != 0) {
-														for (Major minor : mi) {
-											%>
-											<option
-												<%if (u.getMinor() != null && u.getMinor().size() > 0 && u.getMinor().get(0) != null
-								&& u.getMinor().get(0).getName().equals(minor.getName())) {%>
-												selected <%}%>><%=minor.getName()%></option>
-											<%
-												}
-													}
-											%>
+										<select class="form-control" name="minor" id="minor">
+											<option value="Select">Select</option>
 										</select>
 										<%
 											} else if (u.getRole() == 2) {
@@ -854,30 +902,18 @@ $('#thirdMajor').on('load', function() {
 
 								<div class="col-xs-12 col-sm-4">
 									<div class="form-group">
-										<label class="control-label">Double Minor:<%
+										<label class="control-label" name="secondMinorLabel" id="secondMinorLabel" style="display:none;">Double Minor:</label><%
 											if (u.getRole() == 1 || currUser.getRole() == 4) {
 										%> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-										</label> <select class="form-control" name="secondMinor"
-											id="secondMinor">
-											<option>Select</option>
-											<%
-												if (mi != null && mi.size() != 0) {
-														for (Major minor : mi) {
-											%>
-											<option
-												<%if (u.getMinor() != null && u.getMinor().size() > 1 && u.getMinor().get(1) != null
-								&& u.getMinor().get(1).getName().equals(minor.getName())) {%>
-												selected <%}%>><%=minor.getName()%></option>
-											<%
-												}
-													}
-											%>
+										 <select class="form-control" name="secondMinor"
+											id="secondMinor" style="display:none;">
+											<option value="Select" >Select</option>
 										</select>
 										<%
 											} else if (u.getRole() == 2) {
 										%>
 										<div class="">
-											<input type="hidden" name="secondMinor" id="secondMinor">
+											<input type="hidden" name="secondMinor" id="secondMinor" style="display:none;">
 											<%
 												if (u.getRole() == 2 && u.getMinor().size() > 1 && u.getMinor().get(1) != null) {
 											%>
@@ -905,30 +941,18 @@ $('#thirdMajor').on('load', function() {
 
 								<div class="col-xs-12 col-sm-4">
 									<div class="form-group">
-										<label class="select-label">Third Minor:<%
+										<label class="select-label" name="thirdMinorLabel" id="thirdMinorLabel" style="display:none;">Third Minor:</label><%
 											if (u.getRole() == 1 || currUser.getRole() == 4) {
 										%> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-										</label> <select class="form-control" name="thirdMinor"
-											id="thirdMinor">
-											<option>Select</option>
-											<%
-												if (mi != null && mi.size() != 0) {
-														for (Major minor : mi) {
-											%>
-											<option
-												<%if (u.getMinor() != null && u.getMinor().size() > 2 && u.getMinor().get(2) != null
-								&& u.getMinor().get(2).getName().equals(minor.getName())) {%>
-												selected <%}%>><%=minor.getName()%></option>
-											<%
-												}
-													}
-											%>
+										<select class="form-control" name="thirdMinor"
+											id="thirdMinor" style="display:none;">
+											<option value="Select">Select</option>
 										</select>
 										<%
 											} else if (u.getRole() == 2) {
 										%>
 										<div class="">
-											<input type="hidden" name="thirdMinor" id="thirdMinor">
+											<input type="hidden" name="thirdMinor" id="thirdMinor" style="display:none;">
 											<%
 												if (u.getRole() == 2 && u.getMinor().size() > 2 && u.getMinor().get(2) != null) {
 											%>

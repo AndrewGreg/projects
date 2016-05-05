@@ -1644,7 +1644,7 @@ public class HomeController extends BaseController {
 			@RequestParam(value = "interests", required = false, defaultValue = "null") ArrayList<String> interests,
 			@RequestParam(value = "minor", required = false) String minor,
 			@RequestParam(value = "secondMinor", required = false) String secondMinor,
-			@RequestParam(value = "thirdMinor", required = false) String thirdMinor,@RequestParam int role,
+			@RequestParam(value = "thirdMinor", required = false) String thirdMinor,@RequestParam(value="role", required=false) Integer role,
 			@RequestParam(value = "display", required = false, defaultValue = "null") String display,
 			@RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword,
 			@RequestParam("resume") MultipartFile resume, @RequestParam("profile") MultipartFile profile)
@@ -1718,7 +1718,10 @@ public class HomeController extends BaseController {
 				personalEmail = null;
 			}
 			
+			if (getCurrentUser().getRole() == 4){
 			profileUser.setRole(role);
+			}
+			
 			profileUser.setFirstName(firstName);
 			profileUser.setLastName(lastName);
 			profileUser.setSuffix(suffix);

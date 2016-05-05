@@ -171,6 +171,134 @@ public class HomeController extends BaseController {
 	}
 
 	/**
+	 * User creates a major, concentration, or interest.
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/createSelection", method = RequestMethod.GET)
+	public String createSelection(Model model) {
+		
+		ArrayList<Major> m = getMajorDao().getAllMajors();
+		
+		model.addAttribute("majors",m);
+		return "createSelectionTemplate";
+	}
+	
+	/**
+	 * User creates a major.
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/addMajor", method = RequestMethod.POST)
+	public String addMajor(Model model, @RequestParam("major") String name){
+		
+		model.addAttribute("user", getCurrentUser());
+		model.addAttribute("title", name);
+		model.addAttribute("concen", "false");
+		model.addAttribute("major","null");
+		model.addAttribute("interest","false"); 
+		
+		return "/confirmSelectionTemplate";
+	}
+	
+	/**
+	 * User creates a concentration.
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/addConcentration", method = RequestMethod.POST)
+	public String addConcentration(Model model, @RequestParam("concentration") String name, @RequestParam("concentrationMajor") String major){
+		
+		
+		model.addAttribute("user", getCurrentUser());
+		model.addAttribute("title", name);
+		model.addAttribute("concen", "true");
+		model.addAttribute("major", major);
+		model.addAttribute("interest","false"); 
+		
+		return "/confirmSelectionTemplate";
+	}
+	
+	
+	/**
+	 * User creates a interest.
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/addInterest", method = RequestMethod.POST)
+	public String addInterest(Model model, @RequestParam("interest") String name){
+		
+		
+		model.addAttribute("user", getCurrentUser());
+		model.addAttribute("title",name);
+		model.addAttribute("concen", "false");
+		model.addAttribute("major","null");
+		model.addAttribute("interest","true"); 
+		
+		return "/confirmSelectionTemplate";
+	}
+	
+	/**
+	 * User confirms creating a selection.
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/confirmSelection", method = RequestMethod.POST)
+	public String confirmSelection(Model model, @RequestParam(value="concentration", required=false) String concentration, @RequestParam(value="parent", required=false) String parent, @RequestParam(value="major", required=false) String major, @RequestParam(value="interest", required=false) String interest){
+		
+		User u = getCurrentUser();
+		
+		if (u.getRole() == 4){
+		
+			if (concentration != null && !concentration.equals("")){
+				//make concentration
+				
+				Major c = new Major();
+				c.setName(concentration);
+				c.setParent(getMajorDao().getMajorByName(parent));
+				
+				try {
+				getMajorDao().addConcentration(c);
+				} catch (Exception e){
+					
+				}
+				
+			} else if (major != null && !major.equals("")) {
+				//make major
+				
+				Major m = new Major();
+				m.setName(major);
+				
+				try{
+				getMajorDao().addMajor(m);
+				} catch (Exception e){
+				
+				}
+			} else if (interest != null && !interest.equals("")){
+				//make interest
+				
+				Interest inter = new Interest();
+				inter.setName(interest);
+				try {
+				getInterestDao().addInterest(inter);
+				
+				} catch (Exception e){
+					
+				}
+			}
+		}
+		
+		return "redirect:/user/" + u.getId();
+	}
+	
+	
+	
+	/**
 	 * Form processing of the job posting creation page.
 	 * 
 	 * @param model

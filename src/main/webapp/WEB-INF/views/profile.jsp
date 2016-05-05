@@ -286,7 +286,21 @@
 												}
 											%>
 										</div>
-									</div>
+									</div>							
+									<%
+												if (currentUser.getRole() == 4 && currentUser.getId() == profileUser.getId()) {
+									%>
+									<div class="col-xs-3">
+										<button onclick="location.href='/Alumni-Tracker/createSelection'"
+											class="btn btn-primary">
+											<b>Add Selections</b>
+										</button>
+									</div>	
+									
+									<%
+												}
+									%>
+									
 									<!--//panel-->
 								</div>
 								<!--//jobs-wrapper-->

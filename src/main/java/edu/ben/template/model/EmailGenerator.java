@@ -71,12 +71,12 @@ public class EmailGenerator {
 		// Get a Properties object
 		Properties props = System.getProperties();
 
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		try {
-			props.load(classLoader.getResourceAsStream("config.properties"));
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+//		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+//		try {
+//			props.load(classLoader.getResourceAsStream("config.properties"));
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
+//		}
 
 		//Used to set properties
 		String h = host;

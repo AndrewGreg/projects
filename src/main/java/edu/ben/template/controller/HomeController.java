@@ -836,6 +836,7 @@ public class HomeController extends BaseController {
 				editEvent.setToPublic(1);
 			}
 
+			
 			try {
 				getEventDao().updateEvent(editEvent);
 			} catch (Exception e) {
@@ -1049,11 +1050,11 @@ public class HomeController extends BaseController {
 	 * @return the page returning all the events being posted.
 	 */
 	@RequestMapping(value = "/rsvpEventList", method = RequestMethod.GET)
-	public String rsvpEventList(Model model, @ModelAttribute("profileUser") User profileUser) {
+	public String rsvpEventList(Model model) {
 
 		ArrayList<Event> events;
 		try {
-			events = getEventDao().getAllByUser(profileUser);
+			events = getEventDao().getAllByUser(getCurrentUser());
 			sortEvents(events);
 			model.addAttribute("events", events);
 
@@ -1490,7 +1491,7 @@ public class HomeController extends BaseController {
 			@RequestParam(value = "interests", required = false, defaultValue = "null") ArrayList<String> interests,
 			@RequestParam(value = "minor", required = false) String minor,
 			@RequestParam(value = "secondMinor", required = false) String secondMinor,
-			@RequestParam(value = "thirdMinor", required = false) String thirdMinor,
+			@RequestParam(value = "thirdMinor", required = false) String thirdMinor,@RequestParam int role,
 			@RequestParam(value = "display", required = false, defaultValue = "null") String display,
 			@RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword,
 			@RequestParam("resume") MultipartFile resume, @RequestParam("profile") MultipartFile profile)
@@ -1563,7 +1564,8 @@ public class HomeController extends BaseController {
 			if (personalEmail.equals("")) {
 				personalEmail = null;
 			}
-
+			
+			profileUser.setRole(role);
 			profileUser.setFirstName(firstName);
 			profileUser.setLastName(lastName);
 			profileUser.setSuffix(suffix);
@@ -2030,7 +2032,7 @@ public class HomeController extends BaseController {
 	 * @return the page returning all the events being posted.
 	 */
 	@RequestMapping(value = "/myEvents", method = RequestMethod.GET)
-	public String myEvents(Model model, @ModelAttribute("profileUser") User profileUser) {
+	public String myEvents(Model model) {
 
 		ArrayList<Event> events;
 		try {

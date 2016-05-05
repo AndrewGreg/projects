@@ -111,26 +111,28 @@
 								%>
 
 							</section>
-
-							<section class="widget has-divider">
+								<%
+									if (currentUser != null && currentUser.getRole() > 2) {
+								%>
+	
+								<section class="widget has-divider">
 								<h3 class="section-heading text-highlight">Create your own
 									event!</h3>
-
-								<%
-									if (currentUser != null) {
-								%>
-
 
 								<a class="btn btn-theme" href="/Alumni-Tracker/createNewEvent"><i
 									class="fa fa-plus"></i>Create Event</a>
 
 
 								<%
-									} else {
+									} else if (currentUser != null && currentUser.getRole() < 3) {
 								%>
+								<section class="widget has-divider">
+								<h3 class="section-heading text-highlight">Interested?</h3>
 
+								<p>Please at a look at all of the upcoming up for the next week.</p>
+								<%} else{ %>
 								<p>You are viewing this page as a guest. If you want to
-									create a new event, please log in.</p>
+									create a new job posting, please log in.</p>
 								<%
 									}
 								%>

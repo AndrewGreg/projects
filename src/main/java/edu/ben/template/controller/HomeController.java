@@ -836,7 +836,6 @@ public class HomeController extends BaseController {
 				editEvent.setToPublic(1);
 			}
 
-			
 			try {
 				getEventDao().updateEvent(editEvent);
 			} catch (Exception e) {
@@ -1082,7 +1081,11 @@ public class HomeController extends BaseController {
 		model.addAttribute("majorList", majorList);
 		model.addAttribute("titleList", titleList);
 
-		return "registration";
+		if (getCurrentUser() == null || getCurrentUser().getRole() == 4) {
+			return "registration";
+		} else {
+			return "redirect:/";
+		}
 	}
 
 	/**
@@ -1238,7 +1241,7 @@ public class HomeController extends BaseController {
 				String tempPassword = randomString();
 				register.setSalt(tempPassword);
 				register.setPassword(pwEncoder.encode(tempPassword));
-				
+
 				try {
 
 					EmailGenerator.generateAccountCreationEmail(benEmail, tempPassword);
@@ -1491,7 +1494,7 @@ public class HomeController extends BaseController {
 			@RequestParam(value = "interests", required = false, defaultValue = "null") ArrayList<String> interests,
 			@RequestParam(value = "minor", required = false) String minor,
 			@RequestParam(value = "secondMinor", required = false) String secondMinor,
-			@RequestParam(value = "thirdMinor", required = false) String thirdMinor,@RequestParam int role,
+			@RequestParam(value = "thirdMinor", required = false) String thirdMinor, @RequestParam int role,
 			@RequestParam(value = "display", required = false, defaultValue = "null") String display,
 			@RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword,
 			@RequestParam("resume") MultipartFile resume, @RequestParam("profile") MultipartFile profile)
@@ -1564,7 +1567,7 @@ public class HomeController extends BaseController {
 			if (personalEmail.equals("")) {
 				personalEmail = null;
 			}
-			
+
 			profileUser.setRole(role);
 			profileUser.setFirstName(firstName);
 			profileUser.setLastName(lastName);

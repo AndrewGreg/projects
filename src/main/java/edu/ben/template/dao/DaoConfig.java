@@ -367,7 +367,7 @@ public class DaoConfig {
 		
 		String host = "smtp.gmail.com";
 		String port = "465";
-		String debug = "true";
+		String debug = "false";
 		final String username = "benedictineAlumniTracker@gmail.com";
 		final String password = "TeamElg00g";
 		

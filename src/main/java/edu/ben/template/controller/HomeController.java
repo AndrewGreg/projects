@@ -1352,9 +1352,6 @@ public class HomeController extends BaseController {
 					register.setGraduateSchool(gradSchool);
 				}
 
-				// TODO FIGURE OUT HOW TO SET THE MAJOR
-				register.setMajor(null);
-
 				if (company != null && company.equals("")) {
 					register.setCompany(null);
 				} else {
@@ -1388,9 +1385,26 @@ public class HomeController extends BaseController {
 
 					EmailGenerator.generateAccountCreationEmail(benEmail, tempPassword);
 					getUserDao().addUser(register);
+					User u = getUserDao().getByEmail(register.getEmail());
+					
+					if (major != 0 && getMajorDao().getObjectById(major) != null && !getMajorDao().getObjectById(major).equals(null) ) {
+						
+						Major m = getMajorDao().getObjectById(major);
+						
+						try {
+
+							getMajorDao().addMajorToUser(m, u);
+							
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				
+				
 
 				return "redirect:/";
 

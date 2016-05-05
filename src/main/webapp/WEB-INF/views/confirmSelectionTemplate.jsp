@@ -29,7 +29,7 @@
 				<div class="panel panel-success">
 
 					<div class="panel-body">
-						<h3 class="text-center text-danger">Confirm Creation of <%=title %></h3>
+						<h3 class="text-center text-danger">Confirm Creation of New Selection: <%=title %></h3>
 
 						<form action="/Alumni-Tracker/confirmSelection" method="post"
 							enctype="multipart/form-data">
@@ -38,15 +38,15 @@
 								if (concen.equals("true")){
 							%>
 								<h3>Parent Major: <b><div class=""><input type="hidden" id="parent" name="parent" value="<%=major%>"><%=major%></div></b></h3>
-								<h3>New Concentration: <b><div class=""><input type="hidden" id="concentration" name="concentration" value="<%=title %>"><%=title %></div></b></h3>
+								<h3>New Concentration Name: <b><div class=""><input type="hidden" id="concentration" name="concentration" value="<%=title %>"><%=title %></div></b></h3>
 							<% 
 							} else if (interest.equals("true")){
 							%>
-								<h3>New Interest: <b><div class=""><input type="hidden" id="interest" name="interest" value="<%=title %>"><%=title %></div></b></h3>
+								<h3>New Interest Name: <b><div class=""><input type="hidden" id="interest" name="interest" value="<%=title %>"><%=title %></div></b></h3>
 							<% 
 							} else {
 							%>
-								<h3>New Major: <b><div class=""><input type="hidden" id="major" name="major" value="<%=title %>"><%=title %></div></b></h3>
+								<h3>New Major Name: <b><div class=""><input type="hidden" id="major" name="major" value="<%=title %>"><%=title %></div></b></h3>
 							<% 
 							}
 							%>
@@ -62,7 +62,7 @@
 							<div class="col-xs-3">
 								<button type="submit"
 									class="btn btn btn-success btn-lg btn-block">
-									<b>Submit Changes</b>
+									<b>Confirm</b>
 								</button>
 							<div class="col-xs-3"></div>
 							

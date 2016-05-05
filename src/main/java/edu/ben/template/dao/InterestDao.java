@@ -124,6 +124,7 @@ public class InterestDao extends BaseDao<Interest> {
 			jdbcTemplate.update(sql, new Object[] { interest.getName() });
 		} catch (Exception e) {
 			/* Probably want to log this */
+			e.printStackTrace();
 		}
 	}
 

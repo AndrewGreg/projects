@@ -288,6 +288,18 @@ public class MajorDao extends BaseDao<Major> {
 			/* Probably should log this */
 		}
 	}
+	
+	public void addConcentration(Major major, Major parent) {
+
+		String sql = "INSERT INTO major (name, concentration, major_id) VALUES (?,?,?);";
+
+		try {
+			jdbcTemplate.update(sql, major.getName(), major.isConcentration(),parent.getId());
+			return;
+		} catch (Exception e) {
+			/* Probably should log this */
+		}
+	}
 
 	public void addMajorToUser(Major major, User u) {
 

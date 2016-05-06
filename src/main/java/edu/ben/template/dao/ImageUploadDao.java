@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -18,6 +20,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.mysql.jdbc.Blob;
 
+import edu.ben.template.model.Testimonial;
 import edu.ben.template.model.UploadFile;
 import edu.ben.template.model.User;
 public class ImageUploadDao extends BaseDao<UploadFile> {
@@ -101,6 +104,21 @@ public class ImageUploadDao extends BaseDao<UploadFile> {
 			}
 		}
 		return object;
+	}
+	
+	public ArrayList<UploadFile> getAll() {
+
+		List<UploadFile> image = new ArrayList<UploadFile>();
+		String sql = "SELECT * FROM "
+				+ "image join user WHERE user.id = image.user_id AND active = 1 AND hidden = 0";
+
+		try {
+			image = jdbcTemplate.query(sql, getRowMapper());
+			return (ArrayList<UploadFile>) image;
+		} catch (EmptyResultDataAccessException e) {
+			/* Probably want to log this */
+			return null;
+		}
 	}
 	
 

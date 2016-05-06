@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="edu.ben.template.model.User"%>
 <%@ page import="java.util.ArrayList"%>
+<%@page import="edu.ben.template.model.UploadFile"%>
 <%
 	ArrayList<User> users;
 	if (request.getAttribute("users") != null) {
@@ -9,6 +10,8 @@
 	} else {
 		users = new ArrayList<User>();
 	}
+	ArrayList<UploadFile> photos;
+	photos = (ArrayList<UploadFile>) request.getAttribute("photos");
 %>
 <!DOCTYPE html>
 <html>
@@ -36,13 +39,13 @@
 					</div>
 					<!--//breadcrumbs-->
 				</header>
-				<a href="/Alumni-Tracker/register"><button type="button" class="btn btn-primary">Add
+				<a href="/Alumni-Tracker/register"><button type="button" class="btn btn-theme fa fa-plus" style="margin-top: 30px">Add
 						User</button></a>
-				<div style="margin-top: 20px">
+				<div style="margin-top: -50px; margin-left: 130px">
 					<form action="/Alumni-Tracker/massRegister" method="post" enctype="multipart/form-data">
 						<label>Upload Multiple Users:</label>
 						<input type="file" accept=".xls,.xlsx" name="multiple" id="" value="">
-						<button type="submit" class="btn btn-primary">Upload</button>
+						<button type="submit" class="btn btn-theme fa fa-plus">Upload</button>
 					</form>
 				</div>
 				<div class="page-content table-content">
@@ -100,6 +103,7 @@
 														? users.get(i).getFirstName() : "N/A";
 												String lastName = users.get(i) != null && users.get(i).getLastName() != null
 														? users.get(i).getLastName() : "N/A";
+													int k = 0;	
 									%>
 
 									<tr class='clickable-row row-link'
@@ -110,9 +114,42 @@
 										<%if (users.get(i).isHidden()){ %>
 										style="background-color: red"
 										<%} %>>
-										<td><img id="empty-profile-pic"
+										
+										<%
+											if(photos.size() == 0){
+										%>
+											<td><img id="empty-profile-pic"
 											src="/Alumni-Tracker/content/img/empty-profile.png"
 											alt="Empty profile picture"></td>
+										<%
+											}else{
+										%>
+										
+										<%
+											while(k < photos.size()){
+												if(users.get(i).getId() == photos.get(k).getProfile().getId()){
+										%>	
+													<td><img id="profile-pic" 
+														src="/Alumni-Tracker/getImage/<%=users.get(i).getId()%>.do"
+														alt="Profile Picture" width=35px height=40px ></td>
+										<%
+												k++;		
+												
+												}else if(k == photos.size() - 1){
+													k++;
+										%>	
+													<td><img id="empty-profile-pic"
+														src="/Alumni-Tracker/content/img/empty-profile.png"
+														alt="Profile picture" ></td>	
+										<%
+											}else{
+												k++;
+											}
+											
+											}
+											}
+										%>
+
 										<td><%=firstName%></td>
 										<td><%=lastName%></td>
 										<td><%=role%></td>

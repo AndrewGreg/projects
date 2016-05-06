@@ -66,6 +66,8 @@ public class TestimonialDao extends BaseDao<Testimonial> {
 		}
 		return object;
 	}
+	
+	
 
 	/**
 	 * Adds the Testimonial to the database.
@@ -87,16 +89,16 @@ public class TestimonialDao extends BaseDao<Testimonial> {
 	 */
 	public void updateTestimonial(Testimonial testimonial) {
 
-		String sql = "UPDATE testimonial SET testimonial = ?,  WHERE id = ?";
+		String sql = "UPDATE testimonial SET testimonial = ? WHERE id = ?";
 		try {
 			jdbcTemplate.update(sql, new Object[] { testimonial.getTestimonial(), testimonial.getId() });
 		} catch (Exception e) {
-			/* Probably want to log this */
+			e.printStackTrace();
 		}
 		return;
 	}
 
-	public void deleteTestimonial(User id) {
+	public void deleteTestimonial(Long id) {
 
 		String sql = "DELETE FROM testimonial WHERE id = ?";
 		try {

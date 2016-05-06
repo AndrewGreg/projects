@@ -160,8 +160,7 @@
 										Salary:</label>
 									<div class="controls" data-name="startSalary">
 										<input type="text" id="startSalary" name="startSalary"
-											placeholder="$" class="form-control" value="<%=startSalary%>"
-											pattern="[0-9].">
+											placeholder="$" class="form-control" value="<%=startSalary%>">
 									</div>
 
 									<!-- /Input control group -->
@@ -173,8 +172,7 @@
 										Salary:</label>
 									<div class="controls" data-name="endSalary">
 										<input type="text" id="endSalary" name="endSalary"
-											placeholder="$" class="form-control" value="<%=endSalary%>"
-											pattern="[0-9].">
+											placeholder="$" class="form-control" value="<%=endSalary%>">
 									</div>
 
 									<!-- /Input control group -->

@@ -79,15 +79,33 @@ public class UserDao extends BaseDao<User> {
 
 	public void addMultiple(String file) {
 
-		User user = new User();
+		//User user = new User();
 		String sql = "LOAD DATA INFILE '" + file + "' INTO TABLE user FIELDS TERMINATED BY ','"
-				+ "LINES TERMINATED BY '\n' (bnumber, email, personal_email, password, salt, first_name, last_name, role, graduation_year, occupation, titleID, suffix, biography, experience, hidden, active, created, last_active, last_modified, social_media) WHERE id = ?;";
-
-		jdbcTemplate.update(sql,
-				new Object[] { user.getbNumber(), user.getEmail(), user.getPersonalEmail(), user.getPassword(),
-						user.getSalt(), user.getFirstName(), user.getLastName(), user.getRole(),
-						user.getGraduationYear(), user.getOccupation(), user.getTitleID(), user.getSuffix(),
-						user.getBiography(), user.getExperience(), user.getId(), });
+				+ "LINES TERMINATED BY '\n' (bnumber, email, personal_email, password, salt, title_id, first_name, last_name, role, graduation_year, "
+				+ "occupation, company, suffix, biography, experience, hidden, active, social_media, phone_number, work_number, user_verified, admin_verified,"
+				+ "graduate_verified, current_graduate_verified, graduate_school, public, reference);";
+		try {
+//			Long title;
+//			try {
+//				title = user.getTitleID() != -1 ? user.getTitleID() : null;
+//			} catch (NullPointerException nEx) {
+//				title = null;
+//			}
+		
+			jdbcTemplate.update(sql//,
+//				new Object[] { user.getbNumber(), user.getEmail(), user.getPersonalEmail(), user.getPassword(),
+//						user.getSalt(), title, user.getFirstName(), user.getLastName(), user.getRole(),
+//						user.getGraduationYear(), user.getOccupation(), user.getCompany(), user.getSuffix(),
+//						user.getBiography(), user.getExperience(), user.isHidden(), user.isActive(),
+//
+//						user.getSocialMedia(), user.getPhoneNumber(), user.getWorkNumber(), user.isUserVerified(),
+//						user.isAdminVerified(), user.isGraduateVerified(), user.isCurrentGraduateVerified(),
+//						user.getGraduateSchool(), user.getToPublic(), user.getReference() }
+		);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
 	}
 
 	/**
@@ -436,7 +454,7 @@ public class UserDao extends BaseDao<User> {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Retrieve all the users that are deactivated.
 	 * 
@@ -467,7 +485,7 @@ public class UserDao extends BaseDao<User> {
 
 		String sql = "UPDATE user SET active= 1, hidden= 0  WHERE id = ?";
 		try {
-			jdbcTemplate.update(sql,user.getId());
+			jdbcTemplate.update(sql, user.getId());
 			activated = true;
 		} catch (Exception e) {
 			e.printStackTrace();

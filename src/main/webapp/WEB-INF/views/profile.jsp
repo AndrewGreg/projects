@@ -54,21 +54,44 @@
 							<div class="pull-right">
 								<%
 									if (currentUser.getRole() == 4 && profileUser.isActive()) {
+										if(!currentUser.getEmail().equalsIgnoreCase(profileUser.getEmail())){
 								%>
-								<form action="/Alumni-Tracker/deleteUser" method="POST"
-									name="deleteUser">
-									<button type="submit" class="btn btn-primary">Delete
-										User</button>
-								</form>
-
+								<div class="row">
+									<div class="col-xs-6 .col-sm-5">
+										<a class="btn btn-theme pull-left"
+											href="/Alumni-Tracker/register">Register User</a>
+									</div>
+									<div class="col-xs-6 .col-sm-5">
+										<form action="/Alumni-Tracker/deleteUser" method="POST"
+											name="deleteUser">
+											<button type="submit" class="btn btn-theme">Delete
+												User</button>
+										</form>
+									</div>
+								</div>
 								<%
-									} else if (currentUser.getRole() == 4 && profileUser.isHidden()){
+										}
+									} else if (currentUser.getRole() == 4 && profileUser.isHidden()) {
 								%>
-								<form action="/Alumni-Tracker/reactivateAccount" method="POST"
-									name="reactivateAccount">
-									<button type="submit" class="btn btn-primary">Reactivate User</button>
-								</form>
-								<%} %>
+								<div class="row">
+									<div class="col-xs-6 .col-sm-5">
+										<a class="btn btn-theme pull-left"
+											href="/Alumni-Tracker/register">Register User</a>
+									</div>
+									<div class="col-xs-6 .col-sm-5">
+										<form action="/Alumni-Tracker/reactivateAccount" method="POST"
+											name="reactivateAccount">
+											<button type="submit" class="btn btn-primary">Reactivate
+												User</button>
+										</form>
+									</div>
+								</div>
+								<%
+
+										}
+
+								%>
+
 							</div>
 
 							<div class="breadcrumbs pull-right" id="breadcrumbs-profile">
@@ -115,36 +138,40 @@
 										</div>
 										<ul class="list-group">
 											<li class="list-group-item"><strong>Role: </strong> <%
-										 	if (profileUser.getRole() == 1) {
-										 %>Student <%
-										 	} else if (profileUser.getRole() == 2) {
-										 %>Alumni <%
-										 	} else if (profileUser.getRole() == 3) {
-										 %>Faculty <%
-										 	} else {
-										 %>Administrator <%
-										 	}
-										 %></li>
+ 	if (profileUser.getRole() == 1) {
+ %>Student <%
+ 	} else if (profileUser.getRole() == 2) {
+ %>Alumni <%
+ 	} else if (profileUser.getRole() == 3) {
+ %>Faculty <%
+ 	} else {
+ %>Administrator <%
+ 	}
+ %></li>
 											<li class="list-group-item"><strong>Major: </strong> <%
-											 	if (profileUser.getMajorAtIndex(0) != null && profileUser.getMajorAtIndex(0).getName() != null) {
-											 %><%=profileUser.getMajorAtIndex(0).getName()%> <%
-											 	} else {
-											 %>Undecided <%
-											 	}
-											 %></li>
+ 	if (profileUser.getMajorAtIndex(0) != null && profileUser.getMajorAtIndex(0).getName() != null) {
+ %><%=profileUser.getMajorAtIndex(0).getName()%> <%
+ 	} else {
+ %>Undecided <%
+ 	}
+ %></li>
 
 											<%
-												if (profileUser.getConcentration() != null && !profileUser.getConcentration().equals(null)){
-												if (profileUser.getMajorAtIndex(0) != null && profileUser.getMajorAtIndex(0).getName() != null) {
-													
-												for (Major con: profileUser.getConcentration()){
-													if (con.getParent().getName().equals(profileUser.getMajorAtIndex(0).getName())){
+												if (profileUser.getConcentration() != null && !profileUser.getConcentration().equals(null)) {
+													if (profileUser.getMajorAtIndex(0) != null && profileUser.getMajorAtIndex(0).getName() != null) {
+
+														for (Major con : profileUser.getConcentration()) {
+															if (con.getParent().getName().equals(profileUser.getMajorAtIndex(0).getName())) {
 											%>
-												
-											
-											<li class="list-group-item"><strong>Concentration: </strong><%=con.getName()%></li>
+
+
+											<li class="list-group-item"><strong>Concentration:
+											</strong><%=con.getName()%></li>
 											<%
-												}}}}
+												}
+														}
+													}
+												}
 											%>
 											<%
 												if (profileUser.getMajorAtIndex(1) != null && profileUser.getMajorAtIndex(1).getName() != null) {
@@ -153,18 +180,22 @@
 											<%
 												}
 											%>
-																						<%
-												if (profileUser.getConcentration() != null && !profileUser.getConcentration().equals(null)){
-												if (profileUser.getMajorAtIndex(1) != null && profileUser.getMajorAtIndex(1).getName() != null) {
-													
-												for (Major con: profileUser.getConcentration()){
-													if (con.getParent().getName().equals(profileUser.getMajorAtIndex(1).getName())){
-											%>
-												
-											
-											<li class="list-group-item"><strong>Concentration: </strong><%=con.getName()%></li>
 											<%
-												}}}}
+												if (profileUser.getConcentration() != null && !profileUser.getConcentration().equals(null)) {
+													if (profileUser.getMajorAtIndex(1) != null && profileUser.getMajorAtIndex(1).getName() != null) {
+
+														for (Major con : profileUser.getConcentration()) {
+															if (con.getParent().getName().equals(profileUser.getMajorAtIndex(1).getName())) {
+											%>
+
+
+											<li class="list-group-item"><strong>Concentration:
+											</strong><%=con.getName()%></li>
+											<%
+												}
+														}
+													}
+												}
 											%>
 											<%
 												if (profileUser.getMajorAtIndex(2) != null && profileUser.getMajorAtIndex(2).getName() != null) {
@@ -174,17 +205,21 @@
 												}
 											%>
 											<%
-												if (profileUser.getConcentration() != null && !profileUser.getConcentration().equals(null)){
-												if (profileUser.getMajorAtIndex(2) != null && profileUser.getMajorAtIndex(2).getName() != null) {
-													
-												for (Major con: profileUser.getConcentration()){
-													if (con.getParent().getName().equals(profileUser.getMajorAtIndex(2).getName())){
+												if (profileUser.getConcentration() != null && !profileUser.getConcentration().equals(null)) {
+													if (profileUser.getMajorAtIndex(2) != null && profileUser.getMajorAtIndex(2).getName() != null) {
+
+														for (Major con : profileUser.getConcentration()) {
+															if (con.getParent().getName().equals(profileUser.getMajorAtIndex(2).getName())) {
 											%>
-												
-											
-											<li class="list-group-item"><strong>Concentration: </strong><%=con.getName()%></li>
+
+
+											<li class="list-group-item"><strong>Concentration:
+											</strong><%=con.getName()%></li>
 											<%
-												}}}}
+												}
+														}
+													}
+												}
 											%>
 
 											<!-- ADD CONCENTRATION -->
@@ -213,38 +248,38 @@
 											%>
 
 											<li class="list-group-item"><strong>Graduation
-													Year: </strong><%
-											 	if (profileUser.getGraduationYear() > 1800) {
-											 %><%=profileUser.getGraduationYear()%> <%
-											 	} else {
-											 %>To be determined.<%
-											 	}
-											 %></li>
+													Year: </strong> <%
+ 	if (profileUser.getGraduationYear() > 1800) {
+ %><%=profileUser.getGraduationYear()%> <%
+ 	} else {
+ %>To be determined.<%
+ 	}
+ %></li>
 
-											<li class="list-group-item"><strong>Occupation: </strong>
-												<%
-													if (profileUser.getOccupation() != null && !profileUser.getOccupation().equals("")) {
-												%><%=profileUser.getOccupation()%> <%
-											 	} else {
-											 %>No user occupation.<%
-											 	}
-											 %></li>
+											<li class="list-group-item"><strong>Occupation:
+											</strong> <%
+ 	if (profileUser.getOccupation() != null && !profileUser.getOccupation().equals("")) {
+ %><%=profileUser.getOccupation()%> <%
+ 	} else {
+ %>No user occupation.<%
+ 	}
+ %></li>
 
 											<li class="list-group-item"><strong>Company: </strong> <%
-											 	if (profileUser.getCompany() != null && !profileUser.getCompany().equals("")) {
-											 %><%=profileUser.getCompany()%> <%
-											 	} else {
-											 %>No user company.<%
-											 	}
-											 %></li>
-											<li class="list-group-item"><strong>Experience: </strong>
-												<%
-													if (profileUser.getExperience() != null && !profileUser.getExperience().equals("")) {
-												%><%=profileUser.getExperience()%> <%
-												 	} else {
-												 %>No user experience.<%
-												 	}
-												 %></li>
+ 	if (profileUser.getCompany() != null && !profileUser.getCompany().equals("")) {
+ %><%=profileUser.getCompany()%> <%
+ 	} else {
+ %>No user company.<%
+ 	}
+ %></li>
+											<li class="list-group-item"><strong>Experience:
+											</strong> <%
+ 	if (profileUser.getExperience() != null && !profileUser.getExperience().equals("")) {
+ %><%=profileUser.getExperience()%> <%
+ 	} else {
+ %>No user experience.<%
+ 	}
+ %></li>
 										</ul>
 
 										<div class="panel-body">
@@ -367,10 +402,10 @@
 												<%
 													if (profileUser.getEmail() != null) {
 												%> <%=profileUser.getEmail()%> <%
-												 	} else {
-												 %> None <%
-												 	}
-												 %>
+ 	} else {
+ %> None <%
+ 	}
+ %>
 											</a>
 										</p>
 
@@ -383,10 +418,10 @@
 												<%
 													if (profileUser.getPersonalEmail() != null) {
 												%> <%=profileUser.getPersonalEmail()%> <%
-												 	} else {
-												 %> None <%
-												 	}
-												 %>
+ 	} else {
+ %> None <%
+ 	}
+ %>
 											</a>
 										</p>
 										<%
@@ -442,8 +477,9 @@
 
 									</section>
 									<%
-										}
+										}	
 									%>
+					
 								</aside>
 							</div>
 						</div>

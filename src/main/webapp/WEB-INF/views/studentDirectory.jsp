@@ -5,11 +5,11 @@
 <%@ page import="java.util.ArrayList"%>
 <%@page import="edu.ben.template.model.UploadFile"%>
 <%
-	ArrayList<User> faculty;
-	if (request.getAttribute("faculty") != null) {
-		faculty = (ArrayList<User>) request.getAttribute("faculty");
+	ArrayList<User> student;
+	if (request.getAttribute("student") != null) {
+		student = (ArrayList<User>) request.getAttribute("student");
 	} else {
-		faculty = new ArrayList<User>();
+		student = new ArrayList<User>();
 	}
 	
 	ArrayList<UploadFile> photos;
@@ -18,7 +18,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Faculty Directory</title>
+<title>Student Directory</title>
 
 <jsp:include page="headerTemplate.jsp" />
 
@@ -30,13 +30,13 @@
 		<div class="content container content-container">
 			<div class="page-wrapper ben-container">
 				<header class="page-heading clearfix pageHeading">
-					<h1 class="heading-title pull-left">Faculty Directory</h1>
+					<h1 class="heading-title pull-left">Student Directory</h1>
 					<div class="breadcrumbs pull-right">
 						<ul class="breadcrumbs-list">
 							<li class="breadcrumbs-label">You are here:</li>
 							<li><a href="/Alumni-Tracker/">Home</a><i
 								class="fa fa-angle-right"></i></li>
-							<li class="current">Faculty Directory</li>
+							<li class="current">Student Directory</li>
 						</ul>
 					</div>
 					<!--//breadcrumbs-->
@@ -73,7 +73,7 @@
 								</thead>
 								<tbody>
 									<%
-										if (faculty.size() == 0) {
+										if (student.size() == 0) {
 									%>
 									<tr>
 										<td colspan="4"></td>
@@ -85,23 +85,23 @@
 
 									<%
 										} else {
-											for (int i = 0; i < faculty.size(); i++) {
-												if(faculty.get(i).isActive()){
-													if (faculty.get(i).getRole() == 3) {
-														String firstName = faculty.get(i) != null && faculty.get(i).getFirstName() != null
-															? faculty.get(i).getFirstName() : "N/A";
-														String lastName = faculty.get(i) != null && faculty.get(i).getLastName() != null
-															? faculty.get(i).getLastName() : "N/A";
-														String occupation = faculty.get(i) != null && faculty.get(i).getOccupation() != null
-															? faculty.get(i).getOccupation() : "N/A";
-														String major = faculty.get(i) != null && faculty.get(i).getMajorAtIndex(0) != null
-															&& faculty.get(i).getMajorAtIndex(0).getName() != null ? faculty.get(i).getFirstName()
+											for (int i = 0; i < student.size(); i++) {
+												if(student.get(i).isActive()){
+													if (student.get(i).getRole() == 1) {
+														String firstName = student.get(i) != null && student.get(i).getFirstName() != null
+															? student.get(i).getFirstName() : "N/A";
+														String lastName = student.get(i) != null && student.get(i).getLastName() != null
+															? student.get(i).getLastName() : "N/A";
+														String occupation = student.get(i) != null && student.get(i).getOccupation() != null
+															? student.get(i).getOccupation() : "N/A";
+														String major = student.get(i) != null && student.get(i).getMajorAtIndex(0) != null
+															&& student.get(i).getMajorAtIndex(0).getName() != null ? student.get(i).getFirstName()
 																	: "N/A";
 															int k = 0;		
 									%>
 									
 									<tr class='clickable-row row-link'
-										data-href='/Alumni-Tracker/user/<%=faculty.get(i).getId()%>'>
+										data-href='/Alumni-Tracker/user/<%=student.get(i).getId()%>'>
 										<%
 											if(photos.size() == 0){
 										%>
@@ -114,10 +114,10 @@
 										
 										<%
 											while(k < photos.size()){
-												if(faculty.get(i).getId() == photos.get(k).getProfile().getId()){
+												if(student.get(i).getId() == photos.get(k).getProfile().getId()){
 										%>	
 													<td align="center"><img id="profile-pic" 
-														src="/Alumni-Tracker/getImage/<%=faculty.get(i).getId()%>.do"
+														src="/Alumni-Tracker/getImage/<%=student.get(i).getId()%>.do"
 														alt="Profile Picture" width=35px height=40px ></td>
 										<%
 												k++;		
@@ -159,13 +159,13 @@
 								<ul class="pagination">
 									<%
 										int i = 0;
-										int count = (Integer) request.getAttribute("facultyCount");
+										int count = (Integer) request.getAttribute("studentCount");
 										int pages = (count - 1) / 15;
 									%>
 									<%
 										while (i <= pages) {
 									%>
-									<li><a href="/Alumni-Tracker/faculty?page=<%=i%>"><%=++i%></a></li>
+									<li><a href="/Alumni-Tracker/students?page=<%=i%>"><%=++i%></a></li>
 
 									<%
 										}

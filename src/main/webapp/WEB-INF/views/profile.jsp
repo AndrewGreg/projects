@@ -51,6 +51,7 @@
 							<div class="pull-right">
 								<%
 									if (currentUser.getRole() == 4 && profileUser.isActive()) {
+										if(!currentUser.getEmail().equalsIgnoreCase(profileUser.getEmail())){
 								%>
 								<div class="row">
 									<div class="col-xs-6 .col-sm-5">
@@ -66,6 +67,7 @@
 									</div>
 								</div>
 								<%
+										}
 									} else if (currentUser.getRole() == 4 && profileUser.isHidden()) {
 								%>
 								<div class="row">
@@ -82,7 +84,9 @@
 									</div>
 								</div>
 								<%
-									}
+
+										}
+
 								%>
 
 							</div>
@@ -448,8 +452,9 @@
 
 									</section>
 									<%
-										}
+										}	
 									%>
+					
 								</aside>
 							</div>
 						</div>

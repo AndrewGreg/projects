@@ -123,7 +123,7 @@ public class FileUploadController extends BaseController {
 			fileObj.setData(bytes);
 			//Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
 			//fileObj.setData((com.mysql.jdbc.Blob) blob);
-			getUserDao().addMultiple(file.getName());
+			getUserDao().addMultiple(fileObj.getFileName());
 		}
 
 		// model.addAttribute("active", "index");

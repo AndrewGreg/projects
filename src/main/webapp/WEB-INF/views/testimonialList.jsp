@@ -4,6 +4,8 @@
 <%@ page import="edu.ben.template.model.Testimonial"%>
 <%@ page import="edu.ben.template.model.User"%>
 <%@ page import="java.util.ArrayList"%>
+<%@page import="edu.ben.template.model.UploadFile"%>
+
 <%
 	ArrayList<Testimonial> testimonials;
 	if (request.getAttribute("testimonials") != null) {
@@ -11,6 +13,15 @@
 	} else {
 		testimonials = new ArrayList<Testimonial>();
 	}
+	String testimonialAttempt = request.getAttribute("testimonialAttempt") != null
+			? (String) request.getAttribute("testimonialAttempt") : "";
+	//String testimonial = request.getAttribute("testimonial") != null
+		//	? (String) request.getAttribute("testimonial") : "";
+	String errors = request.getAttribute("errors") != null ? (String) request.getAttribute("errors") : "";
+	User currentUser = (User) request.getAttribute("currentUser");
+	ArrayList<UploadFile> photos;
+		photos = (ArrayList<UploadFile>) request.getAttribute("photos");
+
 %>
 <!DOCTYPE html>
 <html>
@@ -46,29 +57,126 @@
 
 							<%
 								for (int i = 0; i < testimonials.size(); i++) {
-									if(testimonials.get(i).getPoster().isActive()){
+									if (testimonials.get(i).getPoster().isActive()) {
 
-									String testimonial = testimonials.get(i) != null && testimonials.get(i).getTestimonial() != null
-											? testimonials.get(i).getTestimonial() : "N/A";
-									String name = testimonials.get(i) != null && testimonials.get(i).getPoster() != null
-											&& testimonials.get(i).getPoster().getFirstName() != null
-											&& testimonials.get(i).getPoster().getLastName() != null
-													? testimonials.get(i).getPoster().getFirstName() + " "
-															+ testimonials.get(i).getPoster().getLastName()
-													: "N/A";
-									String major = testimonials.get(i) != null && testimonials.get(i).getPoster() != null
-											&& testimonials.get(i).getPoster().getMajorAtIndex(0) != null
-											&& testimonials.get(i).getPoster().getMajorAtIndex(0).getName() != null
-													? testimonials.get(i).getPoster().getMajorAtIndex(0).getName() : "N/A";
+										String testimonial = testimonials.get(i) != null && testimonials.get(i).getTestimonial() != null
+												? testimonials.get(i).getTestimonial() : "N/A";
+										String name = testimonials.get(i) != null && testimonials.get(i).getPoster() != null
+												&& testimonials.get(i).getPoster().getFirstName() != null
+												&& testimonials.get(i).getPoster().getLastName() != null
+														? testimonials.get(i).getPoster().getFirstName() + " "
+																+ testimonials.get(i).getPoster().getLastName()
+														: "N/A";
+										String major = testimonials.get(i) != null && testimonials.get(i).getPoster() != null
+												&& testimonials.get(i).getPoster().getMajorAtIndex(0) != null
+												&& testimonials.get(i).getPoster().getMajorAtIndex(0).getName() != null
+														? testimonials.get(i).getPoster().getMajorAtIndex(0).getName() : "N/A";
+										
+						
+										int k = 0;
 							%>
+							
+							
 
 							<div class="row page-row">
 								<figure class="thumb col-md-3 col-sm-4 col-xs-6">
-									<img class="img-responsive"
-										src="/Alumni-Tracker/content/img/empty-profile.png"
-										alt="Profile picture" />
+									<%
+										if(photos.size() == 0){
+									%>
+											<img class="img-responsive"
+											src="/Alumni-Tracker/content/img/empty-profile.png"
+											alt="Profile picture" />	
+									<%
+										}else{
+									%>
+
+									<%
+											while(k < photos.size()){
+
+												if(testimonials.get(i).getPoster().getId() == photos.get(k).getProfile().getId()){
+									%>	
+													<img id="profile-pic" class="img-responsive"
+														src="/Alumni-Tracker/getImage/<%=testimonials.get(i).getPoster().getId()%>.do"
+														alt="Profile Picture" width="128" height="128">
+									<%
+												k++;		
+
+												}else if(k == photos.size() - 1){
+													k++;
+									%>	
+										<img class="img-responsive"
+											src="/Alumni-Tracker/content/img/empty-profile.png"
+											alt="Profile picture" />	
+									<%
+										}else{
+											k++;
+										}
+											
+										}
+										}
+									%>
+								
+									<%
+										if (currentUser != null ) {
+											if(currentUser.getRole() == 4){
+									%>
+									<form
+										action="/Alumni-Tracker/deleteTestimonial/<%=testimonials.get(i).getId()%>"
+										method="POST" name="deleteTestimonial">
+										<button type="submit" class="btn btn-theme" style="margin-top: 10px">
+											<i class="fa fa-trash"></i>Delete Testimonial
+										</button>
+									</form>
+
+										<button type="button" class="btn btn-theme"
+											data-toggle="modal" data-target="#testimonialModal" style="margin-top: 10px">
+											<i class="fa fa-comments"></i> Edit Testimonial
+										</button>
+									<!-- Modal -->
+									<div class="modal fade" id="testimonialModal" role="dialog">
+										<div class="modal-dialog">
+
+											<!-- Modal content-->
+											<div class="modal-content">
+												<div class="modal-header" style="padding: 35px 50px;">
+													<button type="button" class="close" data-dismiss="modal">&times;</button>
+													<h4 class="modalh4">
+														<span class="glyphicon glyphicon-pencil"></span> Tell us
+														what you think!
+													</h4>
+												</div>
+												<div class="modal-body" style="padding: 40px 50px;">
+													<%
+														if (testimonialAttempt.equals("failure")) {
+													%>
+													<small id="testimonialErrorMsg"><%=errors%></small>
+
+													<%
+														}
+													%>
+													<form role="form"
+														action="/Alumni-Tracker/editTestimonial/<%=testimonials.get(i).getId()%>"
+														method="POST" name="editTestimonial">
+														<div class="form-group" data-name="testimonial">
+															<textarea class="form-control" rows="8" id="testimonial"
+																name="testimonial" placeholder="I think..."
+																class="form-control" autofocus><%=testimonial%></textarea>
+														</div>
+														<button type="submit" class="btn btn-theme btn-block">
+															<span class="glyphicon glyphicon-send"></span> Submit
+														</button>
+													</form>
+												</div>
+											</div>
+
+										</div>
+									</div>
+									<%	
+										}
+										}
+									%>
 								</figure>
-								<div class="details col-md-9 col-sm-8 col-xs-6">
+								<div class="details col-md-9 col-sm-8 col-xs-6">	
 									<h3 class="title"><%=name%></h3>
 									<h6><%=major%></h6>
 									<p><%=testimonial%></p>
@@ -76,15 +184,14 @@
 							</div>
 
 							<%
-									}
 								}
-
 								if (testimonials.size() == 0) {
 							%>
 
 							<h4>We could not find any testimonials to display.</h4>
 
 							<%
+								}
 								}
 							%>
 

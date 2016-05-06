@@ -3,6 +3,7 @@
 <%@ page import="edu.ben.template.model.User"%>
 <%@ page import="edu.ben.template.dao.UserDao"%>
 <%@ page import="java.util.ArrayList"%>
+<%@page import="edu.ben.template.model.UploadFile"%>
 <%
 	ArrayList<User> faculty;
 	if (request.getAttribute("faculty") != null) {
@@ -10,6 +11,9 @@
 	} else {
 		faculty = new ArrayList<User>();
 	}
+	
+	ArrayList<UploadFile> photos;
+	photos = (ArrayList<UploadFile>) request.getAttribute("photos");
 %>
 <!DOCTYPE html>
 <html>
@@ -93,13 +97,49 @@
 														String major = faculty.get(i) != null && faculty.get(i).getMajorAtIndex(0) != null
 															&& faculty.get(i).getMajorAtIndex(0).getName() != null ? faculty.get(i).getFirstName()
 																	: "N/A";
-												
+															int k = 0;		
 									%>
+									
 									<tr class='clickable-row row-link'
 										data-href='/Alumni-Tracker/user/<%=faculty.get(i).getId()%>'>
-										<td align="center"><img id="empty-profile-pic"
+										<%
+											if(photos.size() == 0){
+										%>
+											<td align="center"><img id="empty-profile-pic"
+														src="/Alumni-Tracker/content/img/empty-profile.png"
+														alt="Profile picture" ></td>
+										<%
+											}else{
+										%>
+										
+										<%
+											while(k < photos.size()){
+												if(faculty.get(i).getId() == photos.get(k).getProfile().getId()){
+										%>	
+													<td align="center"><img id="profile-pic" 
+														src="/Alumni-Tracker/getImage/<%=faculty.get(i).getId()%>.do"
+														alt="Profile Picture" width=35px height=40px ></td>
+										<%
+												k++;		
+												
+												}else if(k == photos.size() - 1){
+													k++;
+										%>	
+													<td align="center"><img id="empty-profile-pic"
+														src="/Alumni-Tracker/content/img/empty-profile.png"
+														alt="Profile picture" ></td>	
+										<%
+											}else{
+												k++;
+											}
+											
+											}
+											}
+										%>
+												<%-- <img id="empty-profile-pic"
 											src="/Alumni-Tracker/content/img/empty-profile.png"
-											alt="Empty profile picture"></td>
+											alt="Empty profile picture"></td>--%>
+										
 										<td align="center"><%=firstName%></td>
 										<td align="center"><%=lastName%></td>
 										<td align="center"><%=occupation%></td>

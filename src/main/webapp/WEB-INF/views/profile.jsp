@@ -51,6 +51,7 @@
 							<div class="pull-right">
 								<%
 									if (currentUser.getRole() == 4 && profileUser.isActive()) {
+										if(!currentUser.getEmail().equalsIgnoreCase(profileUser.getEmail())){
 								%>
 								<form action="/Alumni-Tracker/deleteUser" method="POST"
 									name="deleteUser">
@@ -59,6 +60,7 @@
 								</form>
 
 								<%
+										}
 									} else if (currentUser.getRole() == 4 && profileUser.isHidden()){
 								%>
 								<form action="/Alumni-Tracker/reactivateAccount" method="POST"
@@ -403,8 +405,9 @@
 
 									</section>
 									<%
-										}
+										}	
 									%>
+					
 								</aside>
 							</div>
 						</div>

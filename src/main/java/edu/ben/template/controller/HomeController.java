@@ -1361,14 +1361,14 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/getImage/{id}", method = RequestMethod.GET)
 	public void image(Model model, @PathVariable Long id, HttpServletResponse response)
 			throws SQLException, IOException {
-
 		if (getImageUploadDao().getObjectByUserId(id) != null) {
 			UploadFile profilePic = getImageUploadDao().getObjectByUserId(id);
 			// response.setContentType("image/jpeg");
-			// byte[] buff = new byte[1024];
+			// byte[] buff = new byte[1024];F
 			byte[] pic = profilePic.getData();
 			InputStream in1 = new ByteArrayInputStream(pic);
 			IOUtils.copy(in1, response.getOutputStream());
+			response.flushBuffer();
 			model.addAttribute("photo", profilePic);
 		}
 	}
@@ -1519,52 +1519,69 @@ public class HomeController extends BaseController {
 				&& Validator.validatePassword(password, false)) {
 
 			User profileUser = getUserDao().getObjectById(id);
-
-			if (Validator.validateSelect(graduationYear)) {
+			User current = getCurrentUser();
+			
+			if(profileUser.getRole() == 1 || current.getRole() == 4){
+				if (Validator.validateSelect(graduationYear)) {
 				profileUser.setGraduationYear((Integer.parseInt(graduationYear)));
+				}
 			}
-			if (!major.equals("Select") && !getMajorDao().getMajorByName(major).equals(null)
+			if(profileUser.getRole() == 1 || current.getRole() == 4){
+				if (!major.equals("Select") && !getMajorDao().getMajorByName(major).equals(null)
 					&& getMajorDao().getMajorByName(major) != null) {
 				profileUser.addMajor(getMajorDao().getMajorByName(major));
+				}
 			}
-			if (!doubleMajor.equals("Select") && !getMajorDao().getMajorByName(doubleMajor).equals(null)
+			if(profileUser.getRole() == 1 || current.getRole() == 4){
+				if (!doubleMajor.equals("Select") && !getMajorDao().getMajorByName(doubleMajor).equals(null)
 					&& getMajorDao().getMajorByName(doubleMajor) != null) {
 				profileUser.addMajor(getMajorDao().getMajorByName(doubleMajor));
+				}
 			}
-			if (!thirdMajor.equals("Select") && !getMajorDao().getMajorByName(thirdMajor).equals(null)
+			if(profileUser.getRole() == 1 || current.getRole() == 4){
+				if (!thirdMajor.equals("Select") && !getMajorDao().getMajorByName(thirdMajor).equals(null)
 					&& getMajorDao().getMajorByName(thirdMajor) != null) {
 				profileUser.addMajor(getMajorDao().getMajorByName(thirdMajor));
+				}
 			}
-
-			if (!concentration.equals("Select") && !getMajorDao().getConcentrationByName(concentration).equals(null)
+			if(profileUser.getRole() == 1 || current.getRole() == 4){
+				if (!concentration.equals("Select") && !getMajorDao().getConcentrationByName(concentration).equals(null)
 					&& getMajorDao().getConcentrationByName(concentration) != null) {
 				profileUser.addConcentration(getMajorDao().getConcentrationByName(concentration));
+				}
 			}
-
-			if (!doubleConcentration.equals("Select")
+			if(profileUser.getRole() == 1 || current.getRole() == 4){
+				if (!doubleConcentration.equals("Select")
 					&& !getMajorDao().getConcentrationByName(doubleConcentration).equals(null)
 					&& getMajorDao().getConcentrationByName(doubleConcentration) != null) {
 				profileUser.addConcentration(getMajorDao().getConcentrationByName(doubleConcentration));
 
+				}
 			}
-
-			if (!thirdConcentration.equals("Select")
+			if(profileUser.getRole() == 1 || current.getRole() == 4){
+				if (!thirdConcentration.equals("Select")
 					&& !getMajorDao().getConcentrationByName(thirdConcentration).equals(null)
 					&& getMajorDao().getConcentrationByName(thirdConcentration) != null) {
 				profileUser.addConcentration(getMajorDao().getConcentrationByName(thirdConcentration));
+				}
 			}
-
-			if (!minor.equals("Select") && !getMajorDao().getMajorByName(minor).equals(null)
+			if(profileUser.getRole() == 1 || current.getRole() == 4){
+				if (!minor.equals("Select") && !getMajorDao().getMajorByName(minor).equals(null)
 					&& getMajorDao().getMajorByName(minor) != null) {
 				profileUser.addMinor(getMajorDao().getMajorByName(minor));
+				}
 			}
-			if (!secondMinor.equals("Select") && !getMajorDao().getMajorByName(secondMinor).equals(null)
+			if(profileUser.getRole() == 1 || current.getRole() == 4){
+				if (!secondMinor.equals("Select") && !getMajorDao().getMajorByName(secondMinor).equals(null)
 					&& getMajorDao().getMajorByName(secondMinor) != null) {
 				profileUser.addMinor(getMajorDao().getMajorByName(secondMinor));
+				}
 			}
-			if (!thirdMinor.equals("Select") && !getMajorDao().getMajorByName(thirdMinor).equals(null)
+			if(profileUser.getRole() == 1 || current.getRole() == 4){
+				if (!thirdMinor.equals("Select") && !getMajorDao().getMajorByName(thirdMinor).equals(null)
 					&& getMajorDao().getMajorByName(thirdMinor) != null) {
 				profileUser.addMinor(getMajorDao().getMajorByName(thirdMinor));
+				}
 			}
 
 			if (title.equals("Select")) {
@@ -1572,11 +1589,14 @@ public class HomeController extends BaseController {
 			} else if (!title.equals("Select") && !getTitleDao().getObjectByName(title).equals(null)) {
 				profileUser.setTitleID(getTitleDao().getObjectByName(title).getId());
 			}
-			//
-			if (!Validator.validateSelect(graduationYear)) {
-				profileUser.setGraduationYear(0);
-			} else {
-				profileUser.setGraduationYear(Integer.parseInt(graduationYear));
+			if(profileUser.getRole() == 1 || current.getRole() == 4){
+				if (!Validator.validateSelect(graduationYear)) {
+					profileUser.setGraduationYear(0);
+				} else {
+					if(profileUser.getRole() == 1 || current.getRole() == 4){
+						profileUser.setGraduationYear(Integer.parseInt(graduationYear));
+					}
+				}
 			}
 
 			profileUser.setFirstName(firstName);
@@ -1847,6 +1867,9 @@ public class HomeController extends BaseController {
 		Title currentUserTitle = getTitleDao().getObjectById(profileUser.getTitleID());
 		model.addAttribute("profileUser", profileUser);
 		model.addAttribute("title", currentUserTitle);
+		
+//		Testimonial editTest = getTestimonialDao().getObjectByUserId(id);
+//		model.addAttribute("editTest", editTest);
 
 		return "profile";
 	}
@@ -1878,6 +1901,9 @@ public class HomeController extends BaseController {
 
 			ArrayList<User> alumni = new ArrayList<User>();
 			alumni = getUserDao().getAllAlumni();
+			ArrayList<UploadFile> images = getImageUploadDao().getAll();
+
+			model.addAttribute("photos", images);
 
 			for (User users : alumni) {
 				users.setMajor(getMajorDao().getMajorByUser(users));
@@ -1922,6 +1948,10 @@ public class HomeController extends BaseController {
 
 			ArrayList<User> faculty = new ArrayList<User>();
 			faculty = getUserDao().getAll();
+			ArrayList<UploadFile> images = getImageUploadDao().getAll();
+			
+
+			model.addAttribute("photos", images);
 
 			for (User users : faculty) {
 				users.setMajor(getMajorDao().getMajorByUser(users));
@@ -1975,6 +2005,9 @@ public class HomeController extends BaseController {
 
 			ArrayList<User> allUser = new ArrayList<User>();
 			allUser = getUserDao().getAll();
+			ArrayList<UploadFile> images = getImageUploadDao().getAll();
+
+			model.addAttribute("photos", images);
 
 			for (User users : allUser) {
 				users.setMajor(getMajorDao().getMajorByUser(users));
@@ -2149,6 +2182,72 @@ public class HomeController extends BaseController {
 		}
 
 	}
+	
+	/**
+	 * Testimonial controller method
+	 * 
+	 * @param testimonial
+	 *            to be submitted
+	 * @param model
+	 *            being passed in
+	 * @param redirectAttrs
+	 *            object to add the redirect attributes to
+	 * @return redirect to the user's profile page
+	 */
+	@RequestMapping(value = "/editTestimonial/{id}", method = RequestMethod.POST)
+	public String editTestimonial(@PathVariable Long id, /*@ModelAttribute("profileUser") User profileUser,*/ @RequestParam("testimonial") String testimonial, Model model,
+			RedirectAttributes redirectAttrs) {
+
+		if (testimonial != null && testimonial.matches(".{10,999}")) {
+			//User currentUser = getCurrentUser();
+
+			Testimonial editComment = getTestimonialDao().getObjectById(id);
+			editComment.setTestimonial(testimonial);
+			getTestimonialDao().updateTestimonial(editComment);
+
+			redirectAttrs.addFlashAttribute("testimonialCreation", "true");
+
+			if (getCurrentUser() != null) {
+				return "redirect:/testimonialList";
+			}
+
+			else {
+				return "redirect:/";
+			}
+		} else {
+
+			String errors = "";
+
+			if (testimonial == null || testimonial.length() < 10) {
+				errors = "The testimonial needs to be at least 10 characters long.";
+			} else {
+				errors = "The testimonial you posted is too long.";
+			}
+
+			redirectAttrs.addFlashAttribute("errors", errors);
+			redirectAttrs.addFlashAttribute("testimonialAttempt", "failure");
+
+			if (getCurrentUser() != null) {
+				return "redirect:/testimonialList";
+			}
+
+			else {
+				return "redirect:/";
+			}
+		}
+
+	}
+	
+	@RequestMapping(value = "/deleteTestimonial/{id}", method = RequestMethod.POST)
+	public String deleteTestimonials(@PathVariable Long id, Model model,
+			RedirectAttributes redirectAttrs) {
+		
+		//User testimonialUser = getUserDao().getObjectById(id);
+		getTestimonialDao().deleteTestimonial(id);
+		
+		return "redirect:/testimonialList";
+	}
+	
 
 	/**
 	 * Testimonial list display controller method
@@ -2161,7 +2260,11 @@ public class HomeController extends BaseController {
 	public String testimonialList(Model model) {
 
 		ArrayList<Testimonial> testimonials = getTestimonialDao().getAll();
+		ArrayList<UploadFile> images = getImageUploadDao().getAll();
+		
 
+		model.addAttribute("photos", images);
+		
 		model.addAttribute("testimonials", testimonials);
 		model.addAttribute("active", "testimonial");
 

@@ -2110,6 +2110,64 @@ public class HomeController extends BaseController {
 	}
 
 	/**
+	 * Displays all the Student users in the system.
+	 * 
+	 * @param model
+	 *            being passed in.
+	 * @return the student list page.
+	 */
+	@RequestMapping(value = "/students", method = RequestMethod.GET)
+	public String studentList(@RequestParam(required = false) Integer page, Model model) {
+
+		try {
+
+			ArrayList<User> student = new ArrayList<User>();
+			student = getUserDao().getAllStudents();
+			ArrayList<UploadFile> images = getImageUploadDao().getAll();
+			
+
+			model.addAttribute("photos", images);
+
+			for (User users : student) {
+				users.setMajor(getMajorDao().getMajorByUser(users));
+				users.setConcentration(getMajorDao().getConcentrationByUser(users));
+				users.setMinor(getMajorDao().getMinorByUser(users));
+			}
+
+			sortUsers(student);
+
+			if (page == null) {
+				page = 0;
+			}
+
+			ArrayList<User> studTemp = new ArrayList<User>();
+
+			for (int i = 0; i < student.size(); i++) {
+				if (student.get(i).getRole() == 1) {
+					studTemp.add(student.get(i));
+				}
+			}
+
+			ArrayList<User> studentList = new ArrayList<User>();
+
+			for (int i = page * 15; i < page * 15 + 15; i++) {
+
+				if (i < studTemp.size()) {
+					studentList.add(studTemp.get(i));
+				}
+			}
+			model.addAttribute("studentCount", studTemp.size());
+			model.addAttribute("student", studentList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		model.addAttribute("active", "student");
+		return "studentDirectory";
+	}
+
+	
+	/**
 	 * Displays all the users in the system.
 	 * 
 	 * @param model

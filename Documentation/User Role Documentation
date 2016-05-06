@@ -1,0 +1,37 @@
+				User Role Documentation
+
+
+Student: 	- Role Level = 1
+- A student is able to see and view the all the directories (student, alumni,faculty).
+- Search a job using the job finder.	
+- Search and view the upcoming events.
+o	Only able to RSVP to the events.
+- View all the jobs available
+o	Email the poster of the job if they are interested.
+- Able to edit their profile page
+o	Able to create a testimonial 
+o	Edit Profile information
+•	Picture
+•	Major/Minor
+•	Name
+•	Work info
+•	Password.
+- View Rsvp events
+
+Alumni: 	- Role Level = 2
+		- Implements all the uses from the student role.
+- An alumni is able to create a job posting
+- Cannot edit their major/minor because they graduated.
+
+Faculty: 	- Role Level = 3
+- Implements all the uses from the alumni and student role.
+		- Able to create an event. 
+		- See what events the user has made in “My Events”
+		- They do not have access to modify their major/minor.
+		- Can modify or delete their own event.
+
+Admin		- Role Level = 4
+		- Implements uses from previous roles.
+- Able to modify any user information.
+- Deactivate/ Reactivate an account.
+- Able to delete/edit any testimonials, events, jobs.

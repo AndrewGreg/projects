@@ -60,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.anyRequest().authenticated().and().logout().deleteCookies("JSESSIONID")
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET")).logoutSuccessUrl("/").permitAll()
 				.and().formLogin().successHandler(new SimpleUrlAuthenticationSuccessHandler("/")).loginPage("/")
-				.permitAll().loginProcessingUrl("//login").usernameParameter("email").passwordParameter("password")
+				.permitAll().loginProcessingUrl("/login").usernameParameter("email").passwordParameter("password")
 				.failureUrl("/loginFailure").permitAll().and().rememberMe().key("eidkaieh")
 				.userDetailsService(userDetailsService());
 

@@ -30,6 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
+import edu.ben.template.model.EmailGenerator;
 import edu.ben.template.model.Event;
 import edu.ben.template.model.Interest;
 import edu.ben.template.model.Job;
@@ -169,6 +170,134 @@ public class HomeController extends BaseController {
 		return "createJobTemplate";
 	}
 
+	/**
+	 * User creates a major, concentration, or interest.
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/createSelection", method = RequestMethod.GET)
+	public String createSelection(Model model) {
+		
+		ArrayList<Major> m = getMajorDao().getAllMajors();
+		
+		model.addAttribute("majors",m);
+		return "createSelectionTemplate";
+	}
+	
+	/**
+	 * User creates a major.
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/addMajor", method = RequestMethod.POST)
+	public String addMajor(Model model, @RequestParam("major") String name){
+		
+		model.addAttribute("user", getCurrentUser());
+		model.addAttribute("title", name);
+		model.addAttribute("concen", "false");
+		model.addAttribute("major","null");
+		model.addAttribute("interest","false"); 
+		
+		return "/confirmSelectionTemplate";
+	}
+	
+	/**
+	 * User creates a concentration.
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/addConcentration", method = RequestMethod.POST)
+	public String addConcentration(Model model, @RequestParam("concentration") String name, @RequestParam("concentrationMajor") String major){
+		
+		
+		model.addAttribute("user", getCurrentUser());
+		model.addAttribute("title", name);
+		model.addAttribute("concen", "true");
+		model.addAttribute("major", major);
+		model.addAttribute("interest","false"); 
+		
+		return "/confirmSelectionTemplate";
+	}
+	
+	
+	/**
+	 * User creates a interest.
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/addInterest", method = RequestMethod.POST)
+	public String addInterest(Model model, @RequestParam("interest") String name){
+		
+		
+		model.addAttribute("user", getCurrentUser());
+		model.addAttribute("title",name);
+		model.addAttribute("concen", "false");
+		model.addAttribute("major","null");
+		model.addAttribute("interest","true"); 
+		
+		return "/confirmSelectionTemplate";
+	}
+	
+	/**
+	 * User confirms creating a selection.
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/confirmSelection", method = RequestMethod.POST)
+	public String confirmSelection(Model model, @RequestParam(value="concentration", required=false) String concentration, @RequestParam(value="parent", required=false) String parent, @RequestParam(value="major", required=false) String major, @RequestParam(value="interest", required=false) String interest){
+		
+		User u = getCurrentUser();
+		
+		if (u.getRole() == 4){
+		
+			if (concentration != null && !concentration.equals("")){
+				//make concentration
+				
+				Major c = new Major();
+				c.setName(concentration);
+				c.setParent(getMajorDao().getMajorByName(parent));
+				
+				try {
+				getMajorDao().addConcentration(c);
+				} catch (Exception e){
+					
+				}
+				
+			} else if (major != null && !major.equals("")) {
+				//make major
+				
+				Major m = new Major();
+				m.setName(major);
+				
+				try{
+				getMajorDao().addMajor(m);
+				} catch (Exception e){
+				
+				}
+			} else if (interest != null && !interest.equals("")){
+				//make interest
+				
+				Interest inter = new Interest();
+				inter.setName(interest);
+				try {
+				getInterestDao().addInterest(inter);
+				
+				} catch (Exception e){
+					
+				}
+			}
+		}
+		
+		return "redirect:/user/" + u.getId();
+	}
+	
+	
+	
 	/**
 	 * Form processing of the job posting creation page.
 	 * 
@@ -1048,11 +1177,11 @@ public class HomeController extends BaseController {
 	 * @return the page returning all the events being posted.
 	 */
 	@RequestMapping(value = "/rsvpEventList", method = RequestMethod.GET)
-	public String rsvpEventList(Model model, @ModelAttribute("profileUser") User profileUser) {
+	public String rsvpEventList(Model model) {
 
 		ArrayList<Event> events;
 		try {
-			events = getEventDao().getAllByUser(profileUser);
+			events = getEventDao().getAllByUser(getCurrentUser());
 			sortEvents(events);
 			model.addAttribute("events", events);
 
@@ -1080,7 +1209,11 @@ public class HomeController extends BaseController {
 		model.addAttribute("majorList", majorList);
 		model.addAttribute("titleList", titleList);
 
-		return "registration";
+		if (getCurrentUser() == null || getCurrentUser().getRole() == 4) {
+			return "registration";
+		} else {
+			return "redirect:/";
+		}
 	}
 
 	/**
@@ -1099,10 +1232,8 @@ public class HomeController extends BaseController {
 			@RequestParam(value = "workPhone", required = false) String workPhone,
 			@RequestParam("linkedin") String linkedin, @RequestParam("bio") String bio,
 			@RequestParam("standing") int standing, @RequestParam("gradYear") int gradYear,
-			@RequestParam("gradSchool") String gradSchool, @RequestParam("major") int major,
-			@RequestParam("company") String company, @RequestParam("occupation") String occupation,
-			@RequestParam("experience") String experience, @RequestParam("password") String password,
-			@RequestParam("passConfirm") String passConfirm) {
+			@RequestParam("major") int major, @RequestParam("company") String company,
+			@RequestParam("occupation") String occupation, @RequestParam("experience") String experience) {
 
 		try {
 
@@ -1138,16 +1269,13 @@ public class HomeController extends BaseController {
 			boolean validBio = bio == null || bio.equals("") || bio.length() < 999 ? true : false;
 
 			// 1 for student, 2 for alumni, 3 for faculty
-			int role = standing == 1 || standing == 2 || standing == 3 ? standing : -1;
+			int role = standing == 1 || standing == 2 || standing == 3
+					|| (standing == 4 && getCurrentUser() != null && getCurrentUser().getRole() == 4) ? standing : -1;
 
 			// No grad year = 0
 			boolean validGradYear = gradYear > 1900 || gradYear == 0 ? true : false;
 
-			// Graduate school size on the database is 200
-			boolean validGradSchool = gradSchool == null || gradSchool.equals("") || gradSchool.length() < 199 ? true
-					: false;
-
-			boolean validMajor = getMajorDao().getObjectById(major) != null ? true : false;
+			boolean validMajor = major != -1 && getMajorDao().getObjectById(major) != null ? true : false;
 
 			// Company size on the database is 200
 			boolean validCompany = company == null || company.equals("") || company.length() < 199;
@@ -1158,13 +1286,9 @@ public class HomeController extends BaseController {
 			// Size of experience on the database is 1000
 			boolean validExperience = experience == null || experience.matches("") || experience.length() < 999;
 
-			boolean validPassword = password != null && password.matches(".{2,}") && password.length() < 300
-					&& passConfirm != null && password.equals(passConfirm) ? true : false;
-
 			if (validTitle && validFirstName && validLastName && validSuffix && validBenEmail && validPerEmail
 					&& role != -1 && (gradYear != -1) && (role != -1) && validPhone && validWorkPhone && validLinkedin
-					&& validBio && validGradYear && validGradSchool && validMajor && validCompany && validOccupation
-					&& validExperience && validPassword) {
+					&& validBio && validGradYear && validMajor && validCompany && validOccupation && validExperience) {
 
 				firstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1);
 				lastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1);
@@ -1216,12 +1340,6 @@ public class HomeController extends BaseController {
 					register.setGraduationYear(gradYear);
 				}
 
-				if (gradSchool != null && gradSchool.equals("")) {
-					register.setGraduateSchool(null);
-				} else {
-					register.setGraduateSchool(gradSchool);
-				}
-
 				// TODO FIGURE OUT HOW TO SET THE MAJOR
 				register.setMajor(null);
 
@@ -1248,10 +1366,13 @@ public class HomeController extends BaseController {
 				register.setActive(true);
 				register.setToPublic(1);
 
-				register.setSalt(password);
-				register.setPassword(pwEncoder.encode(password));
+				String tempPassword = randomString();
+				register.setSalt(tempPassword);
+				register.setPassword(pwEncoder.encode(tempPassword));
 
 				try {
+
+					EmailGenerator.generateAccountCreationEmail(benEmail, tempPassword);
 					getUserDao().addUser(register);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -1310,10 +1431,6 @@ public class HomeController extends BaseController {
 					errors.put("gradYear", "Error in the input for the graduation year.");
 				}
 
-				if (!validGradSchool) {
-					errors.put("gradSchool", "Error in the input for graduate school.");
-				}
-
 				if (!validMajor) {
 					errors.put("major", "Error in the selection of your major.");
 				}
@@ -1328,10 +1445,6 @@ public class HomeController extends BaseController {
 
 				if (!validExperience) {
 					errors.put("experience", "Error in the input for your professional experience.");
-				}
-
-				if (!validPassword) {
-					errors.put("passwords", "Passwords either do not match or are too short.");
 				}
 
 				model.addAttribute("errors", errors);
@@ -1509,7 +1622,7 @@ public class HomeController extends BaseController {
 			@RequestParam(value = "interests", required = false, defaultValue = "null") ArrayList<String> interests,
 			@RequestParam(value = "minor", required = false) String minor,
 			@RequestParam(value = "secondMinor", required = false) String secondMinor,
-			@RequestParam(value = "thirdMinor", required = false) String thirdMinor,
+			@RequestParam(value = "thirdMinor", required = false) String thirdMinor, @RequestParam int role,
 			@RequestParam(value = "display", required = false, defaultValue = "null") String display,
 			@RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword,
 			@RequestParam("resume") MultipartFile resume, @RequestParam("profile") MultipartFile profile)
@@ -1599,6 +1712,11 @@ public class HomeController extends BaseController {
 				}
 			}
 
+			if (personalEmail.equals("")) {
+				personalEmail = null;
+			}
+
+			profileUser.setRole(role);
 			profileUser.setFirstName(firstName);
 			profileUser.setLastName(lastName);
 			profileUser.setSuffix(suffix);
@@ -2078,7 +2196,7 @@ public class HomeController extends BaseController {
 	 * @return the page returning all the events being posted.
 	 */
 	@RequestMapping(value = "/myEvents", method = RequestMethod.GET)
-	public String myEvents(Model model, @ModelAttribute("profileUser") User profileUser) {
+	public String myEvents(Model model) {
 
 		ArrayList<Event> events;
 		try {
@@ -2290,5 +2408,19 @@ public class HomeController extends BaseController {
 		model.addAttribute("active", "job");
 		return "jobsTemplate";
 	}
+
+	public static String randomString() {
+		String ALPHA_NUMERIC_STRING = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		StringBuilder s = new StringBuilder();
+		int i = 0;
+		while (i < STRING_LENGTH) {
+			int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
+			s.append(ALPHA_NUMERIC_STRING.charAt(character));
+			i++;
+		}
+		return s.toString();
+	}
+
+	public final static int STRING_LENGTH = 8;
 
 }
